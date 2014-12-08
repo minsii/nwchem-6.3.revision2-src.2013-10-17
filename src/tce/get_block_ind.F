@@ -264,8 +264,10 @@ c           array(i) = 0.0d0
 c           dbl_mb(k_a+i-1) = 0.0d0
            array(i) = 0.0d0
          enddo
+         call tpi_start_timer(11)
          call ga_get(d_v2orb,offset_alpha+1,offset_alpha+size,1,1,
      1         dbl_mb(k_a),1)
+         call tpi_stop_timer(11)
 c
          size3 = int_mb(k_range+g3b-1)
          size1 = int_mb(k_range+g1b-1)
@@ -288,7 +290,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 3142
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size1,size4,size3,4,2,3,1,1.0d0)
          go to 200
         end if
@@ -307,7 +309,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 3124
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size4,size2,size1,size3,4,1,3,2,1.0d0)
          go to 200
         end if
@@ -326,7 +328,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 1342
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size4,size3,size1,3,2,4,1,1.0d0)
          go to 200
         end if
@@ -345,7 +347,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 1324
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size4,size2,size3,size1,3,1,4,2,1.0d0)
          go to 200
         end if
@@ -364,7 +366,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 4231
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size3,size2,size4,2,4,1,3,1.0d0)
          go to 200
         end if
@@ -383,7 +385,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 4213
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size1,size2,size4,1,4,2,3,1.0d0)
          go to 200
         end if
@@ -402,7 +404,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 2431
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size3,size4,size2,2,3,1,4,1.0d0)
          go to 200
         end if
@@ -421,7 +423,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 2413
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size1,size4,size2,1,3,2,4,1.0d0)
          go to 200
         end if
@@ -501,8 +503,10 @@ c -------------
          do i = 1, size
            dbl_mb(k_a+i-1) = 0.0d0
          enddo
+         call tpi_start_timer(11)
          call ga_get(d_v2orb,offset_alpha+1,offset_alpha+size,1,1,
      1         dbl_mb(k_a),1)
+         call tpi_stop_timer(11)
 c
 c
          size3 = int_mb(k_range+g3b-1)
@@ -526,7 +530,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 3241
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size4,size2,size3,4,2,1,3,-1.0d0)
          go to 300
         end if
@@ -545,7 +549,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 3214
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size1,size4,size3,4,1,2,3,-1.0d0)
          go to 300
         end if
@@ -564,7 +568,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 2341
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size4,size3,size2,3,2,1,4,-1.0d0)
          go to 300
         end if
@@ -583,7 +587,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 2314
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size4,size3,size2,3,1,2,4,-1.0d0)
          go to 300
         end if
@@ -602,7 +606,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 4132
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size3,size1,size4,2,4,3,1,-1.0d0)
          go to 300
         end if
@@ -621,7 +625,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 4123
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size2,size1,size4,1,4,3,2,-1.0d0)
          go to 300
         end if
@@ -640,7 +644,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 1432
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size1,size4,size3,2,3,4,1,-1.0d0)
          go to 300
         end if
@@ -659,7 +663,7 @@ c         enddo
 c         enddo
 c         enddo
 c         dummy = 1423
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size2,size1,size4,1,3,4,2,-1.0d0)
          go to 300
         end if
@@ -911,8 +915,10 @@ c --- ACHTUNG ATTENTION UWAGA BHUMAHE
 ccx           dbl_mb(k_a+i-1) = 0.0d0
            array(i) = 0.0d0
          enddo
+         call tpi_start_timer(11)
          call ga_get(d_v2orb,offset_alpha+1,offset_alpha+size,1,1,
      1         dbl_mb(k_a),1)
+         call tpi_stop_timer(11)
 c
          size1 = int_mb(k_range+g1b-1)
          size2 = int_mb(k_range+g2b-1)
@@ -938,7 +944,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 3142000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size1,size4,size3,4,2,3,1,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -963,7 +969,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 3124000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size4,size2,size1,size3,4,1,3,2,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -987,7 +993,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 1342000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size4,size3,size1,3,2,4,1,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1011,7 +1017,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 1324000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size4,size2,size3,size1,3,1,4,2,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1035,7 +1041,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 4231000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size3,size2,size4,2,4,1,3,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1059,7 +1065,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 4213000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size1,size2,size4,1,4,2,3,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1083,7 +1089,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 2431000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size3,size4,size2,2,3,1,4,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1107,7 +1113,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 2413000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size1,size4,size2,1,3,2,4,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1178,8 +1184,10 @@ c --- ACHTUNG ATTENTION UWAGA BHUMAHE
 c         do i = 1, size
 c           dbl_mb(k_a+i-1) = 0.0d0
 c         enddo
+         call tpi_start_timer(11)
          call ga_get(d_v2orb,offset_alpha+1,offset_alpha+size,1,1,
      1         dbl_mb(k_a),1)
+         call tpi_stop_timer(11)
 c
 c
          size3 = int_mb(k_range+g3b-1)
@@ -1206,7 +1214,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 3241001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size4,size2,size3,4,2,1,3,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1230,7 +1238,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 3214001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size1,size4,size3,4,1,2,3,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1254,7 +1262,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 2341001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size4,size3,size2,3,2,1,4,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1280,7 +1288,7 @@ c         call zero_array(array2,size,size1,size2,size3,size4)
          enddo
          dummy = 2314001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size4,size3,size2,3,1,2,4,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1304,7 +1312,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 4132001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size3,size1,size4,2,4,3,1,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1328,7 +1336,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 4123001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size2,size1,size4,1,4,3,2,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1352,7 +1360,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 1432001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size1,size4,size3,2,3,4,1,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1376,7 +1384,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 1423001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size2,size1,size4,1,3,4,2,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)                    dummy)
@@ -1658,8 +1666,10 @@ c           array(i) = 0.0d0
 c           dbl_mb(k_a+i-1) = 0.0d0
            array(i) = 0.0d0
          enddo
+         call tpi_start_timer(11)
          call ga_get(d_v2orb,offset_alpha+1,offset_alpha+size,1,1,
      1         dbl_mb(k_a),1)
+         call tpi_stop_timer(11)
 c
          size1 = int_mb(k_range+g1b-1)
          size2 = int_mb(k_range+g2b-1)
@@ -1685,7 +1695,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 3142000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size1,size4,size3,4,2,3,1,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -1710,7 +1720,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 3124000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size4,size2,size1,size3,4,1,3,2,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -1734,7 +1744,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 1342000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size4,size3,size1,3,2,4,1,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -1758,7 +1768,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 1324000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size4,size2,size3,size1,3,1,4,2,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -1782,7 +1792,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 4231000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size3,size2,size4,2,4,1,3,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -1806,7 +1816,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 4213000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size1,size2,size4,1,4,2,3,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -1830,7 +1840,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 2431000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size3,size4,size2,2,3,1,4,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -1854,7 +1864,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 2413000
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size1,size4,size2,1,3,2,4,1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -1934,8 +1944,10 @@ c -------------
          do i = 1, size
            dbl_mb(k_a+i-1) = 0.0d0
          enddo
+         call tpi_start_timer(11)
          call ga_get(d_v2orb,offset_alpha+1,offset_alpha+size,1,1,
      1         dbl_mb(k_a),1)
+         call tpi_stop_timer(11)
 c
 c
          size3 = int_mb(k_range+g3b-1)
@@ -1962,7 +1974,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 3241001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size4,size2,size3,4,2,1,3,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -1986,7 +1998,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 3214001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size1,size4,size3,4,1,2,3,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -2010,7 +2022,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 2341001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size4,size3,size2,3,2,1,4,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -2036,7 +2048,7 @@ c         call zero_array(array2,size,size1,size2,size3,size4)
          enddo
          dummy = 2314001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size1,size4,size3,size2,3,1,2,4,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -2060,7 +2072,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 4132001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size3,size1,size4,2,4,3,1,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -2084,7 +2096,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 4123001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size2,size1,size4,1,4,3,2,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -2108,7 +2120,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 1432001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size2,size1,size4,size3,2,3,4,1,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)
@@ -2132,7 +2144,7 @@ c         call copy_array(array2,array,size,size1,size2,size3,size4)
          enddo
          dummy = 1423001
 #endif
-         call tce_sortacc_4(dbl_mb(k_a),array,
+         call tpi_sortacc_4(dbl_mb(k_a),array,
      &                      size3,size2,size1,size4,1,3,4,2,-1.0d0)
 c         call test_array(array2,array,size,size1,size2,size3,size4,
 c          &                    dummy)

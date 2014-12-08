@@ -1,0 +1,444 @@
+c
+c     - Jeff Hammond, November 2011
+c
+c      integer n_
+c
+      double precision tt0
+      double precision tt1
+      double precision ttt0
+      double precision ttt1
+c
+c     get times
+c
+      double precision tg_ccsd_t2
+      double precision tg_ccsd_t2_1
+      double precision tg_ccsd_t2_2
+      double precision tg_ccsd_t2_2_1
+      double precision tg_ccsd_t2_2_2
+      double precision tg_ccsd_t2_2_2_1
+      double precision tg_ccsd_t2_2_2_2
+      double precision tg_ccsd_t2_2_2_2_1
+      double precision tg_ccsd_t2_2_2_2_2
+      double precision tg_ccsd_t2_2_2_3
+      double precision tg_ccsd_t2_2_3
+      double precision tg_ccsd_t2_2_3_1
+      double precision tg_ccsd_t2_2_3_2
+      double precision tg_ccsd_t2_2_4
+      double precision tg_ccsd_t2_2_4_1
+      double precision tg_ccsd_t2_2_4_2
+      double precision tg_ccsd_t2_2_5
+      double precision tg_ccsd_t2_2_5_1
+      double precision tg_ccsd_t2_2_5_2
+      double precision tg_ccsd_t2_2_6
+      double precision tg_ccsd_t2_4
+      double precision tg_ccsd_t2_4_1
+      double precision tg_ccsd_t2_4_2
+      double precision tg_ccsd_t2_4_2_1
+      double precision tg_ccsd_t2_4_2_2
+      double precision tg_ccsd_t2_4_3
+      double precision tg_ccsd_t2_4_4
+      double precision tg_ccsd_t2_5
+      double precision tg_ccsd_t2_5_1
+      double precision tg_ccsd_t2_5_2
+      double precision tg_ccsd_t2_5_3
+      double precision tg_ccsd_t2_6
+      double precision tg_ccsd_t2_6_1
+      double precision tg_ccsd_t2_6_2
+      double precision tg_ccsd_t2_6_2_1
+      double precision tg_ccsd_t2_6_2_2
+      double precision tg_ccsd_t2_6_3
+      double precision tg_ccsd_t2_7
+      double precision tg_ccsd_t2_7_1
+      double precision tg_ccsd_t2_7_2
+      double precision tg_ccsd_t2_7_3
+      double precision tg_ccsd_t2_8
+      double precision tg_ccsd_t2_8_test
+      double precision tg_ccsd_t2_8_spiral
+      double precision tg_lccsd_t2_3x
+      double precision tg_vt1t1_1
+      double precision tg_vt1t1_1_2
+      double precision tg_half_t1t1_1
+      double precision tg_m_half_t1t1_1
+      double precision tg_ccsd_t2_3
+      double precision tg_ccsd_t2_3_1
+      double precision tg_ccsd_t2_3_2
+c
+c     acc times
+c
+      double precision ta_ccsd_t2
+      double precision ta_ccsd_t2_1
+      double precision ta_ccsd_t2_2
+      double precision ta_ccsd_t2_2_1
+      double precision ta_ccsd_t2_2_2
+      double precision ta_ccsd_t2_2_2_1
+      double precision ta_ccsd_t2_2_2_2
+      double precision ta_ccsd_t2_2_2_2_1
+      double precision ta_ccsd_t2_2_2_2_2
+      double precision ta_ccsd_t2_2_2_3
+      double precision ta_ccsd_t2_2_3
+      double precision ta_ccsd_t2_2_3_1
+      double precision ta_ccsd_t2_2_3_2
+      double precision ta_ccsd_t2_2_4
+      double precision ta_ccsd_t2_2_4_1
+      double precision ta_ccsd_t2_2_4_2
+      double precision ta_ccsd_t2_2_5
+      double precision ta_ccsd_t2_2_5_1
+      double precision ta_ccsd_t2_2_5_2
+      double precision ta_ccsd_t2_2_6
+      double precision ta_ccsd_t2_4
+      double precision ta_ccsd_t2_4_1
+      double precision ta_ccsd_t2_4_2
+      double precision ta_ccsd_t2_4_2_1
+      double precision ta_ccsd_t2_4_2_2
+      double precision ta_ccsd_t2_4_3
+      double precision ta_ccsd_t2_4_4
+      double precision ta_ccsd_t2_5
+      double precision ta_ccsd_t2_5_1
+      double precision ta_ccsd_t2_5_2
+      double precision ta_ccsd_t2_5_3
+      double precision ta_ccsd_t2_6
+      double precision ta_ccsd_t2_6_1
+      double precision ta_ccsd_t2_6_2
+      double precision ta_ccsd_t2_6_2_1
+      double precision ta_ccsd_t2_6_2_2
+      double precision ta_ccsd_t2_6_3
+      double precision ta_ccsd_t2_7
+      double precision ta_ccsd_t2_7_1
+      double precision ta_ccsd_t2_7_2
+      double precision ta_ccsd_t2_7_3
+      double precision ta_ccsd_t2_8
+      double precision ta_ccsd_t2_8_test
+      double precision ta_ccsd_t2_8_spiral
+      double precision ta_lccsd_t2_3x
+      double precision ta_vt1t1_1
+      double precision ta_vt1t1_1_2
+      double precision ta_half_t1t1_1
+      double precision ta_m_half_t1t1_1
+      double precision ta_ccsd_t2_3
+      double precision ta_ccsd_t2_3_1
+      double precision ta_ccsd_t2_3_2
+c
+c     sort times
+c
+      double precision ts_ccsd_t2
+      double precision ts_ccsd_t2_1
+      double precision ts_ccsd_t2_2
+      double precision ts_ccsd_t2_2_1
+      double precision ts_ccsd_t2_2_2
+      double precision ts_ccsd_t2_2_2_1
+      double precision ts_ccsd_t2_2_2_2
+      double precision ts_ccsd_t2_2_2_2_1
+      double precision ts_ccsd_t2_2_2_2_2
+      double precision ts_ccsd_t2_2_2_3
+      double precision ts_ccsd_t2_2_3
+      double precision ts_ccsd_t2_2_3_1
+      double precision ts_ccsd_t2_2_3_2
+      double precision ts_ccsd_t2_2_4
+      double precision ts_ccsd_t2_2_4_1
+      double precision ts_ccsd_t2_2_4_2
+      double precision ts_ccsd_t2_2_5
+      double precision ts_ccsd_t2_2_5_1
+      double precision ts_ccsd_t2_2_5_2
+      double precision ts_ccsd_t2_2_6
+      double precision ts_ccsd_t2_4
+      double precision ts_ccsd_t2_4_1
+      double precision ts_ccsd_t2_4_2
+      double precision ts_ccsd_t2_4_2_1
+      double precision ts_ccsd_t2_4_2_2
+      double precision ts_ccsd_t2_4_3
+      double precision ts_ccsd_t2_4_4
+      double precision ts_ccsd_t2_5
+      double precision ts_ccsd_t2_5_1
+      double precision ts_ccsd_t2_5_2
+      double precision ts_ccsd_t2_5_3
+      double precision ts_ccsd_t2_6
+      double precision ts_ccsd_t2_6_1
+      double precision ts_ccsd_t2_6_2
+      double precision ts_ccsd_t2_6_2_1
+      double precision ts_ccsd_t2_6_2_2
+      double precision ts_ccsd_t2_6_3
+      double precision ts_ccsd_t2_7
+      double precision ts_ccsd_t2_7_1
+      double precision ts_ccsd_t2_7_2
+      double precision ts_ccsd_t2_7_3
+      double precision ts_ccsd_t2_8
+      double precision ts_ccsd_t2_8_test
+      double precision ts_ccsd_t2_8_spiral
+      double precision ts_lccsd_t2_3x
+      double precision ts_vt1t1_1
+      double precision ts_vt1t1_1_2
+      double precision ts_half_t1t1_1
+      double precision ts_m_half_t1t1_1
+      double precision ts_ccsd_t2_3
+      double precision ts_ccsd_t2_3_1
+      double precision ts_ccsd_t2_3_2
+c
+c     dgemm times
+c
+      double precision td_ccsd_t2
+      double precision td_ccsd_t2_1
+      double precision td_ccsd_t2_2
+      double precision td_ccsd_t2_2_1
+      double precision td_ccsd_t2_2_2
+      double precision td_ccsd_t2_2_2_1
+      double precision td_ccsd_t2_2_2_2
+      double precision td_ccsd_t2_2_2_2_1
+      double precision td_ccsd_t2_2_2_2_2
+      double precision td_ccsd_t2_2_2_3
+      double precision td_ccsd_t2_2_3
+      double precision td_ccsd_t2_2_3_1
+      double precision td_ccsd_t2_2_3_2
+      double precision td_ccsd_t2_2_4
+      double precision td_ccsd_t2_2_4_1
+      double precision td_ccsd_t2_2_4_2
+      double precision td_ccsd_t2_2_5
+      double precision td_ccsd_t2_2_5_1
+      double precision td_ccsd_t2_2_5_2
+      double precision td_ccsd_t2_2_6
+      double precision td_ccsd_t2_4
+      double precision td_ccsd_t2_4_1
+      double precision td_ccsd_t2_4_2
+      double precision td_ccsd_t2_4_2_1
+      double precision td_ccsd_t2_4_2_2
+      double precision td_ccsd_t2_4_3
+      double precision td_ccsd_t2_4_4
+      double precision td_ccsd_t2_5
+      double precision td_ccsd_t2_5_1
+      double precision td_ccsd_t2_5_2
+      double precision td_ccsd_t2_5_3
+      double precision td_ccsd_t2_6
+      double precision td_ccsd_t2_6_1
+      double precision td_ccsd_t2_6_2
+      double precision td_ccsd_t2_6_2_1
+      double precision td_ccsd_t2_6_2_2
+      double precision td_ccsd_t2_6_3
+      double precision td_ccsd_t2_7
+      double precision td_ccsd_t2_7_1
+      double precision td_ccsd_t2_7_2
+      double precision td_ccsd_t2_7_3
+      double precision td_ccsd_t2_8
+      double precision td_ccsd_t2_8_test
+      double precision td_ccsd_t2_8_spiral
+      double precision td_lccsd_t2_3x
+      double precision td_vt1t1_1
+      double precision td_vt1t1_1_2
+      double precision td_half_t1t1_1
+      double precision td_m_half_t1t1_1
+      double precision td_ccsd_t2_3
+      double precision td_ccsd_t2_3_1
+      double precision td_ccsd_t2_3_2
+c
+c      common /tceccsdtimeinteger/
+c     1  
+c
+      common /tceccsdtimedouble/
+     & tg_ccsd_t2,
+     & tg_ccsd_t2_1,
+     & tg_ccsd_t2_2,
+     & tg_ccsd_t2_2_1,
+     & tg_ccsd_t2_2_2,
+     & tg_ccsd_t2_2_2_1,
+     & tg_ccsd_t2_2_2_2,
+     & tg_ccsd_t2_2_2_2_1,
+     & tg_ccsd_t2_2_2_2_2,
+     & tg_ccsd_t2_2_2_3,
+     & tg_ccsd_t2_2_3,
+     & tg_ccsd_t2_2_3_1,
+     & tg_ccsd_t2_2_3_2,
+     & tg_ccsd_t2_2_4,
+     & tg_ccsd_t2_2_4_1,
+     & tg_ccsd_t2_2_4_2,
+     & tg_ccsd_t2_2_5,
+     & tg_ccsd_t2_2_5_1,
+     & tg_ccsd_t2_2_5_2,
+     & tg_ccsd_t2_2_6,
+     & tg_ccsd_t2_4,
+     & tg_ccsd_t2_4_1,
+     & tg_ccsd_t2_4_2,
+     & tg_ccsd_t2_4_2_1,
+     & tg_ccsd_t2_4_2_2,
+     & tg_ccsd_t2_4_3,
+     & tg_ccsd_t2_4_4,
+     & tg_ccsd_t2_5,
+     & tg_ccsd_t2_5_1,
+     & tg_ccsd_t2_5_2,
+     & tg_ccsd_t2_5_3,
+     & tg_ccsd_t2_6,
+     & tg_ccsd_t2_6_1,
+     & tg_ccsd_t2_6_2,
+     & tg_ccsd_t2_6_2_1,
+     & tg_ccsd_t2_6_2_2,
+     & tg_ccsd_t2_6_3,
+     & tg_ccsd_t2_7,
+     & tg_ccsd_t2_7_1,
+     & tg_ccsd_t2_7_2,
+     & tg_ccsd_t2_7_3,
+     & tg_ccsd_t2_8,
+     & tg_ccsd_t2_8_test,
+     & tg_ccsd_t2_8_spiral,
+     & tg_lccsd_t2_3x,
+     & tg_vt1t1_1,
+     & tg_vt1t1_1_2,
+     & tg_half_t1t1_1,
+     & tg_m_half_t1t1_1,
+     & tg_ccsd_t2_3,
+     & tg_ccsd_t2_3_1,
+     & tg_ccsd_t2_3_2,
+     & ta_ccsd_t2,
+     & ta_ccsd_t2_1,
+     & ta_ccsd_t2_2,
+     & ta_ccsd_t2_2_1,
+     & ta_ccsd_t2_2_2,
+     & ta_ccsd_t2_2_2_1,
+     & ta_ccsd_t2_2_2_2,
+     & ta_ccsd_t2_2_2_2_1,
+     & ta_ccsd_t2_2_2_2_2,
+     & ta_ccsd_t2_2_2_3,
+     & ta_ccsd_t2_2_3,
+     & ta_ccsd_t2_2_3_1,
+     & ta_ccsd_t2_2_3_2,
+     & ta_ccsd_t2_2_4,
+     & ta_ccsd_t2_2_4_1,
+     & ta_ccsd_t2_2_4_2,
+     & ta_ccsd_t2_2_5,
+     & ta_ccsd_t2_2_5_1,
+     & ta_ccsd_t2_2_5_2,
+     & ta_ccsd_t2_2_6,
+     & ta_ccsd_t2_4,
+     & ta_ccsd_t2_4_1,
+     & ta_ccsd_t2_4_2,
+     & ta_ccsd_t2_4_2_1,
+     & ta_ccsd_t2_4_2_2,
+     & ta_ccsd_t2_4_3,
+     & ta_ccsd_t2_4_4,
+     & ta_ccsd_t2_5,
+     & ta_ccsd_t2_5_1,
+     & ta_ccsd_t2_5_2,
+     & ta_ccsd_t2_5_3,
+     & ta_ccsd_t2_6,
+     & ta_ccsd_t2_6_1,
+     & ta_ccsd_t2_6_2,
+     & ta_ccsd_t2_6_2_1,
+     & ta_ccsd_t2_6_2_2,
+     & ta_ccsd_t2_6_3,
+     & ta_ccsd_t2_7,
+     & ta_ccsd_t2_7_1,
+     & ta_ccsd_t2_7_2,
+     & ta_ccsd_t2_7_3,
+     & ta_ccsd_t2_8,
+     & ta_ccsd_t2_8_test,
+     & ta_ccsd_t2_8_spiral,
+     & ta_lccsd_t2_3x,
+     & ta_vt1t1_1,
+     & ta_vt1t1_1_2,
+     & ta_half_t1t1_1,
+     & ta_m_half_t1t1_1,
+     & ta_ccsd_t2_3,
+     & ta_ccsd_t2_3_1,
+     & ta_ccsd_t2_3_2,
+     & ts_ccsd_t2,
+     & ts_ccsd_t2_1,
+     & ts_ccsd_t2_2,
+     & ts_ccsd_t2_2_1,
+     & ts_ccsd_t2_2_2,
+     & ts_ccsd_t2_2_2_1,
+     & ts_ccsd_t2_2_2_2,
+     & ts_ccsd_t2_2_2_2_1,
+     & ts_ccsd_t2_2_2_2_2,
+     & ts_ccsd_t2_2_2_3,
+     & ts_ccsd_t2_2_3,
+     & ts_ccsd_t2_2_3_1,
+     & ts_ccsd_t2_2_3_2,
+     & ts_ccsd_t2_2_4,
+     & ts_ccsd_t2_2_4_1,
+     & ts_ccsd_t2_2_4_2,
+     & ts_ccsd_t2_2_5,
+     & ts_ccsd_t2_2_5_1,
+     & ts_ccsd_t2_2_5_2,
+     & ts_ccsd_t2_2_6,
+     & ts_ccsd_t2_4,
+     & ts_ccsd_t2_4_1,
+     & ts_ccsd_t2_4_2,
+     & ts_ccsd_t2_4_2_1,
+     & ts_ccsd_t2_4_2_2,
+     & ts_ccsd_t2_4_3,
+     & ts_ccsd_t2_4_4,
+     & ts_ccsd_t2_5,
+     & ts_ccsd_t2_5_1,
+     & ts_ccsd_t2_5_2,
+     & ts_ccsd_t2_5_3,
+     & ts_ccsd_t2_6,
+     & ts_ccsd_t2_6_1,
+     & ts_ccsd_t2_6_2,
+     & ts_ccsd_t2_6_2_1,
+     & ts_ccsd_t2_6_2_2,
+     & ts_ccsd_t2_6_3,
+     & ts_ccsd_t2_7,
+     & ts_ccsd_t2_7_1,
+     & ts_ccsd_t2_7_2,
+     & ts_ccsd_t2_7_3,
+     & ts_ccsd_t2_8,
+     & ts_ccsd_t2_8_test,
+     & ts_ccsd_t2_8_spiral,
+     & ts_lccsd_t2_3x,
+     & ts_vt1t1_1,
+     & ts_vt1t1_1_2,
+     & ts_half_t1t1_1,
+     & ts_m_half_t1t1_1,
+     & ts_ccsd_t2_3,
+     & ts_ccsd_t2_3_1,
+     & ts_ccsd_t2_3_2,
+     & td_ccsd_t2,
+     & td_ccsd_t2_1,
+     & td_ccsd_t2_2,
+     & td_ccsd_t2_2_1,
+     & td_ccsd_t2_2_2,
+     & td_ccsd_t2_2_2_1,
+     & td_ccsd_t2_2_2_2,
+     & td_ccsd_t2_2_2_2_1,
+     & td_ccsd_t2_2_2_2_2,
+     & td_ccsd_t2_2_2_3,
+     & td_ccsd_t2_2_3,
+     & td_ccsd_t2_2_3_1,
+     & td_ccsd_t2_2_3_2,
+     & td_ccsd_t2_2_4,
+     & td_ccsd_t2_2_4_1,
+     & td_ccsd_t2_2_4_2,
+     & td_ccsd_t2_2_5,
+     & td_ccsd_t2_2_5_1,
+     & td_ccsd_t2_2_5_2,
+     & td_ccsd_t2_2_6,
+     & td_ccsd_t2_4,
+     & td_ccsd_t2_4_1,
+     & td_ccsd_t2_4_2,
+     & td_ccsd_t2_4_2_1,
+     & td_ccsd_t2_4_2_2,
+     & td_ccsd_t2_4_3,
+     & td_ccsd_t2_4_4,
+     & td_ccsd_t2_5,
+     & td_ccsd_t2_5_1,
+     & td_ccsd_t2_5_2,
+     & td_ccsd_t2_5_3,
+     & td_ccsd_t2_6,
+     & td_ccsd_t2_6_1,
+     & td_ccsd_t2_6_2,
+     & td_ccsd_t2_6_2_1,
+     & td_ccsd_t2_6_2_2,
+     & td_ccsd_t2_6_3,
+     & td_ccsd_t2_7,
+     & td_ccsd_t2_7_1,
+     & td_ccsd_t2_7_2,
+     & td_ccsd_t2_7_3,
+     & td_ccsd_t2_8,
+     & td_ccsd_t2_8_test,
+     & td_ccsd_t2_8_spiral,
+     & td_lccsd_t2_3x,
+     & td_vt1t1_1,
+     & td_vt1t1_1_2,
+     & td_half_t1t1_1,
+     & td_m_half_t1t1_1,
+     & td_ccsd_t2_3,
+     & td_ccsd_t2_3_1,
+     & td_ccsd_t2_3_2
+
+

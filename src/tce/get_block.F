@@ -77,8 +77,9 @@ c
      2      call errquit('get_block: eaf problem',5,DISK_ERR)
         endif
       else if (ioalg.eq.2) then
-        call ga_get(d_file,offset+1,offset+size,1,1,
-     1    array,1)
+        call tpi_start_timer(11)
+        call ga_get(d_file,offset+1,offset+size,1,1,array,1)
+        call tpi_stop_timer(11)
       else if (ioalg.eq.3) then
         if (parallel) then
           call ga_lock(0)
