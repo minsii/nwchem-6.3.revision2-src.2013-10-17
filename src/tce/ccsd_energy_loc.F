@@ -38,6 +38,8 @@ c
       call tce_diis_init()
       do iter=1,maxiter
         call tpi_push_name_level1("ccsd-iteration")
+        call ARMCI_Profile_reset_counter()
+        call ARMCI_Profile_reset_timing()
 
         cpu=-util_cpusec()
         wall=-util_wallsec()
@@ -168,6 +170,7 @@ c          write(LuOut,9101) cpusecs(37),cpusecs(38)
           call x2_restart_save(d_t2,k_t2_offset,size_t2,0,
      1                         handle_t2,irrep_t)
         endif
+        call ARMCI_Profile_print_timing("ccsd-iteration")
         call tpi_pop_name_level1("ccsd-iteration")
         return
         endif
@@ -195,6 +198,7 @@ c          write(LuOut,9101) cpusecs(37),cpusecs(38)
         call deletefile(d_e)
         if (nodezero) call util_flush(LuOut)
 
+        call ARMCI_Profile_print_timing("ccsd-iteration")
         call tpi_pop_name_level1("ccsd-iteration")
       enddo
 
@@ -210,7 +214,7 @@ c
 c
       call errquit('ccsd_energy_loc: maxiter exceeded',iter,CALC_ERR)
       return
- 9020 format(1x,'Cpu & wall time / sec',2f15.1)
+ 9020 format(1x,'xCpu & wall time / sec',2f15.1)
  9050 format(/,1x,A,' iterations',/,
      1  1x,'----------------------------',
      2     '-------------------------------------',/
