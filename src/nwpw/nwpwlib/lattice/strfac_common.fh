@@ -1,0 +1,15 @@
+*
+* $Id: strfac_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+*     **** local common block ****
+      integer ex1(2),ex2(2),ex3(2)
+      common / strfac_block / ex1,ex2,ex3
+
+*     **** index blocks ****
+      integer i_indx(2,0:1),j_indx(2,0:1),k_indx(2,0:1)
+      common / strfac_indx_blk / i_indx,j_indx,k_indx
+
+*     **** local common block ****
+      integer qex1(2),qex2(2),qex3(2),qnion
+      common / qstrfac_block / qex1,qex2,qex3,qnion

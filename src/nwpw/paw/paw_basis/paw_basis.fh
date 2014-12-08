@@ -1,0 +1,141 @@
+!
+! $id: paw_basis.fh,v 1.4 2002/07/15 20:26:25 bylaska exp $
+!
+
+      integer          paw_basis_max_i_cut
+      external         paw_basis_max_i_cut
+
+      integer          paw_basis_ngrid 
+      external         paw_basis_ngrid
+
+      integer          paw_basis_i_cut
+      external         paw_basis_i_cut
+
+      integer          paw_basis_orb_l
+      external         paw_basis_orb_l
+
+      integer          paw_basis_nbasis
+      external         paw_basis_nbasis
+
+      integer          paw_nlm_nbasis
+      external         paw_nlm_nbasis
+
+      integer          paw_tot_nlm_nbasis
+      external         paw_tot_nlm_nbasis
+
+      integer          paw_basis_tot_ntype
+      external         paw_basis_tot_ntype
+      integer          paw_basis_tot_nbasis
+      external         paw_basis_tot_nbasis
+      integer          paw_basis_tot_ngrid
+      external         paw_basis_tot_ngrid
+      integer          paw_basis_tot_ngridbasis
+      external         paw_basis_tot_ngridbasis
+      double precision paw_basis_ion_charge
+      external         paw_basis_ion_charge
+
+      double precision paw_basis_log_amesh
+      external paw_basis_log_amesh
+
+      double precision paw_basis_core_kin_energy
+      external paw_basis_core_kin_energy
+
+
+      double precision paw_basis_sigma
+      external paw_basis_sigma
+
+      double precision         paw_basis_sphere_radius
+      external         paw_basis_sphere_radius
+
+      double precision paw_basis_eig
+      external         paw_basis_eig
+
+      double precision paw_basis_core_charge
+      external         paw_basis_core_charge
+
+      integer paw_basis_n_ps
+      external paw_basis_n_ps
+
+      integer paw_basis_n
+      external paw_basis_n
+
+      integer          paw_basis_mult_l
+      external         paw_basis_mult_l
+
+      integer   paw_basis_i_orb_l
+      external  paw_basis_i_orb_l
+      integer   paw_basis_i_pr_n
+      integer   paw_basis_i_pr_n_ps
+      integer   paw_basis_i_eig
+      integer   paw_basis_i_core_density
+      integer   paw_basis_i_ps_core_density
+      integer   paw_basis_i_core_density_prime
+      integer   paw_basis_i_ps_core_density_prime
+
+      integer   paw_basis_i_v_ps
+      integer   paw_basis_i_phi_ae
+      integer   paw_basis_i_phi_ps
+      integer   paw_basis_i_phi_ae_prime
+      integer   paw_basis_i_phi_ps_prime
+      integer   paw_basis_i_prj_ps
+      integer   paw_basis_i_prj_ps0
+      integer   paw_basis_i_nbasis
+      integer   paw_basis_i_ngrid
+      integer   paw_basis_i_mult_l
+      integer   paw_basis_i_r1
+      integer   paw_basis_i_rmax
+      integer   paw_basis_i_i_cut
+      integer   paw_basis_i_sigma
+      integer   paw_basis_i_log_amesh
+      integer   paw_basis_i_ion_charge
+      integer   paw_basis_i_core_charge
+      integer   paw_basis_i_core_kin_energy
+      integer   paw_basis_i_rgrid
+      integer   paw_basis_max_mult_l
+
+      integer   paw_basis_i_i_start
+      integer   paw_basis_i_i_end
+      integer   paw_basis_i_npoints
+      integer   paw_basis_i_start
+      integer   paw_basis_i_end
+      integer   paw_basis_npoints
+
+      external   paw_basis_i_pr_n
+      external   paw_basis_i_pr_n_ps
+      external   paw_basis_i_eig
+      external   paw_basis_i_core_density
+      external   paw_basis_i_ps_core_density
+      external   paw_basis_i_core_density_prime
+      external   paw_basis_i_ps_core_density_prime
+
+      external   paw_basis_i_v_ps
+      external   paw_basis_i_phi_ae
+      external   paw_basis_i_phi_ps
+      external   paw_basis_i_phi_ae_prime
+      external   paw_basis_i_phi_ps_prime
+      external   paw_basis_i_prj_ps
+      external   paw_basis_i_prj_ps0
+      external   paw_basis_i_nbasis
+      external   paw_basis_i_ngrid
+      external   paw_basis_i_mult_l
+      external   paw_basis_i_r1
+      external   paw_basis_i_rmax
+      external   paw_basis_i_i_cut
+      external   paw_basis_i_sigma
+      external   paw_basis_i_log_amesh
+      external   paw_basis_i_ion_charge
+      external   paw_basis_i_core_charge
+      external   paw_basis_i_core_kin_energy
+      external   paw_basis_i_rgrid
+      external   paw_basis_max_mult_l
+      external  paw_basis_i_i_start
+      external  paw_basis_i_i_end
+      external  paw_basis_i_npoints
+      external  paw_basis_i_start
+      external  paw_basis_i_end
+      external  paw_basis_npoints
+
+c      double precision dabsmax
+c      external dabsamx
+
+c $Id: paw_basis.fh 21176 2011-10-10 06:35:49Z d3y133 $

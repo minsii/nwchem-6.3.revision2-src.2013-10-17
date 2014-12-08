@@ -1,0 +1,72 @@
+c
+c $Id: mm_utils.fh 19708 2010-10-29 18:04:21Z d3y133 $
+c
+      logical  mm_quant
+      external mm_quant
+
+      logical  mm_quant_link
+      external mm_quant_link
+ 
+      logical  mm_link
+      external mm_link
+ 
+      logical  mm_lqsoft
+      external mm_lqsoft
+
+      logical  mm_bqzone
+      external mm_bqzone
+
+      logical  mm_link_bqzone
+      external mm_link_bqzone
+
+      logical  mm_bqwzone
+      external mm_bqwzone
+
+      logical  mm_qmbqzone
+      external mm_qmbqzone
+
+      logical  mm_identity
+      external mm_identity
+
+      logical  mm_fixed
+      external mm_fixed
+
+      logical  mm_fixed_w
+      external mm_fixed_w
+
+      logical  mm_active_w
+      external mm_active_w
+
+      logical  mm_active
+      external mm_active
+
+      logical  mm_active_link
+      external mm_active_link
+
+      logical  mm_active_qm
+      external mm_active_qm
+
+      logical  mm_active_classical
+      external mm_active_classical
+
+      logical  mm_classical
+      external mm_classical
+
+      logical  mm_active_bqs
+      external mm_active_bqs
+
+      logical  mm_active_bqw
+      external mm_active_bqw
+
+      logical  mm_record
+      external mm_record
+
+      integer mm_element
+      external mm_element
+
+      double precision mm_solute_charge
+      external mm_solute_charge
+
+      double precision mm_ww
+      external mm_ww
+

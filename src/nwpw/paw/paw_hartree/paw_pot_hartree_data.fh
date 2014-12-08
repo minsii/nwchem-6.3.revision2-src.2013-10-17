@@ -1,0 +1,9 @@
+c
+c $Id: paw_pot_hartree_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+      integer paw_pot_hartree_size
+      integer paw_pot_hartree(4)
+      integer i_paw_pot_hartree(4)
+
+      common /paw_pot_hartree/ paw_pot_hartree,i_paw_pot_hartree,
+     >                         paw_pot_hartree_size

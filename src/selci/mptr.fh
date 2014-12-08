@@ -1,0 +1,13 @@
+*
+* $Id: mptr.fh 19708 2010-10-29 18:04:21Z d3y133 $
+*
+      integer selci_minit
+      integer selci_mleft
+      integer selci_mptr
+      integer selci_mfree
+      integer selci_mstats
+      external selci_minit
+      external selci_mleft
+      external selci_mptr
+      external selci_mfree
+      external selci_mstats

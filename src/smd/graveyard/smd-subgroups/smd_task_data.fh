@@ -1,0 +1,13 @@
+*
+* $Id: smd_task_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+      integer smd_task_nc
+      parameter(smd_task_nc=12)
+
+      character*72 smd_task_rname(smd_task_nc)
+      character*72 smd_task_cname(smd_task_nc)
+
+      common /smd_task_data/ smd_task_cname,
+     >                         smd_task_rname
+
+

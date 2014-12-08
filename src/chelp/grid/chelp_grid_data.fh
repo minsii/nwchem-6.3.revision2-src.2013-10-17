@@ -1,0 +1,25 @@
+c
+c $Id: chelp_grid_data.fh 19708 2010-10-29 18:04:21Z d3y133 $
+c
+c     grid array size
+      integer nrchelp
+c     pointer to grid array
+      integer i_rchelp,h_rchelp
+c     pointer to atomic radius array
+      integer i_rdchelp,h_rdchelp
+cc     grid dimensions
+c      double precision chelp_nr(3)
+cc     grid spacing
+c      double precision chelp_dr
+cc     grid padding
+c      double precision chelp_rpad
+cc     grid bounds
+c      double precision chelp_rmin(3)
+c      double precision chelp_rmax(3)
+
+      common/chelp_grid_data/ i_rchelp,
+     &                 h_rchelp,
+     &                 h_rdchelp,
+     &                 i_rdchelp, 
+     &                 nrchelp
+

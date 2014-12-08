@@ -1,0 +1,9 @@
+*
+* $Id: lcao_dnlist.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+      integer dnlist(2),dnlist_tag(2)
+      integer size,maxsize
+      common / lcao_dnlist / dnlist,dnlist_tag,
+     >                       size,maxsize
+
+

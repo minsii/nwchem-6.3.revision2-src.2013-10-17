@@ -1,0 +1,289 @@
+ argument  1 = spce.nw
+                                         
+                                         
+
+
+             Northwest Computational Chemistry Package (NWChem) 5.1.1
+             --------------------------------------------------------
+
+
+                    Environmental Molecular Sciences Laboratory
+                       Pacific Northwest National Laboratory
+                                Richland, WA 99352
+
+                                         
+                                         
+
+
+                  COPYRIGHT (C) 1994, 1995, 1996, 1997, 1998, 1999,
+                2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008,
+                                     2009, 2010
+                        Pacific Northwest National Laboratory,
+                             Battelle Memorial Institute.
+
+                            >>> All Rights Reserved <<<
+
+
+                                    DISCLAIMER
+                                    ----------
+
+            This material was prepared as an account of work sponsored
+            by an agency of the United States Government.  Neither the
+            United States Government nor the United States Department
+            of Energy, nor Battelle, nor any of their employees, MAKES
+            ANY WARRANTY, EXPRESS OR IMPLIED, OR ASSUMES ANY LEGAL
+            LIABILITY OR RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS,
+            OR USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT,
+            SOFTWARE, OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE
+            WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS.
+
+
+                                    LIMITED USE
+                                    -----------
+
+            This software (including any documentation) is being made
+            available to you for your internal use only, solely for use
+            in performance of work directly for the U.S. Federal
+            Government or work under contracts with the U.S. Department
+            of Energy or other U.S. Federal Government agencies.  This
+            software is a version which has not yet been evaluated and
+            cleared for commercialization.  Adherence to this notice
+            may be necessary for the author, Battelle Memorial
+            Institute, to successfully assert copyright in and
+            commercialize this software. This software is not intended
+            for duplication or distribution to third parties without
+            the permission of the Manager of Software Products at
+            Pacific Northwest National Laboratory, Richland,
+            Washington, 99352.
+
+
+                                  ACKNOWLEDGMENT
+                                  --------------
+
+            This software and its documentation were produced with
+            Government support under Contract Number DE-AC05-76RL01830
+            awarded by the United States Department of Energy.  The
+            Government retains a paid-up non-exclusive, irrevocable
+            worldwide license to reproduce, prepare derivative works,
+            perform publicly and display publicly by or for the
+            Government, including the right to distribute to other
+            Government contractors.
+
+
+           Job information
+           ---------------
+
+    hostname      = swift
+    program       = ../../../../bin/LINUX64/nwchem
+    date          = Sat Apr  3 20:21:17 2010
+
+    compiled      = Sat_Apr_03_20:21:09_2010
+    source        = /home/marat/codes/nwchem-dev
+    nwchem branch = Development
+    input         = spce.nw
+    prefix        = test.
+    data base     = ./perm/test.db
+    status        = startup
+    nproc         =        2
+    time left     =     -1s
+
+
+
+           Memory information
+           ------------------
+
+    heap      =   65536001 doubles =    500.0 Mbytes
+    stack     =   65536001 doubles =    500.0 Mbytes
+    global    =  131072000 doubles =   1000.0 Mbytes (distinct from heap & stack)
+    total     =  262144002 doubles =   2000.0 Mbytes
+    verify    = yes
+    hardfail  = no 
+
+
+           Directory information
+           ---------------------
+
+  0 permanent = ./perm
+  0 scratch   = ./data
+
+ done with setup smd_init_energy                                     1
+
+
+
+                                NWChem Input Module
+                                -------------------
+
+
+ in smd_input_vel                   
+ current tokeninput                                                                                                                                                                                                                                                                              2                    5
+ current tokenoutput                                                                                                                                                                                                                                                                             4                    5
+ initializing atom
+ iin smd_atom_init                                       0
+ in smd_atom_init                   
+ here 1 smd_atom_init                                       0
+ here 2 smd_atom_init                                       0
+ out smd_atom_init                                       0
+ initialized atom
+ BOND                    1                    2                    1   1.00000000000000        0.00000000000000     
+ BOND                    1                    3                    1   1.00000000000000        0.00000000000000     
+ BOND                    2                    3                    1   1.63299300000000        0.00000000000000     
+ BOND                    4                    5                    1   1.00000000000000        0.00000000000000     
+ BOND                    4                    6                    1   1.00000000000000        0.00000000000000     
+ BOND                    5                    6                    1   1.63299300000000        0.00000000000000     
+ in smd_system_print              
+atom            = atom            
+parameters      = parameters      
+lattice         = lattice         
+type            = type            
+potential       = potential       
+coordinates     = coordinates     
+charge          = charge          
+mass            = mass            
+energy          = energy          
+force           = force           
+excl_list       = excluded_list   
+verlet_list     = verlet_list     
+shakelist       = shakelist       
+bondlist        = bondlist        
+cutoff          = cutoff          
+temperature     = temperature     
+rtdb            = rtdb            
+ewald           = ewald           
+bond            = bond            
+ done with setup smd_init_energy                                     0
+ found string:                  1009                 1009 smd:coordfile                                                           
+ found string:                  1009                 1009 smd:veloc:input                                                         
+ found string:                  1009                 1009 smd:veloc:output                                                        
+ found string:                  1009                 1009 smd:paramfile                                                           
+ found string:                  1009                 1009 smd:rtdb_name                                                           
+ found string:                  1009                 1009 atom:name                                                               
+ found string:                  1009                 1009 atom:resname                                                            
+ found string:                  1009                 1009 param:atomname                                                          
+ found string:                  1009                 1009 param:typename                                                          
+ found string:                  1009                 1009 param:resname                                                           
+ done with setup 1smd_init_energy                                     0
+ found string:                  1009                 1009 smd:coordfile                                                           
+ found string:                  1009                 1009 smd:veloc:input                                                         
+ found string:                  1009                 1009 smd:veloc:output                                                        
+ found string:                  1009                 1009 smd:paramfile                                                           
+ found string:                  1009                 1009 smd:rtdb_name                                                           
+ found string:                  1009                 1009 atom:name                                                               
+ found string:                  1009                 1009 atom:resname                                                            
+ found string:                  1009                 1009 param:atomname                                                          
+ found string:                  1009                 1009 param:typename                                                          
+ found string:                  1009                 1009 param:resname                                                           
+ done with setup 1smd_init_energy                                     1
+ in smd_energy_compute              
+total            :      -108.017929
+vdw              :        29.368021
+electrostatic    :      -137.385950
+ewald self       :      -734.182495
+ewald reciprocal :         1.114522
+ewald excluded   :       719.864835
+ewald real       :      -124.182812
+
+Total CPU time :                0.066
+
+Initialization :                0.000
+
+Verlet         :                0.025
+
+Force          :                0.041
+ Goodbye from task_smd
+
+ Task  times  cpu:        0.1s     wall:        0.1s
+ Summary of allocated global arrays
+-----------------------------------
+  No active global arrays
+
+
+
+                         GA Statistics for process    0
+                         ------------------------------
+
+       create   destroy   get      put      acc     scatter   gather  read&inc
+calls:    0        0        0        0        0        0        0        0     
+number of processes/call 0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00
+bytes total:             0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00
+bytes remote:            0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00
+Max memory consumed for GA by this process: 0 bytes
+MA_summarize_allocated_blocks: starting scan ...
+MA_summarize_allocated_blocks: scan completed: 0 heap blocks, 0 stack blocks
+MA usage statistics:
+
+	allocation statistics:
+					      heap	     stack
+					      ----	     -----
+	current number of blocks	         0	         0
+	maximum number of blocks	        69	         5
+	current total bytes		         0	         0
+	maximum total bytes		   4648000	   4933920
+	maximum total K-bytes		      4648	      4934
+	maximum total M-bytes		         5	         5
+
+
+                                NWChem Input Module
+                                -------------------
+
+
+
+
+
+
+                                  ACKNOWLEDGEMENT
+                                  ---------------
+
+            Please use the following acknowledgement where appropriate 
+            for results obtained with NWChem:
+
+            High Performance Computational Chemistry Group, "NWChem, A
+            Computational Chemistry Package for Parallel Computers, 
+            Version 5.1.1" (2008), Pacific Northwest National Laboratory,
+            Richland, Washington 99352-0999, USA.
+
+
+                                     CITATION
+                                     --------
+
+          Please use the following citation when publishing results
+          obtained with NWChem:
+
+          E. J. Bylaska, W. A. de Jong, N. Govind, K. Kowalski, T. P. Straatsma,
+          M. Valiev, H. J. J. Van Dam, D. Wang, E. Apra, T. L. Windus, J. Hammond,
+          J. Autschbach, P. Nichols, S. Hirata, M. T. Hackler, Y. Zhao, P.-D. Fan,
+          R. J. Harrison, M. Dupuis, D. M. A. Smith, J. Nieplocha, V. Tipparaju,
+          M. Krishnan, A. Vazquez-Mayagoitia, L. Jensen, M. Swart, Q. Wu,
+          T. Van Voorhis, A. A. Auer, M. Nooijen, L. D. Crosby, E. Brown, 
+          G. Cisneros, G. I. Fann, H. Fruchtl, J. Garza, K. Hirao,
+          R. Kendall, J. A. Nichols, K. Tsemekhman, K. Wolinski, J. Anchell, 
+          D. Bernholdt, P. Borowski, T. Clark, D. Clerc, H. Dachsel, M. Deegan, 
+          K. Dyall, D. Elwood, E. Glendening, M. Gutowski, A. Hess, J. Jaffe, 
+          B. Johnson, J. Ju, R. Kobayashi, R. Kutteh, Z. Lin, R. Littlefield, 
+          X. Long, B. Meng, T. Nakajima, S. Niu, L. Pollack, M. Rosing, 
+          G. Sandrone, M. Stave, H. Taylor, G. Thomas, J. van Lenthe, 
+          A. Wong, and Z. Zhang,
+          "NWChem, A Computational Chemistry Package for Parallel Computers, 
+          Version 5.1.1" (2008),
+                      Pacific Northwest National Laboratory,
+                      Richland, Washington 99352-0999, USA.
+
+
+
+ Total times  cpu:        0.1s     wall:        0.2s
+ in smd_energy_compute              
+total            :      -108.017929
+vdw              :        29.368021
+electrostatic    :      -137.385950
+ewald self       :      -734.182495
+ewald reciprocal :         1.114522
+ewald excluded   :       719.864835
+ewald real       :      -124.182812
+
+Total CPU time :                0.066
+
+Initialization :                0.000
+
+Verlet         :                0.024
+
+Force          :                0.041
+ Goodbye from task_smd

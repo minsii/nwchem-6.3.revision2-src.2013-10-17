@@ -1,0 +1,17 @@
+! 
+! $Id: paw_proj.fh 19707 2010-10-29 17:59:36Z d3y133 $
+! 
+
+      integer  paw_proj_nbasis
+      external paw_proj_nbasis
+c      integer  paw_proj_total_nbasis
+c      external   paw_proj_total_nbasis
+
+      integer  paw_proj_m
+      external paw_proj_m
+
+      integer  paw_proj_l
+      external paw_proj_l
+      integer  paw_proj_i_prj_atom
+      external paw_proj_i_prj_atom
+

@@ -1,0 +1,32 @@
+c
+c $Id: qmmm_data.fh 19708 2010-10-29 18:04:21Z d3y133 $
+c
+      logical master
+      logical oprint_debug
+      logical oprint_low
+      logical fixlinks
+      logical bq_dynamical
+      double precision bqzone
+      integer nqm
+      integer i_ai,h_ai
+      integer i_ai_act,h_ai_act
+      double precision qcharge
+      character*32 qmmm_interface
+      character*32 qmmm_optimization
+
+
+
+      common/qmmm_data/ qcharge,
+     &                 bqzone,
+     &                 nqm,
+     &                 i_ai,h_ai,
+     &                 i_ai_act,h_ai_act,
+     &                 fixlinks,
+     &                 bq_dynamical,
+     &                 qmmm_interface,
+     &                 qmmm_optimization,
+     &                 oprint_debug,
+     &                 oprint_low,
+     &                 master
+
+

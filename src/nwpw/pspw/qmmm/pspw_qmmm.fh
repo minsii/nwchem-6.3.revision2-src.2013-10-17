@@ -1,0 +1,107 @@
+c
+c $Id: pspw_qmmm.fh 20971 2011-08-09 23:08:13Z bylaska $
+c
+
+*     ***** pspw_qmmm common block ************************************
+      real*8  qmmm_lmbda
+      integer indx_frag_start(2)
+      integer size_frag(2)
+      integer kfrag(2)
+      integer switch_Rin(2),switch_Rout(2)
+      integer self_interaction(2),incell_frag(2)
+      integer nshl3d,rcell(2)
+      integer nfrag,nkfrag
+      logical qmmm_found,shake_found,auxiliary_only,periodic,lmbda_flag
+      common / pspw_qmmm /  qmmm_lmbda,indx_frag_start,
+     >                      size_frag,
+     >                      kfrag,switch_Rin,switch_Rout,
+     >                      self_interaction,incell_frag,
+     >                      rcell,nshl3d,
+     >                      nfrag,nkfrag,qmmm_found,shake_found,
+     >                      auxiliary_only,lmbda_flag,
+     >                      periodic
+
+*     **** pspw_qmmm shake common block ****
+      integer nshake(2)
+      integer na(2),nb(2),nab_shake_start(2)
+      integer indx_shake(2),nindx_shake_start(2)
+      integer dsq_shake(2),ndsq_shake_start(2)
+      common / pspw_qmmm2 /  nshake,na,nb,nab_shake_start,
+     >                       indx_shake,nindx_shake_start,
+     >                       dsq_shake,ndsq_shake_start
+
+*     **** pspw_qmmm bond spring common block ****
+      integer nbond(2)
+      integer indx_bond(2),nindx_bond_start(2)
+      integer Kr0_bond(2), nKr0_bond_start(2)
+      logical bond_found
+      common / pspw_qmmm3 /  nbond,
+     >                       indx_bond,nindx_bond_start,
+     >                       Kr0_bond,nKr0_bond_start,
+     >                       bond_found
+
+*     **** pspw_qmmm angle spring common block ****
+      integer nangle(2)
+      integer indx_angle(2),nindx_angle_start(2)
+      integer Kr0_angle(2), nKr0_angle_start(2)
+      logical angle_found
+      common / pspw_qmmm4 /  nangle,
+     >                       indx_angle,nindx_angle_start,
+     >                       Kr0_angle,nKr0_angle_start,
+     >                       angle_found
+
+*     **** pspw_qmmm cross bond spring common block ****
+      integer ncbond(2)
+      integer indx_cbond(2),nindx_cbond_start(2)
+      integer Kr0_cbond(2), nKr0_cbond_start(2)
+      logical cbond_found
+      common / pspw_qmmm5 /  ncbond,
+     >                       indx_cbond,nindx_cbond_start,
+     >                       Kr0_cbond,nKr0_cbond_start,
+     >                       cbond_found
+
+*     **** pspw_qmmm bond morse common block ****
+      integer nmbond(2)
+      integer indx_mbond(2),nindx_mbond_start(2)
+      integer Kr0_mbond(2), nKr0_mbond_start(2)
+      logical mbond_found
+      common / pspw_qmmm6 /  nmbond,
+     >                       indx_mbond,nindx_mbond_start,
+     >                       Kr0_mbond,nKr0_mbond_start,
+     >                       mbond_found
+
+*     **** pspw_qmmm dihedral spring common block ****
+      integer ndihedral_spring(2)
+      integer indx_dihedral_spring(2),nindx_dihedral_spring_start(2)
+      integer Kr0_dihedral_spring(2), nKr0_dihedral_spring_start(2)
+      logical dihedral_spring_found
+      common / pspw_qmmm7 /  ndihedral_spring,
+     >               indx_dihedral_spring,nindx_dihedral_spring_start,
+     >               Kr0_dihedral_spring,nKr0_dihedral_spring_start,
+     >               dihedral_spring_found
+
+*     **** pspw_qmmm dihedral common block ****
+      integer ndihedral(2)
+      integer indx_dihedral(2),nindx_dihedral_start(2)
+      integer Kr0_dihedral(2), nKr0_dihedral_start(2)
+      logical dihedral_found
+      common / pspw_qmmm8 /  ndihedral,
+     >               indx_dihedral,nindx_dihedral_start,
+     >               Kr0_dihedral,nKr0_dihedral_start,
+     >               dihedral_found
+
+*     **** pspw_qmmm coordination number spring common block ****
+      integer ncoord(2)
+      integer nindx0_coord_start(2)
+      integer indx1_coord(2),nindx1_coord_start(2),nsize1_coord(2)
+      integer indx2_coord(2),nindx2_coord_start(2),nsize2_coord(2)
+      integer Kr0_coord(2), nKr0_coord_start(2)
+      logical coord_found
+      common / pspw_qmmm9 / ncoord,
+     >                      nindx0_coord_start,
+     >                      indx1_coord,nindx1_coord_start,nsize1_coord,
+     >                      indx2_coord,nindx2_coord_start,nsize2_coord,
+     >                      Kr0_coord,nKr0_coord_start,
+     >                      coord_found
+
+*     ******************************************************************

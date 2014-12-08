@@ -1,0 +1,9 @@
+*
+*     $Id: band_lmbfgs_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+      real*8 rho(40)
+      integer ispin,ne(2),npack1,neall,nbrill
+      integer nsize,max_m,m
+      common / c_lmbfgs_common / rho,ne,ispin,npack1,neall,nbrill,
+     >                           nsize,max_m,m
+

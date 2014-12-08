@@ -1,0 +1,31 @@
+c
+c $Id: paw_density_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+c $Log: not supported by cvs2svn $
+c Revision 1.1  2003/02/16 21:40:00  marat
+c initial version
+c MV
+c
+
+c      integer paw_rho_ispin
+c      integer paw_rho_lmax
+c      integer paw_rho_gga
+c      integer i_paw_rho(4)
+c      integer paw_rho_ae(4,2)
+c      integer paw_rho_ps(4,2)
+c      integer paw_rho_ae_prime(4,2)
+c      integer paw_rho_ps_prime(4,2)
+cc      integer paw_rho_u_ae(4)
+cc      integer paw_rho_d_ae(4)
+cc      integer paw_rho_u_ps(4)
+cc      integer paw_rho_d_ps(4)
+c
+c      common /paw_density_data/  paw_rho_ae,
+c     >                           paw_rho_ps,
+c     >                           paw_rho_ae_prime,
+c     >                           paw_rho_ps_prime,
+c     >                           i_paw_rho,
+c     >                           paw_rho_gga,
+c     >                           paw_rho_lmax,
+c     >                           paw_rho_ispin
+

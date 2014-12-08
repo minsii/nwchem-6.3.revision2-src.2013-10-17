@@ -1,0 +1,19 @@
+
+*
+* $Id: cstrfac_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+*     **** local common block ****
+      integer ex1(2),ex2(2),ex3(2)
+      common / cstrfac_block / ex1,ex2,ex3
+
+      integer cxr(2)
+      common / cstrfac_k_block / cxr
+
+
+*     **** index lists block ****
+      integer i_indx_list(2),j_indx_list(2),k_indx_list(2)
+      common / cstrfac_indx_blck / 
+     >                            i_indx_list,
+     >                            j_indx_list,
+     >                            k_indx_list

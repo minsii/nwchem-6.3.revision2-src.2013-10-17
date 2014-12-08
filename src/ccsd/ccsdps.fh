@@ -1,0 +1,19 @@
+c  $Id: ccsdps.fh 19708 2010-10-29 18:04:21Z d3y133 $
+c
+c     pstat handles for the CCSD code
+c
+      integer ps_ccsd,ps_aomo,ps_aoccsd,ps_tripls,ps_graddrv,
+     ,	ps_itm,ps_pampt,ps_idx1,ps_idx2,ps_idx34,ps_t2eri,
+     ,  ps_trpdrv,ps_doooo,ps_dovvv,ps_z2pm,ps_hz2pm,ps_zvecs,
+     ,     ps_pdiis,ps_ht2pm,ps_t2pm,ps_sxy,ps_itrdrv,ps_tengy,
+     ,  ps_idx12,ps_idx11,ps_t2eriw,ps_t2erin,ps_t2erih
+
+
+      logical occsdps            ! True if gathering stats
+      common /cccsds/ occsdps,
+     $     ps_ccsd, ps_aomo,ps_aoccsd,ps_tripls,ps_graddrv,
+     $     ps_itm,ps_pampt,ps_idx1,ps_idx2,ps_idx34,ps_t2eri,
+     $     ps_trpdrv,ps_doooo,ps_dovvv,ps_z2pm,ps_hz2pm,ps_zvecs,
+     $     ps_pdiis,ps_ht2pm,ps_t2pm,ps_sxy,ps_itrdrv,ps_tengy,
+     $     ps_idx12,ps_idx11,ps_t2eriw,ps_t2erin,ps_t2erih
+

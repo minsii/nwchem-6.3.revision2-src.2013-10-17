@@ -1,0 +1,6 @@
+!$Id: paw_energy_ion_atom.fh 19707 2010-10-29 17:59:36Z d3y133 $
+!
+!
+!
+      double precision paw_energy_ion_atom
+      external paw_energy_ion_atom

@@ -1,0 +1,15 @@
+*
+* $Id: smd_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+      logical  smd_data_create
+      external smd_data_create
+
+      logical  smd_data_create_get
+      external smd_data_create_get
+
+      logical  smd_data_destroy
+      external smd_data_destroy
+
+      logical  smd_data_get_index
+      external smd_data_get_index
+

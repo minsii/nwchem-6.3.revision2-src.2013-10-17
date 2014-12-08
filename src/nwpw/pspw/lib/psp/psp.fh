@@ -1,0 +1,137 @@
+*
+* $Id: psp.fh 23815 2013-03-17 02:03:05Z bylaska $
+*
+
+*     **** common block  for psp ****
+      integer    prjtmp(2),wtmp(2),vc_tmp(2),vcmp_tmp(2),vlpaw_tmp(2)
+      integer    vl(2)
+      integer    vnl(2)
+      !integer    vnlnrm(2),Gijl(2)
+      integer    Gijl(2)
+      integer    zv(2),amass(2),rc(2)
+      integer    lmmax(2),lmax(2),locp(2),nmax(2)
+      integer    nprj(2),n_projector(2),l_projector(2),m_projector(2)
+      integer    b_projector(2)
+      integer    npsp,nprj_max,nprj_mult
+      integer    psp_type(2)
+      integer    r3_matrix(2)
+
+      integer nkatmx,lmmax_max,lmax_max,nmax_max
+      parameter (nkatmx=50,lmax_max=4,lmmax_max=16,nmax_max=3)
+      character*2  atom(nkatmx)
+      character*80 comment(nkatmx)
+      common / psp_block / prjtmp,wtmp,vc_tmp,vcmp_tmp,vlpaw_tmp,
+     >                     vl,vnl,Gijl,zv,amass,rc,
+     >                     lmmax,lmax,locp,nmax,
+     >                     nprj,n_projector,l_projector,m_projector,
+     >                     b_projector,r3_matrix,
+     >                     psp_type,npsp,nprj_max,nprj_mult,
+     >                     atom,comment
+
+*     **** common block for psp stress ****
+      integer    dvl(2)
+      integer    dvnl(2)
+      common / psp2_block / dvl,dvnl
+
+
+*     ***** PAW variables *****
+      integer log_amesh(2),r1(2),rmax(2),sigma(2),zion(2)
+      integer n1dgrid(2),n1dbasis(2),nae(2),nps(2),lps(2),icut(2),eig(2)
+      integer phi_ae(2),dphi_ae(2),phi_ps(2),dphi_ps(2)
+      integer core_ae(2),core_ps(2),core_ae_prime(2),core_ps_prime(2)
+      integer rgrid(2),core_kin(2),core_ion(2)
+      integer hartree_matrix(2),comp_charge_matrix(2),comp_pot_matrix(2)
+      logical pawexist,use_grid_cmp
+      common /psp_paw_block/ log_amesh,r1,rmax,sigma,zion,
+     >                      n1dgrid,n1dbasis,nae,nps,lps,icut,eig,
+     >                      phi_ae,dphi_ae,phi_ps,dphi_ps,
+     >                      core_ae,core_ps,core_ae_prime,core_ps_prime,
+     >                      rgrid,core_kin,core_ion,
+     >                      hartree_matrix,
+     >                      comp_charge_matrix,comp_pot_matrix,
+     >                      pawexist,use_grid_cmp
+
+*     **** common block for psp_xc_data ****
+      integer paw_xc_nphi
+      integer paw_xc_ntheta
+      integer paw_xc_ylm(2)
+      integer paw_xc_dylm_theta(2)
+      integer paw_xc_dylm_phi(2)
+      integer paw_xc_angle_phi(2)
+      integer paw_xc_cos_theta(2)
+      integer paw_xc_w_phi(2)
+      integer paw_xc_w_theta(2)
+      integer paw_xc_e(2)
+      integer i_paw_xc_pot(2)
+      integer paw_vxc_ae(2)
+      integer paw_vxc_ps(2)
+      integer paw_dvxc_ae(2)
+      integer paw_dvxc_ps(2)
+      integer paw_xc_pot_size
+      integer paw_xc_pot(2)
+      integer paw_xc_matr(2)
+      integer paw_xc_dmatr(2)
+      common /psp_xc_data/ paw_xc_nphi,paw_xc_ntheta,paw_xc_e,
+     >                     i_paw_xc_pot,paw_xc_angle_phi,
+     >                     paw_xc_cos_theta, paw_xc_ylm,
+     >                     paw_xc_dylm_theta,paw_xc_dylm_phi,
+     >                     paw_xc_w_phi,paw_xc_w_theta,paw_vxc_ae,
+     >                     paw_vxc_ps,paw_dvxc_ae,paw_dvxc_ps,
+     >                     paw_xc_pot,paw_xc_pot_size,paw_xc_matr,
+     >                     paw_xc_dmatr
+
+
+
+
+*     **** common block for pspspin ****
+      logical pspspin
+      integer pspspin_upl,pspspin_downl
+      integer pspspin_upions(2),pspspin_downions(2)
+      real*8  pspspin_upscale,pspspin_downscale
+      common / pspspin_block / pspspin_upscale,pspspin_downscale,
+     >                         pspspin_upions, pspspin_downions,
+     >                         pspspin_upl,    pspspin_downl,
+     >                         pspspin
+
+*     **** common block for psputerm ****
+      logical psputerm
+      integer pspnuterms
+      integer psputerm_vcount,psputerm_ld_count
+      integer psputerm_l(2)
+      integer psputerm_uscale(2)
+      integer psputerm_jscale(2)
+      integer psputerm_ions(2)
+      integer psputerm_vstart(2)
+      integer psputerm_vmmmm(2)
+      integer psputerm_ld_start(2)
+      integer psputerm_ld(2)
+      real*8  psputerm_edftu,psputerm_pdftu
+      common / psputerm_block / psputerm_edftu,psputerm_pdftu,
+     >                          psputerm_uscale,psputerm_jscale,
+     >                          psputerm_l,psputerm_ions,
+     >                          psputerm_vmmmm,psputerm_vstart,
+     >                          psputerm_ld,psputerm_ld_start,
+     >                          psputerm_ld_count,
+     >                          psputerm_vcount,pspnuterms,psputerm
+
+*     **** common block for prj_indx ****
+      integer shift_prj_indx(2)
+      integer l_prj_prj_indx(2)
+      integer ii_prj_indx(2)
+      integer ia_prj_indx(2)
+      integer nproj_prj_indx(2)
+      integer swstart_prj_indx(2)
+      integer sd_function_prj_indx(2)
+      integer sw1a(2),sw2a(2)
+      integer n_prj_indx,nion_prj_indx
+      integer swann
+      logical swaset
+      common / psp_prj_indx_block / shift_prj_indx,l_prj_prj_indx,
+     >                              ii_prj_indx,
+     >                              ia_prj_indx,
+     >                              nproj_prj_indx,
+     >                              swstart_prj_indx,
+     >                              sd_function_prj_indx,
+     >                              sw1a,sw2a,
+     >                              n_prj_indx,nion_prj_indx,
+     >                              swann,swaset

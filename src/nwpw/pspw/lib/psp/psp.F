@@ -1,0 +1,3875 @@
+*
+* $Id: psp.F 23826 2013-03-18 18:04:02Z bylaska $
+*
+
+*     ***********************************
+*     *					*
+*     *	 	  psp_init  		*
+*     *					*
+*     ***********************************
+
+      subroutine psp_init()      
+      implicit none
+
+#include "mafdecls.fh"
+#include "errquit.fh"
+#include "psp.fh"
+
+*     **** version4 common block ****
+      integer rlocal(2)
+      common / version4 / rlocal
+
+      integer taskid,MASTER
+      parameter (MASTER=0)
+
+      integer npack1,npack0,nion,i,j,ii
+      logical value
+
+*     **** external functions *****
+      logical  control_pspspin,control_use_grid_cmp
+      external control_pspspin,control_use_grid_cmp
+      integer  ion_nkatm,ion_nion,control_pspnuterms
+      external ion_nkatm,ion_nion,control_pspnuterms
+ 
+      call Pack_npack(1,npack1)
+      call Pack_npack(0,npack0)
+      npsp = ion_nkatm()
+
+c      value = MA_alloc_get(mt_dcpl,(nmax_max*lmmax_max*npack1),
+c     >                    'prjtmp',prjtmp(2),prjtmp(1))
+c      value = value.and.
+c     >        MA_alloc_get(mt_dbl,(nmax_max*lmmax_max*npsp*npack1),
+c     >                    'vnl',vnl(2),vnl(1))
+c     value = value.and.
+c    >         MA_alloc_get(mt_dbl,(lmmax_max*npsp),
+c    >                    'vnlnrm',vnlnrm(2),vnlnrm(1))
+
+      value = MA_alloc_get(mt_dbl,(npsp*npack0),'vl',vl(2),vl(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'vnl',vnl(2),vnl(1))
+c      value = value.and.
+c     >      MA_alloc_get(mt_dbl,(nmax_max*nmax_max*(lmax_max+1)*npsp),
+c     >                    'Gijl',Gijl(2),Gijl(1))
+      value = value.and.MA_alloc_get(mt_int,npsp,'Gijl',Gijl(2),Gijl(1))
+
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp),'nprj',nprj(2),nprj(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp*nmax_max*lmmax_max),
+     >                     'n_projector',n_projector(2),n_projector(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp*nmax_max*lmmax_max),
+     >                     'l_projector',l_projector(2),l_projector(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp*nmax_max*lmmax_max),
+     >                     'm_projector',m_projector(2),m_projector(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp*nmax_max*lmmax_max),
+     >                     'b_projector',b_projector(2),b_projector(1))
+
+      value = value.and.
+     >        MA_alloc_get(mt_dbl,(npsp),'zv',zv(2),zv(1))
+      value = value.and.
+     >        MA_alloc_get(mt_dbl,(npsp),'amass',amass(2),amass(1))
+      value = value.and.
+     >        MA_alloc_get(mt_dbl,(npsp*(lmax_max+1)),'rc',rc(2),rc(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp),'lmmax',lmmax(2),lmmax(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp),'lmax',lmax(2),lmax(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp),'locp',locp(2),locp(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp),'nmax',nmax(2),nmax(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp),
+     >                     'psp_type',psp_type(2),psp_type(1))
+      value = value.and.
+     >        MA_alloc_get(mt_dbl,(npsp),'rlocal',rlocal(2),rlocal(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'r3_matrix',
+     >                     r3_matrix(2),r3_matrix(1))
+
+*     ***** PAW variables *****
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'hartree_matrix',
+     >                     hartree_matrix(2),hartree_matrix(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'comp_charge_matrix',
+     >                     comp_charge_matrix(2),comp_charge_matrix(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'comp_pot_matrix',
+     >                     comp_pot_matrix(2),comp_pot_matrix(1))
+      value = value.and.
+     > MA_alloc_get(mt_dbl,(npsp),'log_amesh',log_amesh(2),log_amesh(1))
+      value = value.and.
+     >  MA_alloc_get(mt_dbl,(npsp),'r1',r1(2),r1(1))
+      value = value.and.
+     >  MA_alloc_get(mt_dbl,(npsp),'rmax',rmax(2),rmax(1))
+      value = value.and.
+     >  MA_alloc_get(mt_dbl,(npsp),'sigma',sigma(2),sigma(1))
+      value = value.and.
+     >  MA_alloc_get(mt_dbl,(npsp),'zion',zion(2),zion(1))
+      value = value.and.
+     >  MA_alloc_get(mt_dbl,(npsp),'core_kin',core_kin(2),core_kin(1))
+      value = value.and.
+     >  MA_alloc_get(mt_dbl,(npsp),'core_ion',core_ion(2),core_ion(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'n1dgrid',n1dgrid(2),n1dgrid(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,
+     >                     'n1dbasis',n1dbasis(2),n1dbasis(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp*nmax_max*lmmax_max),
+     >                     'nae',nae(2),nae(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp*nmax_max*lmmax_max),
+     >                     'nps',nps(2),nps(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,(npsp*nmax_max*lmmax_max),
+     >                     'lps',lps(2),lps(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'icut',icut(2),icut(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'eig',eig(2),eig(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'phi_ae',phi_ae(2),phi_ae(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'dphi_ae',dphi_ae(2),dphi_ae(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'phi_ps',phi_ps(2),phi_ps(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'dphi_ps',dphi_ps(2),dphi_ps(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'core_ae',core_ae(2),core_ae(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'core_ps',core_ps(2),core_ps(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'core_ae_prime',
+     >                    core_ae_prime(2),core_ae_prime(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'core_ps_prime',
+     >                     core_ps_prime(2),core_ps_prime(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,npsp,'rgrid',rgrid(2),rgrid(1))
+
+*     **** setup pspspin structure - used for generating antiferromagnetic structures ****
+      pspspin = control_pspspin()
+      if (pspspin) then
+         nion  = ion_nion()
+         value = value.and.
+     >   MA_alloc_get(mt_log,nion,'pspspin_upions',
+     >                pspspin_upions(2),pspspin_upions(1))
+         value = value.and.
+     >   MA_alloc_get(mt_log,nion,'pspspin_downions',
+     >                pspspin_downions(2),pspspin_downions(1))
+         if (.not. value) 
+     >   call errquit('psp_init:out of heap memory',0, MA_ERR)
+
+         call control_set_pspspin(pspspin_upscale,pspspin_downscale,
+     >                            pspspin_upl,pspspin_downl,
+     >                            nion,
+     >                            log_mb(pspspin_upions(1)),
+     >                            log_mb(pspspin_downions(1)))
+      end if
+
+      if (.not. value) 
+     >   call errquit('psp_init:out of heap memory',0, MA_ERR)
+
+      call dcopy(npsp*npack0,          0.0d0,0,dbl_mb(vl(1)), 1)
+      call dcopy(npsp,                 0.0d0,0,dbl_mb(zv(1)),1)
+      call dcopy(npsp,                 0.0d0,0,dbl_mb(amass(1)),1)
+      call dcopy(npsp*(lmax_max+1),    0.0d0,0,dbl_mb(rc(1)),1)
+      call dcopy(npsp,                 0.0d0,0,dbl_mb(rlocal(1)),1)
+      call dcopy(npsp,                 0.0d0,0,dbl_mb(core_kin(1)),1)
+      call dcopy(npsp,                 0.0d0,0,dbl_mb(core_ion(1)),1)
+
+*     **** allocate semicore data ****
+      call semicore_init()
+
+*     *** set pawexist and use_grid_cmp ****
+      pawexist = .false.
+      use_grid_cmp = control_use_grid_cmp()
+
+
+      return
+      end
+
+*     ****************************************************
+*     *                                                  *
+*     *                psp_proj_init                     *
+*     *                                                  *
+*     ****************************************************
+      subroutine psp_proj_init()
+      implicit none
+
+#include "mafdecls.fh"
+#include "errquit.fh"
+#include "psp.fh"
+
+*     ***** local variables ****
+      logical value
+      integer npack1,npack0
+
+*     ***** external functions *****
+      integer  psp_nprj_max,control_nprj_mult
+      external psp_nprj_max,control_nprj_mult
+
+
+      call Pack_npack(0,npack0)
+      call Pack_npack(1,npack1)
+      nprj_mult= control_nprj_mult()
+      nprj_max = psp_nprj_max()
+      value = MA_alloc_get(mt_dcpl,npack1*nprj_max*nprj_mult,
+     >                     'prjtmp',prjtmp(2),prjtmp(1))
+      if (pawexist) then
+         value = value.and.
+     >            MA_alloc_get(mt_dbl,2*nprj_max*nprj_max,
+     >                        'wtmp',wtmp(2),wtmp(1))
+         value = value.and.
+     >            MA_alloc_get(mt_dcpl,npack0,'vc_tmp',
+     >                         vc_tmp(2),vc_tmp(1))
+         value = value.and.
+     >            MA_alloc_get(mt_dcpl,npack0,'vcmptmp',
+     >                         vcmp_tmp(2),vcmp_tmp(1))
+         value = value.and.
+     >            MA_alloc_get(mt_dcpl,npack0,'vlpaw_tmp',
+     >                         vlpaw_tmp(2),vlpaw_tmp(1))
+      end if
+      if (.not. value)
+     >   call errquit('psp_proj_init:out of heap memory',0,MA_ERR)
+      return
+      end
+
+      subroutine psp_set_vcandvl(vcin,vlin)
+      implicit none
+      complex*16 vcin(*)
+      complex*16 vlin(*)
+
+#include "errquit.fh"
+#include "mafdecls.fh"
+#include "psp.fh"
+
+*     **** local variables ****
+      real*8 scal
+
+*     **** external functions ****
+      real*8   lattice_omega
+      external lattice_omega
+
+      scal = 1.0d0/lattice_omega()
+
+      call Pack_c_Copy(0,vcin,dcpl_mb(vc_tmp(1))) 
+      call Pack_cc_daxpy(0,scal,vlin,dcpl_mb(vc_tmp(1))) 
+      return
+      end 
+
+      subroutine psp_get_vcmpvlpaw(vcmpout)
+      implicit none
+      complex*16 vcmpout(*)
+
+#include "errquit.fh"
+#include "mafdecls.fh"
+#include "psp.fh"
+
+*     **** local variables ****
+      real*8 scal
+
+*     **** external functions ****
+      real*8   lattice_omega
+      external lattice_omega
+
+      scal = 1.0d0/lattice_omega()
+
+      call Pack_c_Copy(0,dcpl_mb(vcmp_tmp(1)),vcmpout) 
+      call Pack_cc_daxpy(0,scal,dcpl_mb(vlpaw_tmp(1)),vcmpout) 
+      return
+      end 
+
+
+
+      real*8 function psp_vlpaw_e(dng)
+      implicit none
+      complex*16 dng(*)
+
+#include "errquit.fh"
+#include "mafdecls.fh"
+#include "psp.fh"
+
+*     **** local variables ****
+      real*8 e
+
+*     **** external functions ****
+      real*8   lattice_omega
+      external lattice_omega
+
+      call Pack_cc_dot(0,dcpl_mb(vlpaw_tmp(1)),dng,e)
+      psp_vlpaw_e = e
+      return
+      end
+
+
+
+
+*     ***********************************
+*     *					*
+*     *	 	  psp_end  		*
+*     *					*
+*     ***********************************
+
+      subroutine psp_end()      
+      implicit none
+
+#include "errquit.fh"
+#include "mafdecls.fh"
+#include "psp.fh"
+
+*     **** version4 common block ****
+      integer rlocal(2)
+      common / version4 / rlocal
+
+
+      logical value
+      integer ia
+
+*     **** external functions ****
+
+*     **** deallocate semicore data ****
+      call semicore_end()
+
+*     **** deallocate nonlocal pspw data ****
+      do ia=1,npsp
+        if (int_mb(nprj(1)+ia-1).gt.0) then
+           call psi_data_dealloc(int_mb(vnl(1)+ia-1))
+           call psi_data_dealloc(int_mb(Gijl(1)+ia-1))
+        end if
+        if (int_mb(psp_type(1)+ia-1).eq.4) then
+           call psi_data_dealloc(int_mb(hartree_matrix(1)+ia-1))
+           call psi_data_dealloc(int_mb(comp_charge_matrix(1)+ia-1))
+           call psi_data_dealloc(int_mb(comp_pot_matrix(1)+ia-1))
+           call psi_data_dealloc(int_mb(eig(1)+ia-1))
+           call psi_data_dealloc(int_mb(phi_ae(1)+ia-1))
+           call psi_data_dealloc(int_mb(dphi_ae(1)+ia-1))
+           call psi_data_dealloc(int_mb(phi_ps(1)+ia-1))
+           call psi_data_dealloc(int_mb(dphi_ps(1)+ia-1))
+           call psi_data_dealloc(int_mb(core_ae(1)+ia-1))
+           call psi_data_dealloc(int_mb(core_ps(1)+ia-1))
+           call psi_data_dealloc(int_mb(core_ae_prime(1)+ia-1))
+           call psi_data_dealloc(int_mb(core_ps_prime(1)+ia-1))
+           call psi_data_dealloc(int_mb(rgrid(1)+ia-1))
+        end if
+        if (int_mb(psp_type(1)+ia-1).eq.9) then
+           call psi_data_dealloc(int_mb(r3_matrix(1)+ia-1))
+        end if
+      end do
+
+      value = MA_free_heap(prjtmp(2))
+      if (pawexist) then
+         value = value.and.MA_free_heap(wtmp(2))
+         value = value.and.MA_free_heap(vc_tmp(2))
+         value = value.and.MA_free_heap(vcmp_tmp(2))
+         value = value.and.MA_free_heap(vlpaw_tmp(2))
+      end if
+      value = value.and.MA_free_heap(vl(2))
+      value = value.and.MA_free_heap(vnl(2))
+c     value = value.and.MA_free_heap(vnlnrm(2))
+      value = value.and.MA_free_heap(Gijl(2))
+      value = value.and.MA_free_heap(nprj(2))
+      value = value.and.MA_free_heap(n_projector(2))
+      value = value.and.MA_free_heap(l_projector(2))
+      value = value.and.MA_free_heap(m_projector(2))
+      value = value.and.MA_free_heap(b_projector(2))
+      value = value.and.MA_free_heap(zv(2))
+      value = value.and.MA_free_heap(amass(2))
+      value = value.and.MA_free_heap(rc(2))
+      value = value.and.MA_free_heap(lmmax(2))
+      value = value.and.MA_free_heap(lmax(2))
+      value = value.and.MA_free_heap(locp(2))
+      value = value.and.MA_free_heap(nmax(2))
+      value = value.and.MA_free_heap(psp_type(2))
+      value = value.and.MA_free_heap(rlocal(2))
+
+*     **** PAW variables ****
+      if (pawexist) then
+         call nwpw_compcharge_end()
+         call nwpw_xc_end()
+      end if
+      value = value.and.MA_free_heap(r3_matrix(2))
+      value = value.and.MA_free_heap(hartree_matrix(2))
+      value = value.and.MA_free_heap(comp_charge_matrix(2))
+      value = value.and.MA_free_heap(comp_pot_matrix(2))
+      value = value.and.MA_free_heap(log_amesh(2))
+      value = value.and.MA_free_heap(r1(2))
+      value = value.and.MA_free_heap(rmax(2))
+      value = value.and.MA_free_heap(sigma(2))
+      value = value.and.MA_free_heap(zion(2))
+      value = value.and.MA_free_heap(core_kin(2))
+      value = value.and.MA_free_heap(core_ion(2))
+      value = value.and.MA_free_heap(n1dgrid(2))
+      value = value.and.MA_free_heap(n1dbasis(2))
+      value = value.and.MA_free_heap(nae(2))
+      value = value.and.MA_free_heap(nps(2))
+      value = value.and.MA_free_heap(lps(2))
+      value = value.and.MA_free_heap(icut(2))
+      value = value.and.MA_free_heap(eig(2))
+      value = value.and.MA_free_heap(phi_ae(2))
+      value = value.and.MA_free_heap(dphi_ae(2))
+      value = value.and.MA_free_heap(phi_ps(2))
+      value = value.and.MA_free_heap(dphi_ps(2))
+      value = value.and.MA_free_heap(core_ae(2))
+      value = value.and.MA_free_heap(core_ps(2))
+      value = value.and.MA_free_heap(core_ae_prime(2))
+      value = value.and.MA_free_heap(core_ps_prime(2))
+      value = value.and.MA_free_heap(rgrid(2))
+
+      if (pspspin) then
+         value = value.and.MA_free_heap(pspspin_upions(2))
+         value = value.and.MA_free_heap(pspspin_downions(2))
+      end if
+
+
+      if (.not. value) 
+     >  call errquit('psp_end:error freeing heap memory',0,MA_ERR)
+
+*     **** deallocate prj_indx ****
+      call psp_prj_indx_end()
+
+      return
+      end
+
+
+*     ****************************************************
+*     *                                                  *
+*     *             psp_prj_indx_init                    *
+*     *                                                  *
+*     ****************************************************
+*
+*     This routine sets up the prj_indx indexes:
+*           shift_prj_indx,ii_prj_indx,ia_prj_indx,sd_function_prj_indx
+*
+      subroutine psp_prj_indx_init()
+      implicit none
+
+#include "mafdecls.fh"
+#include "psp.fh"
+#include "errquit.fh"
+
+*     **** local variables ****
+      logical value,sd_function
+      integer k,l,ii,ia,nproj,l_prj,count1,count2,shift,nion
+
+*     **** external functions ****
+      integer  ion_nion,ion_katm,psi_data_get_ptr
+      external ion_nion,ion_katm,psi_data_get_ptr
+
+      nion = ion_nion()
+      n_prj_indx    = 0
+      nion_prj_indx = 0
+      do ii=1,nion
+        ia=ion_katm(ii)
+
+        nproj = int_mb(nprj(1)+ia-1)
+
+        if (nproj.gt.0) then
+           nion_prj_indx = nion_prj_indx + 1
+
+        do l=1,nproj
+           n_prj_indx = n_prj_indx + 1
+        end do
+        end if !** nproj>0 **
+      end do !** ii **
+
+      value = MA_alloc_get(mt_int,nion_prj_indx,'ii_prj_indx',
+     >                     ii_prj_indx(2),ii_prj_indx(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,nion_prj_indx,'ia_prj_indx',
+     >                     ia_prj_indx(2),ia_prj_indx(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,nion_prj_indx,'nproj_prj_indx',
+     >                     nproj_prj_indx(2),nproj_prj_indx(1))
+      value = value.and.
+     >        MA_alloc_get(mt_int,nion_prj_indx,'swstart_prj_indx',
+     >                     swstart_prj_indx(2),swstart_prj_indx(1))
+
+      value = MA_alloc_get(mt_int,n_prj_indx,'shift_prj_indx',
+     >                     shift_prj_indx(2),shift_prj_indx(1))
+      value = MA_alloc_get(mt_int,n_prj_indx,'l_prj_prj_indx',
+     >                     l_prj_prj_indx(2),l_prj_prj_indx(1))
+      value = value.and.
+     >        MA_alloc_get(mt_log,n_prj_indx,'sd_function_prj_indx',
+     >              sd_function_prj_indx(2),sd_function_prj_indx(1))
+      if (.not.value)
+     >  call errquit('psp_prj_indx_init: out of memory',0, MA_ERR)
+      swaset = .false.
+      swann  = 0
+
+      count1 = 0
+      count2 = 0
+      do ii=1,nion
+        ia    = ion_katm(ii)
+        nproj = int_mb(nprj(1)+ia-1)
+        if (nproj.gt.0) then
+           int_mb(ii_prj_indx(1)+count1)      = ii
+           int_mb(ia_prj_indx(1)+count1)      = ia
+           int_mb(nproj_prj_indx(1)+count1)   = nproj
+           int_mb(swstart_prj_indx(1)+count1) = count2
+           count1 = count1 + 1
+
+           do l=1,nproj
+              shift = psi_data_get_ptr(int_mb(vnl(1)+ia-1),l)
+              l_prj = int_mb(l_projector(1)+(l-1)
+     >                                  + (ia-1)*(nmax_max*lmmax_max))
+#ifdef GCC4
+              k = iand(l_prj,1)
+#else
+              k = and(l_prj,1)
+#endif
+              sd_function = (k.eq.0)
+
+              int_mb(shift_prj_indx(1)+count2)       = shift
+              int_mb(l_prj_prj_indx(1)+count2)       = l_prj
+              log_mb(sd_function_prj_indx(1)+count2) = sd_function
+
+              count2 = count2 + 1
+           end do
+        end if !** nproj>0 **
+      end do !** ii **
+
+      return 
+      end
+
+
+*     ****************************************************
+*     *                                                  *
+*     *         psp_prj_indx_alloc_sw1a_sw2a             *
+*     *                                                  *
+*     ****************************************************
+      subroutine psp_prj_indx_alloc_sw1a_sw2a(nn)
+      implicit none
+      integer nn
+
+#include "mafdecls.fh"
+#include "psp.fh"
+#include "errquit.fh"
+
+*     **** local variables ****
+      logical ok
+
+      if (swaset.and.(nn.gt.swann)) then
+         ok =        MA_free_heap(sw1a(2))
+         ok = ok.and.MA_free_heap(sw2a(2))
+         if (.not.ok)
+     >     call errquit('psp_prj_indx_alloc_sw1a_sw2a:freeing heap',
+     >                  0,MA_ERR)
+         swaset = .false.
+      end if
+
+      if (.not.swaset) then
+         ok = MA_alloc_get(mt_dbl,nn*n_prj_indx,'sw1a',sw1a(2),sw1a(1))
+         ok = ok.and.
+     >        MA_alloc_get(mt_dbl,nn*n_prj_indx,'sw2a',sw2a(2),sw2a(1))
+         if (.not.ok)
+     >     call errquit('psp_prj_indx_alloc_sw1a_sw2a: out of memory',
+     >                  0,MA_ERR)
+         swaset = .true.
+         swann  = nn
+      end if
+
+      return
+      end
+
+
+
+*     ****************************************************
+*     *                                                  *
+*     *             psp_prj_indx_end                     *
+*     *                                                  *
+*     ****************************************************
+      subroutine psp_prj_indx_end()
+      implicit none
+
+#include "mafdecls.fh"
+#include "psp.fh"
+#include "errquit.fh"
+
+*     **** local variables ****
+      logical value
+
+      value =           MA_free_heap(ii_prj_indx(2))
+      value = value.and.MA_free_heap(ia_prj_indx(2))
+      value = value.and.MA_free_heap(nproj_prj_indx(2))
+      value = value.and.MA_free_heap(swstart_prj_indx(2))
+      value = value.and.MA_free_heap(shift_prj_indx(2))
+      value = value.and.MA_free_heap(l_prj_prj_indx(2))
+      value = value.and.MA_free_heap(sd_function_prj_indx(2))
+      if (swaset) then
+         value = value.and.MA_free_heap(sw1a(2))
+         value = value.and.MA_free_heap(sw2a(2))
+      end if
+      if (.not.value)
+     >  call errquit('psp_prj_indx_end:error freeing heap',0,MA_ERR)
+
+      return
+      end
+
+
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_rlocal		*
+*     *					*
+*     ***********************************
+      real*8 function psp_rlocal(ia)
+      implicit none
+      integer ia
+
+#include "mafdecls.fh"
+
+*     **** version4 common block ****
+      integer rlocal(2)
+      common / version4 / rlocal
+
+      psp_rlocal = dbl_mb(rlocal(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_r1               *
+*     *					*
+*     ***********************************
+      real*8 function psp_r1(ia)
+      implicit none
+      integer ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_r1 = dbl_mb(r1(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_rmax             *
+*     *					*
+*     ***********************************
+      real*8 function psp_rmax(ia)
+      implicit none
+      integer ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_rmax = dbl_mb(rmax(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_sigma            *
+*     *					*
+*     ***********************************
+      real*8 function psp_sigma(ia)
+      implicit none
+      integer ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_sigma = dbl_mb(sigma(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	       psp_sphere_radius        *
+*     *					*
+*     ***********************************
+      real*8 function psp_sphere_radius(ia)
+      implicit none
+      integer ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      integer  indx
+      integer  psi_data_get_chnk
+      external psi_data_get_chnk
+
+      indx = psi_data_get_chnk(int_mb(rgrid(1)+ia-1))
+      psp_sphere_radius = dbl_mb(indx + int_mb(icut(1)+ia-1)-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_zv		*
+*     *					*
+*     ***********************************
+      real*8 function psp_zv(ia)
+      implicit none
+      integer ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_zv = dbl_mb(zv(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_zion		*
+*     *					*
+*     ***********************************
+      real*8 function psp_zion(ia)
+      implicit none
+      integer ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_zion = dbl_mb(zion(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *                                 *
+*     *            psp_zv_ptr           *
+*     *                                 *
+*     ***********************************
+      integer function psp_zv_ptr()
+      implicit none
+
+#include "psp.fh"
+
+      psp_zv_ptr = zv(1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_amass		*
+*     *					*
+*     ***********************************
+      real*8 function psp_amass(ia)
+      implicit none
+      integer ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_amass = dbl_mb(amass(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_rc		*
+*     *					*
+*     ***********************************
+      real*8 function psp_rc(i,ia)
+      implicit none
+      integer i,ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+c     psp_rc = rc(i,ia)
+      psp_rc = dbl_mb(rc(1) + i + (lmax_max+1)*(ia-1))
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_atom		*
+*     *					*
+*     ***********************************
+      character*2 function psp_atom(ia)
+      implicit none
+      integer  ia
+
+#include "psp.fh"
+
+      psp_atom = atom(ia)
+      return
+      end
+
+
+*     ***********************************
+*     *                                 *
+*     *            psp_comment          *
+*     *                                 *
+*     ***********************************
+      character*(*) function psp_comment(ia)
+      implicit none
+      integer  ia
+
+#include "psp.fh"
+
+      psp_comment = comment(ia)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_lmmax		*
+*     *					*
+*     ***********************************
+      integer function psp_lmmax(ia)
+      implicit none
+      integer  ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_lmmax = int_mb(lmmax(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *                                 *
+*     *            psp_nprj             *
+*     *                                 *
+*     ***********************************
+      integer function psp_nprj(ia)
+      implicit none
+      integer  ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_nprj  = int_mb(nprj(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *                                 *
+*     *            psp_nprj_max         *
+*     *                                 *
+*     ***********************************
+      integer function psp_nprj_max()
+      implicit none
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+*     **** local variables ****
+      integer ia,nprjmax,nprjtmp
+
+
+      nprjmax = 0
+      do ia=1,npsp
+         nprjtmp = (int_mb(nprj(1)+ia-1))
+         if (nprjtmp.gt.nprjmax) nprjmax = nprjtmp
+      end do
+
+      psp_nprj_max  = nprjmax
+      return
+      end
+
+
+*     ***********************************
+*     *                                 *
+*     *            psp_psp_type         *
+*     *                                 *
+*     ***********************************
+
+      integer function psp_psp_type(ia)
+      implicit none
+      integer  ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_psp_type  = int_mb(psp_type(1)+ia-1)
+      return
+      end
+
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_lmax		*
+*     *					*
+*     ***********************************
+      integer function psp_lmax(ia)
+      implicit none
+      integer  ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_lmax = int_mb(lmax(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_nmax		*
+*     *					*
+*     ***********************************
+      integer function psp_nmax(ia)
+      implicit none
+      integer  ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_nmax = int_mb(nmax(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_locp		*
+*     *					*
+*     ***********************************
+      integer function psp_locp(ia)
+      implicit none
+      integer  ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_locp = int_mb(locp(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_n1dgrid          *
+*     *					*
+*     ***********************************
+      integer function psp_n1dgrid(ia)
+      implicit none
+      integer  ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_n1dgrid = int_mb(n1dgrid(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_n1dbasis         *
+*     *					*
+*     ***********************************
+      integer function psp_n1dbasis(ia)
+      implicit none
+      integer  ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_n1dbasis = int_mb(n1dbasis(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_icut             *
+*     *					*
+*     ***********************************
+      integer function psp_icut(ia)
+      implicit none
+      integer  ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_icut = int_mb(icut(1)+ia-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_nae              *
+*     *					*
+*     ***********************************
+      integer function psp_nae(i,ia)
+      implicit none
+      integer  i,ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_nae =int_mb(nae(1)+(ia-1)*(nmax_max*lmmax_max)+i-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_nps              *
+*     *					*
+*     ***********************************
+      integer function psp_nps(i,ia)
+      implicit none
+      integer  i,ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_nps =int_mb(nps(1)+(ia-1)*(nmax_max*lmmax_max)+i-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_lps              *
+*     *					*
+*     ***********************************
+      integer function psp_lps(i,ia)
+      implicit none
+      integer  i,ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      psp_lps =int_mb(lps(1)+(ia-1)*(nmax_max*lmmax_max)+i-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_eig              *
+*     *					*
+*     ***********************************
+      real*8 function psp_eig(i,ia)
+      implicit none
+      integer  i,ia
+
+#include "mafdecls.fh"
+#include "psp.fh"
+
+      integer  indx
+      integer  psi_data_get_chnk
+      external psi_data_get_chnk
+
+      indx = psi_data_get_chnk(int_mb(eig(1)+ia-1))
+      psp_eig = dbl_mb(indx+i-1)
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   psp_npsp		*
+*     *					*
+*     ***********************************
+      integer function psp_npsp()
+      implicit none
+
+#include "psp.fh"
+
+      psp_npsp = npsp
+      return
+      end
+
+*     ***********************************
+*     *                                 *
+*     *            psp_pawexist         *
+*     *                                 *
+*     ***********************************
+      logical function psp_pawexist()
+      implicit none
+
+#include "psp.fh"
+
+      psp_pawexist = pawexist
+      return
+      end
+
+
+*     **********************************
+*     *                                *
+*     *        grad_v_lr_local         *
+*     *                                *
+*     **********************************
+*
+*     This routine calculates the gradient of the long-range part of the
+*     local pseudopotential (used by version 4)
+*
+*     Entry -
+*     Exit -
+*
+      subroutine grad_v_lr_local(r_grid,rho,fion)
+      implicit none
+      real*8  r_grid(3,*)
+      real*8  rho(*)
+      real*8  fion(3,*)
+
+#include "mafdecls.fh"
+#include "errquit.fh"
+
+*     **** Error function parameters ****
+      real*8  yerf,verf
+c     real*8 c1,c2,c3,c4,c5,c6,yerf,fterf,verf
+c     parameter (c1=0.07052307840d0,c2=0.04228201230d0)
+c     parameter (c3=0.00927052720d0)
+c     parameter (c4=0.00015201430d0,c5=0.00027656720d0)
+c     parameter (c6=0.00004306380d0)
+
+*     **** local variables ****
+      integer ftmp(2)
+      integer taskid_j,np_j
+      integer i,j,np1,np2,np3,n2ft3d,nion
+      real*8 x,y,z,q,c,r,sqrt_pi,dv,v,rx,ry,rz,fx,fy,fz
+
+*     **** external functions ****
+      integer  ion_nion,ion_katm
+      real*8   lattice_omega,ion_rion,psp_rlocal,psp_zv,util_erf
+      external ion_nion,ion_katm
+      external lattice_omega,ion_rion,psp_rlocal,psp_zv,util_erf
+
+      call nwpw_timing_start(5)
+      call Parallel2d_np_j(np_j)
+      call Parallel2d_taskid_j(taskid_j)
+      call D3dB_n2ft3d(1,n2ft3d)
+      nion = ion_nion()
+
+*     **** constants ****
+      sqrt_pi = dsqrt(4.0d0*datan(1.0d0))
+
+      call D3dB_nx(1,np1)
+      call D3dB_ny(1,np2)
+      call D3dB_nz(1,np3)
+      dv = lattice_omega()/dble(np1*np2*np3)
+
+*     ***** allocate temporary space ****
+      if (.not.MA_push_get(mt_dbl,3*nion,'ftmp',ftmp(2),ftmp(1)))
+     > call errquit('grad_v_lr_local:out of stack memory',0, MA_ERR)
+
+      call dcopy(3*nion,0.0d0,0,dbl_mb(ftmp(1)),1)
+      do j=1,nion
+         if (mod(j-1,np_j).eq.taskid_j) then
+            x = ion_rion(1,j)
+            y = ion_rion(2,j)
+            z = ion_rion(3,j)
+            q = -psp_zv(ion_katm(j))
+            c = 1.0d0/psp_rlocal(ion_katm(j))
+            fx = 0.0d0
+            fy = 0.0d0
+            fz = 0.0d0
+            do i=1,n2ft3d
+               rx = x - r_grid(1,i)
+               ry = y - r_grid(2,i)
+               rz = z - r_grid(3,i)
+               r  = dsqrt( rx**2 + ry**2 + rz**2)
+
+               if (r .gt. 1.0d-8) then
+                 yerf=r*c
+c                fterf = (1.0d0
+c    >                 + yerf*(c1 + yerf*(c2
+c    >                 + yerf*(c3 + yerf*(c4
+c    >                 + yerf*(c5 + yerf*c6))))))**4
+c                verf = (1.0d0 - 1.0d0/fterf**4)
+                 verf = util_erf(yerf)
+                 v    = q*( (2.0d0/sqrt_pi)*(r*c)*exp(-(r*c)**2)
+     >                    - verf)/r**3
+               else
+                 v = 0.0d0
+               end if
+
+               fx = fx + rho(i)*rx*v
+               fy = fy + rho(i)*ry*v
+               fz = fz + rho(i)*rz*v
+            end do
+            dbl_mb(ftmp(1)+3*(j-1))   = -fx*dv
+            dbl_mb(ftmp(1)+3*(j-1)+1) = -fy*dv
+            dbl_mb(ftmp(1)+3*(j-1)+2) = -fz*dv
+
+*        fion(1,j) = fion(1,j) - ddot(n2ft3d,rho,1,gv(1,1),3)*dv
+*        fion(2,j) = fion(2,j) - ddot(n2ft3d,rho,1,gv(2,1),3)*dv
+*        fion(3,j) = fion(3,j) - ddot(n2ft3d,rho,1,gv(3,1),3)*dv
+c         call D3dB_SumAll(fx)
+c         call D3dB_SumAll(fy)
+c         call D3dB_SumAll(fz)
+c         fion(1,j) = fion(1,j) - fx*dv
+c         fion(2,j) = fion(2,j) - fy*dv
+c         fion(3,j) = fion(3,j) - fz*dv
+
+         end if
+      end do
+
+      call Parallel_Vector_SumAll(3*nion,dbl_mb(ftmp(1)))
+      call daxpy(3*nion,1.0d0,dbl_mb(ftmp(1)),1,fion,1)
+
+      if (.not.MA_pop_stack(ftmp(2)))
+     > call errquit('grad_v_lr_local:popping stack',1,MA_ERR)
+
+      call nwpw_timing_end(5)
+
+      return
+      end
+
+
+
+
+
+*     ***********************************
+*     *				        *
+*     *	 	   v_lr_local  		*
+*     *					*
+*     ***********************************
+*
+*     This routine calculates the long-range part of the
+*     local pseudopotential (used by version4)
+*
+      subroutine v_lr_local(r_grid,vlr_out)
+      implicit none
+      real*8     r_grid(3,*)
+      real*8     vlr_out(*)
+
+
+*     **** Error function parameters ****
+      real*8 xerf,yerf
+c     real*8 c1,c2,c3,c4,c5,c6,yerf,xerf
+c     parameter (c1=0.07052307840d0,c2=0.04228201230d0)
+c     parameter (c3=0.00927052720d0)
+c     parameter (c4=0.00015201430d0,c5=0.00027656720d0)
+c     parameter (c6=0.00004306380d0)
+
+*     **** local variables ****
+      integer taskid_j,np_j
+      integer i,j,n2ft3d
+      real*8 x,y,z,q,c,r,sqrt_pi
+
+*     **** external functions ****
+      integer  ion_nion,ion_katm
+      real*8   ion_rion,psp_rlocal,psp_zv,util_erf
+      external ion_nion,ion_katm
+      external ion_rion,psp_rlocal,psp_zv,util_erf
+
+      call nwpw_timing_start(5)
+      call Parallel2d_np_j(np_j)
+      call Parallel2d_taskid_j(taskid_j)
+      call D3dB_n2ft3d(1,n2ft3d)
+
+      sqrt_pi = dsqrt(4.0d0*datan(1.0d0))
+      call dcopy(n2ft3d,0.0d0,0,vlr_out,1)
+
+      do j=1,ion_nion()
+         if (mod(j-1,np_j).eq.taskid_j) then
+            x = ion_rion(1,j)
+            y = ion_rion(2,j)
+            z = ion_rion(3,j)
+            q = -psp_zv(ion_katm(j))
+            c = 1.0d0/psp_rlocal(ion_katm(j))
+
+            do i=1,n2ft3d
+               r = dsqrt( (r_grid(1,i)-x)**2
+     >                  + (r_grid(2,i)-y)**2
+     >                  + (r_grid(3,i)-z)**2)
+               if (r .gt. 1.0d-15) then
+                 xerf=r*c
+c                yerf = (1.0d0
+c    >                 + xerf*(c1 + xerf*(c2
+c    >                 + xerf*(c3 + xerf*(c4
+c    >                 + xerf*(c5 + xerf*c6))))))**4
+c                yerf = (1.0d0 - 1.0d0/yerf**4)
+                 yerf = util_erf(xerf)
+                 vlr_out(i) = vlr_out(i) + (q/r)*yerf
+c                vlr_out(i) = vlr_out(i) + (q/r)*erf(r*c)
+               else
+                 vlr_out(i) = vlr_out(i) + 2.0d0*q*c/sqrt_pi
+               end if
+            end do
+
+         end if
+      end do
+      if (np_j.gt.1) call D1dB_Vector_SumAll(n2ft3d,vlr_out)
+
+      call nwpw_timing_end(5)
+
+      return
+      end
+
+
+
+
+
+*     ***********************************
+*     *					*
+*     *	 	   v_local  		*
+*     *					*
+*     ***********************************
+
+      subroutine v_local(vl_out,move,dng,fion)
+      implicit none
+      complex*16 vl_out(*)
+      logical    move
+      complex*16 dng(*)
+      real*8     fion(3,*)
+
+#include "mafdecls.fh"
+#include "errquit.fh"
+#include "psp.fh"
+
+
+*     *** local variables ***
+      integer taskid_j,np_j
+      integer npack0,nion
+      integer i,ii,ia
+      integer exi(2),vtmp(2),xtmp(2),G(3)
+      logical value,periodic,inside
+      real*8  rxyz(3),fxyz(3)
+
+*     **** external functions ****
+      integer  Pack_G_indx,ion_nion,ion_katm,control_version
+      real*8   ion_rion
+      external Pack_G_indx,ion_nion,ion_katm,control_version
+      external ion_rion
+
+      call nwpw_timing_start(5)
+      call Parallel2d_np_j(np_j)
+      call Parallel2d_taskid_j(taskid_j)
+      call Pack_npack(0,npack0)
+      nion     = ion_nion()
+      periodic = (control_version().eq.3)
+
+      value = MA_push_get(mt_dcpl,npack0,'exi', exi(2), exi(1))
+      value = value.and.
+     >        MA_push_get(mt_dcpl,npack0,'vtmp',vtmp(2),vtmp(1))
+      if (.not. value) 
+     >  call errquit('v_local:out of stack memory',0,MA_ERR)
+
+*     **** define Gx,Gy and Gz in packed space ****
+      if (move) then
+         value = MA_push_get(mt_dbl, npack0,'xtmp',xtmp(2),xtmp(1))
+         if (.not. value) 
+     >   call errquit('v_local: out of stack memory',0, MA_ERR)
+         G(1)  = Pack_G_indx(0,1)
+         G(2)  = Pack_G_indx(0,2)
+         G(3)  = Pack_G_indx(0,3)
+         call dcopy(3*nion,0.0d0,0,fion,1)
+      end if
+
+      if (pawexist) 
+     >   call dcopy((2*npack0),0.0d0,0,dcpl_mb(vlpaw_tmp(1)),1)
+
+      call dcopy((2*npack0),0.0d0,0,vl_out,1)
+      do ii=1,nion
+       if (mod(ii-1,np_j).eq.taskid_j) then
+
+          if (.not.periodic) then
+             rxyz(1) = ion_rion(1,ii)
+             rxyz(2) = ion_rion(2,ii)
+             rxyz(3) = ion_rion(3,ii)
+             call lattice_r1_to_frac(1,rxyz,fxyz)
+             inside =((dabs(fxyz(1)).le.0.4d0).and.
+     >                (dabs(fxyz(2)).le.0.4d0).and.
+     >                (dabs(fxyz(3)).le.0.4d0))
+          else
+             inside = .true.
+          end if
+
+          if (inside) then
+           ia=ion_katm(ii)
+
+*          **** structure factor and local pseudopotential ****
+           call strfac_pack(0,ii,dcpl_mb(exi(1)))
+       
+*          **** add to local psp ****
+           call Pack_tc_Mul(0,dbl_mb(vl(1)+npack0*(ia-1)),
+     >                      dcpl_mb(exi(1)),
+     >                      dcpl_mb(vtmp(1)))
+
+           if ((int_mb(psp_type(1)+ia-1).eq.4)) then
+              call Pack_cc_Sum2(0,dcpl_mb(vtmp(1)),
+     >                            dcpl_mb(vlpaw_tmp(1)))
+           else
+              call Pack_cc_Sum2(0,dcpl_mb(vtmp(1)),vl_out)
+           end if
+
+           if (move) then
+#ifndef CRAY
+!DIR$ ivdep
+#endif
+             do i=1,npack0
+                dbl_mb(xtmp(1)+i-1) 
+     >          = dimag(dng(i))* dble(dcpl_mb(vtmp(1)+i-1))
+     >           - dble(dng(i))*dimag(dcpl_mb(vtmp(1)+i-1))
+             end do
+            call Pack_tt_idot(0,dbl_mb(G(1)),dbl_mb(xtmp(1)),fion(1,ii))
+            call Pack_tt_idot(0,dbl_mb(G(2)),dbl_mb(xtmp(1)),fion(2,ii))
+            call Pack_tt_idot(0,dbl_mb(G(3)),dbl_mb(xtmp(1)),fion(3,ii))
+           end if
+          end if
+
+       end if
+      end do
+      if (np_j.gt.1) then
+         call D1dB_Vector_SumAll(2*npack0,vl_out)
+         if (pawexist) 
+     >      call D1dB_Vector_SumAll(2*npack0,dcpl_mb(vlpaw_tmp(2)))
+      end if
+      if (move) call Parallel_Vector_SumAll(3*nion,fion)
+
+      value = .true.
+      if (move) value = value.and.MA_pop_stack(xtmp(2))
+      value = value.and.MA_pop_stack(vtmp(2))
+      value = value.and.MA_pop_stack(exi(2))
+
+      call nwpw_timing_end(5)
+      return 
+      end
+
+
+*     ***********************************
+*     *					*
+*     *	 	   f_vlocal  		*
+*     *					*
+*     ***********************************
+
+      subroutine f_vlocal(dng,fion)
+      implicit none
+      complex*16 dng(*)
+      real*8     fion(3,*)
+
+#include "mafdecls.fh"
+#include "errquit.fh"
+#include "psp.fh"
+
+
+*     *** local variables ***
+      logical value,periodic,inside
+      integer taskid_j,np_j
+      integer npack0,nion
+      integer i,ii,ia
+      integer exi(2),vtmp(2),xtmp(2),G(3)
+c      integer Gx(2),Gy(2),Gz(2)
+      real*8 rxyz(3),fxyz(3)
+
+*     **** external functions ****
+      integer  Pack_G_indx,ion_nion,ion_katm,control_version
+      real*8   ion_rion
+      external Pack_G_indx,ion_nion,ion_katm,control_version
+      external ion_rion
+
+      call nwpw_timing_start(5)
+      call Parallel2d_np_j(np_j)
+      call Parallel2d_taskid_j(taskid_j)
+      call Pack_npack(0,npack0)
+      nion     = ion_nion()
+      periodic = (control_version().eq.3)
+
+      value = MA_push_get(mt_dcpl,npack0,'exi', exi(2), exi(1))
+      value = value.and.
+     >        MA_push_get(mt_dcpl,npack0,'vtmp',vtmp(2),vtmp(1))
+      value = value.and.
+     >        MA_push_get(mt_dbl, npack0,'xtmp',xtmp(2),xtmp(1))
+      if (.not. value) call errquit('out of stack memory',0, MA_ERR)
+
+c     **** define Gx,Gy and Gz in packed space ****
+      G(1)  = Pack_G_indx(0,1)
+      G(2)  = Pack_G_indx(0,2)
+      G(3)  = Pack_G_indx(0,3)
+      call dcopy(3*nion,0.0d0,0,fion,1)
+
+      do ii=1,nion
+         if (mod(ii-1,np_j).eq.taskid_j) then
+
+          if (.not.periodic) then
+             rxyz(1) = ion_rion(1,ii)
+             rxyz(2) = ion_rion(2,ii)
+             rxyz(3) = ion_rion(3,ii)
+             call lattice_r1_to_frac(1,rxyz,fxyz)
+             inside =((dabs(fxyz(1)).le.0.4d0).and.
+     >                (dabs(fxyz(2)).le.0.4d0).and.
+     >                (dabs(fxyz(3)).le.0.4d0))
+          else 
+             inside = .true.
+          endif
+
+          if (inside) then
+           ia=ion_katm(ii)
+
+*          **** structure factor and local pseudopotential ****
+           call strfac_pack(0,ii,dcpl_mb(exi(1)))
+
+*          **** add to local psp ****
+           call Pack_tc_Mul(0,dbl_mb(vl(1)+npack0*(ia-1)),
+     >                      dcpl_mb(exi(1)),
+     >                      dcpl_mb(vtmp(1)))
+
+#ifndef CRAY
+!DIR$ ivdep
+#endif
+            do i=1,npack0
+              dbl_mb(xtmp(1)+i-1) 
+     >        = dimag(dng(i))* dble(dcpl_mb(vtmp(1)+i-1))
+     >         - dble(dng(i))*dimag(dcpl_mb(vtmp(1)+i-1))
+           end do
+           call Pack_tt_idot(0,dbl_mb(G(1)),dbl_mb(xtmp(1)),fion(1,ii))
+           call Pack_tt_idot(0,dbl_mb(G(2)),dbl_mb(xtmp(1)),fion(2,ii))
+           call Pack_tt_idot(0,dbl_mb(G(3)),dbl_mb(xtmp(1)),fion(3,ii))
+          end if
+
+         end if
+      end do
+      call Parallel_Vector_SumAll(3*nion,fion)
+
+      value =           MA_pop_stack(xtmp(2))
+      value = value.and.MA_pop_stack(vtmp(2))
+      value = value.and.MA_pop_stack(exi(2))
+
+      call nwpw_timing_end(5)
+      return 
+      end
+
+
+
+
+*     ***********************************
+*     *					*
+*     *	 	   v_nonlocal_old       *
+*     *					*
+*     ***********************************
+
+*    This routine computes the Kleinman-Bylander non-local 
+* pseudopotential projection.
+*
+*  Note - This routine was restructured 5-13-2002 to improve
+*         parallel efficiency.
+*
+      subroutine v_nonlocal_old(ispin,ne,psi1,psi2,move,fion,
+     >                          fractional,occ)
+      implicit none
+      integer    ispin,ne(2)
+      complex*16 psi1(*)
+      complex*16 psi2(*)
+      logical move
+      real*8 fion(3,*)
+      logical fractional
+      real*8 occ(*)
+
+#include "mafdecls.fh"
+#include "psp.fh"
+#include "errquit.fh"
+
+
+*     *** local variables ***
+      integer G(3),npack1,nion,nu
+      integer i,j,ii,ia,l,n,nn
+      integer k,shift,l_prj,nproj,Gijl_indx
+      real*8  omega,scal,ff(3)
+      complex*16 ctmp
+      integer exi(2),xtmp(2),sw1(2),sw2(2),sw3(2),sum(2)
+      logical value,sd_function
+      real*8 vmm(50)
+      integer ld_ptr
+
+*     **** external functions ****
+      logical  is_sORd
+      integer  ion_nion,ion_katm,Pack_G_indx
+      integer  psi_data_get_ptr,psi_data_get_chnk
+      real*8   lattice_omega
+      external is_sORd
+      external ion_nion,ion_katm,Pack_G_indx
+      external psi_data_get_ptr,psi_data_get_chnk
+      external lattice_omega
+
+      call nwpw_timing_start(6) 
+
+*     **** allocate local memory ****
+      nion = ion_nion()
+      nn = ne(1)+ne(2)
+      call Pack_npack(1,npack1)
+
+      value = MA_push_get(mt_dcpl,npack1,'exi', exi(2), exi(1))
+      value = value.and.
+     >   MA_push_get(mt_dbl,nn*nprj_max*nprj_mult,'sw1',sw1(2),sw1(1))
+      value = value.and.
+     >   MA_push_get(mt_dbl,nn*nprj_max*nprj_mult,'sw2',sw2(2),sw2(1))
+      if (.not.value) 
+     >  call errquit('v_nonlocal: out of stack',0, MA_ERR)
+
+      if (move) then
+       value = value.and.MA_push_get(mt_dbl,npack1,
+     >                               'xtmp',xtmp(2),xtmp(1))
+       value = value.and.MA_push_get(mt_dbl,3*nn,'sum',sum(2),sum(1))
+       if (.not. value) 
+     >  call errquit('v_nonlocal:out of stack memory',1,MA_ERR)
+
+       G(1)  = Pack_G_indx(1,1)
+       G(2)  = Pack_G_indx(1,2)
+       G(3)  = Pack_G_indx(1,3)
+      end if
+
+      omega = lattice_omega()
+      scal = 1.0d0/(omega)
+
+      do ii=1,nion
+        ia=ion_katm(ii)
+
+        nproj = int_mb(nprj(1)+ia-1)
+
+        if (nproj.gt.0) then
+
+*       **** structure factor and local pseudopotential ****
+c        call strfac(ii,dcpl_mb(exi(1)))
+c        call Pack_c_pack(1,dcpl_mb(exi(1)))
+        call strfac_pack(1,ii,dcpl_mb(exi(1)))
+
+
+*       **** generate sw1's and projectors ****
+        do l=1,nproj
+
+           !shift = vnl(1)+(l-1)*npack1+(ia-1)*npack1*nmax_max*lmmax_max
+           shift = psi_data_get_ptr(int_mb(vnl(1)+ia-1),l)
+           l_prj = int_mb(l_projector(1)+(l-1) 
+     >                                  + (ia-1)*(nmax_max*lmmax_max))
+
+
+           !sd_function = .not.and(l_prj,1)
+#ifdef GCC4
+           k = iand(l_prj,1)
+#else
+           k = and(l_prj,1)
+#endif
+           sd_function = (k.eq.0)
+
+*          **** phase factor does not matter therefore ****
+*          **** (-i)^l is the same as (i)^l in the     ****
+*          **** Rayleigh scattering formula            ****
+
+
+*          *** current function is s or d ****
+           if (sd_function) then
+              call Pack_tc_Mul(1,dbl_mb(shift),
+     >                           dcpl_mb(exi(1)),
+     >                           dcpl_mb(prjtmp(1)+(l-1)*npack1))
+
+*          *** current function is p or f ****
+           else
+              call Pack_tc_iMul(1,dbl_mb(shift),
+     >                           dcpl_mb(exi(1)),
+     >                           dcpl_mb(prjtmp(1)+(l-1)*npack1))
+
+           end if
+           call Pack_cc_indot(1,nn,
+     >                      psi1,
+     >                      dcpl_mb(prjtmp(1)+(l-1)*npack1),
+     >                      dbl_mb(sw1(1)+(l-1)*nn))
+
+*           ***** scale psp by factor - used for generating antiferromagnetic structures ****
+*           **** nwchem input: pspspin up/down scale l ion_numbers                       ****
+            if (pspspin) then
+               if (log_mb(pspspin_upions(1)+ii-1).and.
+     >            (l_prj.eq.pspspin_upl))
+     >            call dscal(ne(1),pspspin_upscale,
+     >                       dbl_mb(sw1(1)+(l-1)*nn),1)
+               if (log_mb(pspspin_downions(1)+ii-1).and.
+     >            (l_prj.eq.pspspin_downl))
+     >            call dscal(ne(2),pspspin_downscale,
+     >                       dbl_mb(sw1(1)+(l-1)*nn+ne(1)),1)
+            end if
+        end do
+        call D3dB_Vector_SumAll((nn*nproj),dbl_mb(sw1(1)))
+
+
+*       **** sw2 = Gijl*sw1 ******
+        Gijl_indx = psi_data_get_ptr(int_mb(Gijl(1)+ia-1),1)
+        call Multiply_Gijl_sw1(nn,
+     >                         nproj,
+     >                         int_mb(nmax(1)+ia-1),
+     >                         int_mb(lmax(1)+ia-1),
+     >                         int_mb(n_projector(1)
+     >                                + (ia-1)*(nmax_max*lmmax_max)),
+     >                         int_mb(l_projector(1)
+     >                                + (ia-1)*(nmax_max*lmmax_max)),
+     >                         int_mb(m_projector(1)
+     >                                + (ia-1)*(nmax_max*lmmax_max)),
+     >                         dbl_mb(Gijl_indx),
+     >                         dbl_mb(sw1(1)),
+     >                         dbl_mb(sw2(1)))
+
+*       **** do Kleinman-Bylander Multiplication ****
+        !scal = 1.0d0/(omega)
+        call dscal(nn*int_mb(nprj(1)+ia-1),
+     >             scal,dbl_mb(sw2(1)),1)
+
+*       **** add xc and coulomb paw parts to sw2 ***
+        if ((int_mb(psp_type(1)+ia-1).eq.4)) then
+
+*          **** sw2 = sw2 + Vxcijl*sw1 ******
+           call nwpw_xc_solve(ii,ia,
+     >        int_mb(n1dgrid(1)+ia-1),
+     >        int_mb(n1dbasis(1)+ia-1),
+     >        dbl_mb(psi_data_get_chnk(int_mb(phi_ae(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(phi_ps(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(dphi_ae(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(dphi_ps(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(core_ae(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(core_ps(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(core_ae_prime(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(core_ps_prime(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(rgrid(1)+ia-1))),
+     >        dbl_mb(log_amesh(1)+ia-1),
+     >        ispin,ne,int_mb(nprj(1)+ia-1),
+     >        dbl_mb(sw1(1)),dbl_mb(sw2(1)))
+
+        end if
+
+        call DGEMM('N','T',2*npack1,nn,int_mb(nprj(1)+ia-1),
+     >             (-1.0d0),
+     >             dcpl_mb(prjtmp(1)), 2*npack1,
+     >             dbl_mb(sw2(1)),     nn,
+     >             (1.0d0),
+     >             psi2,               2*npack1)
+
+
+        if (move) then
+        do l=1,nproj
+             do n=1,nn
+                if (ispin.eq.1) 
+     >            dbl_mb(sw2(1)+n-1+(l-1)*nn)
+     >            =2.0d0*dbl_mb(sw2(1)+n-1+(l-1)*nn) !// change
+
+#ifndef CRAY
+!DIR$ ivdep
+#endif
+                do i=1,npack1
+                   ctmp = psi1(i+(n-1)*npack1)
+     >                  *dconjg(dcpl_mb(prjtmp(1)+(l-1)*npack1 + i-1))
+                   dbl_mb(xtmp(1)+i-1) = dimag(ctmp)
+                end do
+                call Pack_tt_idot(1,dbl_mb(G(1)),dbl_mb(xtmp(1)),
+     >                            dbl_mb(sum(1)+3*(n-1)))
+                call Pack_tt_idot(1,dbl_mb(G(2)),dbl_mb(xtmp(1)),
+     >                            dbl_mb(sum(1)+1+3*(n-1)))
+                call Pack_tt_idot(1,dbl_mb(G(3)),dbl_mb(xtmp(1)),
+     >                            dbl_mb(sum(1)+2+3*(n-1)))
+
+             end do
+
+             call D3dB_Vector_SumAll(3*(nn),dbl_mb(sum(1)))
+
+             !**** fractional weighting ****
+             if (fractional) then
+              do n=1,nn
+               call Dneall_qton(n,i)
+               dbl_mb(sum(1)+3*(n-1))=dbl_mb(sum(1)+3*(n-1))*occ(i)
+               dbl_mb(sum(1)+1+3*(n-1))=dbl_mb(sum(1)+1+3*(n-1))*occ(i)
+               dbl_mb(sum(1)+2+3*(n-1))=dbl_mb(sum(1)+2+3*(n-1))*occ(i)
+              end do
+             end if
+  
+             ff(1) = 0.0d0
+             ff(2) = 0.0d0
+             ff(3) = 0.0d0
+             do n=1,nn
+                ff(1) = ff(1) + 2.0d0*dbl_mb(sw2(1)+n-1+(l-1)*nn) !// change
+     >                               *dbl_mb(sum(1)+  3*(n-1))
+                ff(2) = ff(2) + 2.0d0*dbl_mb(sw2(1)+n-1+(l-1)*nn) !// change
+     >                               *dbl_mb(sum(1)+1+3*(n-1))
+                ff(3) = ff(3) + 2.0d0*dbl_mb(sw2(1)+n-1+(l-1)*nn) !// change
+     >                               *dbl_mb(sum(1)+2+3*(n-1))
+             end do
+             call D1dB_Vector_SumAll(3,ff)
+             fion(1,ii) = fion(1,ii)  + ff(1)
+             fion(2,ii) = fion(2,ii)  + ff(2)
+             fion(3,ii) = fion(3,ii)  + ff(3)
+       
+        end do !** l **
+        end if !** move **
+
+
+        end if !** nproj>0 **
+      end do !** ii **
+
+      value = .true.
+      if (move) then
+      value = value.and.MA_pop_stack(sum(2))
+      value = value.and.MA_pop_stack(xtmp(2))
+      end if
+      value = value.and.MA_pop_stack(sw2(2))
+      value = value.and.MA_pop_stack(sw1(2))
+      value = value.and.MA_pop_stack(exi(2))
+      if (.not.value) call errquit('v_nonlocal: popping stack',3,
+     &       MA_ERR)
+      call nwpw_timing_end(6)
+
+      return 
+      end
+
+
+*     ***********************************
+*     *					*
+*     *	       v_nonlocal               *
+*     *					*
+*     ***********************************
+
+*    This routine computes the Kleinman-Bylander non-local 
+* pseudopotential projection.
+*
+*  Note - This routine was restructured 12-1-2013 to handle PAW operators.
+*
+*  To Do -  For very large numbers of atoms the code will need to be restructured
+*           to distribute the sw1a and sw2a matrices over np_i.  Basically, if the orthogonalization matrices
+*           need to be distributed then sw1a and sw2a will need to be distributed as well.  A simple algorithm
+*           to do this will be to keep the loop structure the same but instead of the
+*           call to D3dB_Vector_SumAll(nn*n_prj_indx,dbl_mb(sw1a(1))), this will need to be, 
+*           changed to D3dB_Vector_SumAll(nn*nproj,dbl_mb(sw1(1))) and then place sw1 --> sw1a(distributed)
+*
+      subroutine v_nonlocal(ispin,ne,psi1,psi2,move,fion,
+     >                      fractional,occ)
+      implicit none
+      integer    ispin,ne(2)
+      complex*16 psi1(*)
+      complex*16 psi2(*)
+      logical move
+      real*8 fion(3,*)
+      logical fractional
+      real*8 occ(*)
+
+#include "mafdecls.fh"
+#include "psp.fh"
+#include "errquit.fh"
+
+*     *** local variables ***
+      integer pcount,taskid_j,np_j
+      integer G(3),npack0,npack1,nion,nu,mult_l,m,ms
+      integer i,j,ii,ia,l,n,nn,l1,ip,iip,iipmax,jp,swstart
+      integer k,shift,l_prj,nproj,Gijl_indx
+      integer nx,ny,nz
+      real*8  omega,scal,ff(3),scal1
+      complex*16 ctmp
+      integer exi(2),xtmp(2),sum(2)
+      integer dng_cmp(2),dng_cmp_smooth(2)
+      integer vcmp(2),vcmp_smooth(2)
+      logical value,sd_function,periodic
+      real*8 vmm(50),eh_atom
+      integer ld_ptr
+
+*     **** external functions ****
+      logical  is_sORd
+      integer  ion_nion,ion_katm,Pack_G_indx
+      integer  psi_data_get_ptr,psi_data_get_chnk
+      real*8   lattice_omega,ddot
+      external is_sORd
+      external ion_nion,ion_katm,Pack_G_indx
+      external psi_data_get_ptr,psi_data_get_chnk
+      external lattice_omega,ddot
+      integer  nwpw_compcharge_mult_l,control_version
+      external nwpw_compcharge_mult_l,control_version
+      real*8   nwpw_compcharge_Qlm
+      external nwpw_compcharge_Qlm
+
+      call nwpw_timing_start(6) 
+
+      periodic = (control_version().eq.3)
+      call Parallel2d_taskid_j(taskid_j)
+      call Parallel2d_np_j(np_j)
+
+*     **** allocate local memory ****
+      nion = ion_nion()
+      nn = ne(1)+ne(2)
+      call Pack_npack(1,npack1)
+
+      call psp_prj_indx_alloc_sw1a_sw2a(nn)
+      value = MA_push_get(mt_dcpl,npack1,'exi',exi(2), exi(1))
+      if (.not.value) 
+     >  call errquit('v_nonlocal:out of stack',0, MA_ERR)
+
+      if (move) then
+       value = value.and.MA_push_get(mt_dbl,npack1,
+     >                               'xtmp',xtmp(2),xtmp(1))
+       value = value.and.MA_push_get(mt_dbl,3*nn,'sum',sum(2),sum(1))
+       if (.not. value) 
+     >  call errquit('v_nonlocal:out of stack',1,MA_ERR)
+
+       G(1)  = Pack_G_indx(1,1)
+       G(2)  = Pack_G_indx(1,2)
+       G(3)  = Pack_G_indx(1,3)
+      end if
+
+      omega = lattice_omega()
+      scal = 1.0d0/(omega)
+
+
+      jp = 0
+      do ip=1,nion_prj_indx
+         ii          = int_mb(ii_prj_indx(1)+ip-1)
+         ia          = int_mb(ia_prj_indx(1)+ip-1)
+         nproj       = int_mb(nproj_prj_indx(1)+ip-1)
+
+*        **** structure factor and local pseudopotential ****
+         call strfac_pack(1,ii,dcpl_mb(exi(1)))
+
+         do l=1,nproj
+            shift       = int_mb(shift_prj_indx(1)+jp)
+            sd_function = log_mb(sd_function_prj_indx(1)+jp)
+            jp = jp + 1
+
+*           **** phase factor does not matter therefore ****
+*           **** (-i)^l is the same as (i)^l in the     ****
+*           **** Rayleigh scattering formula            ****
+
+*           *** current function is s or d ****
+            if (sd_function) then
+               call Pack_tc_Mul(1,dbl_mb(shift),
+     >                            dcpl_mb(exi(1)),
+     >                            dcpl_mb(prjtmp(1)))
+
+*           *** current function is p or f ****
+            else
+               call Pack_tc_iMul(1,dbl_mb(shift),
+     >                            dcpl_mb(exi(1)),
+     >                            dcpl_mb(prjtmp(1)))
+
+            end if
+            call Pack_cc_indot(1,nn,
+     >                       psi1,
+     >                       dcpl_mb(prjtmp(1)),
+     >                       dbl_mb(sw1a(1)+(jp-1)*nn))
+         end do
+      end do
+      call D3dB_Vector_SumAll(nn*n_prj_indx,dbl_mb(sw1a(1)))
+
+
+*     **** Compute sw2  ****
+      eh_atom = 0.0d0
+      do ip=1,nion_prj_indx
+         ii          = int_mb(ii_prj_indx(1)+ip-1)
+         ia          = int_mb(ia_prj_indx(1)+ip-1)
+         nproj       = int_mb(nproj_prj_indx(1)+ip-1)
+         swstart     = int_mb(swstart_prj_indx(1)+ip-1)
+
+
+*        **** sw2 = Gijl*sw1 ******
+         Gijl_indx = psi_data_get_ptr(int_mb(Gijl(1)+ia-1),1)
+         call Multiply_Gijl_sw1(nn,
+     >                          nproj,
+     >                          int_mb(nmax(1)+ia-1),
+     >                          int_mb(lmax(1)+ia-1),
+     >                          int_mb(n_projector(1)
+     >                                 + (ia-1)*(nmax_max*lmmax_max)),
+     >                          int_mb(l_projector(1)
+     >                                 + (ia-1)*(nmax_max*lmmax_max)),
+     >                          int_mb(m_projector(1)
+     >                                 + (ia-1)*(nmax_max*lmmax_max)),
+     >                          dbl_mb(Gijl_indx),
+     >                          dbl_mb(sw1a(1)+swstart*nn),
+     >                          dbl_mb(sw2a(1)+swstart*nn))
+
+     
+*        **** paw operations #1 - generate it's compcharge, add atomic coulomb, and add xc potential ****
+         if ((int_mb(psp_type(1)+ia-1).eq.4)) then
+
+*           **** paw atom - generate it's atomic density matrix ****
+            call psp_gen_density_matrix(ispin,ne,nproj,
+     >                                  dbl_mb(sw1a(1)+swstart*nn),
+     >                                  dbl_mb(wtmp(1)))
+
+*           **** paw atom - generate it's compcharge ***
+            call nwpw_compcharge_gen_Qlm(ii,ia,ispin,nproj,
+     >                                   dbl_mb(wtmp(1)))
+
+*           **** atomic coulomb matrix - sw2 = sw2 + Vhatomijl*sw1  ****
+            call nwpw_compcharge_coulomb_atom(ii,ia,ispin,ne,nproj,
+     >                                   dbl_mb(wtmp(1)),
+     >                                   dbl_mb(sw1a(1)+swstart*nn),
+     >                                   dbl_mb(sw2a(1)+swstart*nn),
+     >                                   eh_atom)
+c            write(*,*) "eh_atom=",ip,ii,eh_atom
+
+*           **** xc matrix - sw2 = sw2 + Vxcijl*sw1 ******
+            call nwpw_xc_solve(ii,ia,
+     >        int_mb(n1dgrid(1)+ia-1),
+     >        int_mb(n1dbasis(1)+ia-1),
+     >        dbl_mb(psi_data_get_chnk(int_mb(phi_ae(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(phi_ps(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(dphi_ae(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(dphi_ps(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(core_ae(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(core_ps(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(core_ae_prime(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(core_ps_prime(1)+ia-1))),
+     >        dbl_mb(psi_data_get_chnk(int_mb(rgrid(1)+ia-1))),
+     >        dbl_mb(log_amesh(1)+ia-1),
+     >        ispin,ne,nproj,
+     >        dbl_mb(sw1a(1)+swstart*nn),dbl_mb(sw2a(1)+swstart*nn))
+
+         end if
+      end do
+
+
+*     **** paw operations #2 - generate vcmp,.... and Gaussian Multipole  ****
+      if (pawexist) then
+         call D3dB_nx(1,nx)
+         call D3dB_ny(1,ny)
+         call D3dB_nz(1,nz)
+         scal1 = 1.0d0/dble(nx*ny*nz)
+
+         if (periodic) then
+            call Pack_npack(0,npack0)
+         else
+            call D3dB_nfft3d(1,npack0)
+         end if
+
+*        **** zero out dE/dQlm array ****
+         call nwpw_compcharge_zero_dE_Qlm()
+
+         if (use_grid_cmp) then
+            value = MA_push_get(mt_dcpl,npack0,'dng_cmp',
+     >                          dng_cmp(2),dng_cmp(1))
+            value = value.and.
+     >              MA_push_get(mt_dcpl,npack0,'vcmp',
+     >                          vcmp(2),vcmp(1))
+            if (.not.value) 
+     >      call errquit('v_nonlocal:out of stack',4, MA_ERR)
+
+            call nwpw_compcharge_gen_zv_cmp(dbl_mb(zv(1)),
+     >                                      dcpl_mb(dng_cmp(1)))
+            call coulomb_v(dcpl_mb(dng_cmp(1)),dcpl_mb(vcmp_tmp(1)))
+            call Pack_cc_dot(0,dcpl_mb(dng_cmp(1)),
+     >                         dcpl_mb(vcmp_tmp(1)),ff(1))
+c            write(*,*) "e_i-i=",0.5d0*ff(1)
+
+            call nwpw_compcharge_gen_dn_cmp(ispin,dcpl_mb(dng_cmp(1)))
+
+c            call nwpw_compcharge_gen_dn_cmp_zv(ispin,dbl_mb(zv(1)),
+c     >                                         dcpl_mb(dng_cmp(1)))
+
+            call coulomb_v(dcpl_mb(dng_cmp(1)),dcpl_mb(vcmp_tmp(1)))
+            call Pack_cc_Sum(0,
+     >                       dcpl_mb(vc_tmp(1)),
+     >                       dcpl_mb(vcmp_tmp(1)),
+     >                       dcpl_mb(vcmp(1)))
+
+            pcount = 0
+            do ip=1,nion_prj_indx
+               ii          = int_mb(ii_prj_indx(1)+ip-1)
+               ia          = int_mb(ia_prj_indx(1)+ip-1)
+               if ((int_mb(psp_type(1)+ia-1).eq.4)) then
+                  mult_l = nwpw_compcharge_mult_l(ia)
+                  do l=0,mult_l
+                  do m=-l,l
+                     if (mod(pcount,np_j).eq.taskid_j) then
+                        call nwpw_compcharge_gen_glm(ii,l,m,
+     >                                      dcpl_mb(dng_cmp(1)))
+                        call Pack_cc_idot(0,dcpl_mb(dng_cmp(1)),
+     >                                      dcpl_mb(vcmp(1)),ff(1))
+c                        write(*,*) "ff=",ff(1)*omega
+                        call nwpw_compcharge_add_dE_Qlm(ispin,ii,l,m,
+     >                                                  ff(1)*omega)
+                     end if
+                     pcount = pcount + 1
+                  end do
+                  end do
+               end if
+            end do
+            value =           MA_pop_stack(vcmp(2))
+            value = value.and.MA_pop_stack(dng_cmp(2))
+            if (.not.value) 
+     >      call errquit('v_nonlocal:popping stack',4, MA_ERR)
+
+         else
+
+            call nwpw_compcharge_add_dEmult_Qlm(ispin)
+
+            value = MA_push_get(mt_dcpl,npack0,'dng_cmp',
+     >                          dng_cmp(2),dng_cmp(1))
+            value = value.and.
+     >              MA_push_get(mt_dcpl,npack0,'dng_cmp_smooth',
+     >                          dng_cmp_smooth(2),dng_cmp_smooth(1))
+            value = value.and.
+     >              MA_push_get(mt_dcpl,npack0,'vcmp',
+     >                          vcmp(2),vcmp(1))
+            value = value.and.
+     >              MA_push_get(mt_dcpl,npack0,'vcmp_smooth',
+     >                          vcmp_smooth(2),vcmp_smooth(1))
+            if (.not.value) 
+     >        call errquit('v_nonlocal:out of stack',4, MA_ERR)
+
+            call nwpw_compcharge_gen_dn_cmp2_zv(ispin,dbl_mb(zv(1)),
+     >                                       dcpl_mb(dng_cmp(1)),
+     >                                       dcpl_mb(dng_cmp_smooth(1)))
+
+            !*** compute hartree potential of ntilde + ncmp_tilde ***
+            !*** compute hartree potential ncmp   - ncmp_tilde ***
+            if (periodic) then
+               call coulomb_v(dcpl_mb(dng_cmp(1)),dcpl_mb(vcmp(1)))
+               call coulomb_v(dcpl_mb(dng_cmp_smooth(1)),
+     >                        dcpl_mb(vcmp_smooth(1)))
+
+               call Pack_c_Copy(0,dcpl_mb(vcmp(1)),dcpl_mb(vcmp_tmp(1)))
+               call Pack_cc_Sub(0,dcpl_mb(vcmp_tmp(1)),
+     >                            dcpl_mb(vcmp_smooth(1)),
+     >                            dcpl_mb(vcmp(1)))
+               call Pack_cc_Sum2(0,dcpl_mb(vc_tmp(1)),
+     >                             dcpl_mb(vcmp_smooth(1)))
+ 
+
+            else
+c               call Pack_c_unpack(0,dcpl_mb(dng_cmp(1)))
+c               call D3dB_cr_fft3b(1,dcpl_mb(dng_cmp(1)))
+c               call coulomb2_v(dcpl_mb(dng_cmp(1)),dcpl_mb(vcmp(1)))
+c               call D3dB_r_SMul1(1,scal1,dcpl_mb(vcmp(1)))
+c               call D3dB_rc_fft3f(1,dcpl_mb(vcmp(1)))
+c               call Pack_c_pack(0,dcpl_mb(vcmp(1)))
+c            
+c               call Pack_c_unpack(0,dcpl_mb(dng_cmp_smooth(1)))
+c               call D3dB_cr_fft3b(1,dcpl_mb(dng_cmp_smooth(1)))
+c               call coulomb2_v(dcpl_mb(dng_cmp_smooth(1)),
+c     >                        dcpl_mb(vcmp_smooth(1)))
+c               call D3dB_r_SMul1(1,scal1,dcpl_mb(vcmp(1)))
+c               call D3dB_rc_fft3f(1,dcpl_mb(vcmp_smooth(1)))
+c               call Pack_c_pack(0,dcpl_mb(vcmp_smooth(1)))
+            end if
+         
+
+            pcount = 0
+            do ip=1,nion_prj_indx
+               ii          = int_mb(ii_prj_indx(1)+ip-1)
+               ia          = int_mb(ia_prj_indx(1)+ip-1)
+               if ((int_mb(psp_type(1)+ia-1).eq.4)) then
+                  mult_l = nwpw_compcharge_mult_l(ia)
+                  do l=0,mult_l
+                  do m=-l,l
+                     if (mod(pcount,np_j).eq.taskid_j) then
+                        call nwpw_compcharge_gen_glm2(ii,l,m,
+     >                           dcpl_mb(dng_cmp(1)),
+     >                           dcpl_mb(dng_cmp_smooth(1)))
+                        call Pack_cc_idot(0,
+     >                                    dcpl_mb(dng_cmp(1)),
+     >                                    dcpl_mb(vcmp_smooth(1)),
+     >                                    ff(1))
+                        call Pack_cc_idot(0,
+     >                                    dcpl_mb(dng_cmp_smooth(1)),
+     >                                    dcpl_mb(vcmp(1)),
+     >                                    ff(2))
+c                        write(*,*) "ff=",ff(1)*omega,ff(2)*omega
+                        call nwpw_compcharge_add_dE_Qlm(ispin,ii,l,m,
+     >                                           (ff(1)+ff(2))*omega)
+                     end if
+                     pcount = pcount + 1
+                  end do
+                  end do
+               end if
+            end do
+
+            value =           MA_pop_stack(vcmp_smooth(2))
+            value = value.and.MA_pop_stack(vcmp(2))
+            value = value.and.MA_pop_stack(dng_cmp_smooth(2))
+            value = value.and.MA_pop_stack(dng_cmp(2))
+            if (.not.value) 
+     >        call errquit('v_nonlocal:popping stack',5,MA_ERR)
+         end if
+
+         call nwpw_compcharge_reduce_dE_Qlm()
+
+         do ip=1,nion_prj_indx
+            ii          = int_mb(ii_prj_indx(1)+ip-1)
+            ia          = int_mb(ia_prj_indx(1)+ip-1)
+            nproj       = int_mb(nproj_prj_indx(1)+ip-1)
+            swstart     = int_mb(swstart_prj_indx(1)+ip-1)
+            call nwpw_compcharge_gen_sw2(ii,ia,ispin,ne,nproj,
+     >                                   dbl_mb(sw1a(1)+swstart*nn),
+     >                                   dbl_mb(sw2a(1)+swstart*nn))
+         end do
+     
+
+      end if
+
+
+*     **** do Kleinman-Bylander Multiplication ****
+      call dscal(nn*n_prj_indx,scal,dbl_mb(sw2a(1)),1)
+
+*     **** apply the sw2 to psi ****
+      jp  = 0
+      do iip=1,nion_prj_indx,nprj_mult 
+
+         swstart = int_mb(swstart_prj_indx(1)+iip-1)
+         l1      = 0
+         iipmax  = (iip+nprj_mult-1)
+         if (iipmax.gt.nion_prj_indx) iipmax = nion_prj_indx
+
+         do ip=iip,iipmax
+            ii    = int_mb(ii_prj_indx(1)+ip-1)
+            ia    = int_mb(ia_prj_indx(1)+ip-1)
+            nproj = int_mb(nproj_prj_indx(1)+ip-1)
+
+*           **** structure factor and local pseudopotential ****
+            call strfac_pack(1,ii,dcpl_mb(exi(1)))
+
+            do l=1,nproj
+               shift       = int_mb(shift_prj_indx(1)+jp)
+               l_prj       = int_mb(l_prj_prj_indx(1)+jp)
+               sd_function = log_mb(sd_function_prj_indx(1)+jp)
+               jp = jp + 1
+
+*              **** phase factor does not matter therefore ****
+*              **** (-i)^l is the same as (i)^l in the     ****
+*              **** Rayleigh scattering formula            ****
+
+*              *** current function is s or d ****
+               if (sd_function) then
+                  call Pack_tc_Mul(1,dbl_mb(shift),
+     >                               dcpl_mb(exi(1)),
+     >                               dcpl_mb(prjtmp(1)+l1*npack1))
+
+*              *** current function is p or f ****
+               else
+                  call Pack_tc_iMul(1,dbl_mb(shift),
+     >                               dcpl_mb(exi(1)),
+     >                               dcpl_mb(prjtmp(1)+l1*npack1))
+               end if
+
+*              ***** scale (sw2a) psp by factor - used for generating antiferromagnetic structures ****
+*              **** nwchem input: pspspin up/down scale l ion_numbers                              ****
+               if (pspspin) then
+                  if (log_mb(pspspin_upions(1)+ii-1).and.
+     >               (l_prj.eq.pspspin_upl))
+     >            call dscal(ne(1),pspspin_upscale,
+     >                       dbl_mb(sw2a(1)+(swstart+l-1)*nn),1)
+                  if (log_mb(pspspin_downions(1)+ii-1).and.
+     >               (l_prj.eq.pspspin_downl))
+     >            call dscal(ne(2),pspspin_downscale,
+     >                       dbl_mb(sw2a(1)+(swstart+l-1)*nn+ne(1)),1)
+               end if
+
+               l1 = l1 + 1
+            end do
+         end do
+
+         call DGEMM('N','T',2*npack1,nn,l1,
+     >             (-1.0d0),
+     >             dcpl_mb(prjtmp(1)), 2*npack1,
+     >             dbl_mb(sw2a(1)+swstart*nn),   nn,
+     >             (1.0d0),
+     >             psi2,               2*npack1)
+
+
+         if (move) then
+           l1 = 0
+           do ip=iip,iipmax
+              ii    = int_mb(ii_prj_indx(1)+ip-1)
+              ia    = int_mb(ia_prj_indx(1)+ip-1)
+              nproj = int_mb(nproj_prj_indx(1)+ip-1)
+
+              do l=1,nproj
+                 do n=1,nn
+                    call Pack_cct_iconjgMul(1,
+     >                                 dcpl_mb(prjtmp(1)+l1*npack1),
+     >                                 psi1(1+(n-1)*npack1),
+     >                                 dbl_mb(xtmp(1)))
+                   call Pack_tt_idot(1,dbl_mb(G(1)),dbl_mb(xtmp(1)),
+     >                               dbl_mb(sum(1)+3*(n-1)))
+                   call Pack_tt_idot(1,dbl_mb(G(2)),dbl_mb(xtmp(1)),
+     >                               dbl_mb(sum(1)+1+3*(n-1)))
+                   call Pack_tt_idot(1,dbl_mb(G(3)),dbl_mb(xtmp(1)),
+     >                               dbl_mb(sum(1)+2+3*(n-1)))
+
+                 end do
+                 call D3dB_Vector_SumAll(3*(nn),dbl_mb(sum(1)))
+
+                 !**** fractional weighting ****
+                 if (fractional) then
+                  do n=1,nn
+                   call Dneall_qton(n,i)
+                   dbl_mb(sum(1)+3*(n-1))  
+     >                =dbl_mb(sum(1)  +3*(n-1))*occ(i)
+                   dbl_mb(sum(1)+1+3*(n-1))
+     >                =dbl_mb(sum(1)+1+3*(n-1))*occ(i)
+                   dbl_mb(sum(1)+2+3*(n-1))
+     >                =dbl_mb(sum(1)+2+3*(n-1))*occ(i)
+                  end do
+                 end if
+ 
+c                 ff(1) = 0.0d0
+c                 ff(2) = 0.0d0
+c                 ff(3) = 0.0d0
+c                 do n=1,nn
+c                    ff(1) = ff(1) + 2.0d0*dbl_mb(sw2a(1)+swstart*nn+n-1+(l-1)*nn) !// change
+c     >                                   *dbl_mb(sum(1)+  3*(n-1))
+c                    ff(2) = ff(2) + 2.0d0*dbl_mb(sw2a(1)+swstart*nn+n-1+(l-1)*nn) !// change
+c     >                                   *dbl_mb(sum(1)+1+3*(n-1))
+c                    ff(3) = ff(3) + 2.0d0*dbl_mb(sw2a(1)+swstart*nn+n-1+(l-1)*nn) !// change
+c     >                                   *dbl_mb(sum(1)+2+3*(n-1))
+c                 end do
+                 ff(1) =2.0d0*ddot(nn,dbl_mb(sw2a(1)+(swstart+l1)*nn),1,
+     >                                dbl_mb(sum(1)),3)
+                 ff(2) =2.0d0*ddot(nn,dbl_mb(sw2a(1)+(swstart+l1)*nn),1,
+     >                                dbl_mb(sum(1)+1),3)
+                 ff(3) =2.0d0*ddot(nn,dbl_mb(sw2a(1)+(swstart+l1)*nn),1,
+     >                                dbl_mb(sum(1)+2),3)
+                 call D1dB_Vector_SumAll(3,ff)
+                 fion(1,ii) = fion(1,ii)  + ff(1)*(3-ispin)
+                 fion(2,ii) = fion(2,ii)  + ff(2)*(3-ispin)
+                 fion(3,ii) = fion(3,ii)  + ff(3)*(3-ispin)
+
+                 l1 = l1 + 1
+              end do !** l **
+           end do !** ip **
+         end if !** move **
+
+      end do
+
+      value = .true.
+      if (move) then
+      value = value.and.MA_pop_stack(sum(2))
+      value = value.and.MA_pop_stack(xtmp(2))
+      end if
+      value = value.and.MA_pop_stack(exi(2))
+      if (.not.value) call errquit('v_nonlocal: popping stack',3,
+     &       MA_ERR)
+
+      call nwpw_timing_end(6)
+      return 
+      end
+
+
+
+
+
+
+      subroutine Multiply_Gijl_sw1(nn,nprj,nmax,lmax,
+     >                             n_prj,l_prj,m_prj,
+     >                             G,
+     >                             sw1,sw2)
+      implicit none
+      integer nn
+      integer nprj,nmax,lmax
+      integer n_prj(nprj)
+      integer l_prj(nprj)
+      integer m_prj(nprj)
+      real*8  G(nmax,nmax,0:lmax)
+      real*8  sw1(nn,nprj)
+      real*8  sw2(nn,nprj)
+
+      !**** local variables ****
+      integer a,b,na,nb,la,lb,ma,mb
+      
+
+      call dcopy(nn*nprj,0.0d0,0,sw2,1)
+      do b=1,nprj
+         lb = l_prj(b)
+         mb = m_prj(b)
+
+         do a=1,nprj
+            la = l_prj(a)
+            ma = m_prj(a)
+
+            if ((la.eq.lb).and.(ma.eq.mb)) then
+              na = n_prj(a)
+              nb = n_prj(b)
+              call daxpy(nn,G(nb,na,la),sw1(1,a),1,sw2(1,b),1)
+            end if
+
+         end do
+      end do
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   E_vnonlocal  	*
+*     *					*
+*     ***********************************
+      real*8 function E_vnonlocal(ispin,ne,fractional,occ)
+      implicit none
+      integer ispin,ne(2)
+      logical fractional
+      real*8 occ(*)
+
+#include "mafdecls.fh"
+#include "psp.fh"
+#include "errquit.fh"
+
+*     **** local variables ****
+      real*8 E
+
+*     **** external functions ****
+      real*8   E_vnonlocal_sub
+      external E_vnonlocal_sub
+
+      E = E_vnonlocal_sub(ne(1)+ne(2),n_prj_indx,
+     >                    dbl_mb(sw1a(1)),dbl_mb(sw2a(1)),
+     >                    fractional,occ)
+      call D1dB_SumAll(E)
+      if (ispin.eq.1) E = E+E
+
+      E_vnonlocal = E
+      return
+      end
+
+      real*8 function E_vnonlocal_sub(nn,nprjs,sw1,sw2,fractional,occ)
+      implicit none
+      integer nn,nprjs
+      real*8 sw1(nn,nprjs),sw2(nn,nprjs)
+      logical fractional
+      real*8 occ(*)
+
+*     **** local variables ****
+      integer i,ip,n
+      real*8 sum
+
+      sum = 0.0d0
+      if (fractional) then
+         do ip=1,nprjs
+            do n=1,nn
+               call Dneall_qton(n,i)
+               sum = sum + sw1(n,ip)*sw2(n,ip)*occ(i)
+            end do
+         end do
+      else
+         do ip=1,nprjs
+            do n=1,nn
+               sum = sum + sw1(n,ip)*sw2(n,ip)
+            end do
+         end do
+      end if
+
+      E_vnonlocal_sub = sum
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	   f_vnonlocal_old	*
+*     *					*
+*     ***********************************
+
+      subroutine f_vnonlocal_old(ispin,ne,psi1,fion,fractional,occ)
+      implicit none
+      integer    ispin,ne(2)
+      complex*16 psi1(*)
+      real*8 fion(3,*)
+      logical fractional
+      real*8 occ(*)
+
+#include "errquit.fh"
+#include "mafdecls.fh"
+#include "psp.fh"
+cccccccccccc#include "frac_occ.fh"
+
+*     *** local variables ***
+      integer G(3),npack1,shift,Gijl_indx
+      integer i,ii,ia,k,l,n,nn,l_prj,nproj
+      real*8  omega,scal,ff(3)
+      complex*16 ctmp
+      integer exi(2),vtmp(2),xtmp(2),sw1(2),sw2(2),sum(2)
+c      integer Gx(2),Gy(2),Gz(2)
+      logical value,sd_function
+
+*     **** external functions ****
+      logical  is_sORd
+      integer  ion_nion,ion_katm,Pack_G_indx,psi_data_get_ptr
+      real*8   lattice_omega
+      external is_sORd
+      external ion_nion,ion_katm,Pack_G_indx,psi_data_get_ptr
+      external lattice_omega
+
+      call nwpw_timing_start(6)
+      
+*     **** allocate local memory ****
+      nn = ne(1)+ne(2)
+      call Pack_npack(1,npack1)
+      value = MA_push_get(mt_dcpl,npack1,'exi', exi(2), exi(1))
+      value = value.and.
+     >        MA_push_get(mt_dcpl,npack1,'vtmp',vtmp(2),vtmp(1))
+      value = value.and.
+     >        MA_push_get(mt_dbl, npack1,'xtmp',xtmp(2),xtmp(1))
+      value = value.and.
+     >   MA_push_get(mt_dbl,nn*nprj_max*nprj_mult,'sw1',sw1(2),sw1(1))
+      value = value.and.
+     >   MA_push_get(mt_dbl,nn*nprj_max*nprj_mult,'sw2',sw2(2),sw2(1))
+      value = value.and.
+     >      MA_push_get(mt_dbl,3*nn,'sum',sum(2),sum(1))
+      if (.not. value) 
+     >  call errquit('f_vnonlocal: out of stack memory',0, MA_ERR)
+
+c     **** define Gx,Gy and Gz in packed space ****
+      G(1)  = Pack_G_indx(1,1)
+      G(2)  = Pack_G_indx(1,2)
+      G(3)  = Pack_G_indx(1,3)
+
+      omega = lattice_omega()
+
+      do ii=1,ion_nion()
+        ia=ion_katm(ii)
+        nproj = int_mb(nprj(1)+ia-1)
+
+        if (nproj.gt.0) then
+
+*       **** structure factor and local pseudopotential ****
+        call strfac_pack(1,ii,dcpl_mb(exi(1)))
+
+        do l=1,nproj
+
+           !shift = vnl(1)+(l-1)*npack1+(ia-1)*npack1*nmax_max*lmmax_max
+           shift = psi_data_get_ptr(int_mb(vnl(1)+ia-1),l)
+           l_prj = int_mb(l_projector(1)+(l-1) 
+     >                                  +(ia-1)*(nmax_max*lmmax_max))
+
+           !sd_function = .not.and(l_prj,1)
+#ifdef GCC4
+           k = iand(l_prj,1)
+#else
+           k = and(l_prj,1)
+#endif
+           sd_function = (k.eq.0)
+
+
+*          **** phase factor does not matter therefore ****
+*          **** (-i)^l is the same as (i)^l in the     ****
+*          **** Rayleigh scattering formula            ****
+
+*          *** current function is s or d ****
+           if (sd_function) then
+              call Pack_tc_Mul(1,dbl_mb(shift),
+     >                           dcpl_mb(exi(1)),
+     >                           dcpl_mb(vtmp(1)))
+
+*          *** current function is p or f ****
+           else
+              call Pack_tc_iMul(1,dbl_mb(shift),
+     >                           dcpl_mb(exi(1)),
+     >                           dcpl_mb(vtmp(1)))
+           end if
+
+           call Pack_cc_indot(1,nn,
+     >                      psi1,
+     >                      dcpl_mb(vtmp(1)),
+     >                      dbl_mb(sw1(1)+(l-1)*nn))
+
+*           ***** scale psp by factor - used for generating antiferromagnetic structures ****
+*           **** nwchem input: pspspin up/down scale l ion_numbers                       ****
+            if (pspspin) then
+               if (log_mb(pspspin_upions(1)+ii-1).and.
+     >            (l_prj.eq.pspspin_upl))
+     >            call dscal(ne(1),pspspin_upscale,
+     >                       dbl_mb(sw1(1)+(l-1)*nn),1)
+               if (log_mb(pspspin_downions(1)+ii-1).and.
+     >            (l_prj.eq.pspspin_downl))
+     >            call dscal(ne(2),pspspin_downscale,
+     >                       dbl_mb(sw1(1)+(l-1)*nn+ne(1)),1)
+            end if
+
+        end do
+        call D3dB_Vector_Sumall((nn*nproj),dbl_mb(sw1(1)))
+ 
+
+*       **** sw2 = Gijl*sw1 ******
+        Gijl_indx = psi_data_get_ptr(int_mb(Gijl(1)+ia-1),1)
+        call Multiply_Gijl_sw1(nn,
+     >                         nproj,
+     >                         int_mb(nmax(1)+ia-1),
+     >                         int_mb(lmax(1)+ia-1),
+     >                         int_mb(n_projector(1)
+     >                                + (ia-1)*(nmax_max*lmmax_max)),
+     >                         int_mb(l_projector(1)
+     >                                + (ia-1)*(nmax_max*lmmax_max)),
+     >                         int_mb(m_projector(1)
+     >                                + (ia-1)*(nmax_max*lmmax_max)),
+     >                         dbl_mb(Gijl_indx),
+     >                         dbl_mb(sw1(1)),
+     >                         dbl_mb(sw2(1)))
+
+
+
+
+*       **** do Kleinman-Bylander Multiplication ****
+        do l=1,nproj
+
+
+           !shift = vnl(1)+(l-1)*npack1+(ia-1)*npack1*nmax_max*lmmax_max
+           shift = psi_data_get_ptr(int_mb(vnl(1)+ia-1),l)
+           l_prj = int_mb(l_projector(1)+(l-1) 
+     >                                  + (ia-1)*(nmax_max*lmmax_max))
+
+           !sd_function = .not.and(l_prj,1)
+#ifdef GCC4
+           k = iand(l_prj,1)
+#else
+           k = and(l_prj,1)
+#endif
+           sd_function = (k.eq.0)
+
+
+*          **** phase factor does not matter therefore ****
+*          **** (-i)^l is the same as (i)^l in the     ****
+*          **** Rayleigh scattering formula            ****
+
+*          *** current function is s or d ****
+           if (sd_function) then
+              call Pack_tc_Mul(1,dbl_mb(shift),
+     >                           dcpl_mb(exi(1)),
+     >                           dcpl_mb(vtmp(1)))
+
+*          *** current function is p or f ****
+           else
+              call Pack_tc_iMul(1,dbl_mb(shift),
+     >                           dcpl_mb(exi(1)),
+     >                           dcpl_mb(vtmp(1)))
+           end if
+
+
+          scal = 1.0d0/(omega)
+          call dscal(nn,scal,dbl_mb(sw2(1)+(l-1)*nn),1)
+
+
+          do n=1,nn
+             if (ispin.eq.1) 
+     >         dbl_mb(sw2(1)+n-1+(l-1)*nn)
+     >         =2.0d0*dbl_mb(sw2(1)+n-1+(l-1)*nn) !// change
+
+#ifndef CRAY
+!DIR$ ivdep
+#endif
+             do i=1,npack1
+                ctmp = psi1(i+(n-1)*npack1)
+     >               *dconjg(dcpl_mb(vtmp(1)+i-1))
+                dbl_mb(xtmp(1)+i-1) = dimag(ctmp)
+             end do
+             call Pack_tt_idot(1,dbl_mb(G(1)),dbl_mb(xtmp(1)),
+     >                         dbl_mb(sum(1)+3*(n-1)))
+             call Pack_tt_idot(1,dbl_mb(G(2)),dbl_mb(xtmp(1)),
+     >                         dbl_mb(sum(1)+1+3*(n-1)))
+             call Pack_tt_idot(1,dbl_mb(G(3)),dbl_mb(xtmp(1)),
+     >                         dbl_mb(sum(1)+2+3*(n-1)))
+
+          end do
+
+          call D3dB_Vector_SumAll(3*(nn),dbl_mb(sum(1)))
+
+          !**** fractional weighting ****
+          if (fractional) then
+           do n=1,nn
+            call Dneall_qton(n,i)
+            dbl_mb(sum(1)+3*(n-1))  =dbl_mb(sum(1)  +3*(n-1))*occ(i)
+            dbl_mb(sum(1)+1+3*(n-1))=dbl_mb(sum(1)+1+3*(n-1))*occ(i)
+            dbl_mb(sum(1)+2+3*(n-1))=dbl_mb(sum(1)+2+3*(n-1))*occ(i)
+           end do
+          end if
+  
+          ff(1) = 0.0d0
+          ff(2) = 0.0d0
+          ff(3) = 0.0d0
+          do n=1,nn
+             ff(1) = ff(1) + 2.0d0*dbl_mb(sw2(1)+n-1+(l-1)*nn) !// change
+     >                            *dbl_mb(sum(1)+3*(n-1))
+             ff(2) = ff(2) + 2.0d0*dbl_mb(sw2(1)+n-1+(l-1)*nn) !// change
+     >                            *dbl_mb(sum(1)+1+3*(n-1))
+             ff(3) = ff(3) + 2.0d0*dbl_mb(sw2(1)+n-1+(l-1)*nn) !// change
+     >                            *dbl_mb(sum(1)+2+3*(n-1))
+          end do
+          call D1dB_Vector_SumAll(3,ff)
+          fion(1,ii) = fion(1,ii) + ff(1)
+          fion(2,ii) = fion(2,ii) + ff(2)
+          fion(3,ii) = fion(3,ii) + ff(3)
+       
+        end do !** l **
+
+        end if !** nproj>0 **
+
+      end do !** ii **
+
+      value = MA_pop_stack(sum(2))
+      value = value.and.MA_pop_stack(sw2(2))
+      value = value.and.MA_pop_stack(sw1(2))
+      value = value.and.MA_pop_stack(xtmp(2))
+      value = value.and.MA_pop_stack(vtmp(2))
+      value = value.and.MA_pop_stack(exi(2))
+      if (.not. value) 
+     >  call errquit('f_vnonlocal: popping stack memory',0, MA_ERR)
+
+
+      call nwpw_timing_end(6)
+      return 
+      end
+
+
+
+*     ***********************************
+*     *					*
+*     *	       f_vnonlocal              *
+*     *					*
+*     ***********************************
+
+*    This routine computes the Kleinman-Bylander non-local 
+* pseudopotential projection.
+*
+*  Note - This routine was restructured 12-1-2013 to handle PAW operators.
+*
+*  To Do -  For very large numbers of atoms the code will need to be restructured
+*           to distribute the sw1a and sw2a matrices over np_i.  Basically, if the orthogonalization matrices
+*           need to be distributed then sw1a and sw2a will need to be distributed as well.  A simple algorithm
+*           to do this will be to keep the loop structure the same but instead of the
+*           call to D3dB_Vector_SumAll(nn*n_prj_indx,dbl_mb(sw1a(1))), this will need to be, 
+*           changed to D3dB_Vector_SumAll(nn*nproj,dbl_mb(sw1(1))) and then place sw1 --> sw1a(distributed)
+*
+      subroutine f_vnonlocal(ispin,ne,psi1,fion,fractional,occ)
+      implicit none
+      integer    ispin,ne(2)
+      complex*16 psi1(*)
+      real*8 fion(3,*)
+      logical fractional
+      real*8 occ(*)
+
+#include "mafdecls.fh"
+#include "psp.fh"
+#include "errquit.fh"
+
+*     *** local variables ***
+      integer G(3),npack1,nion,nu
+      integer i,j,ii,ia,l,n,nn,l1,ip,iip,iipmax,jp,swstart
+      integer k,shift,l_prj,nproj,Gijl_indx
+      real*8  omega,scal,ff(3)
+      complex*16 ctmp
+      integer exi(2),xtmp(2),sum(2)
+      logical value,sd_function
+      real*8 vmm(50)
+      integer ld_ptr
+
+*     **** external functions ****
+      logical  is_sORd
+      integer  ion_nion,ion_katm,Pack_G_indx
+      integer  psi_data_get_ptr,psi_data_get_chnk
+      real*8   lattice_omega,ddot
+      external is_sORd
+      external ion_nion,ion_katm,Pack_G_indx
+      external psi_data_get_ptr,psi_data_get_chnk
+      external lattice_omega,ddot
+
+      call nwpw_timing_start(6) 
+
+
+*     **** allocate local memory ****
+      nion = ion_nion()
+      nn = ne(1)+ne(2)
+      call Pack_npack(1,npack1)
+
+      call psp_prj_indx_alloc_sw1a_sw2a(nn)
+      value = MA_push_get(mt_dcpl,npack1,'exi',exi(2), exi(1))
+      value = value.and.MA_push_get(mt_dbl,npack1,
+     >                               'xtmp',xtmp(2),xtmp(1))
+      value = value.and.MA_push_get(mt_dbl,3*nn,'sum',sum(2),sum(1))
+      if (.not.value) 
+     >  call errquit('f_vnonlocal:out of stack',0, MA_ERR)
+
+      G(1)  = Pack_G_indx(1,1)
+      G(2)  = Pack_G_indx(1,2)
+      G(3)  = Pack_G_indx(1,3)
+
+      omega = lattice_omega()
+      scal = 1.0d0/(omega)
+
+      jp = 0
+      do ip=1,nion_prj_indx
+         ii          = int_mb(ii_prj_indx(1)+ip-1)
+         ia          = int_mb(ia_prj_indx(1)+ip-1)
+         nproj       = int_mb(nproj_prj_indx(1)+ip-1)
+
+*        **** structure factor and local pseudopotential ****
+         call strfac_pack(1,ii,dcpl_mb(exi(1)))
+
+         do l=1,nproj
+            shift       = int_mb(shift_prj_indx(1)+jp)
+            sd_function = log_mb(sd_function_prj_indx(1)+jp)
+            jp = jp + 1
+
+*           **** phase factor does not matter therefore ****
+*           **** (-i)^l is the same as (i)^l in the     ****
+*           **** Rayleigh scattering formula            ****
+
+*           *** current function is s or d ****
+            if (sd_function) then
+               call Pack_tc_Mul(1,dbl_mb(shift),
+     >                            dcpl_mb(exi(1)),
+     >                            dcpl_mb(prjtmp(1)))
+
+*           *** current function is p or f ****
+            else
+               call Pack_tc_iMul(1,dbl_mb(shift),
+     >                            dcpl_mb(exi(1)),
+     >                            dcpl_mb(prjtmp(1)))
+
+            end if
+            call Pack_cc_indot(1,nn,
+     >                       psi1,
+     >                       dcpl_mb(prjtmp(1)),
+     >                       dbl_mb(sw1a(1)+(jp-1)*nn))
+         end do
+      end do
+      call D3dB_Vector_SumAll(nn*n_prj_indx,dbl_mb(sw1a(1)))
+
+
+*     **** Compute sw2  ****
+      do ip=1,nion_prj_indx
+         ii          = int_mb(ii_prj_indx(1)+ip-1)
+         ia          = int_mb(ia_prj_indx(1)+ip-1)
+         nproj       = int_mb(nproj_prj_indx(1)+ip-1)
+         swstart     = int_mb(swstart_prj_indx(1)+ip-1)
+
+*        **** sw2 = Gijl*sw1 ******
+         Gijl_indx = psi_data_get_ptr(int_mb(Gijl(1)+ia-1),1)
+         call Multiply_Gijl_sw1(nn,
+     >                          nproj,
+     >                          int_mb(nmax(1)+ia-1),
+     >                          int_mb(lmax(1)+ia-1),
+     >                          int_mb(n_projector(1)
+     >                                 + (ia-1)*(nmax_max*lmmax_max)),
+     >                          int_mb(l_projector(1)
+     >                                 + (ia-1)*(nmax_max*lmmax_max)),
+     >                          int_mb(m_projector(1)
+     >                                 + (ia-1)*(nmax_max*lmmax_max)),
+     >                          dbl_mb(Gijl_indx),
+     >                          dbl_mb(sw1a(1)+swstart*nn),
+     >                          dbl_mb(sw2a(1)+swstart*nn))
+
+      end do
+
+*     **** do Kleinman-Bylander Multiplication ****
+      call dscal(nn*n_prj_indx,scal,dbl_mb(sw2a(1)),1)
+
+*     **** apply the sw2 to psi ****
+      jp  = 0
+      do iip=1,nion_prj_indx,nprj_mult 
+
+         swstart = int_mb(swstart_prj_indx(1)+iip-1)
+         l1      = 0
+         iipmax  = (iip+nprj_mult-1)
+         if (iipmax.gt.nion_prj_indx) iipmax = nion_prj_indx
+
+         do ip=iip,iipmax
+            ii    = int_mb(ii_prj_indx(1)+ip-1)
+            ia    = int_mb(ia_prj_indx(1)+ip-1)
+            nproj = int_mb(nproj_prj_indx(1)+ip-1)
+
+*           **** structure factor and local pseudopotential ****
+            call strfac_pack(1,ii,dcpl_mb(exi(1)))
+
+            do l=1,nproj
+               shift       = int_mb(shift_prj_indx(1)+jp)
+               l_prj       = int_mb(l_prj_prj_indx(1)+jp)
+               sd_function = log_mb(sd_function_prj_indx(1)+jp)
+               jp = jp + 1
+
+*              **** phase factor does not matter therefore ****
+*              **** (-i)^l is the same as (i)^l in the     ****
+*              **** Rayleigh scattering formula            ****
+
+*              *** current function is s or d ****
+               if (sd_function) then
+                  call Pack_tc_Mul(1,dbl_mb(shift),
+     >                               dcpl_mb(exi(1)),
+     >                               dcpl_mb(prjtmp(1)+l1*npack1))
+
+*              *** current function is p or f ****
+               else
+                  call Pack_tc_iMul(1,dbl_mb(shift),
+     >                               dcpl_mb(exi(1)),
+     >                               dcpl_mb(prjtmp(1)+l1*npack1))
+               end if
+
+*              ***** scale (sw2a) psp by factor - used for generating antiferromagnetic structures ****
+*              **** nwchem input: pspspin up/down scale l ion_numbers                              ****
+               if (pspspin) then
+                  if (log_mb(pspspin_upions(1)+ii-1).and.
+     >               (l_prj.eq.pspspin_upl))
+     >            call dscal(ne(1),pspspin_upscale,
+     >                       dbl_mb(sw2a(1)+(swstart+l-1)*nn),1)
+                  if (log_mb(pspspin_downions(1)+ii-1).and.
+     >               (l_prj.eq.pspspin_downl))
+     >            call dscal(ne(2),pspspin_downscale,
+     >                       dbl_mb(sw2a(1)+(swstart+l-1)*nn+ne(1)),1)
+               end if
+
+               l1 = l1 + 1
+            end do
+         end do
+
+         l1 = 0
+         do ip=iip,iipmax
+            ii    = int_mb(ii_prj_indx(1)+ip-1)
+            ia    = int_mb(ia_prj_indx(1)+ip-1)
+            nproj = int_mb(nproj_prj_indx(1)+ip-1)
+
+            do l=1,nproj
+               do n=1,nn
+                  call Pack_cct_iconjgMul(1,
+     >                               dcpl_mb(prjtmp(1)+l1*npack1),
+     >                               psi1(1+(n-1)*npack1),
+     >                               dbl_mb(xtmp(1)))
+                 call Pack_tt_idot(1,dbl_mb(G(1)),dbl_mb(xtmp(1)),
+     >                             dbl_mb(sum(1)+3*(n-1)))
+                 call Pack_tt_idot(1,dbl_mb(G(2)),dbl_mb(xtmp(1)),
+     >                             dbl_mb(sum(1)+1+3*(n-1)))
+                 call Pack_tt_idot(1,dbl_mb(G(3)),dbl_mb(xtmp(1)),
+     >                             dbl_mb(sum(1)+2+3*(n-1)))
+
+               end do
+               call D3dB_Vector_SumAll(3*(nn),dbl_mb(sum(1)))
+
+               !**** fractional weighting ****
+               if (fractional) then
+                do n=1,nn
+                 call Dneall_qton(n,i)
+                 dbl_mb(sum(1)+3*(n-1))  
+     >              =dbl_mb(sum(1)  +3*(n-1))*occ(i)
+                 dbl_mb(sum(1)+1+3*(n-1))
+     >              =dbl_mb(sum(1)+1+3*(n-1))*occ(i)
+                 dbl_mb(sum(1)+2+3*(n-1))
+     >              =dbl_mb(sum(1)+2+3*(n-1))*occ(i)
+                end do
+               end if
+ 
+               ff(1) =2.0d0*ddot(nn,dbl_mb(sw2a(1)+(swstart+l1)*nn),1,
+     >                              dbl_mb(sum(1)),3)
+               ff(2) =2.0d0*ddot(nn,dbl_mb(sw2a(1)+(swstart+l1)*nn),1,
+     >                              dbl_mb(sum(1)+1),3)
+               ff(3) =2.0d0*ddot(nn,dbl_mb(sw2a(1)+(swstart+l1)*nn),1,
+     >                              dbl_mb(sum(1)+2),3)
+               call D1dB_Vector_SumAll(3,ff)
+               fion(1,ii) = fion(1,ii)  + ff(1)*(3-ispin)
+               fion(2,ii) = fion(2,ii)  + ff(2)*(3-ispin)
+               fion(3,ii) = fion(3,ii)  + ff(3)*(3-ispin)
+
+               l1 = l1 + 1
+            end do !** l **
+         end do !** ip **
+
+      end do !** iip **
+
+      value =           MA_pop_stack(sum(2))
+      value = value.and.MA_pop_stack(xtmp(2))
+      value = value.and.MA_pop_stack(exi(2))
+      if (.not.value) call errquit('f_vnonlocal: popping stack',3,
+     &       MA_ERR)
+
+      call nwpw_timing_end(6)
+      return 
+      end
+
+
+
+*     ********************************************
+*     *                                          *
+*     *             psp_read                     *
+*     *                                          *
+*     ********************************************
+      subroutine psp_read(fname, comment,
+     >                       psp_type,
+     >                       version,
+     >                       nfft,unita,
+     >                       atom,amass,zv,lmmax,lmax,locp,nmax,
+     >                       rc,
+     >                       nprj,n_projector,l_projector,m_projector,
+     >                       b_projector,
+     >                       Gijl_tag,
+     >                       rlocal,
+     >                       nfft3d,npack1,npack0,
+     >                       vl,vnl_tag,
+     >                       semicore,rcore,ncore,
+     >                       log_amesh,r1,rmax,sigma,zion,
+     >                       n1dgrid,n1dbasis,nae,nps,lps,icut,eig_tag,
+     >                       phi_ae_tag,dphi_ae_tag,
+     >                       phi_ps_tag,dphi_ps_tag,
+     >                       core_ae_tag,core_ps_tag,
+     >                       core_ae_prime_tag,core_ps_prime_tag,
+     >                       rgrid_tag,
+     >                       core_kin_energy,core_ion_energy,
+     >                       hartree_tag,comp_charge_tag,comp_pot_tag,
+     >                       r3_tag,
+     >                       tmp,tmp2,
+     >                       ierr)
+      implicit none 
+      character*50 fname
+      character*(*) comment
+      integer psp_type
+      integer version
+      integer nfft(3)
+      real*8  unita(3,3)
+      character*2 atom
+      real*8 amass,zv
+      integer lmmax
+      integer lmax
+      integer locp
+      integer nmax
+      real*8 rc(*)
+
+      integer nprj,n_projector(*),l_projector(*),m_projector(*)
+      integer b_projector(*)
+      integer Gijl_tag
+
+      real*8 rlocal
+      integer nfft3d,npack1,npack0
+      real*8 vl(*)
+      integer vnl_tag
+      logical semicore
+      real*8  rcore
+      real*8  ncore(*)
+      
+      real*8  log_amesh,r1,rmax,sigma,zion
+      integer n1dgrid,n1dbasis,nae(*),nps(*),lps(*),icut,eig_tag
+      integer phi_ae_tag,dphi_ae_tag,phi_ps_tag,dphi_ps_tag
+      integer core_ae_tag,core_ps_tag
+      integer core_ae_prime_tag,core_ps_prime_tag
+      integer rgrid_tag
+      real*8  core_kin_energy,core_ion_energy
+      integer hartree_tag,comp_charge_tag,comp_pot_tag
+      integer r3_tag
+
+      complex*16 tmp(*)
+      real*8     tmp2(*)
+      integer ierr
+
+#include "mafdecls.fh"
+#include "util.fh"
+
+*    *** local variables ***
+      logical pio
+      integer MASTER,taskid,taskid_i,taskid_p,com_p
+      parameter(MASTER=0)
+      integer n,l
+      integer msglen
+      integer iatom(2),Gijl_indx,indx
+      character*255 full_filename
+      real*8 sum1
+
+*     **** external functions ****
+      integer  psi_data_alloc,psi_data_get_chnk
+      external psi_data_alloc,psi_data_get_chnk
+      real*8   lattice_omega
+      external lattice_omega
+      logical  control_parallel_io
+      external control_parallel_io
+
+      call Parallel_taskid(taskid)
+      call Parallel2d_taskid_i(taskid_i)
+      rlocal = 0.0d0
+      n1dgrid = 0
+      n1dbasis = 0
+      sigma = 0.0d0
+
+      pio = control_parallel_io()
+      if (pio) then
+         taskid_p = taskid_i
+         com_p    = 1
+      else
+         taskid_p = taskid
+         com_p    = 0
+      end if
+
+
+*     **** open fname binary file ****
+      if (taskid_p.eq.MASTER) then
+         call util_file_name_noprefix(fname,.false.,
+     >                             .false.,
+     >                       full_filename)
+         l = index(full_filename,' ') - 1
+         call openfile(5,full_filename,l,'r',l)
+
+         call cread(5,comment,80)
+         call iread(5,psp_type,1)
+         call iread(5,version,1)
+         call iread(5,nfft,3)
+         call dread(5,unita,9)
+         call cread(5,atom,2)
+         call dread(5,amass,1)
+         call dread(5,zv,1)
+         call iread(5,lmax,1)
+         call iread(5,locp,1)
+         call iread(5,nmax,1)
+         lmmax=(lmax+1)**2 - (2*locp+1) !* number of projectors *
+         amass = amass*1822.89d0
+         call dread(5,rc,lmax+1)
+
+         call iread(5,nprj,1)
+         if (nprj.gt.0) then
+         call iread(5,n_projector,nprj)
+         call iread(5,l_projector,nprj)
+         call iread(5,m_projector,nprj)
+         call iread(5,b_projector,nprj)
+         end if
+      end if
+
+
+*     **** send header data to all processors ****
+      msglen = 1
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,version)
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,psp_type)
+      msglen = 3
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,nfft)
+      msglen = 9
+      call Parallela_Brdcst_values(com_p,MASTER,msglen,unita)
+
+      iatom(1) = ichar(atom(1:1))
+      iatom(2) = ichar(atom(2:2))
+      msglen = 2
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,iatom)
+      atom(1:1) = char(iatom(1))
+      atom(2:2) = char(iatom(2))
+
+      msglen = 1
+      call Parallela_Brdcst_values(com_p,MASTER,msglen,amass)
+      msglen = 1
+      call Parallela_Brdcst_values(com_p,MASTER,msglen,zv)
+      msglen = 1
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,lmax)
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,locp)
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,nmax)
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,nprj)
+      lmmax=(lmax+1)**2 - (2*locp+1)
+      if (psp_type.eq.4) then
+         n1dbasis = locp
+      else
+         n1dbasis = lmax+1
+      end if
+
+
+      msglen=lmax+1
+      call Parallela_Brdcst_values(com_p,MASTER,msglen,rc)
+      msglen = 1
+
+      msglen=nprj
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,n_projector)
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,l_projector)
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,m_projector)
+      call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,b_projector)
+
+
+*     ***** read in Gijl's ****
+      if (nprj.gt.0) then
+         if (psp_type.eq.4) then
+           n = 5 !*** paw atom  ***
+         else
+           n = 1 !*** pspw atom ***
+         end if
+         msglen    = nmax*nmax*(lmax+1)
+         Gijl_tag  = psi_data_alloc(n,msglen)
+         Gijl_indx = psi_data_get_chnk(Gijl_tag)
+         if (taskid_p.eq.MASTER) then
+         call dread(5,dbl_mb(Gijl_indx),n*msglen)      !** number of matrix elements = n*nmax*nmax*(lmax+1) **
+         end if
+         call Parallela_Brdcst_values(com_p,MASTER,n*msglen,
+     >                                dbl_mb(Gijl_indx))
+      end if
+
+*     ***** read in rlocal and rcore  ****
+      if (taskid_p.eq.MASTER) then
+         if (version.eq.4) call dread(5,rlocal,1)
+         call dread(5,rcore,1)
+      end if
+      msglen=1
+      call Parallela_Brdcst_values(com_p,MASTER,msglen,rlocal)
+      msglen=1
+      call Parallela_Brdcst_values(com_p,MASTER,msglen,rcore)
+
+
+*     **** determine semicore value ****
+      if (rcore.gt.0.0d0) then
+         semicore = .true.
+      else
+         semicore = .false.
+      end if
+
+*     ***** Miscellaneous paw energies and 1d wavefunctions****
+      if (psp_type.eq.4) then
+
+         !**** allocate and reading hartree_matrix(n1dbasis,n1dbasis,n1dbasis,n1dbasis,2*lmax+1) ****
+         msglen=n1dbasis*n1dbasis*n1dbasis*n1dbasis
+         hartree_tag  = psi_data_alloc(2*lmax+1,msglen)
+         indx = psi_data_get_chnk(hartree_tag)
+         if (taskid_p.eq.MASTER) then
+            call dread(5,dbl_mb(indx),(2*lmax+1)*msglen)      
+         end if
+         call Parallela_Brdcst_values(com_p,MASTER,(2*lmax+1)*msglen,
+     >                                dbl_mb(indx))
+
+         !**** allocate and reading comp_charge_matrix(n1dbasis,n1dbasis,2*lmax+1) ****
+         msglen=n1dbasis*n1dbasis
+         comp_charge_tag  = psi_data_alloc(2*lmax+1,msglen)
+         indx = psi_data_get_chnk(comp_charge_tag)
+         if (taskid_p.eq.MASTER) then
+            call dread(5,dbl_mb(indx),(2*lmax+1)*msglen)      
+         end if
+         call Parallela_Brdcst_values(com_p,MASTER,(2*lmax+1)*msglen,
+     >                                dbl_mb(indx))
+
+         !**** allocate and reading comp_pot_matrix(n1dbasis,n1dbasis,2*lmax+1) ****
+         msglen=n1dbasis*n1dbasis
+         comp_pot_tag  = psi_data_alloc(2*lmax+1,msglen)
+         indx = psi_data_get_chnk(comp_pot_tag)
+         if (taskid_p.eq.MASTER) then
+            call dread(5,dbl_mb(indx),(2*lmax+1)*msglen)      
+         end if
+         call Parallela_Brdcst_values(com_p,MASTER,(2*lmax+1)*msglen,
+     >                                dbl_mb(indx))
+
+
+        if (taskid_p.eq.MASTER) call dread(5,core_kin_energy,1)
+        if (taskid_p.eq.MASTER) call dread(5,core_ion_energy,1)
+        msglen=1
+        call Parallela_Brdcst_values(com_p,MASTER,msglen,
+     >                               core_kin_energy)
+        call Parallela_Brdcst_values(com_p,MASTER,msglen,
+     >                               core_ion_energy)
+
+        if (taskid_p.eq.MASTER) then
+           call iread(5,n1dgrid,1)
+           call iread(5,icut,1)
+           call dread(5,log_amesh,1)
+           call dread(5,r1,1)
+           call dread(5,rmax,1)
+           call dread(5,sigma,1)
+           call dread(5,zion,1)
+        end if
+        msglen=1
+        call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,n1dgrid)
+        call Parallela_Brdcst_ivalues(com_p,MASTER,msglen,icut)
+        call Parallela_Brdcst_values(com_p,MASTER,msglen,log_amesh)
+        call Parallela_Brdcst_values(com_p,MASTER,msglen,r1)
+        call Parallela_Brdcst_values(com_p,MASTER,msglen,rmax)
+        call Parallela_Brdcst_values(com_p,MASTER,msglen,sigma)
+        call Parallela_Brdcst_values(com_p,MASTER,msglen,zion)
+
+
+        eig_tag     = psi_data_alloc(n1dbasis,1)
+        phi_ae_tag  = psi_data_alloc(n1dbasis,n1dgrid)
+        dphi_ae_tag = psi_data_alloc(n1dbasis,n1dgrid)
+        phi_ps_tag  = psi_data_alloc(n1dbasis,n1dgrid)
+        dphi_ps_tag = psi_data_alloc(n1dbasis,n1dgrid)
+        core_ae_tag = psi_data_alloc(1,n1dgrid)
+        core_ps_tag = psi_data_alloc(1,n1dgrid)
+        core_ae_prime_tag = psi_data_alloc(1,n1dgrid)
+        core_ps_prime_tag = psi_data_alloc(1,n1dgrid)
+        rgrid_tag   = psi_data_alloc(1,n1dgrid)
+        
+        indx = psi_data_get_chnk(eig_tag)
+        if (taskid_p.eq.MASTER) call dread(5,dbl_mb(indx),n1dbasis)
+        call Parallela_Brdcst_values(com_p,MASTER,n1dbasis,dbl_mb(indx))
+
+        if (taskid_p.eq.MASTER) call iread(5,nae,n1dbasis)
+        call Parallela_Brdcst_ivalues(com_p,MASTER,n1dbasis,nae)
+
+        if (taskid_p.eq.MASTER) call iread(5,nps,n1dbasis)
+        call Parallela_Brdcst_ivalues(com_p,MASTER,n1dbasis,nps)
+
+        if (taskid_p.eq.MASTER) call iread(5,lps,n1dbasis)
+        call Parallela_Brdcst_ivalues(com_p,MASTER,n1dbasis,lps)
+
+        indx = psi_data_get_chnk(rgrid_tag)
+        if (taskid_p.eq.MASTER) call dread(5,dbl_mb(indx),n1dgrid)
+        call Parallela_Brdcst_values(com_p,MASTER,n1dgrid,dbl_mb(indx))
+
+        indx = psi_data_get_chnk(phi_ae_tag)
+        if(taskid_p.eq.MASTER) 
+     >     call dread(5,dbl_mb(indx),n1dgrid*n1dbasis)
+        call Parallela_Brdcst_values(com_p,MASTER,n1dgrid*n1dbasis,
+     >                              dbl_mb(indx))
+
+        indx = psi_data_get_chnk(dphi_ae_tag)
+        if(taskid_p.eq.MASTER) 
+     >     call dread(5,dbl_mb(indx),n1dgrid*n1dbasis)
+        call Parallela_Brdcst_values(com_p,MASTER,n1dgrid*n1dbasis,
+     >                              dbl_mb(indx))
+
+        indx = psi_data_get_chnk(phi_ps_tag)
+        if(taskid_p.eq.MASTER) 
+     >     call dread(5,dbl_mb(indx),n1dgrid*n1dbasis)
+        call Parallela_Brdcst_values(com_p,MASTER,n1dgrid*n1dbasis,
+     >                              dbl_mb(indx))
+
+        indx = psi_data_get_chnk(dphi_ps_tag)
+        if(taskid_p.eq.MASTER) 
+     >     call dread(5,dbl_mb(indx),n1dgrid*n1dbasis)
+        call Parallela_Brdcst_values(com_p,MASTER,n1dgrid*n1dbasis,
+     >                              dbl_mb(indx))
+
+        indx = psi_data_get_chnk(core_ae_tag)
+        if (taskid_p.eq.MASTER) call dread(5,dbl_mb(indx),n1dgrid)
+        call Parallela_Brdcst_values(com_p,MASTER,n1dgrid,dbl_mb(indx))
+
+        indx = psi_data_get_chnk(core_ps_tag)
+        if (taskid_p.eq.MASTER) call dread(5,dbl_mb(indx),n1dgrid)
+        call Parallela_Brdcst_values(com_p,MASTER,n1dgrid,dbl_mb(indx))
+
+        indx = psi_data_get_chnk(core_ae_prime_tag)
+        if (taskid_p.eq.MASTER) call dread(5,dbl_mb(indx),n1dgrid)
+        call Parallela_Brdcst_values(com_p,MASTER,n1dgrid,dbl_mb(indx))
+
+        indx = psi_data_get_chnk(core_ps_prime_tag)
+        if (taskid_p.eq.MASTER) call dread(5,dbl_mb(indx),n1dgrid)
+        call Parallela_Brdcst_values(com_p,MASTER,n1dgrid,dbl_mb(indx))
+
+      end if
+
+*     *** read in vl 3d block ***
+      if (pio) then
+         call D3dB_t_read_pio(1,5,tmp2,tmp,-1)
+      else
+         call D3dB_t_read(1,5,tmp2,tmp,-1)
+      end if
+      call Pack_t_pack(0,tmp2)
+      call Pack_t_Copy(0,tmp2,vl)
+
+
+*     **** read in vnl 3d blocks ****
+      if (nprj.gt.0) then
+         vnl_tag = psi_data_alloc(nprj,npack1)
+
+         do n=1,nprj
+            if (pio) then
+               call D3dB_t_read_pio(1,5,tmp2,tmp,-1)
+            else
+               call D3dB_t_read(1,5,tmp2,tmp,-1)
+            end if
+            call Pack_t_pack(1,tmp2)
+            !call Pack_t_Copy(1,tmp2,vnl(1,n))
+            call psi_data_add(vnl_tag,n,tmp2)
+         end do
+      end if
+
+*     **** read in semicore density block ****
+      if (semicore) then
+         if (pio) then
+            call D3dB_t_read_pio(1,5,tmp2,tmp,-1)
+         else
+            call D3dB_t_read(1,5,tmp2,tmp,-1)
+         end if
+         call Pack_t_pack(0,tmp2)
+         call Pack_t_Copy(0,tmp2,ncore(1))
+
+         if (pio) then
+            call D3dB_t_read_pio(1,5,tmp2,tmp,-1)
+         else
+            call D3dB_t_read(1,5,tmp2,tmp,-1)
+         end if
+         call Pack_t_pack(0,tmp2)
+         call Pack_t_Copy(0,tmp2,ncore(1+2*npack0))
+
+         if (pio) then
+            call D3dB_t_read_pio(1,5,tmp2,tmp,-1)
+         else
+            call D3dB_t_read(1,5,tmp2,tmp,-1)
+         end if 
+         call Pack_t_pack(0,tmp2)
+         call Pack_t_Copy(0,tmp2,ncore(1+3*npack0))
+
+         if (pio) then
+            call D3dB_t_read_pio(1,5,tmp2,tmp,-1)
+         else
+            call D3dB_t_read(1,5,tmp2,tmp,-1)
+         end if
+         call Pack_t_pack(0,tmp2)
+         call Pack_t_Copy(0,tmp2,ncore(1+4*npack0))
+      end if
+
+*     **** read in r3_matrix if not paw(for now) ****
+      if (psp_type.eq.9) then
+
+         !**** allocate and reading r3_matrix(n1dbasis,n1dbasis) ****
+         msglen=n1dbasis*n1dbasis
+         r3_tag = psi_data_alloc(1,msglen)
+         indx   = psi_data_get_chnk(r3_tag)
+         if (taskid_p.eq.MASTER) then
+            call dread(5,dbl_mb(indx),msglen)      
+         end if
+         call Parallela_Brdcst_values(com_p,MASTER,msglen,
+     >                                dbl_mb(indx))
+
+      end if
+
+*     *** close fname binary file ***
+      if (taskid_p.eq.MASTER) then
+c       close(11)
+         call closefile(5)
+      end if
+
+      ierr = 0
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	  psp_readall  		*
+*     *					*
+*     ***********************************
+
+      subroutine psp_readall()
+      implicit none
+      
+#include "mafdecls.fh"
+#include "stdio.fh"
+#include "util.fh"
+#include "errquit.fh"
+
+#include "psp.fh"
+
+*     **** version4 common block ****
+      integer rlocal(2)
+      common / version4 / rlocal
+
+*     **** semicore common block ****
+c     real*8  ncore(nfft3d,nkatmx),rcore(nkatmx)
+c     logocal semicore(0:nkatmx)
+      integer ncore(2),rcore(2)
+      integer semicore(2)
+      common / ccore / ncore,rcore,semicore
+
+
+*     **** local variables ****
+      integer ngp(3),version,nfft3d,npack1,npack0
+      integer ia,l
+      real*8 unita(3,3)
+      character*12 boundry
+      integer tmp(2),tmp2(2),ierr
+      logical value,found,correct_box
+      character*5  element
+      character*50 fname
+
+*     **** parallel i/o variable ****
+      integer MASTER,taskid
+      parameter(MASTER=0)
+
+*     **** external functions ****
+      logical      nwpw_filefind,control_print
+      integer      control_ngrid,ion_nion
+      real*8       control_unita
+      character*12 control_boundry
+      character*4  ion_atom
+      external     nwpw_filefind,control_print
+      external     control_ngrid,ion_nion
+      external     control_unita
+      external     control_boundry
+      external     ion_atom
+      
+      call nwpw_timing_start(50)
+
+      call D3dB_nfft3d(1,nfft3d)
+      call Pack_npack(1,npack1)
+      call Pack_npack(0,npack0)
+      call Parallel_taskid(taskid)
+
+*     *** set semicore(0) *****
+      log_mb(semicore(1)) = .false.
+
+      value = MA_push_get(mt_dbl,(2*nfft3d),'tmp',tmp(2),tmp(1))
+      if (.not. value) call errquit('out of stack memory',0, MA_ERR)
+
+      value = MA_push_get(mt_dbl,(nfft3d),'tmp2',tmp2(2),tmp2(1))
+      if (.not. value) call errquit('out of stack memory',0, MA_ERR)
+
+*     **** read pseudopotentials ****
+      do ia=1,npsp
+
+*      **** define formatted psp name ****
+       element = '     '
+       element = ion_atom(ia)
+       l = index(element,' ') - 1
+       fname = element(1:l)//'.vpp'
+        
+
+       found = .false.
+       do while (.not.found)
+
+         if (nwpw_filefind(fname)) then
+            call psp_read(fname, comment(ia),
+     >                  int_mb(psp_type(1)+ia-1),
+     >                  version,
+     >                  ngp,unita,
+     >                  atom(ia),
+     >                  dbl_mb(amass(1)+ia-1),
+     >                  dbl_mb(zv(1)+ia-1),
+     >                  int_mb(lmmax(1)+ia-1),
+     >                  int_mb(lmax(1)+ia-1),
+     >                  int_mb(locp(1)+ia-1),
+     >                  int_mb(nmax(1)+ia-1),
+     >                  dbl_mb(rc(1) + (ia-1)*(lmax_max+1)),
+     >                  int_mb(nprj(1)+ia-1),
+     >                  int_mb(n_projector(1) 
+     >                         + (ia-1)*(nmax_max*lmmax_max)),
+     >                  int_mb(l_projector(1) 
+     >                         + (ia-1)*(nmax_max*lmmax_max)),
+     >                  int_mb(m_projector(1) 
+     >                         + (ia-1)*(nmax_max*lmmax_max)),
+     >                  int_mb(b_projector(1) 
+     >                         + (ia-1)*(nmax_max*lmmax_max)),
+     >                  int_mb(Gijl(1)+(ia-1)), 
+     >                  dbl_mb(rlocal(1) + (ia-1)),
+     >                  nfft3d,npack1,npack0,
+     >                  dbl_mb(vl(1) + (ia-1)*npack0),
+     >                  int_mb(vnl(1)+ (ia-1)),
+     >                  log_mb(semicore(1)+ia),
+     >                  dbl_mb(rcore(1)+ia-1),
+     >                  dbl_mb(ncore(1)+ (ia-1)*npack0*5),
+     >                  dbl_mb(log_amesh(1)+ia-1),
+     >                  dbl_mb(r1(1)+ia-1),
+     >                  dbl_mb(rmax(1)+ia-1),
+     >                  dbl_mb(sigma(1)+ia-1),
+     >                  dbl_mb(zion(1)+ia-1),
+     >                  int_mb(n1dgrid(1)+ia-1),
+     >                  int_mb(n1dbasis(1)+ia-1),
+     >                  int_mb(nae(1) 
+     >                         + (ia-1)*(nmax_max*lmmax_max)),
+     >                  int_mb(nps(1) 
+     >                         + (ia-1)*(nmax_max*lmmax_max)),
+     >                  int_mb(lps(1) 
+     >                         + (ia-1)*(nmax_max*lmmax_max)),
+     >                  int_mb(icut(1)+ia-1),
+     >                  int_mb(eig(1)+ia-1),
+     >                  int_mb(phi_ae(1)+ia-1),
+     >                  int_mb(dphi_ae(1)+ia-1),
+     >                  int_mb(phi_ps(1)+ia-1),
+     >                  int_mb(dphi_ps(1)+ia-1),
+     >                  int_mb(core_ae(1)+ia-1),
+     >                  int_mb(core_ps(1)+ia-1),
+     >                  int_mb(core_ae_prime(1)+ia-1),
+     >                  int_mb(core_ps_prime(1)+ia-1),
+     >                  int_mb(rgrid(1)+ia-1),
+     >                  dbl_mb(core_kin(1)+ia-1),
+     >                  dbl_mb(core_ion(1)+ia-1),
+     >                  int_mb(hartree_matrix(1)+ia-1),
+     >                  int_mb(comp_charge_matrix(1)+ia-1),
+     >                  int_mb(comp_pot_matrix(1)+ia-1),
+     >                  int_mb(r3_matrix(1)+ia-1),
+     >                  dbl_mb(tmp(1)),dbl_mb(tmp2(1)),
+     >                  ierr)
+
+
+*          **** set semicore(0) ****
+           if (log_mb(semicore(1)+ia)) log_mb(semicore(1)) = .true.
+           if (ierr.gt.0) go to 9000
+
+*          **** set pawexist ****
+           if (int_mb(psp_type(1)+ia-1).eq.4) pawexist = .true.
+
+*          **************************************************************
+*          ***** logic for finding out if psp is correctly formatted ****
+*          **************************************************************
+           correct_box = .true.
+           boundry = control_boundry()
+           l =index(boundry,' ') - 1
+           if ( (ngp(1).ne.control_ngrid(1)) .or.
+     >       (ngp(2).ne.control_ngrid(2)) .or.
+     >       (ngp(3).ne.control_ngrid(3)) .or. 
+     >       (unita(1,1).ne.control_unita(1,1)) .or.
+     >       (unita(2,1).ne.control_unita(2,1)) .or.
+     >       (unita(3,1).ne.control_unita(3,1)) .or.
+     >       (unita(1,2).ne.control_unita(1,2)) .or.
+     >       (unita(2,2).ne.control_unita(2,2)) .or.
+     >       (unita(3,2).ne.control_unita(3,2)) .or.
+     >       (unita(1,3).ne.control_unita(1,3)) .or.
+     >       (unita(2,3).ne.control_unita(2,3)) .or.
+     >       (unita(3,3).ne.control_unita(3,3)) .or.
+     >       ((boundry(1:l).eq.'periodic').and.(version.ne.3)).or.
+     >       ((boundry(1:l).eq.'aperiodic').and.(version.ne.4))) then
+              correct_box = .false.
+              if ((taskid.eq.MASTER).and.
+     >           control_print(print_medium)) then
+              write(luout,*) 
+     >         "pseudopotential is not correctly formatted:",fname
+              end if
+
+*             *** deallocate memory ***
+              if (int_mb(nprj(1)+ia-1).gt.0) then
+              call psi_data_dealloc(int_mb(vnl(1)+ia-1))
+              call psi_data_dealloc(int_mb(Gijl(1)+ia-1))
+               if (int_mb(psp_type(1)+ia-1).eq.4) then
+               call psi_data_dealloc(int_mb(hartree_matrix(1)+ia-1))
+               call psi_data_dealloc(int_mb(comp_charge_matrix(1)+ia-1))
+               call psi_data_dealloc(int_mb(comp_pot_matrix(1)+ia-1))
+               call psi_data_dealloc(int_mb(eig(1)+ia-1))
+               call psi_data_dealloc(int_mb(phi_ae(1)+ia-1))
+               call psi_data_dealloc(int_mb(dphi_ae(1)+ia-1))
+               call psi_data_dealloc(int_mb(phi_ps(1)+ia-1))
+               call psi_data_dealloc(int_mb(dphi_ps(1)+ia-1))
+               call psi_data_dealloc(int_mb(core_ae(1)+ia-1))
+               call psi_data_dealloc(int_mb(core_ps(1)+ia-1))
+               call psi_data_dealloc(int_mb(core_ae_prime(1)+ia-1))
+               call psi_data_dealloc(int_mb(core_ps_prime(1)+ia-1))
+               call psi_data_dealloc(int_mb(rgrid(1)+ia-1))
+               end if
+               if (int_mb(psp_type(1)+ia-1).eq.9) then
+               call psi_data_dealloc(int_mb(r3_matrix(1)+ia-1))
+               end if
+              end if
+
+           end if
+           if (correct_box) found = .true.
+
+         end if
+
+*        **** generate formatted pseudopotential atom.vpp *****
+         if (.not.found) then
+             call psp_formatter_auto(ion_atom(ia))
+         end if
+
+       end do !***do while ****
+
+
+      end do
+ 9000 value =           MA_pop_stack(tmp2(2))
+      value = value.and.MA_pop_stack(tmp(2))
+      if (.not. value)
+     > call errquit('psp_readall:error popping stack',0,MA_ERR)
+
+
+
+*     **** done reading set nprj_max and prjtmp for nonlocal psp operator ****
+      call psp_proj_init()
+
+*     **** initialize prj_indx, used by v_nonlocal_new ****
+      call psp_prj_indx_init()
+
+
+      if (pawexist) then
+         call nwpw_compcharge_init(ion_nion(),npsp,
+     >                             int_mb(nprj(1)),
+     >                             int_mb(n1dbasis(1)),
+     >                             int_mb(psp_type(1)),
+     >                             int_mb(lmax(1)),
+     >                             dbl_mb(sigma(1)),
+     >                             nmax_max*lmmax_max,
+     >                             int_mb(l_projector(1)),
+     >                             int_mb(m_projector(1)),
+     >                             int_mb(b_projector(1)),
+     >                             int_mb(comp_charge_matrix(1)),
+     >                             int_mb(hartree_matrix(1)))
+
+         call nwpw_xc_init(ion_nion(),npsp,
+     >                     int_mb(nprj(1)),
+     >                     int_mb(n1dbasis(1)),
+     >                     int_mb(n1dgrid(1)),
+     >                     int_mb(psp_type(1)),
+     >                     int_mb(lmax(1)),
+     >                     nmax_max*lmmax_max,
+     >                     int_mb(l_projector(1)),
+     >                     int_mb(m_projector(1)),
+     >                     int_mb(b_projector(1)))
+
+      end if
+
+
+      call nwpw_timing_end(50)
+      return
+      end
+
+
+*     ***********************************
+*     *					*
+*     *	 	  psp_print 		*
+*     *					*
+*     ***********************************
+      subroutine psp_print(ia)      
+      implicit none
+      integer ia
+
+#include "mafdecls.fh"
+#include "errquit.fh"
+#include "util.fh"
+#include "stdio.fh"
+#include "psp.fh"
+
+      integer taskid,MASTER
+      parameter (MASTER=0)
+      logical oprint
+      integer i
+      character*255 cmment
+
+      logical       control_print,psp_semicore
+      external      control_print,psp_semicore
+      character     spdf_name
+      external      spdf_name
+      character*4   ion_atom
+      external      ion_atom
+      real*8        psp_rc,psp_rlocal,psp_rcore,psp_ncore,psp_zv
+      external      psp_rc,psp_rlocal,psp_rcore,psp_ncore,psp_zv
+      real*8        psp_zion,psp_sigma,psp_sphere_radius
+      external      psp_zion,psp_sigma,psp_sphere_radius
+      real*8        psp_r1,psp_rmax,psp_eig
+      external      psp_r1,psp_rmax,psp_eig
+      integer       psp_lmax,psp_locp,psp_psp_type,psp_nprj,psp_icut
+      external      psp_lmax,psp_locp,psp_psp_type,psp_nprj,psp_icut
+      integer       psp_nae,psp_nps,psp_lps,psp_n1dbasis,psp_n1dgrid
+      external      psp_nae,psp_nps,psp_lps,psp_n1dbasis,psp_n1dgrid
+      integer       control_version,inp_strlen
+      external      control_version,inp_strlen
+      
+      call Parallel_taskid(taskid)
+      oprint= ((taskid.eq.MASTER).and.control_print(print_medium))
+
+      if (oprint) then
+         if (psp_psp_type(ia).ne.4) then
+           write(luout,1150) ia,ion_atom(ia),psp_zv(ia),psp_lmax(ia)
+           cmment = comment(ia)
+           i = inp_strlen(cmment)
+           write(luout,1157) cmment(1:i)
+           write(luout,1158) psp_psp_type(ia)
+           write(luout,1152) psp_lmax(ia)
+           write(luout,1153) psp_locp(ia)
+           write(luout,1154) psp_nprj(ia)
+           if (control_version().eq.4) write(luout,1156) psp_rlocal(ia)
+           if (psp_semicore(ia)) 
+     >        write(luout,1155) psp_rcore(ia),psp_ncore(ia)
+           write(luout,1151) (psp_rc(i,ia),i=0,psp_lmax(ia))
+           write(luout,*)
+         else 
+            write(luout,2141) ia,ion_atom(ia),psp_zv(ia),
+     >                        psp_zion(ia)-psp_zv(ia)
+            write(luout,2142) psp_r1(ia)
+            write(luout,2143) psp_rmax(ia)
+            write(luout,2144) psp_n1dgrid(ia)
+            write(luout,2145) psp_sphere_radius(ia),
+     >                        psp_icut(ia),
+     >                        psp_icut(ia)
+            write(luout,2146) psp_sigma(ia)
+            write(luout,2150) psp_nprj(ia)
+            write(luout,2151)
+            do i=1,psp_n1dbasis(ia)
+              write(luout,2152) psp_nps(i,ia),
+     >                          psp_nae(i,ia),
+     >                          spdf_name(psp_lps(i,ia)),
+     >                          psp_eig(i,ia),
+     >                          2*psp_lps(i,ia)+1
+            end do
+         end if
+      end if
+
+ 1150 FORMAT(5X,I2,': ',A4,'valence charge:',F8.4,'  lmax=',I3)
+ 1151 FORMAT(5X,'        cutoff =',4F8.3)
+ 1152 FORMAT(12X,' highest angular component      : ',i3)
+ 1153 FORMAT(12X,' local potential used           : ',i3)
+ 1154 FORMAT(12X,' number of non-local projections: ',i3)
+ 1155 FORMAT(12X,' semicore corrections included  : ',
+     >       F6.3,' (radius) ',F6.3,' (charge)')
+ 1156 FORMAT(12X,' aperiodic cutoff radius        : ',F6.3)
+ 1157 FORMAT(12X,' comment    : ',A)
+ 1158 FORMAT(12X,' pseudpotential type            : ',i3)
+
+ 2141 FORMAT(5X,I2,': ',A4,'valence charge:',F4.1,'  core charge:',F4.1)
+ 2142 FORMAT(12x,' loggrid parameter r0        :',E10.3)
+ 2143 FORMAT(12x,' loggrid parameter rmax      :',E10.3)
+ 2144 FORMAT(12x,' loggrid parameter npoints   :',I10)
+ 2145 FORMAT(12x,' augmentation sphere radius  :',F10.3,
+     >           ' (',I5,' npoints',I5,' per task)')
+ 2146 FORMAT(12x,' compensation sigma          :',F10.3)
+ 2150 FORMAT(12x,' total number of projectors  :',I10)
+ 2151 FORMAT(12x,' n_ps (n) l          eig      #projector')
+ 2152 FORMAT(14X,I3,' (',I1,') ',A,F13.6,I16)
+
+      return
+      end
+
+*     ***********************************
+*     *					*
+*     *	 	  psp_check_print 	*
+*     *					*
+*     ***********************************
+      subroutine psp_check_print(ia)      
+      implicit none
+      integer ia
+
+#include "mafdecls.fh"
+#include "errquit.fh"
+#include "util.fh"
+#include "stdio.fh"
+#include "psp.fh"
+
+*     **** local variables ****
+      integer taskid,MASTER
+      parameter (MASTER=0)
+
+      logical oprint
+      integer i,j,r,s,l,n,nbasis,indx,indx0
+
+*     **** external functions ****
+      logical  control_print
+      external control_print
+      integer  psp_psp_type,psp_lmax,psp_n1dbasis,psp_nmax
+      external psp_psp_type,psp_lmax,psp_n1dbasis,psp_nmax
+      integer  psi_data_get_ptr
+      external psi_data_get_ptr
+
+      call Parallel_taskid(taskid)
+      oprint= (taskid.eq.MASTER)
+
+      nbasis = psp_n1dbasis(ia)
+      n   = psp_nmax(ia)
+      if (oprint) then
+
+*        **** print vcore matrix ****
+         if (psp_psp_type(ia).eq.4) then
+            do l=0,2*psp_lmax(ia)
+
+              indx0 = psi_data_get_ptr(int_mb(Gijl(1)+ia-1),2)
+              write(*,*) "overlap matrix: ia=",ia,"  l=",l
+              do i=1,n
+                 indx = indx0 + l*n*n + (i-1)
+                 write(*,'(10E11.3)') (dbl_mb(indx+(j-1)*n),j=1,n)
+              end do
+              write(*,*) 
+
+c              indx0 = psi_data_get_ptr(int_mb(Gijl(1)+ia-1),3)
+c              write(*,*) "kinetic matrix: ia=",ia,"  l=",l
+c              do i=1,n
+c                 indx = indx0 + l*n*n + (i-1)
+c                 write(*,'(10E11.3)') (dbl_mb(indx+(j-1)*n),j=1,n)
+c              end do
+c              write(*,*) 
+c
+c              indx0 = psi_data_get_ptr(int_mb(Gijl(1)+ia-1),4)
+c              write(*,*) "vpseudo matrix: ia=",ia,"  l=",l
+c              do i=1,n
+c                 indx = indx0 + l*n*n + (i-1)
+c                 write(*,'(10E11.3)') (dbl_mb(indx+(j-1)*n),j=1,n)
+c              end do
+c              write(*,*) 
+
+c               indx0 = psi_data_get_ptr(int_mb(Gijl(1)+ia-1),5)
+c               write(*,*) "vcore matrix: ia=",ia,"  l=",l
+c               do i=1,n
+c                  indx = indx0 + l*n*n + (i-1)
+c                  write(*,'(10E11.3)') (dbl_mb(indx+(j-1)*n),j=1,n)
+c               end do
+c               write(*,*) 
+               
+c               write(*,*) "comp_charge matrix: ia=",ia,"  l=",l
+c               indx0 = 
+c     >          psi_data_get_ptr(int_mb(comp_charge_matrix(1)+ia-1),l+1)
+c               do i=1,nbasis
+c                  indx = indx0 + (i-1)
+c                  write(*,'(10E13.3)') (dbl_mb(indx+(j-1)*nbasis),
+c     >                                   j=1,nbasis)
+c               end do
+c               write(*,*) 
+
+c               write(*,*) "comp_pot matrix: ia=",ia,"  l=",l
+c               indx0 = 
+c     >          psi_data_get_ptr(int_mb(comp_pot_matrix(1)+ia-1),l+1)
+c               do i=1,nbasis
+c                  indx = indx0 + (i-1)
+c                  write(*,'(10E13.3)') (dbl_mb(indx+(j-1)*nbasis),
+c     >                                   j=1,nbasis)
+c               end do
+c               write(*,*) 
+
+c               write(*,*) "hartree matrix: ia=",ia,"  l=",l
+c               indx0 = 
+c     >          psi_data_get_ptr(int_mb(hartree_matrix(1)+ia-1),l+1)
+c               do i=1,nbasis
+c                  do j=1,nbasis
+c                     do r=1,nbasis
+c                        indx = indx0 + (i-1)*nbasis*nbasis*nbasis 
+c     >                               + (j-1)*nbasis*nbasis 
+c     >                               + (r-1)*nbasis
+c                        write(*,'(10E13.3)') (dbl_mb(indx+(s-1)),
+c     >                                        s=1,nbasis)
+c                     end do
+c                  end do
+c               end do
+c               write(*,*) 
+
+            end do
+         end if
+
+      end if
+
+      return
+      end 

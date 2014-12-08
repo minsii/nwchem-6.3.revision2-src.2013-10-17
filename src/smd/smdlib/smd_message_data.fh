@@ -1,0 +1,13 @@
+*
+* $Id: smd_message_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+      integer smd_message_nmax
+      parameter(smd_message_nmax=100)
+
+      integer smd_message_n
+      character*72 smd_message_string(smd_message_nmax)
+
+      common /smd_message_data/ 
+     &                   smd_message_n,
+     &                   smd_message_string
+

@@ -1,0 +1,14 @@
+c
+c $Id: pspw_LJ.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+*     ***** pspw_LJ common block ************************************
+      integer sigma_all(2), epsilon_all(2)
+      integer sigma_atom(2),epsilon_atom(2)
+      logical include_qm
+      common / pspw_LJ /   sigma_all,		! LJ parameters
+     >                     epsilon_all,		! LJ parameters
+     >                     sigma_atom,		! LJ parameters
+     >                     epsilon_atom,	! LJ parameters
+     >                     include_qm
+*     ******************************************************************

@@ -1,0 +1,10 @@
+*
+* $Id: rhoall_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+
+*     ***** rhoall common block ****
+      integer rho1_all(2)
+      integer rho2_all(2)
+      common / c_rhoall_block / rho1_all,rho2_all
+

@@ -1,0 +1,6 @@
+c
+c $id$
+c
+      real*8 erfc,derfc,x
+c
+c $Id: cf_funcs_dec.fh 21176 2011-10-10 06:35:49Z d3y133 $

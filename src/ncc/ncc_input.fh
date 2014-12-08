@@ -1,0 +1,30 @@
+c $Id: ncc_input.fh 21494 2011-11-09 23:09:16Z jhammond $
+c
+c Include file for NCC module
+c
+      integer debugmode
+      integer occtile
+      integer virtile
+      double precision thresh
+      character*20 method
+c
+c     Integers
+c 
+      common /nccinputinteger/
+     1 debugmode,occtile,virtile
+c
+c     Doubles
+c
+      common /nccinputdouble/
+     1 thresh
+c
+c     Characters
+c
+      common /nccinputchar/
+     1 method
+c
+c     Logicals
+c
+c      common /nccinputlogical/
+c     1
+

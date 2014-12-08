@@ -1,0 +1,7 @@
+!$Id: paw_hypergeom.fh 19707 2010-10-29 17:59:36Z d3y133 $
+!
+!$Log: not supported by cvs2svn $
+
+      double precision paw_hypergeom1F1
+      external paw_hypergeom1F1
+

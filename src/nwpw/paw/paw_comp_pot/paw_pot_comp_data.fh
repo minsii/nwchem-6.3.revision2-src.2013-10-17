@@ -1,0 +1,7 @@
+c
+c $Id: paw_pot_comp_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+      integer paw_pot_comp(4)
+      integer i_paw_pot_comp(4)
+
+      common /paw_pot_comp/ paw_pot_comp,i_paw_pot_comp

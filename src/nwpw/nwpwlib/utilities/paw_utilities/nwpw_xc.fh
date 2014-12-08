@@ -1,0 +1,135 @@
+c $Id: nwpw_xc.fh 21509 2011-11-11 03:30:21Z bylaska $
+
+      integer mult_l_max,nion,nkatm,gga
+      integer paw_xc_work_size
+      integer paw_rho2_ae(2)
+      integer paw_rho2_ps(2)
+      integer paw_rho2_ae_prime(2)
+      integer paw_rho2_ps_prime(2)
+      integer rho_ae(2)
+      integer rho_ps(2)
+      integer rho_ae_prime(2)
+      integer rho_ps_prime(2)
+      integer agr_ae(2)
+      integer agr_ps(2)
+      integer vxc_ae(2)
+      integer vxc_ps(2)
+      integer fdn_ae(2)
+      integer fdn_ps(2)
+      integer exc_ae(2)
+      integer exc_ps(2)
+      integer xc_temp(2)
+      integer xc_temp2(2)
+      integer n1dgrid_max
+      integer nbasis_max
+      integer nprj_max
+
+      common /nwpw_xc_work_data/ paw_xc_work_size,
+     >                          paw_rho2_ae,  
+     >                          paw_rho2_ps,  
+     >                          paw_rho2_ae_prime,  
+     >                          paw_rho2_ps_prime,  
+     >                          rho_ae,  
+     >                          rho_ps,
+     >                          rho_ae_prime,  
+     >                          rho_ps_prime,
+     >                          agr_ae,
+     >                          agr_ps,
+     >                          vxc_ae,
+     >                          vxc_ps,
+     >                          fdn_ae,
+     >                          fdn_ps,
+     >                          exc_ae,
+     >                          exc_ps,
+     >                          xc_temp2,
+     >                          xc_temp,
+     >                          n1dgrid_max,nbasis_max,nprj_max,
+     >                          mult_l_max,nion,nkatm,gga
+
+
+      integer paw_xc_nphi
+      integer paw_xc_ntheta
+
+      integer paw_xc_tlm(2)
+
+      integer paw_xc_dtlm_theta(2)
+      integer paw_xc_dtlm_phi(2)
+
+      integer paw_xc_angle_phi(2)
+      integer paw_xc_cos_theta(2)
+      integer paw_xc_w_phi(2)
+      integer paw_xc_w_theta(2)
+      integer paw_xc_e(2)
+      integer i_paw_xc_pot(2)
+
+      integer paw_vxc_ae(2)
+      integer paw_vxc_ps(2)
+
+      integer paw_dvxc_ae(2)
+      integer paw_dvxc_ps(2)
+
+
+      integer paw_xc_pot_size
+      integer paw_xc_pot(2)
+      integer paw_xc_matr(2)
+      integer paw_xc_dmatr(2)
+
+      common /nwpw_exc_data/  paw_xc_nphi,
+     >                        paw_xc_ntheta,
+     >                        paw_xc_e,
+     >                        i_paw_xc_pot,
+     >                        paw_xc_angle_phi,
+     >                        paw_xc_cos_theta,
+     >                        paw_xc_tlm,
+     >                        paw_xc_dtlm_theta,
+     >                        paw_xc_dtlm_phi,
+     >                        paw_xc_w_phi,
+     >                        paw_xc_w_theta,
+     >                        paw_vxc_ae,
+     >                        paw_vxc_ps,
+     >                        paw_dvxc_ae,
+     >                        paw_dvxc_ps,
+     >                        paw_xc_pot,
+     >                        paw_xc_pot_size,
+     >                        paw_xc_matr,
+     >                        paw_xc_dmatr
+
+
+      integer nindx_rholm(2)
+      integer shift_rholm(2)
+      integer coeff_rholm(2)
+      integer bi_rholm(2)
+      integer bj_rholm(2)
+      integer iprj_rholm(2)
+      integer jprj_rholm(2)
+      integer lm_rholm(2)
+      common /nwpw_xc_rholm_data/ nindx_rholm,shift_rholm,
+     >                            coeff_rholm,
+     >                            bi_rholm,bj_rholm,
+     >                            iprj_rholm,jprj_rholm,lm_rholm
+
+      integer nindx_2rholm(2)
+      integer shift_2rholm(2)
+      integer coeff_2rholm(2)
+      integer bi_2rholm(2)
+      integer bj_2rholm(2)
+      integer iprj_2rholm(2)
+      integer jprj_2rholm(2)
+      integer lm_2rholm(2)
+      common /nwpw_xc_2rholm_data/ nindx_2rholm,shift_2rholm,
+     >                             coeff_2rholm,
+     >                             bi_2rholm,bj_2rholm,
+     >                             iprj_2rholm,jprj_2rholm,lm_2rholm
+
+      integer nindx_3rholm(2)
+      integer shift_3rholm(2)
+      integer coeff_3rholm(2)
+      integer bi_3rholm(2)
+      integer bj_3rholm(2)
+      integer iprj_3rholm(2)
+      integer jprj_3rholm(2)
+      integer lm_3rholm(2)
+      common /nwpw_xc_3rholm_data/ nindx_3rholm,shift_3rholm,
+     >                             coeff_3rholm,
+     >                             bi_3rholm,bj_3rholm,
+     >                             iprj_3rholm,jprj_3rholm,lm_3rholm

@@ -1,0 +1,8 @@
+*
+* $Id: cke_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+*     **** common block used for cke.F ****
+      integer tg_indx,tg_hndl
+      common / c_tg_block / tg_indx,tg_hndl
+

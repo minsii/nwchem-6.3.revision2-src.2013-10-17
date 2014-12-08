@@ -1,0 +1,29 @@
+c
+c $Id: mc_data.fh 19708 2010-10-29 18:04:21Z d3y133 $
+c
+      integer mcsteps,natom,mode,gseed
+      double precision temp,stepsize,ratio,seed
+      integer h_eval,i_eval
+      integer h_evec,i_evec
+      integer h_ctst,i_ctst
+      integer i_c,i_q,i_t,i_m,i_f,h_c,h_q,h_t,h_m,h_f    
+      integer forside0, backside0,forside, backside
+      logical forward, backward
+      logical ifirc
+      integer h_in,i_in,i_s,h_s, i_sc,h_sc,h_prp,i_prp
+      integer h_prp_tmp,i_prp_tmp
+      integer naccept,h_in_vel,i_in_vel, h_in_acc,i_in_acc
+      integer side_prev, nxing, trajnum
+
+      common/mc_data/  mcsteps,natom,mode,gseed,
+     &  temp,stepsize,ratio,seed,
+     &  h_eval,i_eval,
+     &  h_evec,i_evec,
+     &  h_ctst,i_ctst,
+     &  i_c,i_q,i_t,i_m,i_f,h_c,h_q,h_t,h_m,h_f,
+     &  forside0, backside0,forside, backside,
+     &  forward, backward, ifirc,
+     &  h_in,i_in, i_s,h_s,i_sc,h_sc,h_prp,i_prp,
+     &  h_prp_tmp,i_prp_tmp,
+     &  naccept,h_in_vel,i_in_vel, h_in_acc,i_in_acc,
+     &  side_prev, nxing, trajnum

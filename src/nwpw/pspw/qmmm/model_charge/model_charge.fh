@@ -1,0 +1,11 @@
+c
+c $Id: model_charge.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+*     ***** switching_charge common block ******************************
+      real*8  s_d,s_rho,s_sigma
+      common / switching_charge_block /
+     >                s_d,s_rho,s_sigma ! parameters for switching charge model
+
+*     ******************************************************************
+

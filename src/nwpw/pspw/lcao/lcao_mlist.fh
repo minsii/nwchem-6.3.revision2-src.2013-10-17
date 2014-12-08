@@ -1,0 +1,8 @@
+*
+* $Id: lcao_mlist.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+      integer mlist(2)
+      integer size,maxsize,nbasis,ispin
+      common / lcao_mlist / mlist,size,maxsize,nbasis,ispin
+
+

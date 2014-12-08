@@ -1,0 +1,11 @@
+*
+* $Id: transport.fh 19708 2010-10-29 18:04:21Z d3y133 $
+*
+#include "nwc_const.fh"
+      integer maxpls
+      parameter(maxpls=10)
+      integer k_pl(0:maxpls),l_pl(0:maxpls) ! handles for atoms list of each PL
+      double precision latvec(3,0:maxpls)
+      common /transport/
+     D     latvec,
+     I      k_pl,l_pl

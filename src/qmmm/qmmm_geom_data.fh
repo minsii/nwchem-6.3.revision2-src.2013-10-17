@@ -1,0 +1,24 @@
+c
+c $Id: qmmm_geom_data.fh 19708 2010-10-29 18:04:21Z d3y133 $
+c
+      character*256 oldgeom
+      logical aux_geom
+      integer ng,nfg
+      integer ngw,ngs
+      integer i_ig,h_ig
+      integer i_ifg,h_ifg
+      integer i_g,h_g
+      integer i_qs,h_qs
+
+
+      common/qmmm_geom_data/ aux_geom,
+     &                 ng,nfg,
+     &                 ngw,ngs,
+     &                 oldgeom,
+     &                 i_ig,h_ig,
+     &                 i_g,h_g,
+     &                 i_qs,h_qs,
+     &                 i_ifg,h_ifg
+
+
+

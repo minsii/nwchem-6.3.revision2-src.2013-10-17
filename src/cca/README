@@ -1,0 +1,32 @@
+1. change the environment variables in env_nwchem.source
+   and source the file
+   # set the environment variable LIBMPI if your mpi library is not '-lmpi'
+
+2. make sure that the cca tools are compiled
+
+3. compile the cca-chem-generic code
+   If you have access to the cca-forum repository you can get the code by:
+    setenv CVSROOT :ext:vidhya@cca-forum.org:/cvs/cca-chem
+    setenv CVS_RSH ssh
+    cvs co cca-chem-generic
+
+4. compile NWChem: 
+   This should generally just be two commands if you did step 1:
+   In the $(NWCHEM_TOP)/src directory
+   "make nwchem_config"
+   "make >& make.log &"
+
+5. make sure that the stubs file is available
+   In the $(NWCHEM_TOP)/src directory
+   "make stubs.o"
+   
+6. build cca component in the $(NWCHEM_TOP)/src/cca directory:
+   change config.txt if necessary and source it or do your own configure
+   make
+   make install
+
+7. test cca component
+   cd $(NWCHEM_TOP)/src/cca/tests
+   modify CCAFERC file
+   ccafe-single --ccafe-rc CCAFERC
+

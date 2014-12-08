@@ -1,0 +1,31 @@
+       subroutine cphf_poliz( rtdb, geom, basis, movecs )
+*
+* $Id: cphf_poliz_orig 19708 2010-10-29 18:04:21Z d3y133 $
+*
+       implicit none
+#include "mafdecls.fh"
+#include "global.fh"
+#include "bas.fh"
+#include "geom.fh"
+#include "rtdb.fh"
+#include "context.fh"
+c
+c
+       integer rtdb
+       integer geom
+       integer basis
+       character*255 movecs
+c
+c
+c
+       write(6,900) movecs
+ 900   format(/,1x,'Inside CPHF_POLIZ',
+     $        /,'Movecs file:',a80)
+       
+c
+c
+c
+       return
+       end
+
+

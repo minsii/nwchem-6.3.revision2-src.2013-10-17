@@ -1,0 +1,12 @@
+
+      logical populate_first_time !populating the first time
+      logical populate_done !Done with tasks 
+      integer itask
+
+      common /pop_data/
+     &                   populate_first_time,
+     &			 populate_done, 
+     &			 itask
+
+
+c $Id: smd_task_data.fh 21176 2011-10-10 06:35:49Z d3y133 $

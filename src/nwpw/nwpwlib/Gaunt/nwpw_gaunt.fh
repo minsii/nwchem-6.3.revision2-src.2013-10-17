@@ -1,0 +1,10 @@
+c
+c $Id: nwpw_gaunt.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+c
+c
+      double precision nwpw_gen_gaunt_coeff,nwpw_gen_gaunt2_coeff
+      double precision nwpw_gen_gaunt3_coeff
+      external         nwpw_gen_gaunt_coeff,nwpw_gen_gaunt2_coeff
+      external         nwpw_gen_gaunt3_coeff
+

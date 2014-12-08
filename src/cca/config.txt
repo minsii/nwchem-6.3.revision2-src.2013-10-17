@@ -1,0 +1,1 @@
+./configure --prefix=/home/windus/CCA/mcmd-paper/nwchem/src/cca/obj --with-nwchem-dir=/home/windus/CCA/mcmd-paper/nwchem --with-cca-chem-config=/home/windus/cca-chem/cca-chem-generic/install/bin/cca-chem-config --with-nwchem-target=LINUX

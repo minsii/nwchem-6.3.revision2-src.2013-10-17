@@ -1,0 +1,29 @@
+*
+* $Id: c_electron_common.fh 21578 2011-11-28 23:33:26Z bylaska $
+*
+
+*     ***** electron common block ****
+      integer ispin,ne(2),nfft3d,npack0,npack1,nbrill
+      integer neq(2),nbrillq,ispinq
+      integer Hpsi_k_tag
+      integer psi_r_tag
+      integer vl(2)
+      integer vl_lr(2)
+      integer vall(2)
+      integer vc(2)
+      integer xcp(2)
+      integer xce(2)
+      logical spin_orbit,hfxon_virtual
+      real*8  ehfx,phfx               ! HFX energies
+
+      common / c_electron_block / ehfx,phfx,
+     >                          Hpsi_k_tag,psi_r_tag,
+     >                          vl,vl_lr,vall,vc,xcp,xce,
+     >                          ne,neq,ispin,ispinq,
+     >                          nfft3d,npack0,npack1,nbrill,nbrillq,
+     >                          spin_orbit,hfxon_virtual
+
+*     **** electron_counter common block ****
+      integer counter
+      common / c_electron_counter / counter
+

@@ -1,0 +1,9 @@
+c
+c $Id: integrate.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+      real*8   def_integr,def_integr1
+      external def_integr,def_integr1
+
+      complex*16   c_def_integr,c_def_integr1
+      external     c_def_integr,c_def_integr1

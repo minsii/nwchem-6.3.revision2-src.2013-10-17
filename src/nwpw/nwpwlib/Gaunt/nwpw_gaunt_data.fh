@@ -1,0 +1,10 @@
+c
+c $Id: nwpw_gaunt_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+c     **** nwpw_gaunt common block ****
+      integer gaunt_lmax
+      integer gaunt_coeff(2)    
+      logical gaunt_complex
+      common / nwpw_gaunt / gaunt_lmax,gaunt_coeff,gaunt_complex
+

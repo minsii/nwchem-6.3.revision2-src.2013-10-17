@@ -1,0 +1,7 @@
+!c
+!c $Id: paw_utils.fh 19707 2010-10-29 17:59:36Z d3y133 $
+!c
+
+      double precision find_multipole_energy
+      external find_multipole_energy
+

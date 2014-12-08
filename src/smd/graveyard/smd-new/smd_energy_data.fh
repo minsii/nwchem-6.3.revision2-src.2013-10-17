@@ -1,0 +1,11 @@
+*
+* $Id: smd_energy_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+      integer smd_energy_nc
+      parameter(smd_energy_nc=8)
+
+      character*72 smd_energy_name(smd_energy_nc)
+
+      common /smd_energy_data/ smd_energy_name
+
+

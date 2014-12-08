@@ -1,0 +1,120 @@
+Apr 14 1998	 Initial prepar module routines
+		 Add routines for rtdb input, third and excluded lists
+		 Make lprint integer print control
+Apr 15 1998	 Print control compliant with nwchem
+		 Bug fix in atom type generation
+		 Parameter checks
+Apr 16 1998	 Handle solvent
+Apr 17 1998	 Generalize ring identification to 3,4,5 and 6 membered rings
+		 Modified code to retrieve improper dihedral parameters
+		 Allow force field atom type file in dir_s, dir_x, dir_u and dir_t
+Apr 20 1998	 Consolidate par and typ files
+		 Corrections in improper dihedral center determination
+Apr 21 1998	 Coordinates in nm
+		 List missing parameters only once
+		 Read coordinates from rtdb
+		 Add pre_hnames
+		 Call to scf and esp to get charges in pre_charge
+Apr 22 1998	 Driver routines for restart generation
+Apr 23 1998	 Fix several errors
+		 Center solute routine
+	         Write restart routine
+		 Read geometry object routine
+Apr 28 1998      Add remaining options
+Apr 29 1998      Bug fixes and Id's in all files
+		 No constraints in esp when intergal molecule
+		 Make sgm format identical to previous format
+		 Apply amber improper format to sgm file
+		 Make current directory ffield_t if not specified
+Apr 30 1998	 Report missing impropers for amber in correct order
+May 01 1998	 Fix bug for pdb starting with residue number larger than 1
+	         Properly deallocate heap memory
+		 Correction handling single atom first molecule
+May 05 1998	 Minor changes and bug fixes
+May 15 1998	 Bug fix in declaration
+Jun 03 1998      Change pre_namamb to pre_rename
+	         No partial charge estimation if atom types unresolved
+		 Bug fix in atom type string comparison in pre_ffield
+Jun 04 1998      Bug fix in atom typing (pre_atype)
+		 Charge determination separate for each segment (pre_charge)
+		 Charge constraint of zero on set of cap atoms (pre_charge)
+		 Handle charmm improper dihedrals (pre_ffield)
+		 List atoms not found (pre_misfit)
+	         Rename residues (CYS,HIS) appropriately for force field
+ 	         Bug fix in index to array cseq (pre_rename)
+Jun 05 1998	 Bug fix in residue renaming (pre_rename)
+Jun 08 1998	 Compliance with util_print
+Jun 09 1998	 Avoid geom_rtdb_load error message
+Jun 11 1998	 Add topology modification commands
+		 Fix bugs in reading solvent from pdb file
+		 Keep name file
+Jun 15 1998	 Bug fixes: pre_boxsiz, pre_orient, pre_wrtrst, pre_wrttop
+Jun 24 1998	 Fix memory problem occurring in solvent-only preparations
+Jul 09 1998      Add positional fix commands
+                 Slightly increase hydrogen radius
+Jul 14 1998	 Add routine to determine if a segment is amino acid (pre_protein)
+		 Put modified residue name on sequence file
+		 Number non chain link atoms from 3 up ( instead of all being 3)
+		 Fix file name problem in pre_mkrst
+		 Expand link array to include global atom number
+		 Fix bug in solvation routine
+	         Fix bug in bonded list overwrite in pre_mkfrg
+		 More diagnostic messages added
+		 Fix file name bug in explicit write rst command
+Jul 15 1998	 Remove persistency new_top new_seq and new_rst
+		 Resize solvent arrays when needed to read rst file
+		 Allow coordinate read before solvation
+		 Avoid write of ccordinates if explicit command given
+		 Bug fix in restart file name
+                 Read modified restart format
+Jul 16 1998	 Change default value of xpndw to 0.2 nm
+Aug 07 1998	 Initilization bug fix in pre_misfit
+Aug 07 1998	 Initilization bug fix in pre_short
+Aug 10 1998	 Add missing initialization angle constraints
+Aug 13 1998	 Add POx in charge determination
+Aug 18 1998	 Repair memory leak in pre_charge
+		 Initialization bug fix in pre_mklist
+		 Destroy geometry object when no longer needed in pre_mkseq
+Aug 24 1998	 Add OH charge separation
+		 Resolve varying number arguments
+		 Single quote strings
+Aug 26 1998	 Bug fix in pre_rdrst.F
+Aug 28 1998	 Write out segment charges when writing topology file
+Sep 11 1998	 Fix bugs in crystalwater coordinate from pdb
+		 Fixes in PDB format statements
+		 Allow choice of alternate location and chain id
+		 Disallow bonds to Na, Mg, K and Ca
+		 Default HIS to HID for amber when reading PDB without hydrogens
+Sep 14 1998	 Option to limit CYS -> CYX to SS-bridges
+		 Fix in chain links
+		 Option to enforce link through LINK in sequence file
+		 Bug fix in segments length for last segment frg's
+Sep 16 1998	 Count LINK's to get dimension mlnk in seqsiz
+		 Recode pre_mklist to allow and identify multiple node
+		 bonded interactions
+Sep 17 1998	 Add modify commands for bonded interaction parameters
+		 Corrected missing atom algorithm
+Sep 18 1998	 Make links on pdb files forced
+Sep 22 1998      Fix incorrect format in pre_wrtpdb
+	         Allow solvent on PDB to be written as ATOM cards
+Sep 23 1998      Allow non-AA atom naming from PDB
+		 Write solvent number on i6 (deviates from PDB convention)
+		 Fix use of fraction in sequence file
+Sep 24 1998	 Fix bug in read pdb file commands
+		 Set fixed atom types to 2
+Oct 05 1998	 Fix bug in parameter search
+Oct 30 1998      Minor change in fix logic
+Nov 06 1998	 Add err= jump in close of lfncmd
+	         Indexed charge/polarization parameters from topology file
+Nov 17 1998	 Truncated octahedron
+Nov 23 1998	 Implement 'modify segment' and 'update lists' commands
+Dec 23 1998	 Allow comment lines in seqence file
+		 Always recalculate grid if esp required
+		 Bug fix in pre_modify.F
+Jan 04 1999	 Fix bug in variable types
+Jan 05 1999	 Add model option
+Jan 14 1999	 Add zeros for nsp,npmf,npmfi
+Jan 29 1999	 Add MODEL option
+		 Add input LINK command
+		 Add CHAIN option
+		 Change in topology format

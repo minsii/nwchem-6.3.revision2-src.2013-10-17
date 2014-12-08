@@ -1,0 +1,9 @@
+c
+c $Id: frac_occ.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+*     **** frac_occ common block ****
+      logical fractional
+      integer fweight(2)
+      common / frac_occ_common / fweight,fractional
+

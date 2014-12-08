@@ -1,0 +1,10 @@
+c
+c $Id: paw_overlap_matrix.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+      integer overlap_matrix(4)
+      integer i_overlap_matrix(4)
+      integer s_overlap_matrix(4)
+
+      common /paw_overlap_matrix/ overlap_matrix, 
+     >                            i_overlap_matrix, 
+     >                            s_overlap_matrix

@@ -1,0 +1,7 @@
+      double precision pi
+      double precision fourpi
+
+      parameter(pi = 3.14159265358979323846264338327950288419D0)
+                             
+      parameter(fourpi = pi*4.0D0)
+c $Id: paw_params.fh 21176 2011-10-10 06:35:49Z d3y133 $

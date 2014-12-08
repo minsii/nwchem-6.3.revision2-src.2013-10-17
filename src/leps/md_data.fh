@@ -1,0 +1,29 @@
+c
+c $Id: md_data.fh 19708 2010-10-29 18:04:21Z d3y133 $
+c
+      integer natom
+      integer h_c,i_c
+      integer h_m,i_m
+      integer h_q,i_q
+      integer h_t,i_t
+      integer h_v,i_v
+      integer h_a,i_a
+      integer h_b,i_b
+      integer h_d,i_d
+      integer h_f,i_f
+      integer nsteps
+      double precision temp,dt
+
+      common/md_data/     natom,
+     &                     h_c,i_c,
+     &                     h_m,i_m,
+     &                     h_q,i_q,
+     &                     h_t,i_t,
+     &                     h_v,i_v,
+     &                     h_a,i_a,
+     &                     h_b,i_b,
+     &                     h_d,i_d,
+     &                     h_f,i_f,
+     &                     nsteps, temp, dt
+
+

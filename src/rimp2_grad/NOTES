@@ -1,0 +1,45 @@
+$Id: NOTES 19697 2010-10-29 16:57:34Z d3y133 $
+
+In some cases, the current implementation has been left with some
+holes to fill in for generality.
+
+General
+o Approximations other than V, especially assymetric, not well tested.
+o useful test technique: jobs with number of virtuals less than number
+  of occupieds.
+o Are all integrals produced for gradients needed? (ap|D) integrals
+  maybe doesn't need (ay|D), for example?
+
+driver_xf:
+o No dynamic block sizing
+o xform_3cint should be modified to write out both 2-index and 3-index
+  transformed integrals to speed the assymmetric split of the SVS and
+  V approximations.
+o Schwarz screening for other than V approximation?
+
+driver_e:
+o dynamic block sizing out of date
+o either p2ij or p2ab will work only if entire amplitude tensor is in core
+o NMO probably not needed in routine
+o Don't pass in both NFit and FitBas
+
+t_stats:
+o t statistics should get only unique indices
+
+driver_p & driver_g:
+o l2 uses ga_matmul_patch and is therefore not scalable
+o l2(ab) block is possibly transposed?  Does it matter?
+o density contributions to W2 are backwards from derivation????
+o p2am.F requires only Vx(C+A) block of L.  Irrelevant AxC block added
+  in mk_l.F.  Probably can compute less of L1-4, but CHECK NEEDS FOR
+  P2(iy) and W2 (all in mk_l.F)
+
+nonsep2
+o g_V should probably be distirbuted on shell blocks
+
+Helpful debugging tips:
+o Run jobs for which number of number of virtuals < occupied
+o Run jobs for which number of frozen core > actives
+o Run jobs for which number of frozen core > number of virtuals
+  (i.e. Ne2 in 3-21G basis with 9 frozen core, 1 occupied, and 8
+  virtuals) 

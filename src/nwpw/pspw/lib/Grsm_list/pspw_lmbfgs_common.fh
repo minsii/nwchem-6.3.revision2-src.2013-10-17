@@ -1,0 +1,8 @@
+*
+*     $Id: pspw_lmbfgs_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+      real*8 rho(20)
+      integer npack1,neall,nsize,max_m,m
+      common / lmbfgs_common / rho,npack1,neall,nsize,max_m,m
+

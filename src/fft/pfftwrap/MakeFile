@@ -1,0 +1,11 @@
+#
+#	$Id: MakeFile 19695 2010-10-29 16:51:02Z d3y133 $	
+#
+
+OBJ_OPTIMIZE = $(OBJDIR)\nwfft3d.obj
+
+LIBRARY = pfft.lib
+LIB_DEFINES = -DEMSLFFT
+
+!INCLUDE ..\..\config\NTmakefile.h
+!INCLUDE ..\..\config\NTmakelib.h

@@ -1,0 +1,9 @@
+c
+c     $Id: pspw_diis_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+      integer max_list
+      parameter (max_list=20)
+      real*8  c(max_list),d(max_list),B(max_list,max_list)
+      integer npack1,neall,nsize,max_m,m
+      common / pspw_diis_block / B,c,d,npack1,neall,nsize,max_m,m
+

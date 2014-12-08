@@ -1,0 +1,7 @@
+C
+C $Id: geninterface.fh 19708 2010-10-29 18:04:21Z d3y133 $
+C
+C  Hold variable that will be needed throughout the interface
+C
+      integer rtdb, numatoms
+      common /venusinfo/ rtdb, numatoms

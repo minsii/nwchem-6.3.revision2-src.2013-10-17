@@ -1,0 +1,7 @@
+C $Id: nwpw_inp.fh 21797 2012-01-17 01:52:53Z bylaska $
+      integer lmax_read
+      integer locp_read
+      double precision rlocal_read,cutoff_read
+      integer psp_type,efg_type
+      common /nwpw_read/ lmax_read,locp_read,
+     >                   rlocal_read,cutoff_read,psp_type,efg_type

@@ -1,0 +1,13 @@
+*
+* $Id: smd_interface_data.fh 20076 2011-03-09 22:27:01Z marat $
+*
+      integer smd_interface_nc
+      parameter(smd_interface_nc=45)
+
+      character*72 smd_interface_rname(smd_interface_nc)
+      character*72 smd_interface_cname(smd_interface_nc)
+
+      common /smd_interface_data/ smd_interface_cname,
+     >                         smd_interface_rname
+
+

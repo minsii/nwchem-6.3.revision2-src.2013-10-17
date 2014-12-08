@@ -1,0 +1,12 @@
+
+*
+* $Id: c_geodesic_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+*     **** geodesic common block ***
+      integer U_tag
+      integer Vt_tag
+      integer S_tag
+      common / c_geodesic_block / U_tag,Vt_tag,S_tag
+
+

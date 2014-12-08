@@ -1,0 +1,18 @@
+*
+* $Id: cram_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+*     **** common block for cram ****
+      integer nidb_list(2)
+      integer nidb2_list(2)
+      integer nwaveall_list(2)
+      integer pack_list(2)
+      integer maxsize,npack_max
+      common / cram_block / nidb_list,
+     >                      nidb2_list,
+     >                      nwaveall_list,
+     >                      pack_list,
+     >                      maxsize,
+     >                      npack_max
+
+

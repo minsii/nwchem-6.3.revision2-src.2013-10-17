@@ -1,0 +1,8 @@
+*
+* $Id: paw_matrix_core_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+      integer paw_core_matrix(4)
+      integer i_paw_core_matrix(4)
+
+      common /paw_core_matrix/ paw_core_matrix,i_paw_core_matrix

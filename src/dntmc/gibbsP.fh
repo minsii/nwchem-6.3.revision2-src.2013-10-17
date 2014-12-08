@@ -1,0 +1,12 @@
+C$Id: gibbsP.fh 19708 2010-10-29 18:04:21Z d3y133 $
+c
+c First attemp to put some of this information into an include file
+c
+C     version 5.0  Dec. 20, 2007 full release version (lcrosby)
+C     modified to eliminate statically allocated arrays June 10, 2008 (lcrosby)
+
+      integer util_sgroup_numgroups, util_sgroup_mygroup
+      integer util_sgroup_zero_group
+      external util_sgroup_numgroups
+      external util_sgroup_mygroup
+      external util_sgroup_zero_group

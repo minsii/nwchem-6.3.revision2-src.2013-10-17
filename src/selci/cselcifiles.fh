@@ -1,0 +1,18 @@
+*
+* $Id: cselcifiles.fh 19708 2010-10-29 18:04:21Z d3y133 $
+*
+c
+c     moints   ... MO integrals
+c     ciconf   ... CI configuration info
+c     hamil    ... H matrix
+c     hamdg    ... diags of H
+c     civecs   ... CI eigenvectors
+c     names(2) ... Restart files
+c     wmatrx   ... Coupling coefficients (temporary and small)
+c     eigins   ... Eigenvalues ... not for long
+c     
+      character*255 moints,ciconf,hamil,hamdg,civecs,names(2),
+     $     wmatrx, eigins
+c
+      common/cselcifiles/ moints,ciconf,hamil,hamdg,civecs,names,
+     $     wmatrx, eigins

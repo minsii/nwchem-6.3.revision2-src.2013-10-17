@@ -1,0 +1,28 @@
+*
+* $Id: brillioun_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+*     **** Brillioun common block ****
+      integer    pbrillmax
+      parameter (pbrillmax = 100)
+      logical printbrill
+      integer nbrillioun,nbrillq
+      integer weight(2)
+      integer ks(2),kv(2)
+      common / Brillion_common / ks,kv,weight,nbrillioun,nbrillq,
+     >                           printbrill
+
+
+*     **** Brillioun all_common block ****
+*     *** hacky - but will work for now ***
+      integer kv_all(2)
+      common / Brillion_all_common / kv_all
+
+
+c*     **** PBrillioun common block ****
+c      integer    pbrillmax
+c      parameter (pbrillmax = 100)
+c      logical printbrill
+c      integer pweight(2)
+c      integer pks(2),pkv(2)
+c      common / PBrillion_common / pks,pkv,pweight,printbrill

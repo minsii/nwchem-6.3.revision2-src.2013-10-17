@@ -1,0 +1,9 @@
+c
+c $Id: smd_ewald_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+      integer kmax(3)
+
+      double precision   alpha,ralphsq,rksqmax
+
+      common/cm_ewld/alpha,ralphsq,rksqmax,kmax

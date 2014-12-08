@@ -1,0 +1,8 @@
+c
+c $Id: smd_cutoff_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+      logical ostatus
+      double precision   rcut, rcut_verlet
+
+      common/smd_cutoff_data/rcut,rcut_verlet,ostatus

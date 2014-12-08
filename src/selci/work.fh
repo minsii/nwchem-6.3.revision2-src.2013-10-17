@@ -1,0 +1,6 @@
+*
+* $Id: work.fh 19708 2010-10-29 18:04:21Z d3y133 $
+*
+      logical oswit
+      common /work  / jrec,jump,istrt(40),inumb(40),iwidth,nend(40),
+     * nstart(40),nline,noline,jwidth,nerr,oswit

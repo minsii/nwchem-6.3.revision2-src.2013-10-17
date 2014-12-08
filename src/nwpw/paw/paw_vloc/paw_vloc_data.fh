@@ -1,0 +1,5 @@
+*
+* $Id: paw_vloc_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+      integer vl(4)
+      common /paw_vloc_common/ vl

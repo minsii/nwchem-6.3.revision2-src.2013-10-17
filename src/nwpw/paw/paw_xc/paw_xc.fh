@@ -1,0 +1,6 @@
+!$Id: paw_xc.fh 19707 2010-10-29 17:59:36Z d3y133 $
+!
+!$Log: not supported by cvs2svn $
+
+      double precision paw_energy_xc_atom
+      external paw_energy_xc_atom

@@ -1,0 +1,77 @@
+*
+* $Id: nwpw_compcharge.fh 23644 2013-02-27 02:16:08Z bylaska $
+*
+
+*     **** common block for nwpw_compcharge data  ****
+      logical isgamma,use_grid_cmp
+      integer nion,nkatm,mult_l_max,lm_size_max,npack0,nfft3d
+      integer nion_paw,nkatm_paw,katm_paw(2)
+      integer katm_pawtoion(2),ion_pawtoion(2)
+      integer katm_iontopaw(2),ion_iontopaw(2)
+      integer mult_l(2),lm_size(2)
+      integer sigma_paw(2)
+c      integer sigma(2)
+      real*8 sigma_smooth
+
+      integer gk_smooth(2)   ! gk_smooth(k)  = 4*pi * Exp[-k*k*sigma_smooth**2 / 4] 
+      integer gk(2)          ! gk(k,1:nkatm_paw) = 4*pi * Exp[-k*k*sigma(ia)**2 / 4]
+      integer glm(2)         ! glm(k, lm=1:(max_mult_l+1)**2) =  Tlm(k) * |k|**l / (2*l+1)!!
+                             !    - Note that (-i)**l factor will be assumed in the calculation.
+                             !      Also note that  the Tlm and gaussian terms are rearranged to save space
+                             !      It is more natural to define g_lm, gk and gk_smooth
+                             !           g_lm      =  4*pi*Tlm(k)
+                             !           gk        = |k|**l * Exp[-k*k*sigma(ia)**2 / 4] / (2*l+1)!!
+                             !           gk_smooth = |k|**l * Exp[-k*k*sigma_smooth**2 / 4] / (2*l+1)!!
+                             !       but this requires more space
+
+      integer Qlm(2)         ! Qlm(lm=1:(mult_l+1)**2,2,1:nion_paw) = compensation charge coefficients
+      integer Qlmx(2)        ! Qlmx(lm=1:(mult_l+1)**2,2,1:nion_paw) = compensation charge coefficients
+      integer Qlmy(2)        ! Qlmy(lm=1:(mult_l+1)**2,2,1:nion_paw) = compensation charge coefficients
+      integer Qlmz(2)        ! Qlmz(lm=1:(mult_l+1)**2,2,1:nion_paw) = compensation charge coefficients
+      integer dEmult_Qlm(2)  ! dEmult_Qlm(lm=1:(mult_l+1)**2,2,1:nion_paw) = dEmult/dQlm
+      integer dE_Qlm(2)      ! dE_Qlm(lm=1:(mult_l+1)**2,2,1:nion_paw) = dE/dQlm where E is the total energy of the system
+
+      integer nindx_Tndiff(2)
+      integer shift_Tndiff(2)
+      integer lm_Tndiff(2)
+      integer iprj_Tndiff(2)
+      integer jprj_Tndiff(2)
+      integer coeff_Tndiff(2)   
+
+      common / nwpw_compcharge_block / gk_smooth,gk,glm,Qlm,
+     >                  Qlmx,Qlmy,Qlmz,dEmult_Qlm,dE_Qlm,
+     >                  sigma_smooth,sigma_paw,
+     >                  mult_l,lm_size,
+     >                  nindx_Tndiff,shift_Tndiff,
+     >                  lm_Tndiff,iprj_Tndiff,jprj_Tndiff,coeff_Tndiff,
+     >                  nion,nkatm,mult_l_max,lm_size_max,npack0,nfft3d,
+     >                  nion_paw,nkatm_paw,katm_paw,
+     >                  katm_pawtoion,ion_pawtoion,
+     >                  katm_iontopaw,ion_iontopaw,
+     >                  isgamma,use_grid_cmp
+
+*     **** data for atomic hartree indexing ****
+      integer nindx_hartree(2)
+      integer shift_hartree(2)
+      integer coeff_hartree(2)
+      integer iprj_hartree(2)
+      integer jprj_hartree(2)
+      integer iprj1_hartree(2)
+      integer jprj1_hartree(2)
+      common /nwpw_hartree_block/ nindx_hartree,shift_hartree,
+     >                           coeff_hartree,
+     >                           iprj_hartree, jprj_hartree,
+     >                           iprj1_hartree,jprj1_hartree
+
+
+
+*     ******* Two-Electron Gaussian integral block **********
+      logical periodic
+      integer e_gauss(2),f_gauss(2),indx_gauss(2),ngauss,ngauss_max
+      integer lm1_gauss(2),lm2_gauss(2)
+      integer iii1_gauss(2),iii2_gauss(2)
+      common / nwpw_gaussian_block / e_gauss,f_gauss,indx_gauss,
+     >                               iii1_gauss,iii2_gauss,
+     >                               lm1_gauss,lm2_gauss,
+     >                               ngauss,ngauss_max,
+     >                               periodic

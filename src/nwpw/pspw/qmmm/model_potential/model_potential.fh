@@ -1,0 +1,15 @@
+c
+c $Id: model_potential.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+*     **** Model_Potential common block ******************************
+      real*8 small
+      parameter (small=1.0d-8)
+
+      integer c(2),g(2),coeff(2)
+      integer lr_cutoff(2)
+      integer iatom(2)
+      integer Nbasis
+      common / Model_Potential_blck / c,g,coeff,lr_cutoff,iatom,Nbasis
+*     *****************************************************************
+

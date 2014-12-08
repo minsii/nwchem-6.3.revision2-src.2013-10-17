@@ -1,0 +1,7 @@
+c
+c $Id: paw_matrix_kin_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+      integer paw_kin_matrix(4)
+      integer i_paw_kin_matrix(4)
+
+      common /paw_kin_matrix/ paw_kin_matrix,i_paw_kin_matrix

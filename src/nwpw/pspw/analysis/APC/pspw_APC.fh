@@ -1,0 +1,19 @@
+c
+c $Id: pspw_APC.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+      integer ngs   ! total number of gaussians
+      integer nga   ! number of gaussians per atom
+
+      integer A(2),Am(2)  ! index to Aij and (Aij)-1
+      integer b(2)        ! index to bi 
+      integer q(2)        ! index to qi 
+      integer gamma(2)    ! index
+      integer w(2)        ! index
+      integer gaus(2)     ! index
+
+      real*8 Gc
+      common / pspw_APC / Gc,A,Am,b,q,gamma,w,gaus,ngs,nga
+
+
+

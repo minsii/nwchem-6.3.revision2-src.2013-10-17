@@ -1,0 +1,11 @@
+      double precision  boltz,boltzmann,pii,twopi,sqrpi,JToHartree,tolg
+      integer ir
+      parameter(ir = 11)
+      parameter(boltz   = 1.380662D-16)
+      parameter(boltzmann=  1.3806503d-23)
+      parameter(pii      =  3.141592653589793d0)
+      parameter(twopi    =  6.283185307179586d0)
+      parameter(sqrpi    =  1.772453850905516d0)
+      parameter(JToHartree = 2.2937128d+17)
+      parameter(tolg     =1.0D-08)
+c $Id: const_data.fh 21176 2011-10-10 06:35:49Z d3y133 $

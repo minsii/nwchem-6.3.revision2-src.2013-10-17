@@ -1,0 +1,14 @@
+c
+c $Id: paw_comp_charge_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+      integer    paw_q00(4)     ! compensation charge
+      integer    i_paw_qlm(4)     ! compensation charge
+      integer    paw_qlm(4)     ! compensation charge
+      integer    paw_qlm_spin(4,2)  ! compensation charge
+      integer    paw_qlm_l(4)     ! compensation charge
+      integer    paw_qlm_m(4)     ! compensation charge
+      common / paw_comp_charge / paw_qlm_l,paw_qlm_m,
+     >                           paw_qlm,paw_qlm_spin,
+     >                           paw_q00,i_paw_qlm
+

@@ -1,0 +1,17 @@
+c
+c $Id: qmmm_link_data.fh 19708 2010-10-29 18:04:21Z d3y133 $
+c
+      integer link_atom
+      integer nlink,nps
+      integer i_lb,h_lb
+      integer i_ips,h_ips
+
+
+      common/qmmm_link_data/ nlink,
+     &                 nps,
+     &                 link_atom,
+     &                 i_lb,h_lb,
+     &                 i_ips,h_ips
+
+
+

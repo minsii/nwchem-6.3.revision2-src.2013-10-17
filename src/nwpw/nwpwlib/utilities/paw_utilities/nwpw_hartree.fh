@@ -1,0 +1,14 @@
+c $Id: nwpw_hartree.fh 22503 2012-05-20 06:58:57Z d3y133 $
+
+      integer nindx_hartree(2)
+      integer shift_hartree(2)
+      integer coeff_hartree(2)
+      integer iprj_hartree(2)
+      integer jprj_hartree(2)
+      integer iprj1_hartree(2)
+      integer jprj1_hartree(2)
+      common /nwpw_hartree_data/ nindx_hartree,shift_hartree,
+     >                           coeff_hartree,
+     >                           iprj_hartree, jprj_hartree,
+     >                           iprj1_hartree,jprj1_hartree
+

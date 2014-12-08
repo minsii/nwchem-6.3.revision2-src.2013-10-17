@@ -1,0 +1,9 @@
+*
+* $Id: Dnex.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+      integer ne(2),neq(2),ispin
+      common    / Dnex / ne,neq,ispin
+
+
+

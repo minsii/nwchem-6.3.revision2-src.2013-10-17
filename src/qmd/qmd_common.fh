@@ -1,0 +1,41 @@
+c
+c $Id: qmd_common.fh 23509 2013-01-29 18:01:27Z niri $
+c
+c     common parameters
+c
+      integer lgeom,igeom,jdebug
+      common/qmd_int/lgeom,igeom,jdebug
+c
+c     constants
+      double precision kb,au2fs
+      common/qmd_consts/kb,au2fs
+c
+c     berendsen thermostat
+      logical do_berendsen
+      double precision tau
+c
+c     nose-hoover thermostat parameters
+      integer maxchain
+      parameter (maxchain = 2)
+      logical do_nosehoover
+      double precision r_nh(maxchain)    ! chain positions
+      double precision v_nh(maxchain)    ! chain velocities
+      double precision m_nh(maxchain)    ! chain masses
+      double precision g_nh(maxchain)    ! bath couplings
+c     
+      common/qmd_tstats/do_berendsen,tau,
+     &                      do_nosehoover,r_nh,v_nh,m_nh,g_nh
+c
+c     temperature
+      double precision targ_temp
+      double precision final_temp 
+      common/qmd_temps/targ_temp,final_temp
+c
+c     integrators
+      logical do_veloverlet                      ! velocity verlet
+      common/qmd_integrators/do_veloverlet
+c
+c     nuclear-md constraints
+      logical do_linear
+      integer ndeg
+      common/qmd_constr/do_linear,ndeg

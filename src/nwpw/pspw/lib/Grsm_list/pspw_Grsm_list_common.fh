@@ -1,0 +1,15 @@
+c
+c     $Id: pspw_Grsm_list_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+      integer max_list
+      parameter (max_list=40)
+      logical ondisk
+      integer grsm_mem(2,max_list)
+      integer indx(max_list),nsize,size_list
+      character*20 tag_list(max_list)
+      character*20 tag_list2(max_list)
+      common / pspw_Grsm_block / indx,grsm_mem,
+     >                           tag_list,tag_list2,
+     >                           nsize,size_list,
+     >                           ondisk
+

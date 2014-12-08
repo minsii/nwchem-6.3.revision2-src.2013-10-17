@@ -1,0 +1,9 @@
+c
+c $Id: argos_diana_params.fh 19708 2010-10-29 18:04:21Z d3y133 $
+c
+      real*8 zero,half,one,two,three
+      parameter(zero=0.0d0)
+      parameter(half=5.0d-1)
+      parameter(one=1.0d0)
+      parameter(two=2.0d0)
+      parameter(three=3.0d0)

@@ -1,0 +1,39 @@
+*
+* $Id: lcao_make_psi.F 19707 2010-10-29 17:59:36Z d3y133 $
+*
+*     *******************************
+*     *								*
+*     *		   lcao_make_psi		*
+*     *								*
+*     *******************************
+*
+*     This routines calculates the electronic wavefunction.
+*
+      subroutine lcao_make_psi(coef,psi,phi)
+      implicit none
+      real*8 coef(*)
+      complex*16 psi(*)
+      complex*16 phi(*)
+
+#include "mafdecls.fh"
+#include "global.fh"
+
+*     **** local variables ****
+      integer j,nbasis
+
+
+*     ***** external functions ****
+      integer  aorbs_nbasis
+      external aorbs_nbasis
+
+
+      nbasis = aorbs_nbasis()
+      call Pack_c_Zero(1,psi)
+      do j=1,nbasis
+         call aorbs_aorb(j,phi)  !**** get phi1 ****
+         call Pack_cc_daxpy(1,coef(j),phi,psi)
+      end do
+
+      return
+      end
+

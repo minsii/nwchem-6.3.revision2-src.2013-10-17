@@ -1,0 +1,22 @@
+! 
+! $Id: paw_ovlp.fh 19707 2010-10-29 17:59:36Z d3y133 $
+! 
+      integer paw_ovlp_coeff_size
+      external paw_ovlp_coeff_size
+
+      integer paw_ovlp_weight_size
+      external paw_ovlp_weight_size
+
+      integer paw_ne_total
+      external paw_ne_total
+
+      integer paw_ne_up
+      external paw_ne_up
+
+      integer paw_ne_down
+      external paw_ne_down
+
+      integer paw_ispin
+      external paw_ispin
+
+

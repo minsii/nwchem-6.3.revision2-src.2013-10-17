@@ -1,0 +1,127 @@
+#!/bin/sh
+#
+# $Id: get-tools 23968 2013-04-04 04:55:46Z d3y133 $
+#
+
+unalias -a
+
+export NWCHEM_TOP=${NWCHEM_TOP:-"`pwd`/../"}
+if test "x$NWCHEM_TOP" = x
+then
+    echo You must set NWCHEM_TOP to use this script.
+    exit 1
+fi
+
+TOOLDIR=`pwd`
+CONFIG=$NWCHEM_TOP/src/config/makefile.h
+   GA_DEV_SVN=https://svn.pnl.gov/svn/hpctools/trunk/ga
+       GA_DEV=ga-dev
+GA_STABLE_SVN=https://svn.pnl.gov/svn/hpctools/branches/ga-5-2 # Comment this line out for NWChem releases
+#GA_STABLE_SVN=https://svn.pnl.gov/svn/hpctools/tags/ga-5-1-1     # For GA release 5.1.1
+    GA_STABLE=ga-5-2
+   GA_OLD_SVN=https://svn.pnl.gov/svn/hpctools/tags/ga-4-3     # For GA release 4.3
+   GA_OLD_SVN=https://svn.pnl.gov/svn/hpctools/branches/ga-4-3 # Comment this line out for NWChem releases
+       GA_OLD=ga-4-3
+   GA_EXP_SVN=https://svn.pnl.gov/svn/hpctools/branches/exp1
+       GA_EXP=ga-exp1
+
+# If OLD_GA is set at all in the user's environment then it means 'yes'
+if test "x$OLD_GA" != x
+then
+    OLD_GA=yes
+fi
+# Or, if OLD_GA is uncommented within $NWCHEM_TOP/src/config/makefile.h
+if grep "^\s*OLD_GA\s*=" $CONFIG >/dev/null 2>&1
+then
+    OLD_GA=yes
+fi
+# If EXP_GA is set at all in the user's environment then it means 'yes'
+if test "x$EXP_GA" != x
+then
+    EXP_GA=yes
+fi
+echo "OLD_GA=$OLD_GA"
+echo "EXP_GA=$EXP_GA"
+
+# If DEV_GA is set at all in the user's environment then it means 'yes'
+if test "x$DEV_GA" != x
+then
+    GA_SVN=$GA_DEV_SVN
+    GA_DIRNAME=$GA_DEV
+elif test "x$EXP_GA" != x
+then
+    GA_SVN=$GA_EXP_SVN
+    GA_DIRNAME=$GA_EXP
+else
+    GA_SVN=$GA_STABLE_SVN
+    GA_DIRNAME=$GA_STABLE
+fi
+
+# Update the "OLD_GA" source.
+if test -e $TOOLDIR/armci
+then
+    echo "You have an old copy of the ga tools using GNUmakefiles"
+    echo "Deleting it now"
+    rm -rf $TOOLDIR/armci
+    rm -rf $TOOLDIR/armci-portals
+    rm -rf $TOOLDIR/build-aux
+    rm -rf $TOOLDIR/cca
+    rm -rf $TOOLDIR/config
+    rm -rf $TOOLDIR/doc
+    rm -rf $TOOLDIR/examples
+    rm -rf $TOOLDIR/f2c
+    rm -rf $TOOLDIR/ga++
+    rm -rf $TOOLDIR/gaf2c
+    rm -rf $TOOLDIR/global
+    rm -rf $TOOLDIR/lib
+    rm -rf $TOOLDIR/LinAlg
+    rm -rf $TOOLDIR/ma
+    rm -rf $TOOLDIR/pario
+    rm -rf $TOOLDIR/tcgmsg
+    rm -rf $TOOLDIR/tcgmsg-mpi
+fi
+if svn checkout $GA_OLD_SVN $GA_OLD --username nwchem --password nwchem
+then
+    cd $GA_OLD
+    rm -f README
+    rm -f license.txt
+    rm -f INSTALL
+    rm -f NOTES
+    rm -f GNUmakefile
+    cp -f -R * ..
+    cd $TOOLDIR
+fi
+
+# Update the autotools build of GA.
+#if test -e $TOOLDIR/build
+#then
+#    echo "You have an old copy of the ga tools using configure"
+#    echo "Deleting it now"
+#    rm -rf $TOOLDIR/build
+#    rm -rf $TOOLDIR/install
+#fi
+if test -d $GA_DIRNAME
+then
+    echo "Updating existing $GA_DIRNAME"
+    cd $GA_DIRNAME
+    if svn update --username nwchem --password nwchem
+    then
+        echo "Finished updating existing $GA_DIRNAME"
+    else
+        echo "Failed updating existing $GA_DIRNAME"
+        echo "Attempting to remove $GA_DIRNAME"
+        cd $TOOLDIR
+        if rm -rf $GA_DIRNAME
+        then
+            echo "Checking out $GA_SVN"
+            svn checkout $GA_SVN $GA_DIRNAME --username nwchem --password nwchem
+        else
+            echo "Failed to remove $GA_DIRNAME"
+            echo "get-tools has failed"
+        fi
+    fi
+    cd $TOOLDIR
+else
+    echo "Checking out $GA_SVN"
+    svn checkout $GA_SVN $GA_DIRNAME --username nwchem --password nwchem
+fi

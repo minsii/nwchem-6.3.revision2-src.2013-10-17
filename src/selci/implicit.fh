@@ -1,0 +1,8 @@
+*
+* $Id: implicit.fh 19708 2010-10-29 18:04:21Z d3y133 $
+*
+c
+      implicit real*8    (a-h,p-w),integer   (i-n),logical    (o)
+      implicit character *8 (z),character *1 (x)
+      implicit character *4 (y)
+c

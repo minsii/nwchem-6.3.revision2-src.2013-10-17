@@ -1,0 +1,13 @@
+*
+* $Id: D1dB.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+      integer nq(NBLOCKS),nz(NBLOCKS),mapping,np_j
+      common    / D1dB / nq,nz,mapping,np_j
+
+      !**** 1d mapping ****
+      integer nqarray(2,NBLOCKS)
+      integer q_map(2,NBLOCKS),p_map(2,NBLOCKS),k_map(2,NBLOCKS)
+      common / D1dB_mapping / q_map,p_map,k_map,nqarray
+
+

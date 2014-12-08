@@ -1,0 +1,14 @@
+c
+c $Id: truncating_function.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+*     ***** truncating_function common block ******************************
+      real*8 rcut,pp
+      integer Trnc(2),nt
+      common / truncating_function_block /
+     >                rcut,pp,Trnc,nt
+
+*     ******************************************************************
+
+
+

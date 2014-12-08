@@ -1,0 +1,17 @@
+*
+* $Id: c_semicore_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+*     **** semicore common block ****
+      integer ncore(2),rcore(2)
+      integer semicore(2)
+      common / c_ccore / ncore,rcore,semicore
+
+*     **** semicore2 common block ****
+      integer ncore_sum(2)
+      common / c_ccore2 / ncore_sum
+
+*     **** semicore3 common block ****
+      integer dncore(2)
+      common / c_ccore3 / dncore
+

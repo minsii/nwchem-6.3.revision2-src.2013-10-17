@@ -1,0 +1,72 @@
+! 
+! $Id: paw_force_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+! 
+
+!     **** paw_force_data.fh common blocks ****
+
+      integer    paw_force_cx_s(4)     ! scrambled overlap coefficients 
+      integer    paw_force_cx_u(4)     ! unscrambled overlap coefficients 
+
+      integer    paw_force_cy_s(4)     
+      integer    paw_force_cy_u(4)     
+
+      integer    paw_force_cz_s(4)     
+      integer    paw_force_cz_u(4)     
+
+      integer    i_paw_force_w(4)
+      integer    paw_force_wx(4)       ! overlap weights
+      integer    paw_force_wx_u(4)     ! overlap weights spin-up
+      integer    paw_force_wx_d(4)     ! overlap weights spin-down
+ 
+      integer    paw_force_wy(4)       
+      integer    paw_force_wy_u(4)     
+      integer    paw_force_wy_d(4)     
+
+      integer    paw_force_wz(4)       
+      integer    paw_force_wz_u(4)     
+      integer    paw_force_wz_d(4)     
+
+      integer    paw_force_fx_pw(4)       
+      integer    paw_force_fy_pw(4)       
+      integer    paw_force_fz_pw(4)       
+
+      integer    paw_force_fx_atom(4)       
+      integer    paw_force_fy_atom(4)       
+      integer    paw_force_fz_atom(4)       
+
+      integer    paw_force_fx_constr(4)       
+      integer    paw_force_fy_constr(4)       
+      integer    paw_force_fz_constr(4)       
+
+      integer    paw_force_f_mult(4)       
+
+
+      common / paw_force / 
+     >                    paw_force_cx_s,
+     >                    paw_force_cx_u, 
+     >                    paw_force_cy_s,
+     >                    paw_force_cy_u, 
+     >                    paw_force_cz_s,
+     >                    paw_force_cz_u, 
+     >                    i_paw_force_w,
+     >                    paw_force_wx,
+     >                    paw_force_wx_u,
+     >                    paw_force_wx_d, 
+     >                    paw_force_wy,
+     >                    paw_force_wy_u,
+     >                    paw_force_wy_d, 
+     >                    paw_force_wz,
+     >                    paw_force_wz_u,
+     >                    paw_force_wz_d,
+     >                    paw_force_fx_pw,       
+     >                    paw_force_fy_pw,       
+     >                    paw_force_fz_pw,       
+     >                    paw_force_fx_atom,       
+     >                    paw_force_fy_atom,       
+     >                    paw_force_fz_atom,       
+     >                    paw_force_fx_constr,       
+     >                    paw_force_fy_constr,       
+     >                    paw_force_fz_constr,       
+     >                    paw_force_f_mult      
+
+

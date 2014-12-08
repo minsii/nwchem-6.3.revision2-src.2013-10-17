@@ -1,0 +1,39 @@
+*
+* $Id: D3dB.fh 19808 2010-12-13 20:32:00Z bylaska $
+*
+
+
+      integer nq(NBLOCKS),nx(NBLOCKS),ny(NBLOCKS),nz(NBLOCKS)
+      common    / D3dB / nq,nx,ny,nz
+
+
+      integer nfft3d(NBLOCKS),n2ft3d(NBLOCKS)
+      integer nfft3d_map(NBLOCKS),n2ft3d_map(NBLOCKS)
+      integer zplane_size(NBLOCKS)
+      integer mapping,mapping2d
+      common    / D3dB_kdfj / nfft3d,n2ft3d,
+     >                        nfft3d_map,n2ft3d_map,
+     >                        zplane_size,mapping,mapping2d
+
+
+      !**** slab mapping ****
+      integer q_map(2,NBLOCKS),p_map(2,NBLOCKS),k_map(2,NBLOCKS)
+      integer nqarray(2,NBLOCKS)
+      common /D3dB_mapping / q_map,p_map,k_map,nqarray
+
+
+      !**** hilbert mapping ****
+      integer q_map1(2,NBLOCKS),p_map1(2,NBLOCKS),nq1(NBLOCKS)
+      integer q_map2(2,NBLOCKS),p_map2(2,NBLOCKS),nq2(NBLOCKS)
+      integer q_map3(2,NBLOCKS),p_map3(2,NBLOCKS),nq3(NBLOCKS)
+      common /D3dB_mapping2 / q_map1,p_map1,q_map2,p_map2,q_map3,p_map3,
+     >                        nq1,nq2,nq3
+
+
+#ifdef FFTW3
+      integer nplans
+      parameter (nplans=20)
+      integer   iforward,ibackward,iestimate
+      integer*8 plans(nplans,NBLOCKS)
+      common /FFTW3_plans / plans,iforward,ibackward,iestimate
+#endif

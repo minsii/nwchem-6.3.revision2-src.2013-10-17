@@ -1,0 +1,5 @@
+*
+* $Id: workc.fh 19708 2010-10-29 18:04:21Z d3y133 $
+*
+      character*80 ia,ja
+      common/workc/ia,ja

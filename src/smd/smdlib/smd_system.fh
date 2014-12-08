@@ -1,0 +1,17 @@
+*
+* $Id: smd_system.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+      logical smd_system_periodic
+      external smd_system_periodic
+
+      logical  smd_system_shake
+      external smd_system_shake
+
+      logical smd_system_ntot
+      external smd_system_ntot
+
+      logical smd_system_tstep
+      external smd_system_tstep
+
+      logical smd_system_ndata
+      external smd_system_ndata

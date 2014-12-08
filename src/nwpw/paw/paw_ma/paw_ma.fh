@@ -1,0 +1,9 @@
+!c
+!c $Id: paw_ma.fh 19707 2010-10-29 17:59:36Z d3y133 $
+!c
+
+      logical my_alloc
+      external my_alloc
+      logical my_dealloc
+      external my_dealloc
+

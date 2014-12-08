@@ -1,0 +1,43 @@
+*
+* $Id: band_hfx.fh 21565 2011-11-27 17:01:17Z bylaska $
+*
+
+*     **** BAND_HFX common block ****
+      logical relaxed,orb_contribution,hfx_on
+      real*8  rcut,pp
+      real*8  ehfx,phfx
+      real*8  hfx_parameter
+      integer solver_type,flag
+      integer norbs(2),ispin,nbrillioun,nbrillq
+      integer ehfx_orb(2,2)
+      common / BAND_HFX_Block / ehfx,phfx,rcut,pp,
+     >                          hfx_parameter,
+     >                          ehfx_orb,
+     >                          norbs,ispin,nbrillioun,nbrillq,
+     >                          solver_type,flag,
+     >                          relaxed,orb_contribution,hfx_on
+
+*     **** BAND_HFX_frac common block ****
+      logical frac_on
+      integer amatrix(2)
+      common /BAND_HFX_frac_Block/ amatrix,frac_on
+
+*     **** BAND_HFX_replicated common block ****
+      logical replicated,npkeven
+      integer npk,taskid_k,nfft3d,neall,nrsize,nbrillq_max,npkrot
+      integer  psi_rep1_tag, psi_rep2_tag
+      integer Hpsi_rep1_tag,Hpsi_rep2_tag
+      integer kw_rep1(2),kw_rep2(2),nbrillq_rep(2)
+      common /BAND_HFX_replicated_Block/ psi_rep1_tag,
+     >                                   psi_rep2_tag,
+     >                                   Hpsi_rep1_tag,
+     >                                   Hpsi_rep2_tag,
+     >                                   kw_rep1,
+     >                                   kw_rep2,
+     >                                   nbrillq_rep,
+     >                                   npk,taskid_k,
+     >                                   nfft3d,neall,nrsize,
+     >                                   nbrillq_max,npkrot,
+     >                                   replicated,npkeven
+
+

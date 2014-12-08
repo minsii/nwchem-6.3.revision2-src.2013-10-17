@@ -1,0 +1,23 @@
+*
+* $Id: cpsi_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+*     **** common block for cpsi data  ****
+      integer indx_psi(2)
+      integer nsize_psi(2)
+      integer neall_psi(2)
+      integer nbrill_psi(2)
+      integer hndl_psi(2)
+      integer curnb_psi(2)
+      integer update_psi(2)
+      integer list_psi(2)
+      integer next_psi(2)
+      integer npsi,tagmax,tagmin
+      logical brill_ondisk
+      common / cpsi_data_block / indx_psi,nsize_psi,neall_psi,
+     >                           nbrill_psi,hndl_psi,
+     >                           update_psi,curnb_psi,list_psi,
+     >                           next_psi,
+     >                           npsi,tagmax,tagmin,
+     >                           brill_ondisk
+

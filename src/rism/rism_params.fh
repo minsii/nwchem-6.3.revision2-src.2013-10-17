@@ -1,0 +1,16 @@
+c
+c $Id: rism_params.fh 21058 2011-09-07 14:04:48Z d3y133 $
+c
+
+      integer t_hnc
+      parameter (t_hnc=1)
+
+      integer t_kh
+      parameter (t_kh=2)
+
+      integer t_geometric
+      parameter (t_geometric=2)
+
+      integer t_arithmetic
+      parameter (t_arithmetic=1)
+

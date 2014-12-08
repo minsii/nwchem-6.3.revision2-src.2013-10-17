@@ -1,0 +1,21 @@
+c
+c     $Id: nwpw_list_common.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+      integer max_num_lists
+      parameter (max_num_lists=2)
+
+      integer max_list
+      parameter (max_list=80)
+
+      logical ondisk(max_num_lists)
+      integer grsm_mem(2,max_list,max_num_lists)
+      integer indx(max_list,max_num_lists)
+      integer nsize(max_num_lists)
+      integer size_list(max_num_lists)
+      character*20 tag_list(max_list,max_num_lists)
+      character*20 tag_list2(max_list,max_num_lists)
+      common / nwpw_list_block / indx,grsm_mem,
+     >                           tag_list,tag_list2,
+     >                           nsize,size_list,
+     >                           ondisk
+

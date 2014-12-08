@@ -1,0 +1,8 @@
+*
+* $Id: paw_geom.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+      integer  ion_nion,ion_natm,ion_nkatm,ion_katm
+      external ion_nion,ion_natm,ion_nkatm,ion_katm
+      real*8   ion_rion,ion_vion
+      external ion_rion,ion_vion
+

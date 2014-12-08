@@ -1,0 +1,9 @@
+*
+* $Id: paw_matrix_ion_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+*
+
+      integer paw_ion_matrix(4)
+      integer i_paw_ion_matrix(4)
+
+      common /paw_ion_matrix/ paw_ion_matrix,i_paw_ion_matrix
+

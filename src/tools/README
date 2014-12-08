@@ -1,0 +1,6 @@
+#
+# $Id: README 19697 2010-10-29 16:57:34Z d3y133 $
+#
+
+Tools are now using a SVN repository under https://svn.pnl.gov/hpctools.
+You need to have a user name and password to access the GA tools repository.

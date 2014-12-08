@@ -1,0 +1,135 @@
+c
+c $Id: qmmm.fh 19708 2010-10-29 18:04:21Z d3y133 $
+c
+      integer qmmm_get_nlink
+      integer qmmm_get_nbq
+      integer qmmm_get_nbqw
+      integer qmmm_get_nbqs
+      integer qmmm_get_nqm
+      integer qmmm_get_i_ai
+      integer qmmm_get_i_c
+      integer qmmm_get_i_cbq
+      integer qmmm_get_h_cbq
+      integer qmmm_get_i_qbq
+      integer qmmm_get_h_qbq
+      integer qmmm_get_i_ibq
+      integer qmmm_get_i_tbq
+      integer qmmm_get_i_t
+      integer qmmm_get_i_q
+      integer qmmm_get_i_m
+      integer qmmm_get_i_g
+      integer qmmm_get_i_gmm
+      integer qmmm_get_i_num
+      integer qmmm_get_bq_exclude
+      integer qmmm_get_link_atom
+      double precision qmmm_get_qcharge
+
+      external qmmm_get_nqm
+      external qmmm_get_i_ai
+      external qmmm_get_i_c
+      external qmmm_get_i_t
+      external qmmm_get_i_q
+      external qmmm_get_i_m
+      external qmmm_get_i_g
+      external qmmm_get_i_gmm
+      external qmmm_get_i_num
+      external qmmm_get_qcharge
+      external qmmm_get_nbqw
+      external qmmm_get_nbqs
+      external qmmm_get_i_cbq
+      external qmmm_get_h_cbq
+      external qmmm_get_i_qbq
+      external qmmm_get_h_qbq
+      external qmmm_get_bq_exclude
+      external qmmm_get_link_atom
+      external qmmm_get_nbq
+      external qmmm_get_nlink
+      external qmmm_get_i_ibq
+      external qmmm_get_i_tbq
+ 
+      logical qmmm_h_link
+      external qmmm_h_link
+
+      logical  qmmm_halogen_link
+      external qmmm_halogen_link
+
+      logical qmmm_master
+      external qmmm_master
+
+      logical  qmmm_fixlinks
+      external qmmm_fixlinks
+
+      logical  qmmm_print_default
+      external qmmm_print_default
+
+      logical  qmmm_print_low
+      external qmmm_print_low
+
+      logical  qmmm_print_debug
+      external qmmm_print_debug
+
+      logical  qmmm_bq_dynamical
+      external qmmm_bq_dynamical
+
+      integer   qmmm_get_i_act
+      external qmmm_get_i_act
+
+      integer   qmmm_get_i_lb
+      external qmmm_get_i_lb
+
+      integer   qmmm_get_i_ips
+      external qmmm_get_i_ips
+
+      integer   qmmm_get_nps
+      external qmmm_get_nps
+
+      character*32 qmmm_get_interface
+      external qmmm_get_interface
+
+      integer   qmmm_get_i_ibqa
+      external qmmm_get_i_ibqa
+
+      integer   qmmm_get_i_qs
+      external qmmm_get_i_qs
+
+      integer   qmmm_get_nbqa
+      external  qmmm_get_nbqa
+
+      integer    qmmm_geom_get_i_ifg
+      integer    qmmm_geom_get_i_ig
+      integer    qmmm_geom_get_ng
+      integer    qmmm_geom_get_nfg
+
+      external   qmmm_geom_get_i_ifg
+      external   qmmm_geom_get_i_ig
+      external   qmmm_geom_get_ng
+      external   qmmm_geom_get_nfg
+
+      integer   qmmm_geom_get_ngw
+      external  qmmm_geom_get_ngw
+
+      integer   qmmm_geom_get_ngs
+      external  qmmm_geom_get_ngs
+
+      integer   qmmm_geom_get_i_g
+      external  qmmm_geom_get_i_g
+
+      logical   qmmm_aux_geom
+      external  qmmm_aux_geom
+
+      logical  qmmm_get_io_unit
+      external qmmm_get_io_unit
+
+      logical  qmmm_file_exist
+      external qmmm_file_exist
+
+      integer qmmm_get_link_atom_index
+      external qmmm_get_link_atom_index
+
+
+c      integer   qmmm_cons_get_nacts
+c      external  qmmm_cons_get_nacts
+c
+c      integer   qmmm_cons_get_i_acts
+c      external  qmmm_cons_get_i_acts
+

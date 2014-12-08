@@ -1,0 +1,15 @@
+! 
+! $Id: paw_proj_data.fh 19707 2010-10-29 17:59:36Z d3y133 $
+! 
+
+!     **** paw_proj.fh common blocks ****
+      integer    prj(2)     ! formatted projectors 
+      integer    prj_nbasis(2)
+      integer    prj_indx(2)
+      integer    i_prj_l(2),i_prj_m(2)
+      integer    prj_ntot
+      integer    prj_nkatm
+      common / paw_proj / prj,prj_nbasis,prj_indx,
+     >                    i_prj_l,i_prj_m,
+     >                    prj_nkatm,prj_ntot
+

@@ -1,0 +1,10 @@
+c
+c $Id: pspw_Q.fh 19707 2010-10-29 17:59:36Z d3y133 $
+c
+
+*     ***** pspw_Q common block ****************************************
+      integer q_mm(2)
+      integer q_ion(2)
+      common / pspw_Q /   q_mm,		! MM  Electrostatic parameters
+     >                    q_ion 	! Ion Electrostatic parameters
+*     ******************************************************************
