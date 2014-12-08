@@ -256,6 +256,9 @@ ccx     &,MA_ERR)
 ccx      END IF
 ccx      END IF
 ccx      END IF
+
+      call tpi_start_timer(1)
+
       IF ((t_p4b .eq. p4b) .and. (t_p5b .eq. p5b) .and. (t_p6b .eq. p6b)
      & .and. (t_h1b .eq. h1b) .and. (t_h2b .eq. h2b) .and. (t_h3b .eq. h
      &3b)) THEN
@@ -373,6 +376,9 @@ ccx     &mb(k_range+h1b-1),int_mb(k_range+p4b-1),4,3,6,2,1,5,1.0d0)
      4               a_c,dbl_mb(k_a_sort),dbl_mb(k_b_sort))
 
       END IF
+
+      call tpi_stop_timer(1)
+
 ccx      IF (.not.MA_POP_STACK(l_c_sort)) CALL ERRQUIT('ccsd_t_singles_1',9
 ccx     &,MA_ERR)
 

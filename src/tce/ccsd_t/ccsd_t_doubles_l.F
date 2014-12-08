@@ -313,6 +313,8 @@ c  k_c_sort is not used here
 c
 c contributions are calculated here
 c
+      call tpi_start_timer(1)
+
       IF ((t_p4b .eq. p4b) .and. (t_p5b .eq. p5b) .and. (t_p6b .eq. p6b)
      & .and. (t_h1b .eq. h1b) .and. (t_h2b .eq. h2b) .and. (t_h3b .eq. h
      &3b)) THEN
@@ -493,8 +495,7 @@ c *** debug ***
 c        write(6,*)'step15-h7b loop',ga_nodeid()
 c        call util_flush(6)
 c
-c
-c
+      call tpi_stop_timer(1)
 c
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('ccsd_t_doubles_1',7
      &,MA_ERR)
@@ -762,7 +763,7 @@ c  k_c_sort is not used here
 c
 c contributions are calculated here
 c
-
+      call tpi_start_timer(1)
 
       IF ((t_p4b .eq. p4b) .and. (t_p5b .eq. p5b) .and. (t_p6b .eq. p6b)
      & .and. (t_h1b .eq. h1b) .and. (t_h2b .eq. h2b) .and. (t_h3b .eq. h
@@ -892,6 +893,7 @@ ccx     &mb(k_range+h1b-1),int_mb(k_range+p4b-1),3,2,6,5,1,4,1.0d0)
 
       END IF
 
+      call tpi_stop_timer(1)
 
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('ccsd_t_doubles_2',7
      &,MA_ERR)
