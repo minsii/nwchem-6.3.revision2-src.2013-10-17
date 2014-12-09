@@ -34,8 +34,11 @@ c
         return
       endif
 c
+      call tpi_start(20)
       call tce_diis_init()
       do iter=1,maxiter
+        call tpi_push_name_level1("ccsd-iteration")
+
         cpu=-util_cpusec()
         wall=-util_wallsec()
         if (nodezero.and.(iter.eq.1)) then
@@ -165,6 +168,7 @@ c          write(LuOut,9101) cpusecs(37),cpusecs(38)
           call x2_restart_save(d_t2,k_t2_offset,size_t2,0,
      1                         handle_t2,irrep_t)
         endif
+        call tpi_pop_name_level1("ccsd-iteration")
         return
         endif
         if (save_t(1).and.(mod(iter,save_interval).eq.0)) then
@@ -190,7 +194,11 @@ c          write(LuOut,9101) cpusecs(37),cpusecs(38)
         call deletefile(d_r1)
         call deletefile(d_e)
         if (nodezero) call util_flush(LuOut)
+
+        call tpi_pop_name_level1("ccsd-iteration")
       enddo
+
+          call tpi_stop()
 c
           call util_file_name('t1amp',.false.,.false.,filename)
           unitn=79

@@ -45,7 +45,7 @@ c ---------------------------------------
       external nxtask
 
       call tpi_start(20)
-      call tpi_push_name("ccsd_t")
+      call tpi_push_name_level1("ccsd_t")
 
 c - T1/X1 LOCALIZATION ----------
 c    opening l_t1_local and l_x1_local
@@ -199,7 +199,7 @@ c - T1/X1 LOCALIZATION ------
          if(.not.MA_POP_STACK(l_t1_local))
      &      call errquit('ccsd_t: l_t1_local',4,MA_ERR)
 c ---------------------------
-      call tpi_pop_name("ccsd_t")
+      call tpi_pop_name_level1("ccsd_t")
       call tpi_stop()
 
       return

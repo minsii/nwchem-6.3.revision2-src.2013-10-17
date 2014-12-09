@@ -54,8 +54,7 @@ c --- PETA -----------------------
       double precision wall    ! WALL sec counter
       nodezero=(ga_nodeid().eq.0)
 c --------------------------------
-      call tpi_start(20)
-      call tpi_push_name("ccsd_t1_all")
+      call tpi_push_name_level2("ccsd_t1_all")
 c
       CALL ccsd_t1_1(d_f1,k_f1_offset,d_i0,k_i0_offset)
       CALL OFFSET_ccsd_t1_2_1(l_i1_offset,k_i1_offset,size_i1)
@@ -119,7 +118,7 @@ c
      1     CALL ERRQUIT('ccsd_t1',-1,MA_ERR)
       CALL ccsd_t1_7(d_t2,k_t2_offset,d_v2,k_v2_offset,d_i0,k_i0_offset)
 c
-      call tpi_pop_name("ccsd_t1_all")
+      call tpi_pop_name_level2("ccsd_t1_all")
 c --- PETA ----------
 c 9020 format('DIAG-S',i3,1x,'Cpu & wall time / sec',2f15.1)
 c -------------------

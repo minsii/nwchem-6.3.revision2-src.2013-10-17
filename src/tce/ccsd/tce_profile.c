@@ -25,6 +25,48 @@ double *timer_total = NULL;
 char stack_name[40];
 int stack_name_in_use = 0;
 
+#ifdef ENABLE_TPI
+static int env_print_per_rank = -1;
+static int tpi_level = -1;
+
+static inline void read_tpi_env()
+{
+    /* only read from environment once */
+    if (tpi_level < 0) {
+        char *envval = 0;
+        int level = 0;
+        envval = getenv("TPI_LEVEL");
+        if (envval && strlen(envval)) {
+            level = atoi(envval);
+            switch (level) {
+            case 1:
+                tpi_level = 1;
+                break;
+            case 2:
+                tpi_level = 2;
+                break;
+            default:
+                tpi_level = 0;
+            }
+        }
+        else {
+            tpi_level = 0;
+        }
+    }
+
+    /* only read from environment once */
+    if (env_print_per_rank < 0) {
+        char *envval = 0;
+        envval = getenv("TPI_PRINT_PER_RANK");
+        if (envval && strlen(envval)) {
+            env_print_per_rank = 1;
+        }
+        else {
+            env_print_per_rank = 0;
+        }
+    }
+}
+
 void tpi_start_(int *n)
 {
 #if defined(MPI)
@@ -36,6 +78,8 @@ void tpi_start_(int *n)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     fprintf(stderr, "%4d: tpi_start \n", rank);
 #endif
+
+    read_tpi_env();
 
     max_timers = (*n);
 
@@ -78,8 +122,16 @@ void tpi_stop_(void)
 #if defined(MPI) && !defined(DEBUG)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 #endif
-    fprintf(stderr, "rank = %4d                 global total = %lf \n", rank, global_time);
-    fflush(stderr);
+    if (env_print_per_rank == 1) {
+        fprintf(stderr, "rank = %4d                 global total = %lf \n", rank, global_time);
+        fflush(stderr);
+    }
+    else {
+        if (rank == 0) {
+            fprintf(stderr, "global total = %lf \n", global_time);
+            fflush(stderr);
+        }
+    }
 
     free(active_timers);
     free(timer_total);
@@ -92,8 +144,20 @@ void tpi_stop_(void)
 
     return;
 }
+#else
+void tpi_start_(int *n)
+{
+    /* do nothing */
+}
 
-void tpi_push_name_(char *name, int n)
+void tpi_stop_(void)
+{
+    /* do nothing */
+}
+#endif
+
+#ifdef ENABLE_TPI
+static void tpi_push_name_(char *name, int n)
 {
 #if defined(MPI) && defined(DEBUG)
     int rank = 0;
@@ -132,7 +196,7 @@ void tpi_push_name_(char *name, int n)
     return;
 }
 
-void tpi_pop_name_(char *name, int n)
+static void tpi_pop_name_(char *name, int n)
 {
     int rank = 0;
     int size = 1;
@@ -151,7 +215,7 @@ void tpi_pop_name_(char *name, int n)
     timer_pop = omp_get_wtime();
 #endif
 
-    timer_total[0] += (timer_pop - timer_push);
+    timer_total[0] = (timer_pop - timer_push);
 
     if (stack_name_in_use == 0) {
         fprintf(stderr, "tpi_pop_name: stack_name is undefined \n");
@@ -164,57 +228,69 @@ void tpi_pop_name_(char *name, int n)
         fflush(stderr);
     }
 
-    fprintf(stderr, "rank = %4d name = %s        grand total = %lf \n", rank, stack_name,
-            timer_total[0]);
-    int i;
-    for (i = 1; i < max_timers; i++)
-        if (active_timers[i] > 0) {
-            if (i == 1)
-                fprintf(stderr, "rank = %4d name = %s timer = unused       subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 2)
-                fprintf(stderr, "rank = %4d name = %s timer = tce_sort2    subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 3)
-                fprintf(stderr, "rank = %4d name = %s timer = tce_sortacc2 subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 4)
-                fprintf(stderr, "rank = %4d name = %s timer = tce_sort4    subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 5)
-                fprintf(stderr, "rank = %4d name = %s timer = tce_sortacc4 subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 6)
-                fprintf(stderr, "rank = %4d name = %s timer = tce_sort6    subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 7)
-                fprintf(stderr, "rank = %4d name = %s timer = tce_sortacc6 subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 8)
-                fprintf(stderr, "rank = %4d name = %s timer = tce_sort8    subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 9)
-                fprintf(stderr, "rank = %4d name = %s timer = tce_sortacc8 subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 10)
-                fprintf(stderr, "rank = %4d name = %s timer = dgemm        subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 11)
-                fprintf(stderr, "rank = %4d name = %s timer = ga_get       subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 12)
-                fprintf(stderr, "rank = %4d name = %s timer = ga_put       subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 13)
-                fprintf(stderr, "rank = %4d name = %s timer = ga_acc       subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else if (i == 14)
-                fprintf(stderr, "rank = %4d name = %s timer = nxtask       subtotal = %lf \n", rank,
-                        stack_name, timer_total[i]);
-            else
-                fprintf(stderr, "rank = %4d name = %s timer = %9d subtotal = %lf \n", rank,
-                        stack_name, i, timer_total[i]);
+    if (env_print_per_rank == 1) {
+        fprintf(stderr, "rank = %4d name = %s        grand total = %lf \n", rank, stack_name,
+                timer_total[0]);
+    }
+    else {
+        if (rank == 0) {
+            fprintf(stderr, "name = %s        grand total = %lf \n", stack_name, timer_total[0]);
         }
+    }
+
+    int i;
+
+    if (env_print_per_rank == 1) {
+        for (i = 1; i < max_timers; i++)
+            if (active_timers[i] > 0) {
+                if (i == 1)
+                    fprintf(stderr, "rank = %4d name = %s timer = unused       subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 2)
+                    fprintf(stderr, "rank = %4d name = %s timer = tce_sort2    subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 3)
+                    fprintf(stderr, "rank = %4d name = %s timer = tce_sortacc2 subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 4)
+                    fprintf(stderr, "rank = %4d name = %s timer = tce_sort4    subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 5)
+                    fprintf(stderr, "rank = %4d name = %s timer = tce_sortacc4 subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 6)
+                    fprintf(stderr, "rank = %4d name = %s timer = tce_sort6    subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 7)
+                    fprintf(stderr, "rank = %4d name = %s timer = tce_sortacc6 subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 8)
+                    fprintf(stderr, "rank = %4d name = %s timer = tce_sort8    subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 9)
+                    fprintf(stderr, "rank = %4d name = %s timer = tce_sortacc8 subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 10)
+                    fprintf(stderr, "rank = %4d name = %s timer = dgemm        subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 11)
+                    fprintf(stderr, "rank = %4d name = %s timer = ga_get       subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 12)
+                    fprintf(stderr, "rank = %4d name = %s timer = ga_put       subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 13)
+                    fprintf(stderr, "rank = %4d name = %s timer = ga_acc       subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else if (i == 14)
+                    fprintf(stderr, "rank = %4d name = %s timer = nxtask       subtotal = %lf \n",
+                            rank, stack_name, timer_total[i]);
+                else
+                    fprintf(stderr, "rank = %4d name = %s timer = %9d subtotal = %lf \n", rank,
+                            stack_name, i, timer_total[i]);
+            }
+    }
+
 #if defined(MPI)
     int *active_timers_sum = NULL;
     double *timers_min = NULL;
@@ -311,6 +387,56 @@ void tpi_pop_name_(char *name, int n)
     return;
 }
 
+void tpi_push_name_level1_(char *name, int n)
+{
+    if (tpi_level == 1) {
+        return tpi_push_name_(name, n);
+    }
+}
+
+void tpi_push_name_level2_(char *name, int n)
+{
+    if (tpi_level == 2) {
+        return tpi_push_name_(name, n);
+    }
+}
+
+void tpi_pop_name_level1_(char *name, int n)
+{
+    if (tpi_level == 1) {
+        return tpi_pop_name_(name, n);
+    }
+}
+
+void tpi_pop_name_level2_(char *name, int n)
+{
+    if (tpi_level == 2) {
+        return tpi_pop_name_(name, n);
+    }
+}
+#else
+void tpi_push_name_level1_(char *name, int n)
+{
+    /* do nothing */
+}
+
+void tpi_push_name_level2_(char *name, int n)
+{
+    /* do nothing */
+}
+
+void tpi_pop_name_level1_(char *name, int n)
+{
+    /* do nothing */
+}
+
+void tpi_pop_name_level2_(char *name, int n)
+{
+    /* do nothing */
+}
+#endif
+
+#ifdef ENABLE_TPI
 void tpi_start_timer_(int *id)
 {
 #if defined(MPI) && defined(DEBUG)
@@ -369,3 +495,14 @@ void tpi_stop_timer_(int *id)
 
     return;
 }
+#else
+void tpi_start_timer_(int *id)
+{
+    /* do nothing */
+}
+
+void tpi_stop_timer_(int *id)
+{
+    /* do nothing */
+}
+#endif

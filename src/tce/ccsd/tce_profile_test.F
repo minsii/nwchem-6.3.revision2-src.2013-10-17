@@ -12,29 +12,29 @@ include 'mpif.h'
       max_timers = 5
       call tpi_start(max_timers)
 
-      call tpi_push_name("test_name1")
-      timer_id = 1
-      call tpi_start_timer(timer_id)
-      do i=1,100
-        j = j + i*i
+      call tpi_push_name_level1("level-1")
+      call tpi_push_name_level2("level-2-1")
+      call tpi_start_timer(1)
+      do i=1,1000
+        j = j + i*i*i*1000 + i*0.5
       enddo
-      call tpi_stop_timer(timer_id)
-      call tpi_pop_name("test_name1")
+      call tpi_stop_timer(1)
+      call tpi_pop_name_level2("level-2-1")
 
-      call tpi_push_name("test_name2")
-      timer_id = 1
-      call tpi_start_timer(timer_id)
-      do i=1,100
-        j = j + i*i
+      call tpi_push_name_level2("level-2-2")
+      call tpi_start_timer(1)
+      do i=1,1000
+        j = j + i*i*i*1000 + i*0.5
       enddo
-      timer_id = 2
-      call tpi_start_timer(timer_id)
-      do i=1,100
-        j = j + i*(i+1)
-      enddo
-      call tpi_stop_timer(timer_id)
-      call tpi_pop_name("test_name2")
+      call tpi_stop_timer(1)
 
+      call tpi_start_timer(2)
+      do i=1,1000
+        j = j + i*(i+1)*i*1000 + i*0.5
+      enddo
+      call tpi_stop_timer(2)
+      call tpi_pop_name_level2("level-2-2")
+      call tpi_pop_name_level1("level-1")
       call tpi_stop()
 
       call mpi_finalize(error)    
