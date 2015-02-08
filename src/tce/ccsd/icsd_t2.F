@@ -624,7 +624,7 @@ C     i0 ( p3 p4 h1 h2 )_v + = 1 * v ( p3 p4 h1 h2 )_v
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -650,10 +650,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -718,7 +718,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -740,7 +740,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( h10 ) * t ( p3 h10 )_t * i1 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -777,10 +777,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -879,7 +879,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -898,7 +898,7 @@ C     i1 ( h10 p3 h1 h2 )_v + = 1 * v ( h10 p3 h1 h2 )_v
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -924,10 +924,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -994,7 +994,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -1085,7 +1085,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1/2 * Sum ( h11 ) * t ( p3 h11 )_t * i2 ( h10 h
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -1122,10 +1122,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -1224,7 +1224,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -1244,7 +1244,7 @@ C     i2 ( h10 h11 h1 h2 )_v + = -1 * v ( h10 h11 h1 h2 )_v
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -1270,10 +1270,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -1337,7 +1337,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -1428,7 +1428,7 @@ C     i2 ( h10 h11 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i3 (
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -1465,10 +1465,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -1566,7 +1566,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -1586,7 +1586,7 @@ C     i3 ( h10 h11 h1 p5 )_v + = 1 * v ( h10 h11 h1 p5 )_v
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -1612,10 +1612,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -1684,7 +1684,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -1775,7 +1775,7 @@ C     i3 ( h10 h11 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h10 h1
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -1812,10 +1812,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -1931,7 +1931,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -1953,7 +1953,7 @@ C     i2 ( h10 h11 h1 h2 )_vt + = -1/2 * Sum ( p7 p8 ) * t ( p7 p8 h1 h2 )_t * v
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -1996,11 +1996,11 @@ c -------------------------
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -2107,7 +2107,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -2129,7 +2129,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i2 (
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -2166,10 +2166,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -2268,7 +2268,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -2288,7 +2288,7 @@ C     i2 ( h10 p3 h1 p5 )_v + = 1 * v ( h10 p3 h1 p5 )_v
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -2314,10 +2314,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -2384,7 +2384,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -2475,7 +2475,7 @@ C     i2 ( h10 p3 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h10 p3 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -2512,10 +2512,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -2629,7 +2629,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -2651,7 +2651,7 @@ C     i1 ( h10 p3 h1 h2 )_ft + = -1 * Sum ( p5 ) * t ( p3 p5 h1 h2 )_t * i2 ( h1
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -2688,10 +2688,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -2790,7 +2790,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -2810,7 +2810,7 @@ C     i2 ( h10 p5 )_f + = 1 * f ( h10 p5 )_f
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -2832,10 +2832,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -2882,7 +2882,7 @@ c ----------------
       END IF
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -2959,7 +2959,7 @@ C     i2 ( h10 p5 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h10 p5 p6
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -2995,10 +2995,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -3134,7 +3134,7 @@ c ----------------
       END IF
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -3156,7 +3156,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( h7 p9 ) * t ( p3 p9 h1 h7 )_
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -3196,10 +3196,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -3337,7 +3337,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -3357,7 +3357,7 @@ C     i2 ( h7 h10 h1 p9 )_v + = 1 * v ( h7 h10 h1 p9 )_v
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -3383,10 +3383,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -3453,7 +3453,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -3544,7 +3544,7 @@ C     i2 ( h7 h10 h1 p9 )_vt + = 1 * Sum ( p5 ) * t ( p5 h1 )_t * v ( h7 h10 p5 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -3581,10 +3581,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -3698,7 +3698,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -3720,7 +3720,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v (
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -3763,11 +3763,11 @@ c -------------------------
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -3876,7 +3876,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -3898,7 +3898,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i1 ( 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -3935,10 +3935,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -4037,7 +4037,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -4056,7 +4056,7 @@ C     i1 ( p3 p4 h1 p5 )_v + = 1 * v ( p3 p4 h1 p5 )_v
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -4082,10 +4082,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -4152,7 +4152,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -4243,7 +4243,7 @@ C     i1 ( p3 p4 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( p3 p4 p5
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -4280,10 +4280,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -4396,7 +4396,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -4418,7 +4418,7 @@ C     i0 ( p3 p4 h1 h2 )_tf + = -1 * P( 2 ) * Sum ( h9 ) * t ( p3 p4 h1 h9 )_t *
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -4455,10 +4455,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -4571,7 +4571,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -4590,7 +4590,7 @@ C     i1 ( h9 h1 )_f + = 1 * f ( h9 h1 )_f
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -4612,10 +4612,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -4662,7 +4662,7 @@ c ----------------
       END IF
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -4739,7 +4739,7 @@ C     i1 ( h9 h1 )_ft + = 1 * Sum ( p8 ) * t ( p8 h1 )_t * i2 ( h9 p8 )_f
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -4772,10 +4772,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -4852,7 +4852,7 @@ c ----------------
       END IF
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -4872,7 +4872,7 @@ C     i2 ( h9 p8 )_f + = 1 * f ( h9 p8 )_f
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -4894,10 +4894,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c ol dway      EXTERNAL NXTASK
+c ol dway      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -4944,7 +4944,7 @@ c ----------------
       END IF
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -5021,7 +5021,7 @@ C     i2 ( h9 p8 )_vt + = 1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h9 p6 p8 )_
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -5057,10 +5057,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -5196,7 +5196,7 @@ c ----------------
       END IF
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -5218,7 +5218,7 @@ C     i1 ( h9 h1 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h9 h1 p6 )
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -5254,10 +5254,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -5362,7 +5362,7 @@ c ----------------
       END IF
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -5384,7 +5384,7 @@ C     i1 ( h9 h1 )_vt + = -1/2 * Sum ( h8 p6 p7 ) * t ( p6 p7 h1 h8 )_t * v ( h8
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -5426,11 +5426,11 @@ c -------------------------
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -5558,7 +5558,7 @@ c ----------------
       END IF
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -5580,7 +5580,7 @@ C     i0 ( p3 p4 h1 h2 )_tf + = 1 * P( 2 ) * Sum ( p5 ) * t ( p3 p5 h1 h2 )_t * 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -5617,10 +5617,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -5733,7 +5733,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -5752,7 +5752,7 @@ C     i1 ( p3 p5 )_f + = 1 * f ( p3 p5 )_f
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -5774,10 +5774,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -5824,7 +5824,7 @@ c ----------------
       END IF
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -5901,7 +5901,7 @@ C     i1 ( p3 p5 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 p3 p5 p6 )
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -5937,10 +5937,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -6045,7 +6045,7 @@ c ----------------
       END IF
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -6067,7 +6067,7 @@ C     i1 ( p3 p5 )_vt + = -1/2 * Sum ( h7 h8 p6 ) * t ( p3 p6 h7 h8 )_t * v ( h7
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -6109,11 +6109,11 @@ c -------------------------
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -6241,7 +6241,7 @@ c ----------------
       END IF
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -6263,7 +6263,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1/2 * Sum ( h11 h9 ) * t ( p3 p4 h9 h11 )_t * i
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -6306,11 +6306,11 @@ c -------------------------
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -6410,7 +6410,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -6429,7 +6429,7 @@ C     i1 ( h9 h11 h1 h2 )_v + = -1 * v ( h9 h11 h1 h2 )_v
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -6455,10 +6455,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -6522,7 +6522,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -6613,7 +6613,7 @@ C     i1 ( h9 h11 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( p8 ) * t ( p8 h1 )_t * i2 ( 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -6650,10 +6650,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -6750,7 +6750,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -6770,7 +6770,7 @@ C     i2 ( h9 h11 h1 p8 )_v + = 1 * v ( h9 h11 h1 p8 )_v
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -6796,10 +6796,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -6866,7 +6866,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -6957,7 +6957,7 @@ C     i2 ( h9 h11 h1 p8 )_vt + = 1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h9 h11 p
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -6994,10 +6994,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -7111,7 +7111,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -7133,7 +7133,7 @@ C     i1 ( h9 h11 h1 h2 )_vt + = -1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -7176,11 +7176,11 @@ c -------------------------
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -7286,7 +7286,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -7308,7 +7308,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 4 ) * Sum ( h6 p5 ) * t ( p3 p5 h1 h6 )_
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -7348,10 +7348,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -7497,7 +7497,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -7516,7 +7516,7 @@ C     i1 ( h6 p3 h1 p5 )_v + = 1 * v ( h6 p3 h1 p5 )_v
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -7542,10 +7542,10 @@ c -------------------------
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -7616,7 +7616,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -7713,7 +7713,7 @@ C     i1 ( h6 p3 h1 p5 )_vt + = -1 * Sum ( p7 ) * t ( p7 h1 )_t * v ( h6 p3 p5 p
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -7750,10 +7750,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -7870,7 +7870,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -7892,7 +7892,7 @@ C     i1 ( h6 p3 h1 p5 )_vt + = -1/2 * Sum ( h8 p7 ) * t ( p3 p7 h1 h8 )_t * v (
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -7932,10 +7932,10 @@ c -------------------------
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -8131,7 +8131,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -8156,7 +8156,7 @@ c*************
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
@@ -8204,11 +8204,11 @@ c      logical nodezero         ! True if node 0
 c      double precision cpu     ! CPU sec counter
 c      double precision wall    ! WALL sec counter
 c *************
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -8373,7 +8373,7 @@ c ----------------
       END DO
       END DO
       END DO
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
  9020 format('  T2 GA',i4,1x,'Cpu  wall ',2(f17.12,1x),1x,4i4,2x,i10)
  9021 format('  V2 GA',i4,1x,'Cpu  wall ',2(f17.12,1x),1x,4i4,2x,i10)
@@ -8447,16 +8447,16 @@ cc      INTEGER NXTVAL
       INTEGER l_c
       INTEGER k_c
 cc      EXTERNAL NXTVAL
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
 c -------------------------
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
 cc      next = NXTVAL(nprocs)
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -8565,7 +8565,7 @@ c ----------------
       END DO
       END DO
 cc      next = NXTVAL(-nprocs)
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -8633,16 +8633,16 @@ cc      INTEGER NXTVAL
       INTEGER l_c
       INTEGER k_c
 cc      EXTERNAL NXTVAL
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
 c -------------------------
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
 cc      next = NXTVAL(nprocs)
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -8739,7 +8739,7 @@ c ----------------
       END DO
       END DO
 cc      next = NXTVAL(-nprocs)
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END
@@ -8866,16 +8866,16 @@ cc      INTEGER NXTVAL
       INTEGER l_c
       INTEGER k_c
 cc      EXTERNAL NXTVAL
-c old way      INTEGER NXTASK
+c old way      INTEGER TPINXT
 c -------------------------
       INTEGER ctx,icounter
       external nxt_ctx_create, nxt_ctx_destroy, nxt_ctx_next
 c -------------------------
-c old way      EXTERNAL NXTASK
+c old way      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
 cc      next = NXTVAL(nprocs)
-c old way      next = NXTASK(nprocs, 1)
+c old way      next = TPINXT(nprocs, 1)
 c --- new way ----
       call nxt_ctx_next(ctx, icounter, next)
 c ----------------
@@ -8984,7 +8984,7 @@ c ----------------
       END DO
       END DO
 cc      next = NXTVAL(-nprocs)
-c old way      next = NXTASK(-nprocs, 1)
+c old way      next = TPINXT(-nprocs, 1)
 c old way      call GA_SYNC()
       RETURN
       END

@@ -302,14 +302,14 @@ C     i0 ( p3 p4 h1 h2 )_v + = 1 * v ( p3 p4 h1 h2 )_v
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER p3b, p4b, h1b, h2b, p3b_1, p4b_1, h1b_1, h2b_1
       INTEGER dimc
       INTEGER k_a, l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
        DO p4b = p3b,noab+nvab
         DO h1b = 1,noab
@@ -349,7 +349,7 @@ C     i0 ( p3 p4 h1 h2 )_v + = 1 * v ( p3 p4 h1 h2 )_v
                IF (.not.MA_POP_STACK(l_a)) 
      1              CALL ERRQUIT('ccsd_t2_1',4,MA_ERR)
               END IF
-          next = NXTASK(nprocs, 1)
+          next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -359,7 +359,7 @@ C     i0 ( p3 p4 h1 h2 )_v + = 1 * v ( p3 p4 h1 h2 )_v
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -382,7 +382,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( h10 ) * t ( p3 h10 )_t * i1 
 #include "tce.fh"
       INTEGER d_a, d_b, d_c
       INTEGER k_a_offset, k_b_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER p3b,p4b,h1b,h2b,h10b,p3b_1,h10b_1,p4b_2,h10b_2,h1b_2,h2b_2
       INTEGER dim_common, dima_sort, dimb_sort, dima, dimb, dimc
       INTEGER k_a,k_bs,l_bs,k_b,l_b,k_cs,l_cs,k_c,l_c
@@ -391,10 +391,10 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( h10 ) * t ( p3 h10 )_t * i1 
 #else
       INTEGER offset_a
 #endif
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
        DO p4b = noab+1,noab+nvab
         DO h1b = 1,noab
@@ -493,7 +493,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( h10 ) * t ( p3 h10 )_t * i1 
      1             CALL ERRQUIT('ccsd_t2_2',10,MA_ERR)
               IF (.not.MA_POP_STACK(l_cs)) 
      1             CALL ERRQUIT('ccsd_t2_2',11,MA_ERR)
-          next = NXTASK(nprocs, 1)
+          next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -503,7 +503,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( h10 ) * t ( p3 h10 )_t * i1 
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -524,14 +524,14 @@ C     i1 ( h10 p3 h1 h2 )_v + = 1 * v ( h10 p3 h1 h2 )_v
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER p3b,h10b,h1b,h2b,p3b_1,h10b_1,h1b_1,h2b_1
       INTEGER dimc
       INTEGER k_as, l_as, k_a, l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
        DO h10b = 1,noab
         DO h1b = 1,noab
@@ -581,7 +581,7 @@ C     i1 ( h10 p3 h1 h2 )_v + = 1 * v ( h10 p3 h1 h2 )_v
                IF (.not.MA_POP_STACK(l_as)) 
      1              CALL ERRQUIT('ccsd_t2_2_1',5,MA_ERR)
               END IF
-           next = NXTASK(nprocs, 1)
+           next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -591,7 +591,7 @@ C     i1 ( h10 p3 h1 h2 )_v + = 1 * v ( h10 p3 h1 h2 )_v
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -687,7 +687,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1/2 * Sum ( h11 ) * t ( p3 h11 )_t * i2 ( h10 h
 #include "tce.fh"
       INTEGER d_a, d_b, d_c
       INTEGER k_a_offset, k_b_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER p3b,h10b,h1b,h2b,h11b,p3b_1,h11b_1
       INTEGER h10b_2,h11b_2,h1b_2,h2b_2
       INTEGER dim_common,dima_sort,dima,dimb_sort,dimb,dimc
@@ -697,10 +697,10 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1/2 * Sum ( h11 ) * t ( p3 h11 )_t * i2 ( h10 h
 #else
       INTEGER offset_a
 #endif
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
        DO h10b = 1,noab
         DO h1b = 1,noab
@@ -799,7 +799,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1/2 * Sum ( h11 ) * t ( p3 h11 )_t * i2 ( h10 h
      1             CALL ERRQUIT('ccsd_t2_2_2',10,MA_ERR)
               IF (.not.MA_POP_STACK(l_cs)) 
      1             CALL ERRQUIT('ccsd_t2_2_2',11,MA_ERR)
-           next = NXTASK(nprocs, 1)
+           next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -809,7 +809,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1/2 * Sum ( h11 ) * t ( p3 h11 )_t * i2 ( h10 h
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -830,14 +830,14 @@ C     i2 ( h10 h11 h1 h2 )_v + = -1 * v ( h10 h11 h1 h2 )_v
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER h10b,h11b,h1b,h2b,h10b_1,h11b_1,h1b_1,h2b_1
       INTEGER dimc
       INTEGER k_a, l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h10b = 1,noab
        DO h11b = h10b,noab
         DO h1b = 1,noab
@@ -878,7 +878,7 @@ C     i2 ( h10 h11 h1 h2 )_v + = -1 * v ( h10 h11 h1 h2 )_v
                 IF (.not.MA_POP_STACK(l_a)) 
      1               CALL ERRQUIT('ccsd_t2_2_2_1',4,MA_ERR)
               END IF
-           next = NXTASK(nprocs, 1)
+           next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -888,7 +888,7 @@ C     i2 ( h10 h11 h1 h2 )_v + = -1 * v ( h10 h11 h1 h2 )_v
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -993,7 +993,7 @@ C     i2 ( h10 h11 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i3 (
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -1026,10 +1026,10 @@ C     i2 ( h10 h11 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i3 (
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h10b = 1,noab
       DO h11b = h10b,noab
       DO h1b = 1,noab
@@ -1112,7 +1112,7 @@ C     i2 ( h10 h11 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i3 (
      &)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_2_2_2',11,M
      &A_ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -1122,7 +1122,7 @@ C     i2 ( h10 h11 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i3 (
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -1143,14 +1143,14 @@ C     i3 ( h10 h11 h1 p5 )_v + = 1 * v ( h10 h11 h1 p5 )_v
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER h10b,h11b,h1b,p5b,h10b_1,h11b_1,h1b_1,p5b_1
       INTEGER dimc
       INTEGER k_a, l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h10b = 1,noab
        DO h11b = h10b,noab
         DO h1b = 1,noab
@@ -1191,7 +1191,7 @@ C     i3 ( h10 h11 h1 p5 )_v + = 1 * v ( h10 h11 h1 p5 )_v
                IF (.not.MA_POP_STACK(l_a)) 
      1              CALL ERRQUIT('ccsd_t2_2_2_2_1',4,MA_ERR)
               END IF
-           next = NXTASK(nprocs, 1)
+           next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -1201,7 +1201,7 @@ C     i3 ( h10 h11 h1 p5 )_v + = 1 * v ( h10 h11 h1 p5 )_v
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -1297,7 +1297,7 @@ C     i3 ( h10 h11 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h10 h1
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -1330,10 +1330,10 @@ C     i3 ( h10 h11 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h10 h1
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h10b = 1,noab
       DO h11b = h10b,noab
       DO h1b = 1,noab
@@ -1434,7 +1434,7 @@ C     i3 ( h10 h11 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h10 h1
      &RR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_2_2_2_2',11
      &,MA_ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -1444,7 +1444,7 @@ C     i3 ( h10 h11 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h10 h1
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -1466,7 +1466,7 @@ C     i2 ( h10 h11 h1 h2 )_vt + = -1/2 * Sum ( p7 p8 ) * t ( p7 p8 h1 h2 )_t * v
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -1505,11 +1505,11 @@ C     i2 ( h10 h11 h1 h2 )_vt + = -1/2 * Sum ( p7 p8 ) * t ( p7 p8 h1 h2 )_t * v
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h10b = 1,noab
       DO h11b = h10b,noab
       DO h1b = 1,noab
@@ -1601,7 +1601,7 @@ C     i2 ( h10 h11 h1 h2 )_vt + = -1/2 * Sum ( p7 p8 ) * t ( p7 p8 h1 h2 )_t * v
      &)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_2_2_3',11,M
      &A_ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -1611,7 +1611,7 @@ C     i2 ( h10 h11 h1 h2 )_vt + = -1/2 * Sum ( p7 p8 ) * t ( p7 p8 h1 h2 )_t * v
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -1633,7 +1633,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i2 (
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -1666,10 +1666,10 @@ C     i1 ( h10 p3 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i2 (
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO h10b = 1,noab
       DO h1b = 1,noab
@@ -1753,7 +1753,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i2 (
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_2_3',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_2_3',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -1763,7 +1763,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i2 (
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -1780,14 +1780,14 @@ C     i2 ( h10 p3 h1 p5 )_v + = 1 * v ( h10 p3 h1 p5 )_v
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER p3b,h10b,h1b,p5b,p3b_1,h10b_1,h1b_1,p5b_1
       INTEGER dimc
       INTEGER k_as, l_as, k_a, l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
        DO h10b = 1,noab
         DO h1b = 1,noab
@@ -1837,7 +1837,7 @@ C     i2 ( h10 p3 h1 p5 )_v + = 1 * v ( h10 p3 h1 p5 )_v
                IF (.not.MA_POP_STACK(l_as)) 
      1              CALL ERRQUIT('ccsd_t2_2_3_1',5,MA_ERR)
               END IF
-           next = NXTASK(nprocs, 1)
+           next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -1847,7 +1847,7 @@ C     i2 ( h10 p3 h1 p5 )_v + = 1 * v ( h10 p3 h1 p5 )_v
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -1938,7 +1938,7 @@ C     i2 ( h10 p3 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h10 p3 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -1971,10 +1971,10 @@ C     i2 ( h10 p3 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h10 p3 
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO h10b = 1,noab
       DO h1b = 1,noab
@@ -2073,7 +2073,7 @@ C     i2 ( h10 p3 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h10 p3 
      &)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_2_3_2',11,M
      &A_ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -2083,7 +2083,7 @@ C     i2 ( h10 p3 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h10 p3 
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -2105,7 +2105,7 @@ C     i1 ( h10 p3 h1 h2 )_ft + = -1 * Sum ( p5 ) * t ( p3 p5 h1 h2 )_t * i2 ( h1
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -2138,10 +2138,10 @@ C     i1 ( h10 p3 h1 h2 )_ft + = -1 * Sum ( p5 ) * t ( p3 p5 h1 h2 )_t * i2 ( h1
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO h10b = 1,noab
       DO h1b = 1,noab
@@ -2225,7 +2225,7 @@ C     i1 ( h10 p3 h1 h2 )_ft + = -1 * Sum ( p5 ) * t ( p3 p5 h1 h2 )_t * i2 ( h1
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_2_4',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_2_4',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -2235,7 +2235,7 @@ C     i1 ( h10 p3 h1 h2 )_ft + = -1 * Sum ( p5 ) * t ( p3 p5 h1 h2 )_t * i2 ( h1
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -2256,14 +2256,14 @@ C     i2 ( h10 p5 )_f + = 1 * f ( h10 p5 )_f
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER h10b, p5b, h10b_1, p5b_1
       INTEGER dim_common, dima_sort, dima, dimc
       INTEGER k_as, l_as, k_a, l_a, k_c, l_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h10b = 1,noab
        DO p5b = noab+1,noab+nvab
          IF ((.not.restricted).or.(int_mb(k_spin+h10b-1)
@@ -2303,7 +2303,7 @@ C     i2 ( h10 p5 )_f + = 1 * f ( h10 p5 )_f
              IF (.not.MA_POP_STACK(l_as)) 
      1            CALL ERRQUIT('ccsd_t2_2_4_1',5,MA_ERR)
             END IF
-        next = NXTASK(nprocs, 1)
+        next = TPINXT(nprocs, 1)
         END IF
         count = count + 1
            END IF
@@ -2311,7 +2311,7 @@ C     i2 ( h10 p5 )_f + = 1 * f ( h10 p5 )_f
          END IF
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -2392,7 +2392,7 @@ C     i2 ( h10 p5 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h10 p5 p6
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -2424,10 +2424,10 @@ C     i2 ( h10 p5 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h10 p5 p6
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h10b = 1,noab
       DO p5b = noab+1,noab+nvab
       IF ((.not.restricted).or.(int_mb(k_spin+h10b-1)+int_mb(k_spin+p5b-
@@ -2550,7 +2550,7 @@ C     i2 ( h10 p5 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h10 p5 p6
      &)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_2_4_2',11,M
      &A_ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -2558,7 +2558,7 @@ C     i2 ( h10 p5 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h10 p5 p6
       END IF
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -2580,7 +2580,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( h7 p9 ) * t ( p3 p9 h1 h7 )_
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -2616,10 +2616,10 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( h7 p9 ) * t ( p3 p9 h1 h7 )_
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO h10b = 1,noab
       DO h1b = 1,noab
@@ -2742,7 +2742,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( h7 p9 ) * t ( p3 p9 h1 h7 )_
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_2_5',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_2_5',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -2752,7 +2752,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( h7 p9 ) * t ( p3 p9 h1 h7 )_
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -2773,14 +2773,14 @@ C     i2 ( h7 h10 h1 p9 )_v + = 1 * v ( h7 h10 h1 p9 )_v
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER h7b,h10b,h1b,p9b,h7b_1,h10b_1,h1b_1,p9b_1
       INTEGER dimc
       INTEGER k_a, l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h7b = 1,noab
        DO h10b = h7b,noab
         DO h1b = 1,noab
@@ -2821,7 +2821,7 @@ C     i2 ( h7 h10 h1 p9 )_v + = 1 * v ( h7 h10 h1 p9 )_v
                IF (.not.MA_POP_STACK(l_a)) 
      1              CALL ERRQUIT('ccsd_t2_2_5_1',4,MA_ERR)
               END IF
-           next = NXTASK(nprocs, 1)
+           next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -2831,7 +2831,7 @@ C     i2 ( h7 h10 h1 p9 )_v + = 1 * v ( h7 h10 h1 p9 )_v
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -2926,7 +2926,7 @@ C     i2 ( h7 h10 h1 p9 )_vt + = 1 * Sum ( p5 ) * t ( p5 h1 )_t * v ( h7 h10 p5 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -2959,10 +2959,10 @@ C     i2 ( h7 h10 h1 p9 )_vt + = 1 * Sum ( p5 ) * t ( p5 h1 )_t * v ( h7 h10 p5 
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h7b = 1,noab
       DO h10b = h7b,noab
       DO h1b = 1,noab
@@ -3061,7 +3061,7 @@ C     i2 ( h7 h10 h1 p9 )_vt + = 1 * Sum ( p5 ) * t ( p5 h1 )_t * v ( h7 h10 p5 
      &)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_2_5_2',11,M
      &A_ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -3071,7 +3071,7 @@ C     i2 ( h7 h10 h1 p9 )_vt + = 1 * Sum ( p5 ) * t ( p5 h1 )_t * v ( h7 h10 p5 
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -3093,7 +3093,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v (
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -3132,11 +3132,11 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v (
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO h10b = 1,noab
       DO h1b = 1,noab
@@ -3230,7 +3230,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v (
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_2_6',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_2_6',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -3240,7 +3240,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v (
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -3268,7 +3268,7 @@ C     i0 ( p3 p4 h1 h2 )_tf + = -1 * P( 2 ) * Sum ( h9 ) * t ( p3 p4 h1 h9 )_t *
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -3301,10 +3301,10 @@ C     i0 ( p3 p4 h1 h2 )_tf + = -1 * P( 2 ) * Sum ( h9 ) * t ( p3 p4 h1 h9 )_t *
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p4b = p3b,noab+nvab
       DO h1b = 1,noab
@@ -3399,7 +3399,7 @@ C     i0 ( p3 p4 h1 h2 )_tf + = -1 * P( 2 ) * Sum ( h9 ) * t ( p3 p4 h1 h9 )_t *
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_4',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_4',11,MA_ER
      &R)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -3409,7 +3409,7 @@ C     i0 ( p3 p4 h1 h2 )_tf + = -1 * P( 2 ) * Sum ( h9 ) * t ( p3 p4 h1 h9 )_t *
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -3430,14 +3430,14 @@ C     i1 ( h9 h1 )_f + = 1 * f ( h9 h1 )_f
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER h9b, h1b, h9b_1, h1b_1
       INTEGER dimc
       INTEGER k_a, l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h9b = 1,noab
        DO h1b = 1,noab
          IF ((.not.restricted).or.(int_mb(k_spin+h9b-1)
@@ -3459,7 +3459,7 @@ C     i1 ( h9 h1 )_f + = 1 * f ( h9 h1 )_f
              IF (.not.MA_POP_STACK(l_a)) 
      1            CALL ERRQUIT('ccsd_t2_4_1',4,MA_ERR)
             END IF
-        next = NXTASK(nprocs, 1)
+        next = TPINXT(nprocs, 1)
         END IF
         count = count + 1
            END IF
@@ -3467,7 +3467,7 @@ C     i1 ( h9 h1 )_f + = 1 * f ( h9 h1 )_f
          END IF
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -3548,15 +3548,15 @@ C     i1 ( h9 h1 )_ft + = 1 * Sum ( p8 ) * t ( p8 h1 )_t * i2 ( h9 p8 )_f
 #include "tce.fh"
       INTEGER d_a, d_b, d_c
       INTEGER k_a_offset, k_b_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER h9b, h1b, p8b, p8b_1, h1b_1, h9b_2, p8b_2
       INTEGER dim_common,dima_sort,dimb_sort,dima,dimb,dimc
       INTEGER k_as,l_as
       INTEGER k_a, l_a,k_b,l_b,k_c,l_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h9b = 1,noab
        DO h1b = 1,noab
          IF ((.not.restricted).or.(int_mb(k_spin+h9b-1)
@@ -3614,7 +3614,7 @@ C     i1 ( h9 h1 )_ft + = 1 * Sum ( p8 ) * t ( p8 h1 )_t * i2 ( h9 p8 )_f
      2          (h1b - 1 + noab * (h9b - 1)))
            IF (.not.MA_POP_STACK(l_c)) 
      1          CALL ERRQUIT('ccsd_t2_4_2',10,MA_ERR)
-        next = NXTASK(nprocs, 1)
+        next = TPINXT(nprocs, 1)
         END IF
         count = count + 1
            END IF
@@ -3622,7 +3622,7 @@ C     i1 ( h9 h1 )_ft + = 1 * Sum ( p8 ) * t ( p8 h1 )_t * i2 ( h9 p8 )_f
          END IF
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -3643,14 +3643,14 @@ C     i2 ( h9 p8 )_f + = 1 * f ( h9 p8 )_f
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER h9b, p8b, h9b_1, p8b_1
       INTEGER dimc
       INTEGER k_a, l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h9b = 1,noab
        DO p8b = noab+1,noab+nvab
          IF ((.not.restricted).or.(int_mb(k_spin+h9b-1)
@@ -3673,7 +3673,7 @@ C     i2 ( h9 p8 )_f + = 1 * f ( h9 p8 )_f
              IF (.not.MA_POP_STACK(l_a)) 
      1            CALL ERRQUIT('ccsd_t2_4_2_1',4,MA_ERR)
             END IF
-        next = NXTASK(nprocs, 1)
+        next = TPINXT(nprocs, 1)
         END IF
         count = count + 1
            END IF
@@ -3681,7 +3681,7 @@ C     i2 ( h9 p8 )_f + = 1 * f ( h9 p8 )_f
          END IF
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -3758,7 +3758,7 @@ C     i2 ( h9 p8 )_vt + = 1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h9 p6 p8 )_
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -3790,10 +3790,10 @@ C     i2 ( h9 p8 )_vt + = 1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h9 p6 p8 )_
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h9b = 1,noab
       DO p8b = noab+1,noab+nvab
       IF ((.not.restricted).or.(int_mb(k_spin+h9b-1)+int_mb(k_spin+p8b-1
@@ -3916,7 +3916,7 @@ C     i2 ( h9 p8 )_vt + = 1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h9 p6 p8 )_
      &)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_4_2_2',11,M
      &A_ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -3924,7 +3924,7 @@ C     i2 ( h9 p8 )_vt + = 1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h9 p6 p8 )_
       END IF
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -3946,7 +3946,7 @@ C     i1 ( h9 h1 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h9 h1 p6 )
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -3978,10 +3978,10 @@ C     i1 ( h9 h1 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h9 h1 p6 )
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h9b = 1,noab
       DO h1b = 1,noab
       IF ((.not.restricted).or.(int_mb(k_spin+h9b-1)+int_mb(k_spin+h1b-1
@@ -4073,7 +4073,7 @@ C     i1 ( h9 h1 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h9 h1 p6 )
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_4_3',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_4_3',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -4081,7 +4081,7 @@ C     i1 ( h9 h1 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 h9 h1 p6 )
       END IF
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -4103,7 +4103,7 @@ C     i1 ( h9 h1 )_vt + = -1/2 * Sum ( h8 p6 p7 ) * t ( p6 p7 h1 h8 )_t * v ( h8
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -4141,11 +4141,11 @@ C     i1 ( h9 h1 )_vt + = -1/2 * Sum ( h8 p6 p7 ) * t ( p6 p7 h1 h8 )_t * v ( h8
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h9b = 1,noab
       DO h1b = 1,noab
       IF ((.not.restricted).or.(int_mb(k_spin+h9b-1)+int_mb(k_spin+h1b-1
@@ -4260,7 +4260,7 @@ C     i1 ( h9 h1 )_vt + = -1/2 * Sum ( h8 p6 p7 ) * t ( p6 p7 h1 h8 )_t * v ( h8
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_4_4',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_4_4',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -4268,7 +4268,7 @@ C     i1 ( h9 h1 )_vt + = -1/2 * Sum ( h8 p6 p7 ) * t ( p6 p7 h1 h8 )_t * v ( h8
       END IF
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -4289,7 +4289,7 @@ C     i0 ( p3 p4 h1 h2 )_tf + = 1 * P( 2 ) * Sum ( p5 ) * t ( p3 p5 h1 h2 )_t * 
 #include "tce.fh"
       INTEGER d_a, d_b, d_c
       INTEGER k_a_offset, k_b_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER p3b,p4b,h1b,h2b,p5b,p3b_1,p5b_1,h1b_1,h2b_1,p4b_2,p5b_2
       INTEGER dim_common,dima_sort,dimb_sort,dima,dimb,dimc
       INTEGER k_a,l_a,k_c,l_c,k_as,l_as,k_cs,l_cs,k_b
@@ -4298,10 +4298,10 @@ C     i0 ( p3 p4 h1 h2 )_tf + = 1 * P( 2 ) * Sum ( p5 ) * t ( p3 p5 h1 h2 )_t * 
 #else
       INTEGER offset_b
 #endif
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
        DO p4b = noab+1,noab+nvab
         DO h1b = 1,noab
@@ -4414,7 +4414,7 @@ C     i0 ( p3 p4 h1 h2 )_tf + = 1 * P( 2 ) * Sum ( p5 ) * t ( p3 p5 h1 h2 )_t * 
      1             CALL ERRQUIT('ccsd_t2_5',10,MA_ERR)
               IF (.not.MA_POP_STACK(l_cs)) 
      1             CALL ERRQUIT('ccsd_t2_5',11,MA_ERR)
-          next = NXTASK(nprocs, 1)
+          next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -4424,7 +4424,7 @@ C     i0 ( p3 p4 h1 h2 )_tf + = 1 * P( 2 ) * Sum ( p5 ) * t ( p3 p5 h1 h2 )_t * 
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -4444,14 +4444,14 @@ C     i1 ( p3 p5 )_f + = 1 * f ( p3 p5 )_f
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER p3b, p5b, p3b_1, p5b_1
       INTEGER dimc
       INTEGER k_a,l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
        DO p5b = noab+1,noab+nvab
          IF ((.not.restricted).or.(int_mb(k_spin+p3b-1)
@@ -4474,7 +4474,7 @@ C     i1 ( p3 p5 )_f + = 1 * f ( p3 p5 )_f
              IF (.not.MA_POP_STACK(l_a)) 
      1            CALL ERRQUIT('ccsd_t2_5_1',4,MA_ERR)
             END IF
-        next = NXTASK(nprocs, 1)
+        next = TPINXT(nprocs, 1)
         END IF
         count = count + 1
            END IF
@@ -4482,7 +4482,7 @@ C     i1 ( p3 p5 )_f + = 1 * f ( p3 p5 )_f
          END IF
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -4563,7 +4563,7 @@ C     i1 ( p3 p5 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 p3 p5 p6 )
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -4595,10 +4595,10 @@ C     i1 ( p3 p5 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 p3 p5 p6 )
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p5b = noab+1,noab+nvab
       IF ((.not.restricted).or.(int_mb(k_spin+p3b-1)+int_mb(k_spin+p5b-1
@@ -4690,7 +4690,7 @@ C     i1 ( p3 p5 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 p3 p5 p6 )
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_5_2',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_5_2',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -4698,7 +4698,7 @@ C     i1 ( p3 p5 )_vt + = -1 * Sum ( h7 p6 ) * t ( p6 h7 )_t * v ( h7 p3 p5 p6 )
       END IF
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -4720,7 +4720,7 @@ C     i1 ( p3 p5 )_vt + = -1/2 * Sum ( h7 h8 p6 ) * t ( p3 p6 h7 h8 )_t * v ( h7
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -4758,11 +4758,11 @@ C     i1 ( p3 p5 )_vt + = -1/2 * Sum ( h7 h8 p6 ) * t ( p3 p6 h7 h8 )_t * v ( h7
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p5b = noab+1,noab+nvab
       IF ((.not.restricted).or.(int_mb(k_spin+p3b-1)+int_mb(k_spin+p5b-1
@@ -4877,7 +4877,7 @@ C     i1 ( p3 p5 )_vt + = -1/2 * Sum ( h7 h8 p6 ) * t ( p3 p6 h7 h8 )_t * v ( h7
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_5_3',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_5_3',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -4885,7 +4885,7 @@ C     i1 ( p3 p5 )_vt + = -1/2 * Sum ( h7 h8 p6 ) * t ( p3 p6 h7 h8 )_t * v ( h7
       END IF
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -4906,7 +4906,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1/2 * Sum ( h11 h9 ) * t ( p3 p4 h9 h11 )_t * i
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -4945,11 +4945,11 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1/2 * Sum ( h11 h9 ) * t ( p3 p4 h9 h11 )_t * i
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p4b = p3b,noab+nvab
       DO h1b = 1,noab
@@ -5034,7 +5034,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1/2 * Sum ( h11 h9 ) * t ( p3 p4 h9 h11 )_t * i
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_6',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_6',11,MA_ER
      &R)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -5044,7 +5044,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1/2 * Sum ( h11 h9 ) * t ( p3 p4 h9 h11 )_t * i
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -5065,14 +5065,14 @@ C     i1 ( h9 h11 h1 h2 )_v + = -1 * v ( h9 h11 h1 h2 )_v
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER h9b,h11b,h1b,h2b,h9b_1,h11b_1,h1b_1,h2b_1
       INTEGER dimc
       INTEGER k_a, l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h9b = 1,noab
        DO h11b = h9b,noab
         DO h1b = 1,noab
@@ -5112,7 +5112,7 @@ C     i1 ( h9 h11 h1 h2 )_v + = -1 * v ( h9 h11 h1 h2 )_v
                IF (.not.MA_POP_STACK(l_a)) 
      1              CALL ERRQUIT('ccsd_t2_6_1',4,MA_ERR)
               END IF
-          next = NXTASK(nprocs, 1)
+          next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -5122,7 +5122,7 @@ C     i1 ( h9 h11 h1 h2 )_v + = -1 * v ( h9 h11 h1 h2 )_v
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -5217,7 +5217,7 @@ C     i1 ( h9 h11 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( p8 ) * t ( p8 h1 )_t * i2 ( 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -5250,10 +5250,10 @@ C     i1 ( h9 h11 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( p8 ) * t ( p8 h1 )_t * i2 ( 
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h9b = 1,noab
       DO h11b = h9b,noab
       DO h1b = 1,noab
@@ -5335,7 +5335,7 @@ C     i1 ( h9 h11 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( p8 ) * t ( p8 h1 )_t * i2 ( 
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_6_2',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_6_2',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -5345,7 +5345,7 @@ C     i1 ( h9 h11 h1 h2 )_vt + = 1 * P( 2 ) * Sum ( p8 ) * t ( p8 h1 )_t * i2 ( 
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -5366,14 +5366,14 @@ C     i2 ( h9 h11 h1 p8 )_v + = 1 * v ( h9 h11 h1 p8 )_v
 #include "tce.fh"
       INTEGER d_a, d_c
       INTEGER k_a_offset, k_c_offset
-      INTEGER NXTASK, next, nprocs, count
+      INTEGER TPINXT, next, nprocs, count
       INTEGER h9b,h11b,h1b,p8b,h9b_1,h11b_1,h1b_1,p8b_1
       INTEGER dimc
       INTEGER k_a, l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h9b = 1,noab
        DO h11b = h9b,noab
         DO h1b = 1,noab
@@ -5414,7 +5414,7 @@ C     i2 ( h9 h11 h1 p8 )_v + = 1 * v ( h9 h11 h1 p8 )_v
                IF (.not.MA_POP_STACK(l_a)) 
      1              CALL ERRQUIT('ccsd_t2_6_2_1',4,MA_ERR)
               END IF
-          next = NXTASK(nprocs, 1)
+          next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -5424,7 +5424,7 @@ C     i2 ( h9 h11 h1 p8 )_v + = 1 * v ( h9 h11 h1 p8 )_v
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -5519,7 +5519,7 @@ C     i2 ( h9 h11 h1 p8 )_vt + = 1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h9 h11 p
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -5552,10 +5552,10 @@ C     i2 ( h9 h11 h1 p8 )_vt + = 1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h9 h11 p
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h9b = 1,noab
       DO h11b = h9b,noab
       DO h1b = 1,noab
@@ -5654,7 +5654,7 @@ C     i2 ( h9 h11 h1 p8 )_vt + = 1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h9 h11 p
      &)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_6_2_2',11,M
      &A_ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -5664,7 +5664,7 @@ C     i2 ( h9 h11 h1 p8 )_vt + = 1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h9 h11 p
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -5686,7 +5686,7 @@ C     i1 ( h9 h11 h1 h2 )_vt + = -1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -5725,11 +5725,11 @@ C     i1 ( h9 h11 h1 h2 )_vt + = -1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v 
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO h9b = 1,noab
       DO h11b = h9b,noab
       DO h1b = 1,noab
@@ -5820,7 +5820,7 @@ C     i1 ( h9 h11 h1 h2 )_vt + = -1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v 
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_6_3',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_6_3',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -5830,7 +5830,7 @@ C     i1 ( h9 h11 h1 h2 )_vt + = -1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v 
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -5851,7 +5851,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 4 ) * Sum ( h6 p5 ) * t ( p3 p5 h1 h6 )_
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -5887,10 +5887,10 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 4 ) * Sum ( h6 p5 ) * t ( p3 p5 h1 h6 )_
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p4b = noab+1,noab+nvab
       DO h1b = 1,noab
@@ -6021,7 +6021,7 @@ c **************
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_7',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_7',11,MA_ER
      &R)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -6031,7 +6031,7 @@ c **************
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -6053,14 +6053,14 @@ C     i1 ( h6 p3 h1 p5 )_v + = 1 * v ( h6 p3 h1 p5 )_v
 #include "tce.fh"
       INTEGER d_a,d_c
       INTEGER k_a_offset,k_c_offset
-      INTEGER NXTASK,next,nprocs,count
+      INTEGER TPINXT,next,nprocs,count
       INTEGER p3b,h6b,h1b,p5b,p3b_1,h6b_1,h1b_1,p5b_1
       INTEGER dimc
       INTEGER k_as,l_as,k_a,l_a
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
 c *** peta ***
       DO p3b = noab+1,noab+nvab
        DO h1b = 1,noab
@@ -6114,7 +6114,7 @@ c **************
                IF (.not.MA_POP_STACK(l_as)) 
      1              CALL ERRQUIT('ccsd_t2_7_1',5,MA_ERR)
               END IF
-          next = NXTASK(nprocs, 1)
+          next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
              END IF
@@ -6124,7 +6124,7 @@ c **************
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -6226,7 +6226,7 @@ C     i1 ( h6 p3 h1 p5 )_vt + = -1 * Sum ( p7 ) * t ( p7 h1 )_t * v ( h6 p3 p5 p
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -6259,10 +6259,10 @@ C     i1 ( h6 p3 h1 p5 )_vt + = -1 * Sum ( p7 ) * t ( p7 h1 )_t * v ( h6 p3 p5 p
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
 c *** peta ***
       DO p3b = noab+1,noab+nvab
       DO h1b = 1,noab
@@ -6364,7 +6364,7 @@ c ************
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_7_2',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_7_2',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -6374,7 +6374,7 @@ c ************
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -6396,7 +6396,7 @@ C     i1 ( h6 p3 h1 p5 )_vt + = -1/2 * Sum ( h8 p7 ) * t ( p3 p7 h1 h8 )_t * v (
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -6432,10 +6432,10 @@ C     i1 ( h6 p3 h1 p5 )_vt + = -1/2 * Sum ( h8 p7 ) * t ( p3 p7 h1 h8 )_t * v (
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
 c *** peta ***
       DO p3b = noab+1,noab+nvab
       DO h1b = 1,noab
@@ -6596,7 +6596,7 @@ c ************
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_7_3',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_7_3',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -6606,7 +6606,7 @@ c ************
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -6634,7 +6634,7 @@ c*************
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -6678,11 +6678,11 @@ c      logical nodezero         ! True if node 0
 c      double precision cpu     ! CPU sec counter
 c      double precision wall    ! WALL sec counter
 c *************
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p4b = p3b,noab+nvab
       DO h1b = 1,noab
@@ -6832,7 +6832,7 @@ c             call util_flush(6)
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('ccsd_t2_8',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('ccsd_t2_8',11,MA_ER
      &R)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -6842,7 +6842,7 @@ c             call util_flush(6)
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
  9020 format('  T2 GA',i4,1x,'Cpu  wall ',2(f17.12,1x),1x,4i4,2x,i10)
  9021 format('  V2 GA',i4,1x,'Cpu  wall ',2(f17.12,1x),1x,4i4,2x,i10)
@@ -6880,13 +6880,13 @@ C     i0 ( p3 p4 h1 h2 )_vt + = 1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v ( 
       INTEGER k_a,l_a,k_b,l_b,k_c,l_c,k_bs,l_bs,k_as,l_as
 !      INTEGER nsuperp(2),isuperp
       double precision alpha
-      INTEGER NXTASK
-      EXTERNAL NXTASK
+      INTEGER TPINXT
+      EXTERNAL TPINXT
 !      DOUBLE PRECISION FACTORIAL
 !      EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
        DO p4b = p3b,noab+nvab
         DO h1b = 1,noab
@@ -7007,14 +7007,14 @@ C     i0 ( p3 p4 h1 h2 )_vt + = 1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v ( 
              END IF
             END IF
            END IF
-           next = NXTASK(nprocs, 1)
+           next = TPINXT(nprocs, 1)
           END IF
           count = count + 1
          END DO
         END DO
        END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
  9020 format('  T2 GA',i4,1x,'Cpu  wall ',2(f17.12,1x),1x,4i4,2x,i10)
  9021 format('  V2 GA',i4,1x,'Cpu  wall ',2(f17.12,1x),1x,4i4,2x,i10)
@@ -7053,7 +7053,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = 1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v ( 
 #include "tce_main.fh"
       integer d_a, d_b, d_c
       integer k_a_offset, k_b_offset, k_c_offset
-      integer NXTASK, next, nprocs, count
+      integer TPINXT, next, nprocs, count
       integer p3b, p4b, h1b, h2b, p5b, p6b
       integer p5b_1, p6b_1, h1b_1, h2b_1, p3b_2, p4b_2, p5b_2, p6b_2
       integer dim1,dim2,dim3,dim4,dim5,dim6
@@ -7068,13 +7068,13 @@ C     i0 ( p3 p4 h1 h2 )_vt + = 1/2 * Sum ( p5 p6 ) * t ( p5 p6 h1 h2 )_t * v ( 
       integer k_cs, l_cs, k_c, l_c
       integer nbh
       double precision alpha
-      external NXTASK
+      external TPINXT
 c
 c      print*,'entering ccsd_t2_8_spiral (energy)'
 c
       nprocs = ga_nnodes()
       count = 0
-      next = nxtask(nprocs, 1)
+      next = TPINXT(nprocs, 1)
 c
       if (.not.ma_push_get(mt_dbl,tile_dim**4,'c',l_c,k_c)) 
      1     call errquit('ccsd_t2_8',9,MA_ERR)
@@ -7228,7 +7228,7 @@ c
            if (.not.ma_pop_stack(l_bs)) 
      1              call errquit('ccsd_t2_8',7,MA_ERR)
 c
-            next = NXTASK(nprocs, 1)
+            next = TPINXT(nprocs, 1)
            end if ! next=count
            count = count + 1
 c
@@ -7242,7 +7242,7 @@ c
       if (.not.ma_pop_stack(l_c)) 
      1    call errquit('ccsd_t2_8',10,MA_ERR)
 c
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call ga_sync()
 c
 c 9020 format('  T2 GA',i4,1x,'Cpu  wall ',2(f17.12,1x),1x,4i4,2x,i10)
@@ -7307,8 +7307,8 @@ c
       integer next
 cc      integer nxtval
 cc      external nxtval
-      INTEGER NXTASK
-      EXTERNAL NXTASK
+      INTEGER TPINXT
+      EXTERNAL TPINXT
 c 
       logical isa1,isa2,isa3,isa4
       integer sizea1,sizea2,sizea3,sizea4
@@ -7340,7 +7340,7 @@ c ----------------------------------------------
       nprocs = ga_nnodes()
       count = 0
 cc      next = nxtval(nprocs)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       do p1b = noab+1,noab+nvab
         do p2b = p1b,noab+nvab
           do h3b = 1,noab
@@ -7480,7 +7480,7 @@ c deallocation
 c
                  if (.not.ma_pop_stack(l_t2))
      1             call errquit('tce_guess_t2: MA problem',1,MA_ERR)
-              next = NXTASK(nprocs, 1)
+              next = TPINXT(nprocs, 1)
               endif
               count = count + 1
                 endif
@@ -7492,7 +7492,7 @@ cc                next = nxtval(nprocs)
         enddo
       enddo
 cc      next = nxtval(-nprocs)
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call ga_sync()
 c 
 c ----------------------------------------
@@ -7513,7 +7513,7 @@ c ---------------------------------
       nprocs = ga_nnodes()
       count = 0
 cc      next = nxtval(nprocs)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       do p1b = noab+1,noab+nvab
         do p2b = p1b,noab+nvab
           do h3b = 1,noab
@@ -7673,7 +7673,7 @@ c
                  if (.not.ma_pop_stack(l_t2))
      1             call errquit('tce_guess_t2: MA problem',1,MA_ERR)
 c
-               next = NXTASK(nprocs, 1)
+               next = TPINXT(nprocs, 1)
               endif
               count = count + 1
 c
@@ -7686,7 +7686,7 @@ cc                next = nxtval(nprocs)
         enddo
       enddo
 cc      next = nxtval(-nprocs)
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call ga_sync()
 c ----------------------------------------
        end if !restricted
@@ -7761,8 +7761,8 @@ c
       integer next
 cc      integer nxtval
 cc      external nxtval
-      INTEGER NXTASK
-      EXTERNAL NXTASK
+      INTEGER TPINXT
+      EXTERNAL TPINXT
 c 
       logical isa1,isa2,isa3,isa4
       integer sizea1,sizea2,sizea3,sizea4
@@ -7793,7 +7793,7 @@ c ----------------------------------------------
       nprocs = ga_nnodes()
       count = 0
 cc      next = nxtval(nprocs)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       do p1b = noab+1,noab+nvab
         do p2b = p1b,noab+nvab
           do h3b = 1,noab
@@ -7931,7 +7931,7 @@ c
                  if (.not.ma_pop_stack(l_t2))
      1             call errquit('tce_guess_t2: MA problem',1,MA_ERR)
 c
-               next = NXTASK(nprocs, 1)
+               next = TPINXT(nprocs, 1)
               endif
               count = count + 1
 c
@@ -7944,7 +7944,7 @@ cc                next = nxtval(nprocs)
         enddo
       enddo
 cc      next = nxtval(-nprocs)
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call ga_sync()
 c 
 c ----------------------------------------
@@ -7965,7 +7965,7 @@ c ---------------------------------
       nprocs = ga_nnodes()
       count = 0
 cc      next = nxtval(nprocs)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       do p1b = noab+1,noab+nvab
         do p2b = p1b,noab+nvab
           do h3b = 1,noab
@@ -8125,7 +8125,7 @@ c
                  if (.not.ma_pop_stack(l_t2))
      1             call errquit('tce_guess_t2: MA problem',1,MA_ERR)
 c
-              next = NXTASK(nprocs, 1)
+              next = TPINXT(nprocs, 1)
               endif
               count = count + 1
 c
@@ -8138,7 +8138,7 @@ cc                next = nxtval(nprocs)
         enddo
       enddo
 cc      next = nxtval(-nprocs)
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call ga_sync()
 c ----------------------------------------
        end if !restricted
@@ -8202,12 +8202,12 @@ cc      INTEGER NXTVAL
       INTEGER l_c
       INTEGER k_c
 cc      EXTERNAL NXTVAL
-      INTEGER NXTASK
-      EXTERNAL NXTASK
+      INTEGER TPINXT
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
 cc      next = NXTVAL(nprocs)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p4b = p3b,noab+nvab
       DO h1b = 1,noab
@@ -8300,7 +8300,7 @@ cc      next = NXTVAL(nprocs)
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('lccsd_t2_3',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('lccsd_t2_3',11,MA_E
      &RR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -8312,7 +8312,7 @@ cc      next = NXTVAL(nprocs)
       END DO
       END DO
 cc      next = NXTVAL(-nprocs)
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -8379,12 +8379,12 @@ cc      INTEGER NXTVAL
       INTEGER l_c
       INTEGER k_c
 cc      EXTERNAL NXTVAL
-      INTEGER NXTASK
-      EXTERNAL NXTASK
+      INTEGER TPINXT
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
 cc      next = NXTVAL(nprocs)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p4b = noab+1,noab+nvab
       DO h1b = 1,noab
@@ -8466,7 +8466,7 @@ cc      next = NXTVAL(nprocs)
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('vt1t1_1',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('vt1t1_1',11,MA_ERR)
 c
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
 c
@@ -8479,7 +8479,7 @@ cc      next = NXTVAL(nprocs)
       END DO
       END DO
 cc      next = NXTVAL(-nprocs)
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -8605,12 +8605,12 @@ cc      INTEGER NXTVAL
       INTEGER l_c
       INTEGER k_c
 cc      EXTERNAL NXTVAL
-      INTEGER NXTASK
-      EXTERNAL NXTASK
+      INTEGER TPINXT
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
 cc      next = NXTVAL(nprocs)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO h5b = 1,noab
       DO h1b = 1,noab
@@ -8703,7 +8703,7 @@ cc      next = NXTVAL(nprocs)
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('vt1t1_1_2',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('vt1t1_1_2',11,MA_ER
      &R)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -8715,7 +8715,7 @@ cc      next = NXTVAL(nprocs)
       END DO
       END DO
 cc      next = NXTVAL(-nprocs)
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -8777,12 +8777,12 @@ cc      INTEGER NXTVAL
       INTEGER l_c
       INTEGER k_c
 cc      EXTERNAL NXTVAL
-      INTEGER NXTASK
-      EXTERNAL NXTASK
+      INTEGER TPINXT
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
 cc      next = NXTVAL(nprocs)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p4b = noab+1,noab+nvab
       DO h1b = 1,noab
@@ -8878,7 +8878,7 @@ cc      next = NXTVAL(nprocs)
       IF (.not.MA_POP_STACK(l_c)) CALL ERRQUIT('half_t1t1_1',10,MA_ERR)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('half_t1t1_1',11,MA_
      &ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -8890,7 +8890,7 @@ cc      next = NXTVAL(nprocs)
       END DO
       END DO
 cc      next = NXTVAL(-nprocs)
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -8950,12 +8950,12 @@ cc      INTEGER NXTVAL
       INTEGER l_c
       INTEGER k_c
 cc      EXTERNAL NXTVAL
-      INTEGER NXTASK
-      EXTERNAL NXTASK
+      INTEGER TPINXT
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
 cc      next = NXTVAL(nprocs)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p4b = noab+1,noab+nvab
       DO h1b = 1,noab
@@ -9052,7 +9052,7 @@ cc      next = NXTVAL(nprocs)
      &)
       IF (.not.MA_POP_STACK(l_cs)) CALL ERRQUIT('m_half_t1t1_1',11,M
      &A_ERR)
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END IF
@@ -9064,7 +9064,7 @@ cc      next = NXTVAL(nprocs)
       END DO
       END DO
 cc      next = NXTVAL(-nprocs)
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -9092,7 +9092,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i1 ( 
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -9125,10 +9125,10 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i1 ( 
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p4b = p3b,noab+nvab
       DO h1b = 1,noab
@@ -9215,14 +9215,14 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i1 ( 
       END IF
       END IF
       END IF
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END DO
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -9241,7 +9241,7 @@ C     i1 ( p3 p4 h1 p5 )_v + = 1 * v ( p3 p4 h1 p5 )_v
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -9263,10 +9263,10 @@ C     i1 ( p3 p4 h1 p5 )_v + = 1 * v ( p3 p4 h1 p5 )_v
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p4b = p3b,noab+nvab
       DO h1b = 1,noab
@@ -9321,14 +9321,14 @@ C     i1 ( p3 p4 h1 p5 )_v + = 1 * v ( p3 p4 h1 p5 )_v
       END IF
       END IF
       END IF
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END DO
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
@@ -9419,7 +9419,7 @@ C     i1 ( p3 p4 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( p3 p4 p5
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER NXTASK
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -9452,10 +9452,10 @@ C     i1 ( p3 p4 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( p3 p4 p5
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL NXTASK
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       DO p3b = noab+1,noab+nvab
       DO p4b = p3b,noab+nvab
       DO h1b = 1,noab
@@ -9556,14 +9556,14 @@ C     i1 ( p3 p4 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( p3 p4 p5
       END IF
       END IF
       END IF
-      next = NXTASK(nprocs, 1)
+      next = TPINXT(nprocs, 1)
       END IF
       count = count + 1
       END DO
       END DO
       END DO
       END DO
-      next = NXTASK(-nprocs, 1)
+      next = TPINXT(-nprocs, 1)
       call GA_SYNC()
       RETURN
       END
