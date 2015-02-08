@@ -73,13 +73,13 @@ C     i0 ( h2 p1 )_y + = 1 * y ( h2 p1 )_y
      &ccsd_1prdm_hp_1',1,MA_ERR)
       CALL GET_HASH_BLOCK(d_a,dbl_mb(k_a),dima,int_mb(k_a_offset),(p1b_1
      & - noab - 1 + nvab * (h2b_1 - 1)))
-      CALL TCE_SORT_2(dbl_mb(k_a),dbl_mb(k_a_sort),int_mb(k_range+h2b-1)
+      CALL TPI_SORT_2(dbl_mb(k_a),dbl_mb(k_a_sort),int_mb(k_range+h2b-1)
      &,int_mb(k_range+p1b-1),2,1,1.0d0)
       IF (.not.MA_POP_STACK(l_a)) CALL ERRQUIT('ccsd_1prdm_hp_1',2,MA_ER
      &R)
       IF (.not.MA_PUSH_GET(mt_dbl,dimc,'noname',l_c,k_c)) CALL ERRQUIT('
      &ccsd_1prdm_hp_1',3,MA_ERR)
-      CALL TCE_SORT_2(dbl_mb(k_a_sort),dbl_mb(k_c),int_mb(k_range+p1b-1)
+      CALL TPI_SORT_2(dbl_mb(k_a_sort),dbl_mb(k_c),int_mb(k_range+p1b-1)
      &,int_mb(k_range+h2b-1),2,1,1.0d0)
       CALL ADD_HASH_BLOCK(d_c,dbl_mb(k_c),dimc,int_mb(k_c_offset),(p1b -
      & noab - 1 + nvab * (h2b - 1)))

@@ -284,7 +284,7 @@ C     i1 ( h6 p5 )_vt + = 1/2 * Sum ( h4 p3 ) * t ( p3 h4 )_t * v ( h4 h6 p3 p5 
      2                         offset_a)
                  k_a = d_a + offset_a
 #endif
-                 CALL TCE_SORT_2(dbl_mb(k_a),dbl_mb(k_as),
+                 CALL TPI_SORT_2(dbl_mb(k_a),dbl_mb(k_as),
      1                int_mb(k_range+p3b-1),
      2                int_mb(k_range+h4b-1),2,1,1.0d0)
 #ifdef LOCAL_COPY
@@ -309,7 +309,7 @@ C     i1 ( h6 p5 )_vt + = 1/2 * Sum ( h4 p3 ) * t ( p3 h4 )_t * v ( h4 h6 p3 p5 
      3                  (noab+nvab) * (h6b_2 - 1 + (noab+nvab) * 
      4                  (h4b_2 - 1)))),p5b_2,p3b_2,h6b_2,h4b_2)
                   end if
-                  CALL TCE_SORT_4(dbl_mb(k_b),dbl_mb(k_bs),
+                  CALL TPI_SORT_4(dbl_mb(k_b),dbl_mb(k_bs),
      1                 int_mb(k_range+h4b-1),int_mb(k_range+h6b-1),
      2                 int_mb(k_range+p3b-1),int_mb(k_range+p5b-1),
      3                 4,2,1,3,1.0d0)
@@ -328,7 +328,7 @@ C     i1 ( h6 p5 )_vt + = 1/2 * Sum ( h4 p3 ) * t ( p3 h4 )_t * v ( h4 h6 p3 p5 
      3                  (noab+nvab) * (h6b_2 - 1 + (noab+nvab) * 
      4                  (h4b_2 - 1)))),p3b_2,p5b_2,h6b_2,h4b_2)
                   end if
-                  CALL TCE_SORT_4(dbl_mb(k_b),dbl_mb(k_bs),
+                  CALL TPI_SORT_4(dbl_mb(k_b),dbl_mb(k_bs),
      1                  int_mb(k_range+h4b-1),int_mb(k_range+h6b-1),
      2                  int_mb(k_range+p5b-1),int_mb(k_range+p3b-1),
      3                  3,2,1,4,-1.0d0)
@@ -347,7 +347,7 @@ C     i1 ( h6 p5 )_vt + = 1/2 * Sum ( h4 p3 ) * t ( p3 h4 )_t * v ( h4 h6 p3 p5 
      3                  (noab+nvab) * (h4b_2 - 1 + (noab+nvab) * 
      4                  (h6b_2 - 1)))),p5b_2,p3b_2,h4b_2,h6b_2)
                   end if
-                  CALL TCE_SORT_4(dbl_mb(k_b),dbl_mb(k_bs),
+                  CALL TPI_SORT_4(dbl_mb(k_b),dbl_mb(k_bs),
      1                 int_mb(k_range+h6b-1),int_mb(k_range+h4b-1),
      2                 int_mb(k_range+p3b-1),int_mb(k_range+p5b-1),
      3                 4,1,2,3,-1.0d0)
@@ -366,7 +366,7 @@ C     i1 ( h6 p5 )_vt + = 1/2 * Sum ( h4 p3 ) * t ( p3 h4 )_t * v ( h4 h6 p3 p5 
      3                  (noab+nvab) * (h4b_2 - 1 + (noab+nvab) * 
      4                  (h6b_2 - 1)))),p3b_2,p5b_2,h4b_2,h6b_2)
                   end if
-                  CALL TCE_SORT_4(dbl_mb(k_b),dbl_mb(k_bs),
+                  CALL TPI_SORT_4(dbl_mb(k_b),dbl_mb(k_bs),
      1                 int_mb(k_range+h6b-1),int_mb(k_range+h4b-1),
      2                 int_mb(k_range+p5b-1),int_mb(k_range+p3b-1),
      3                 3,1,2,4,1.0d0)
@@ -387,7 +387,7 @@ C     i1 ( h6 p5 )_vt + = 1/2 * Sum ( h4 p3 ) * t ( p3 h4 )_t * v ( h4 h6 p3 p5 
             END DO
             IF (.not.MA_PUSH_GET(mt_dbl,dimc,'noname',l_c,k_c))
      1           CALL ERRQUIT('ccsd_e_1_2',9,MA_ERR)
-            CALL TCE_SORT_2(dbl_mb(k_c_sort),dbl_mb(k_c),
+            CALL TPI_SORT_2(dbl_mb(k_c_sort),dbl_mb(k_c),
      1           int_mb(k_range+p5b-1),int_mb(k_range+h6b-1),
      2           2,1,1.0d0/2.0d0)
             CALL ADD_HASH_BLOCK(d_c,dbl_mb(k_c),dimc,
@@ -481,7 +481,7 @@ c
      1            int_mb(k_a_offset),
      2            (h4b_1 - 1 + noab * (h3b_1 - 1 + noab * 
      3            (p2b_1 - noab - 1 + nvab * (p1b_1 - noab - 1)))))
-             CALL TCE_SORT_4(dbl_mb(k_a),dbl_mb(k_as),
+             CALL TPI_SORT_4(dbl_mb(k_a),dbl_mb(k_as),
      1            dim_p1,dim_p2,dim_h3,dim_h4,
      2            3,4,1,2,1.0d0)
              IF (.not.MA_POP_STACK(l_a))

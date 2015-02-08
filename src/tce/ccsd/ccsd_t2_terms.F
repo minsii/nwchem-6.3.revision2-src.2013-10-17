@@ -6843,7 +6843,7 @@ c
      4           (p3b_2 - 1)))),p6b_2,p5b_2,p4b_2,p3b_2)
            end if
 c
-           call tce_sort_4(dbl_mb(k_b),dbl_mb(k_bs),
+           call tpi_sort_4(dbl_mb(k_b),dbl_mb(k_bs),
      1          dim3,dim4,dim5,dim6,2,1,4,3,1.0d0)
 c
            if (.not.ma_pop_stack(l_b)) 
@@ -6893,7 +6893,7 @@ c
      3                  (p6b_1 - noab - 1 + nvab * 
      4                  (p5b_1 - noab - 1)))))
 c 
-                   call tce_sort_4(dbl_mb(k_a),dbl_mb(k_as),
+                   call tpi_sort_4(dbl_mb(k_a),dbl_mb(k_as),
      1                  dim5,dim6,dim1,dim2,4,3,2,1,1.0d0)
 c
                    if (.not.ma_pop_stack(l_a)) 
@@ -6913,7 +6913,7 @@ c
 c
                    call ga_nbwait(nbh) ! wait until previous put of c is gone before overwriting buffer
 c
-                   call tce_sort_4(dbl_mb(k_cs),dbl_mb(k_c),
+                   call tpi_sort_4(dbl_mb(k_cs),dbl_mb(k_c),
      1                  dim4,dim3,dim2,dim1,2,1,4,3,0.5d0) 
 c 
                    call add_hash_block_nb(d_c,dbl_mb(k_c),dimc,
