@@ -6904,7 +6904,7 @@ c
                    else
                     alpha = 2.0d0
                    end if
-                   call dgemm('T','N',dim12,dim34,dim56,alpha,
+                   call AGEMM('T','N',dim12,dim34,dim56,alpha,
      2                  dbl_mb(k_as),dim56,dbl_mb(k_bs),dim56,
      3                  1.0d0,dbl_mb(k_cs),dim12)
 c

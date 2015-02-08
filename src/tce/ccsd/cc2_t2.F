@@ -333,7 +333,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( h10 ) * t ( p3 h10 )_t * i1 
      &,int_mb(k_range+h10b-1),int_mb(k_range+h1b-1),int_mb(k_range+h2b-1
      &),4,3,1,2,1.0d0)
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('cc2_t2_2',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('cc2_t2_2',7,MA_ERR)
@@ -668,7 +668,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = 1/2 * Sum ( h8 ) * t ( p3 h8 )_t * i2 ( h8 h10 
      &),4,3,1,2,-1.0d0)
       END IF
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('cc2_t2_2_2',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('cc2_t2_2_2',7,MA_ER
@@ -982,7 +982,7 @@ C     i2 ( h8 h10 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i3 (
      &,int_mb(k_range+h10b-1),int_mb(k_range+h2b-1),int_mb(k_range+p5b-1
      &),3,2,1,4,1.0d0)
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('cc2_t2_2_2_2',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('cc2_t2_2_2_2',7,MA_
@@ -1335,7 +1335,7 @@ C     i3 ( h8 h10 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h8 h10 
       END IF
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('cc2_t2_2_2_2_2',6,MA_ERR
      &)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('cc2_t2_2_2_2_2',7,M
@@ -1478,7 +1478,7 @@ C     i1 ( h10 p3 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i2 (
      &,int_mb(k_range+h10b-1),int_mb(k_range+h2b-1),int_mb(k_range+p5b-1
      &),3,2,1,4,1.0d0)
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('cc2_t2_2_3',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('cc2_t2_2_3',7,MA_ER
@@ -1829,7 +1829,7 @@ C     i2 ( h10 p3 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( h10 p3 
      &),3,1,2,4,1.0d0)
       END IF
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('cc2_t2_2_3_2',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('cc2_t2_2_3_2',7,MA_
@@ -1970,7 +1970,7 @@ C     i0 ( p3 p4 h1 h2 )_vt + = -1 * P( 2 ) * Sum ( p5 ) * t ( p5 h1 )_t * i1 ( 
      &,int_mb(k_range+p4b-1),int_mb(k_range+h2b-1),int_mb(k_range+p5b-1)
      &,3,2,1,4,1.0d0)
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('cc2_t2_3',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('cc2_t2_3',7,MA_ERR)
@@ -2319,7 +2319,7 @@ C     i1 ( p3 p4 h1 p5 )_vt + = -1/2 * Sum ( p6 ) * t ( p6 h1 )_t * v ( p3 p4 p5
      &,3,2,1,4,1.0d0)
       END IF
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('cc2_t2_3_2',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('cc2_t2_3_2',7,MA_ER
@@ -2470,7 +2470,7 @@ C     i0 ( p3 p4 h1 h2 )_tf + = -1 * P( 2 ) * Sum ( h5 ) * t ( p3 p4 h1 h5 )_t *
       CALL TCE_SORT_2(dbl_mb(k_b),dbl_mb(k_b_sort),int_mb(k_range+h5b-1)
      &,int_mb(k_range+h2b-1),2,1,1.0d0)
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('cc2_t2_4',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('cc2_t2_4',7,MA_ERR)
@@ -2629,7 +2629,7 @@ C     i0 ( p3 p4 h1 h2 )_tf + = 1 * P( 2 ) * Sum ( p5 ) * t ( p3 p5 h1 h2 )_t * 
       CALL TCE_SORT_2(dbl_mb(k_b),dbl_mb(k_b_sort),int_mb(k_range+p4b-1)
      &,int_mb(k_range+p5b-1),1,2,1.0d0)
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('cc2_t2_5',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('cc2_t2_5',7,MA_ERR)

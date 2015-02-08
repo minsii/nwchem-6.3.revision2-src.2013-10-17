@@ -517,7 +517,7 @@ c ----------------
       CALL TCE_SORT_2(dbl_mb(k_b),dbl_mb(k_b_sort),int_mb(k_range+h7b-1)
      &,int_mb(k_range+h1b-1),2,1,1.0d0)
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('icsd_t1_2',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_2',7,MA_ERR
@@ -797,7 +797,7 @@ c ----------------
       CALL TCE_SORT_2(dbl_mb(k_b),dbl_mb(k_b_sort),int_mb(k_range+h7b-1)
      &,int_mb(k_range+p3b-1),1,2,1.0d0)
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('icsd_t1_2_2',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_2_2',7,MA_E
@@ -1139,7 +1139,7 @@ c ----------------
      &,3,1,2,4,-1.0d0)
       END IF
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('icsd_t1_2_2_2',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_2_2_2',7,MA
@@ -1306,7 +1306,7 @@ c ----------------
      &,3,1,2,4,-1.0d0)
       END IF
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('icsd_t1_2_3',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_2_3',7,MA_E
@@ -1501,7 +1501,7 @@ c ----------------
       ELSE
       isuperp = isuperp + 1
       END IF
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,2.0d0/FACTORIAL(
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,2.0d0/FACTORIAL(
      &nsuperp(1))/FACTORIAL(nsuperp(2)),dbl_mb(k_a_sort),dim_common,dbl_
      &mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sort),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_2_4',7,MA_E
@@ -1638,7 +1638,7 @@ c ----------------
       CALL TCE_SORT_2(dbl_mb(k_b),dbl_mb(k_b_sort),int_mb(k_range+p2b-1)
      &,int_mb(k_range+p3b-1),1,2,1.0d0)
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('icsd_t1_3',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_3',7,MA_ERR
@@ -1949,7 +1949,7 @@ c ----------------
      &,3,2,1,4,1.0d0)
       END IF
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('icsd_t1_3_2',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_3_2',7,MA_E
@@ -2100,7 +2100,7 @@ c ----------------
      &,3,2,1,4,1.0d0)
       END IF
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('icsd_t1_4',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_4',7,MA_ERR
@@ -2268,7 +2268,7 @@ c ----------------
       CALL TCE_SORT_2(dbl_mb(k_b),dbl_mb(k_b_sort),int_mb(k_range+h8b-1)
      &,int_mb(k_range+p7b-1),1,2,1.0d0)
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('icsd_t1_5',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_5',7,MA_ERR
@@ -2610,7 +2610,7 @@ c ----------------
      &,3,1,2,4,1.0d0)
       END IF
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('icsd_t1_5_2',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_5_2',7,MA_E
@@ -2781,7 +2781,7 @@ c ----------------
       ELSE
       isubh = isubh + 1
       END IF
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,2.0d0/FACTORIAL(
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,2.0d0/FACTORIAL(
      &nsubh(1))/FACTORIAL(nsubh(2)),dbl_mb(k_a_sort),dim_common,dbl_mb(k
      &_b_sort),dim_common,1.0d0,dbl_mb(k_c_sort),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_6',7,MA_ERR
@@ -3138,7 +3138,7 @@ c ----------------
      &,3,2,1,4,1.0d0)
       END IF
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('icsd_t1_6_2',6,MA_ERR)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_6_2',7,MA_E
@@ -3321,7 +3321,7 @@ c ----------------
       ELSE
       isuperp = isuperp + 1
       END IF
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,2.0d0/FACTORIAL(
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,2.0d0/FACTORIAL(
      &nsuperp(1))/FACTORIAL(nsuperp(2)),dbl_mb(k_a_sort),dim_common,dbl_
      &mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sort),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('icsd_t1_7',7,MA_ERR

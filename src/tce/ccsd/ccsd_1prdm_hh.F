@@ -122,7 +122,7 @@ C     i0 ( h2 h1 )_yt + = -1 * Sum ( p3 ) * t ( p3 h1 )_t * y ( h2 p3 )_y
      &,int_mb(k_range+p3b-1),1,2,1.0d0)
       IF (.not.MA_POP_STACK(l_b)) CALL ERRQUIT('ccsd_1prdm_hh_1',6,MA_ER
      &R)
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,1.0d0,dbl_mb(k_a
      &_sort),dim_common,dbl_mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sor
      &t),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('ccsd_1prdm_hh_1',7,
@@ -296,7 +296,7 @@ C     i0 ( h2 h1 )_yt + = -1/2 * Sum ( h5 p3 p4 ) * t ( p3 p4 h1 h5 )_t * y ( h2
       ELSE
       isuperp = isuperp + 1
       END IF
-      CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,2.0d0/FACTORIAL(
+      CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,2.0d0/FACTORIAL(
      &nsuperp(1))/FACTORIAL(nsuperp(2)),dbl_mb(k_a_sort),dim_common,dbl_
      &mb(k_b_sort),dim_common,1.0d0,dbl_mb(k_c_sort),dima_sort)
       IF (.not.MA_POP_STACK(l_b_sort)) CALL ERRQUIT('ccsd_1prdm_hh_2',7,

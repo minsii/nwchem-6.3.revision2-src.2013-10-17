@@ -373,7 +373,7 @@ C     i1 ( h6 p5 )_vt + = 1/2 * Sum ( h4 p3 ) * t ( p3 h4 )_t * v ( h4 h6 p3 p5 
                  END IF
                  IF (.not.MA_POP_STACK(l_b))
      1                CALL ERRQUIT('ccsd_e_1_2',6,MA_ERR)
-                 CALL DGEMM('T','N',dima_sort,dimb_sort,dim_common,
+                 CALL AGEMM('T','N',dima_sort,dimb_sort,dim_common,
      1                1.0d0,dbl_mb(k_as),dim_common,dbl_mb(k_bs),
      2                dim_common,1.0d0,dbl_mb(k_c_sort),dima_sort)
                  IF (.not.MA_POP_STACK(l_bs))
@@ -516,7 +516,7 @@ c
 c
 c            do the contraction
 c
-             CALL DGEMM('T','N',1,1,dim_pphh,alpha,
+             CALL AGEMM('T','N',1,1,dim_pphh,alpha,
      1            dbl_mb(k_as),dim_pphh,dbl_mb(k_b),
      2            dim_pphh,1.0d0,dbl_mb(k_c),1)
 c
