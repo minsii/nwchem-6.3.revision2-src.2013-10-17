@@ -368,6 +368,18 @@ static void tpi_pop_name_(char *name, int n)
             else if (i == 14)
                 fprintf(stderr, "name = %s timers = nxtask       min = %lf max = %lf avg = %lf \n",
                         stack_name, timers_min[i], timers_max[i], timers_avg[i]);
+            else if (i == 15)
+                fprintf(stderr, "name = %s timers = add_block       min = %lf max = %lf avg = %lf \n",
+                        stack_name, timers_min[i], timers_max[i], timers_avg[i]);
+            else if (i == 16)
+                fprintf(stderr, "name = %s timers = ga_sync       min = %lf max = %lf avg = %lf \n",
+                        stack_name, timers_min[i], timers_max[i], timers_avg[i]);
+            else if (i == 17)
+                fprintf(stderr, "name = %s timers = int_2e4c       min = %lf max = %lf avg = %lf \n",
+                        stack_name, timers_min[i], timers_max[i], timers_avg[i]);
+            else if (i == 18)
+                fprintf(stderr, "name = %s timers = ipos1       min = %lf max = %lf avg = %lf \n",
+                        stack_name, timers_min[i], timers_max[i], timers_avg[i]);
             else
                 fprintf(stderr, "unknown timer! \n");
         }
