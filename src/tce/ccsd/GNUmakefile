@@ -20,7 +20,7 @@ USES_BLAS = ccsd_e.F ccsd_t1.F ccsd_t2_terms.F cc2_t1.F cc2_t2.F \
             tce_profile_agemm.F
 
 
-LIB_DEFINES = -DDEBUG_PRINT -DMPI
+LIB_DEFINES = -DDEBUG_PRINT -DMPI -DENABLE_TPI
 #
 # Possible #defines
 #
