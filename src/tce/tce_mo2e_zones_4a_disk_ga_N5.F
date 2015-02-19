@@ -124,6 +124,7 @@ cccx      max_size_temp=100000000
       max_size_temp=imaxsize**4
 c
 c
+      call tpi_config_async("4-index")
       call tpi_start(20)
       call tpi_push_name_level1("4-index")
 
@@ -1095,6 +1096,7 @@ ccx     1  call errquit('tcc_sf_destroy2: sf problem',15,MA_ERR)
 
       call tpi_pop_name_level1("4-index")
       call tpi_stop()
+      call tpi_config_async_reset()
 c
 c
 c

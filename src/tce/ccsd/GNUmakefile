@@ -6,7 +6,8 @@ OBJ_OPTIMIZE = ccsd_e.o ccsd_t1.o ccsd_t2_driver.o ccsd_t2_terms.o \
                ccsd_1prdm_ph.o ccsd_1prdm_pp.o \
                icsd_t1.o icsd_t2.o \
                tce_profile.o tce_profile_agemm.o tce_profile_nxtask.o \
-               tce_profile_sort.o tce_profile_sortacc.o tce_profile_ga.o
+               tce_profile_sort.o tce_profile_sortacc.o tce_profile_ga.o \
+               tce_config.o
 
 LIB_INCLUDES = -I../include
 

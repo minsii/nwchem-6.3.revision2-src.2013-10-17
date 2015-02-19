@@ -44,6 +44,7 @@ c ---------------------------------------
       double precision denom_h1,denom_h2,denom_h3
       external nxtask
 
+      call tpi_config_async("ccsd_t")
       call tpi_start(20)
       call ARMCI_Profile_reset_counter()
       call ARMCI_Profile_reset_timing()
@@ -203,6 +204,7 @@ c ---------------------------
       call ARMCI_Profile_print_timing("ccsd_t")
       call tpi_pop_name_level1("ccsd_t")
       call tpi_stop()
+      call tpi_config_async_reset()
 
       return
       end
