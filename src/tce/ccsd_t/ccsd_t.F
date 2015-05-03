@@ -83,6 +83,8 @@ C
            range_h2 = int_mb(k_range+t_h2b-1)
            offset_h2 = k_evl_sorted+int_mb(k_offset+t_h2b-1)-1
            do t_h3b = t_h2b,noab
+            call tpi_push_name_level3("ccsd_t_loop")
+
             range_h3 = int_mb(k_range+t_h3b-1)
             offset_h3 = k_evl_sorted+int_mb(k_offset+t_h3b-1)-1
             if (int_mb(k_spin+t_p4b-1)
@@ -159,6 +161,7 @@ c
                 do t_h2 = 1, range_h2
                  denom_h2 = dbl_mb(offset_h2+t_h2)
                  do t_h3 = 1, range_h3
+
                   denom_h3 = dbl_mb(offset_h3+t_h3)
                   denom = 1.0d0 / ( ( denom_h1 + denom_h2 + denom_h3 )
      1                            - ( denom_p4 + denom_p5 + denom_p6 ) )
@@ -166,6 +169,9 @@ c
      1                    * dbl_mb(k_doubles+i)*dbl_mb(k_doubles+i)
                   energy2 = energy2 + factor*denom*dbl_mb(k_doubles+i)
      1                    * (dbl_mb(k_doubles+i)+dbl_mb(k_singles+i))
+
+                  call tpi_print_data("ccsd_t energy", energy1, energy2);
+
                   i = i + 1
                  enddo
                 enddo
@@ -185,6 +191,8 @@ c
             endif
             endif
             endif
+
+            call tpi_pop_name_level3("ccsd_t_loop")
            enddo
           enddo
          enddo

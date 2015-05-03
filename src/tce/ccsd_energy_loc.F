@@ -39,6 +39,7 @@ c
       call tce_diis_init()
       do iter=1,maxiter
         call tpi_push_name_level1("ccsd-iteration")
+        call tpi_push_name_level3("ccsd-iteration")
         call ARMCI_Profile_reset_counter()
         call ARMCI_Profile_reset_timing()
 
@@ -173,6 +174,7 @@ c          write(LuOut,9101) cpusecs(37),cpusecs(38)
         endif
         call ARMCI_Profile_print_timing("ccsd-iteration")
         call tpi_pop_name_level1("ccsd-iteration")
+        call tpi_pop_name_level3("ccsd-iteration")
         return
         endif
         if (save_t(1).and.(mod(iter,save_interval).eq.0)) then

@@ -45,6 +45,9 @@ static inline void read_tpi_env()
             case 2:
                 tpi_level = 2;
                 break;
+            case 3:
+                tpi_level = 3;
+                break;
             default:
                 tpi_level = 0;
             }
@@ -413,6 +416,14 @@ void tpi_push_name_level2_(char *name, int n)
     }
 }
 
+void tpi_push_name_level3_(char *name, int n)
+{
+    if (tpi_level == 3) {
+        return tpi_push_name_(name, n);
+    }
+}
+
+
 void tpi_pop_name_level1_(char *name, int n)
 {
     if (tpi_level == 1) {
@@ -423,6 +434,12 @@ void tpi_pop_name_level1_(char *name, int n)
 void tpi_pop_name_level2_(char *name, int n)
 {
     if (tpi_level == 2) {
+        return tpi_pop_name_(name, n);
+    }
+}
+void tpi_pop_name_level3_(char *name, int n)
+{
+    if (tpi_level == 3) {
         return tpi_pop_name_(name, n);
     }
 }
@@ -518,3 +535,8 @@ void tpi_stop_timer_(int *id)
     /* do nothing */
 }
 #endif
+
+void tpi_print_data_(const char *title, double *e1, double *e2) {
+    fprintf(stderr, "%s  %.6lf  %.6f\n", title, *e1, *e2);
+    fflush(stderr);
+}
