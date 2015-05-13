@@ -5,7 +5,7 @@
 #include <mpi.h>
 
 
-#ifdef ENABLE_TPI
+#ifdef ENABLE_TPI_CONFIG
 
 typedef struct {
     char name[40];
