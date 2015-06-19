@@ -40,8 +40,8 @@ c
       do iter=1,maxiter
         call tpi_push_name_level1("ccsd-iteration")
         call tpi_push_name_level3("ccsd-iteration")
-        call ARMCI_Profile_reset_counter()
-        call ARMCI_Profile_reset_timing()
+        call tpi_armci_profile_reset_counter()
+        call tpi_armci_profile_reset_timing()
 
         cpu=-util_cpusec()
         wall=-util_wallsec()
@@ -172,7 +172,7 @@ c          write(LuOut,9101) cpusecs(37),cpusecs(38)
           call x2_restart_save(d_t2,k_t2_offset,size_t2,0,
      1                         handle_t2,irrep_t)
         endif
-        call ARMCI_Profile_print_timing("ccsd-iteration")
+        call tpi_armci_profile_print_timing("ccsd-iteration")
         call tpi_pop_name_level1("ccsd-iteration")
         call tpi_pop_name_level3("ccsd-iteration")
         return
@@ -201,7 +201,7 @@ c          write(LuOut,9101) cpusecs(37),cpusecs(38)
         call deletefile(d_e)
         if (nodezero) call util_flush(LuOut)
 
-        call ARMCI_Profile_print_timing("ccsd-iteration")
+        call tpi_armci_profile_print_timing("ccsd-iteration")
         call tpi_pop_name_level1("ccsd-iteration")
       enddo
 

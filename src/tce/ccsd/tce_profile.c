@@ -443,6 +443,27 @@ void tpi_pop_name_level3_(char *name, int n)
         return tpi_pop_name_(name, n);
     }
 }
+
+/* ARMCI profiling */
+void tpi_armci_profile_reset_counter_(void)
+{
+    return armci_profile_reset_counter_();
+}
+
+void tpi_armci_profile_reset_timing_(void)
+{
+    return armci_profile_reset_counter_();
+}
+
+void tpi_armci_profile_print_timing_(char *name)
+{
+    return armci_profile_print_timing_(name);
+}
+
+void tpi_armci_profile_print_counter_(char *name)
+{
+    return armci_profile_print_counter_(name);
+}
 #else
 void tpi_push_name_level1_(char *name, int n)
 {
@@ -454,12 +475,43 @@ void tpi_push_name_level2_(char *name, int n)
     /* do nothing */
 }
 
+void tpi_push_name_level3_(char *name, int n)
+{
+    /* do nothing */
+}
+
 void tpi_pop_name_level1_(char *name, int n)
 {
     /* do nothing */
 }
 
 void tpi_pop_name_level2_(char *name, int n)
+{
+    /* do nothing */
+}
+
+void tpi_pop_name_level3_(char *name, int n)
+{
+    /* do nothing */
+}
+
+/* ARMCI profiling */
+void tpi_armci_profile_reset_counter_(void)
+{
+    /* do nothing */
+}
+
+void tpi_armci_profile_reset_timing_(void)
+{
+    /* do nothing */
+}
+
+void tpi_armci_profile_print_timing_(char *name)
+{
+    /* do nothing */
+}
+
+void tpi_armci_profile_print_counter_(char *name)
 {
     /* do nothing */
 }
