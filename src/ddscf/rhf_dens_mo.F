@@ -31,6 +31,7 @@ c
       external ga_create_atom_blocked
 c     
       oprint = util_print('mo guess', print_default)
+c      call tpi_config_async("rhf")
 c     
 c     The guess density must be symmetrized if sym is used
 c     
@@ -62,6 +63,11 @@ c
       if (util_print('ao overlap',print_debug))
      $     call ga_print(g_over)
       dens_norm = ga_ddot(g_over, g_dens)
+
+        call tpi_dbg_ga_print(g_over, "g_over")
+        call tpi_dbg_ga_print(g_dens, "g_dens")
+        call tpi_dbg_ga_print(g_mocf, "g_mocf")
+
       if (abs(dens_norm) .gt. 1.0d-2 .and.
      $     abs(dens_norm-dble(nelec)).gt.1.0d-6) then
          if (ga_nodeid() .eq. 0 .and. oprint) then
@@ -75,7 +81,19 @@ c
 c     
 c     (Ortho)normalize the eigenvectors of S while we still have S
 c     
+      call ga_sync()
+      if (ga_nodeid() .eq. 0 .and. oprint) then
+          write(luout,*) "before ga_orthog in rhf_dens_to_mo"
+      endif
+      call ga_sync()
+
       call ga_orthog(g_mocf, g_over, .true.)
+
+      call ga_sync()
+      if (ga_nodeid() .eq. 0 .and. oprint) then
+          write(luout,*) "after ga_orthog in rhf_dens_to_mo"
+      endif
+      call ga_sync()
 c     
 c     Build the fock_matrix
 c     
@@ -175,4 +193,5 @@ c
          call util_flush(luout)
       endif
 c     
+c      call tpi_config_async_reset()
       end

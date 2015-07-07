@@ -107,6 +107,7 @@ c
      &   ssmear)) then
          ssmear=0.d0
       endif
+      call tpi_config_async("scf_vec_guess")
 c
 c     check if fon is on
 c
@@ -565,5 +566,6 @@ c
          endif
 c
       endif
+      call tpi_config_async_reset()
       return
       end

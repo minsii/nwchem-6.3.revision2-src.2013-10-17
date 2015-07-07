@@ -37,6 +37,8 @@ c
 c
 c     Make and diag the overlap matrix
 c
+c       call tpi_config_async("scf_lindep")
+
        if (.not. bas_numbf(basis, nbf)) 
      $      call errquit('scf_lin: bad basis?',0, BASIS_ERR)
        if (.not. ma_push_get(MT_DBL, nbf, 'Evals', l_ev, k_ev))
@@ -128,4 +130,5 @@ c
        if (.not. ma_pop_stack(l_ev)) call errquit
      $      ('scf_lindep: destroy of ev?', 0, MA_ERR)
 c
+c       call tpi_config_async_reset()
        end

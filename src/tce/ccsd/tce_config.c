@@ -4,6 +4,7 @@
 #include <string.h>
 #include <mpi.h>
 
+static int env_dbg_ga_print = 0;
 
 #ifdef ENABLE_TPI_CONFIG
 
@@ -24,6 +25,11 @@ static inline void read_tpi_env()
     /* only read from environment once */
     if (read_env == 0) {
         char *envval = 0;
+        envval = getenv("TPI_DBG_GA_PRINT");
+        if (envval && strlen(envval)) {
+            env_dbg_ga_print = 1;
+        }
+
         envval = getenv("TPI_ASYNC_CONFIG");
         if (envval && strlen(envval)) {
             char *items = NULL, *keyval = NULL;
@@ -105,11 +111,12 @@ void tpi_config_async_(char *name)
         }
     }
 
+#if 0
     if (idx == tpi_async_config_map_size) {
         if (rank == 0)
             fprintf(stderr, "config %s is not defined\n", name);
     }
-
+#endif
     return;
 }
 
@@ -129,3 +136,29 @@ void tpi_config_async_reset_()
     /* do nothing */
 }
 #endif
+
+
+void tpi_dbg_ga_print_(int *ga, const char *name)
+{
+    FILE *fp = NULL;
+    int rank = -1;
+    read_tpi_env();
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    if (env_dbg_ga_print) {
+        fp = fopen(name, "w");
+        if (fp != NULL) {
+            if (rank == 0)
+                printf("TPI print array to %s...", name);
+            fflush(stdout);
+
+            GA_Print_file(fp, *ga);
+
+            if (rank == 0)
+                printf("done\n", name);
+            fflush(stdout);
+
+            fclose(fp);
+        }
+    }
+}
