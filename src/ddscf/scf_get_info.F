@@ -247,9 +247,11 @@ c
      $        32, 32, g_movecs(2))) call errquit('scf_init: beta MOs',0,
      &       GA_ERR)
       else
+         call tpi_dbg_set_ga_name('scf_init: MOs')
          if (.not. ga_create(MT_DBL, nbf, nmo, 'scf_init: MOs',
      $        32, 32, g_movecs)) call errquit('scf_init: MOs', 0,
      &       GA_ERR)
+         call tpi_dbg_reset_ga_name()
       endif
 c     
       len_occ = nmo

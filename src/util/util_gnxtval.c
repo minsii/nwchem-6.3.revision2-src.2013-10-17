@@ -39,7 +39,9 @@ Integer util_gnxtval_(Integer *val) {
        initialized=1;
 
        /* create task array */
+       tpi_dbg_set_ga_name_("Atomic Task");
        g_T = NGA_Create(C_LONG, 1, &n,"Atomic Task", NULL);
+       tpi_dbg_reset_ga_name_();
        
        /* Initialize the task array */
        if(GA_Nodeid()==0) {

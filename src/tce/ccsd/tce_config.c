@@ -136,29 +136,3 @@ void tpi_config_async_reset_()
     /* do nothing */
 }
 #endif
-
-
-void tpi_dbg_ga_print_(int *ga, const char *name)
-{
-    FILE *fp = NULL;
-    int rank = -1;
-    read_tpi_env();
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-    if (env_dbg_ga_print) {
-        fp = fopen(name, "w");
-        if (fp != NULL) {
-            if (rank == 0)
-                printf("TPI print array to %s...", name);
-            fflush(stdout);
-
-            GA_Print_file(fp, *ga);
-
-            if (rank == 0)
-                printf("done\n", name);
-            fflush(stdout);
-
-            fclose(fp);
-        }
-    }
-}

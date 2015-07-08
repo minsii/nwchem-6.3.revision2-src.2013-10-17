@@ -37,9 +37,11 @@ c
       enddo
       endif
 #endif
+      call tpi_dbg_set_ga_name(name)
       status =  ga_create_irreg(MT_DBL, nbf, nbf, name,
      $     int_mb(k_map), nblock(1), 
      $     int_mb(k_map+ga_nnodes()), nblock(2), g_a)
+      call tpi_dbg_reset_ga_name()
       if (.not. status) then
          if (ga_nodeid() .eq. 0) then
             write(6,*) ' ga_create_atom_blocked: ', name

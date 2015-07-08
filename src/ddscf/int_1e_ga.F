@@ -602,8 +602,10 @@ cso
 c     
 c     Loop thru shells with static parallel work decomposition
 c     
+      call tpi_dbg_set_ga_name('local g')
       if(.not.ga_duplicate(g,g_loc,'local g')) call
      .     errquit('int1e: dupl failed',0, GA_ERR)
+      call tpi_dbg_reset_ga_name()
       call ga_zero(g_loc)
       iproc = ga_nodeid()
       nproc = ga_nnodes()

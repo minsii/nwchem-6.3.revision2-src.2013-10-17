@@ -7,7 +7,7 @@ OBJ_OPTIMIZE = ccsd_e.o ccsd_t1.o ccsd_t2_driver.o ccsd_t2_terms.o \
                icsd_t1.o icsd_t2.o \
                tce_profile.o tce_profile_agemm.o tce_profile_nxtask.o \
                tce_profile_sort.o tce_profile_sortacc.o tce_profile_ga.o \
-               tce_config.o
+               tce_config.o tce_dbg.o
 
 LIB_INCLUDES = -I../include
 
@@ -29,6 +29,10 @@ endif
 ifeq (1, $(ENABLE_TPI_CONFIG))
 LIB_DEFINES += -DENABLE_TPI_CONFIG
 endif
+ifeq (1, $(ENABLE_TPI_DEBUG))
+LIB_DEFINES += -DENABLE_TPI_DEBUG
+endif
+
 #
 # Possible #defines
 #
