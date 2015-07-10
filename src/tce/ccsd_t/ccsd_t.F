@@ -169,9 +169,6 @@ c
      1                    * dbl_mb(k_doubles+i)*dbl_mb(k_doubles+i)
                   energy2 = energy2 + factor*denom*dbl_mb(k_doubles+i)
      1                    * (dbl_mb(k_doubles+i)+dbl_mb(k_singles+i))
-
-                  call tpi_print_data("ccsd_t energy", energy1, energy2);
-
                   i = i + 1
                  enddo
                 enddo

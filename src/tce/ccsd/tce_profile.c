@@ -587,8 +587,3 @@ void tpi_stop_timer_(int *id)
     /* do nothing */
 }
 #endif
-
-void tpi_print_data_(const char *title, double *e1, double *e2) {
-    fprintf(stderr, "%s  %.6lf  %.6f\n", title, *e1, *e2);
-    fflush(stderr);
-}
