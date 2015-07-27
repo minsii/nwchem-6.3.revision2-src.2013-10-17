@@ -40,7 +40,6 @@ c
       save icount, nleft
       data nleft, icount /0, 0/
 
-      call tpi_config_async("nxtask")
 #ifdef GANXTVAL
       if(f1stcall) then
          junk=util_gnxtval(0)
@@ -100,7 +99,6 @@ c
       endif
 
       endif
-      call tpi_config_async_reset()
 c     
 *      write(6,*) ga_nodeid(), ' got task ', nxtask
 *      call forflush(6)

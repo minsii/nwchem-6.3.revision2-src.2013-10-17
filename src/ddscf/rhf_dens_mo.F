@@ -31,7 +31,6 @@ c
       external ga_create_atom_blocked
 c     
       oprint = util_print('mo guess', print_default)
-c      call tpi_config_async("rhf")
 c     
 c     The guess density must be symmetrized if sym is used
 c     
@@ -193,5 +192,4 @@ c
          call util_flush(luout)
       endif
 c     
-c      call tpi_config_async_reset()
       end
