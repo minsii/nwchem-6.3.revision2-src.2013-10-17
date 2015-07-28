@@ -37,7 +37,7 @@ C
       integer k_left_sorted,l_left_sorted
       integer size,i
       integer g_energy
-      integer nxtask
+      integer TPINXT
       integer next
       integer nprocs
       integer count
@@ -53,7 +53,7 @@ c - T1/X1 LOCALIZATION -------------------
 c ---------------------------------------
       double precision energy
       double precision factor
-      external nxtask
+      external TPINXT
 c
 c - T1/X1 LOCALIZATION ----------
 c    opening l_t1_local and l_x1_local
@@ -85,7 +85,7 @@ c
      1  call errquit('ccsd_t: GA problem',0,GA_ERR)
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       energy=0.0d0
       do t_p4b = noab+1,noab+nvab
        do t_p5b = t_p4b,noab+nvab
@@ -190,7 +190,7 @@ c
      1        call errquit('ccsd_t',6,MA_ERR)
             if (.not.MA_POP_STACK(l_right)) 
      1        call errquit('ccsd_t',6,MA_ERR)
-            next = nxtask(nprocs,1)
+            next = TPINXT(nprocs,1)
             endif
             count = count + 1
             endif
@@ -202,7 +202,7 @@ c
         enddo
        enddo
       enddo
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call ccsd2_t_left(dbl_mb(k_left),d_f1,d_i1_3,d_i1_4,d_i1_5,
      1  d_t1,d_v2,d_y1,d_y2,k_f1_offset,k_i1_offset_3,
      2  k_i1_offset_4,k_i1_offset_5,k_t1_offset,k_v2_offset,

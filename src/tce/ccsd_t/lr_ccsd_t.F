@@ -40,7 +40,7 @@ C
       integer hole_p_1
       integer hole_p_2
 c
-      integer nxtask
+      integer TPINXT
       integer next
       integer nprocs
       integer count
@@ -56,7 +56,7 @@ c ---------------------------------------
       double precision energy5,energy6
       double precision factor
       double precision den0,den1,den2,den3,num1,num2
-      external nxtask
+      external TPINXT
 c
       k_right = 0
       k_den = 0
@@ -112,7 +112,7 @@ c
      1  call errquit('ccsd_t: GA problem',0,GA_ERR)
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       num1=0.0d0 !for <S3(M3)+ M3>/(1+L(J3))
       num2=0.0d0 !for <(S3(M3)+S1S2)+M3>/(1+L(J3))
       den0=0.0d0  !for <T3[2]+M3>/(1+L(J3))
@@ -350,7 +350,7 @@ c den3 => <(T3[2]+S1S2)+R03 M3[2]>/(1+L(J3))
 cccx            if (.not.MA_POP_STACK(l_singles)) 
 cccx     1        call errquit('ccsd_t',8,MA_ERR)
 c
-            next = nxtask(nprocs,1)
+            next = TPINXT(nprocs,1)
             endif
             count = count + 1
 c
@@ -363,7 +363,7 @@ c
         enddo
        enddo
       enddo
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call cr_ccsd_t_E(dbl_mb(k_den),d_i1_3,
      1  k_t1_local,d_t2,k_i1_offset_3,k_t1_offset,k_t2_offset,
      2  l_i1_offset_3,t_h1b,t_h2b,t_h3b,t_p4b,t_p5b,t_p6b,3)

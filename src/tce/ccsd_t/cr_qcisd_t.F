@@ -226,7 +226,7 @@ c
       integer k_i1_offset_3,l_i1_offset_3
       integer size,i
       integer g_energy
-      integer nxtask
+      integer TPINXT
       integer next
       integer nprocs
       integer count
@@ -236,7 +236,7 @@ c - T1/X1 LOCALIZATION -------------------
 c ---------------------------------------
       double precision e1_1,e1_2,e2_1,e2_2,e3_1,den2
       double precision factor
-      external nxtask
+      external TPINXT
 c
 c - T1/X1 LOCALIZATION ----------
 c    opening l_t1_local and l_x1_local
@@ -264,7 +264,7 @@ c
 c
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       e1_1 = 0.0d0
       e1_2 = 0.0d0
       e2_1 = 0.0d0
@@ -460,7 +460,7 @@ c
             endif
             endif
             endif
-            next = nxtask(nprocs,1)
+            next = TPINXT(nprocs,1)
             endif
             count = count + 1
            enddo
@@ -469,7 +469,7 @@ c
         enddo
        enddo
       enddo
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call cr_ccsd_t_E(dbl_mb(k_denom),d_i1_3,
      1  k_t1_local,d_t2,k_i1_offset_3,k_t1_offset,k_t2_offset,
      2  l_i1_offset_3,t_h1b,t_h2b,t_h3b,t_p4b,t_p5b,t_p6b,3)

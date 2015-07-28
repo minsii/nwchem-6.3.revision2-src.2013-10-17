@@ -33,7 +33,7 @@ C
       integer k_right,l_right
       integer size,i
       integer g_energy
-      integer nxtask
+      integer TPINXT
       integer next
       integer nprocs
       integer count
@@ -48,7 +48,7 @@ c ---------------------------------------
       double precision energy1,energy2
       double precision factor
       double precision den0,den1,den2,num1,num2
-      external nxtask
+      external TPINXT
 c
 c - T1/X1 LOCALIZATION ----------
 c    opening l_t1_local and l_x1_local
@@ -87,7 +87,7 @@ c
      1  call errquit('ccsd_t: GA problem',0,GA_ERR)
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       num1=0.0d0
       num2=0.0d0
       do t_p4b = noab+1,noab+nvab
@@ -222,7 +222,7 @@ c
             endif
             endif
             endif
-            next = nxtask(nprocs,1)
+            next = TPINXT(nprocs,1)
             endif
             count = count + 1
            enddo
@@ -231,7 +231,7 @@ c
         enddo
        enddo
       enddo
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call cr_ccsd_t_E(dbl_mb(k_den),d_i1_3,
      1  k_t1_local,d_t2,k_i1_offset_3,k_t1_offset,k_t2_offset,
      2  l_i1_offset_3,t_h1b,t_h2b,t_h3b,t_p4b,t_p5b,t_p6b,3)

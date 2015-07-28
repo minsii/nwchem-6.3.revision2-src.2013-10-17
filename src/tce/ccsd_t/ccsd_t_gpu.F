@@ -29,7 +29,7 @@ C
       integer size,i
       integer g_energy
       integer g_total_d, g_total_s
-      integer nxtask
+      integer TPINXT
       integer next
       integer nprocs
       integer count
@@ -44,7 +44,7 @@ c ---------------------------------------
       double precision factor_l(1)
       double precision energy_l(2),total_d(1),total_s(1),total_all_d
       double precision total_all_s
-      external nxtask
+      external TPINXT
 c Wenjing
 c for getting device information
       external integer armci_master
@@ -100,7 +100,7 @@ c     1  call errquit('ccsd_t: GA problem',0,GA_ERR)
      1  call errquit('ccsd_t: GA problem',0,GA_ERR)
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
 c      total_all_d = 0.0d0
 c      total_all_s = 0.0d0
 
@@ -303,14 +303,14 @@ c
             if (.not.MA_POP_STACK(l_singles)) 
      1        call errquit('ccsd_t',4,MA_ERR)
 c
-            next = nxtask(nprocs,1)
+            next = TPINXT(nprocs,1)
             endif
             count = count + 1
 c
             endif
             endif
             endif
-ccx            next = nxtask(nprocs,1)
+ccx            next = TPINXT(nprocs,1)
 ccx            endif
 ccx            count = count + 1
            enddo
@@ -319,7 +319,7 @@ ccx            count = count + 1
         enddo
        enddo
       enddo
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call ga_zero(g_energy)
       call ga_acc(g_energy,1,1,1,1,energy1,1,1.0d0)
       call ga_sync()

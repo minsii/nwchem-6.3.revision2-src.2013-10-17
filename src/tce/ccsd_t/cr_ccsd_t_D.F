@@ -62,7 +62,7 @@ C     i0 ( )_tc + = 1 * Sum ( p5 h6 ) * t ( p5 h6 )_t * i1 ( h6 p5 )_c
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER nxtask
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -90,10 +90,10 @@ C     i0 ( )_tc + = 1 * Sum ( p5 h6 ) * t ( p5 h6 )_t * i1 ( h6 p5 )_c
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL nxtask
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       IF (next.eq.count) THEN
       IF (0 .eq. ieor(irrep_t,irrep_c)) THEN
       dimc = 1
@@ -152,10 +152,10 @@ C     i0 ( )_tc + = 1 * Sum ( p5 h6 ) * t ( p5 h6 )_t * i1 ( h6 p5 )_c
       IF (.not.MA_POP_STACK(l_c_sort)) CALL ERRQUIT('cr_ccsd_t_D_1',11,M
      &A_ERR)
       END IF
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       END IF
       count = count + 1
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call GA_SYNC()
       RETURN
       END
@@ -174,7 +174,7 @@ C     i1 ( h6 p5 )_c + = 1 * c+ ( h6 p5 )_c
       INTEGER k_a_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER nxtask
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -192,10 +192,10 @@ C     i1 ( h6 p5 )_c + = 1 * c+ ( h6 p5 )_c
       INTEGER k_a
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL nxtask
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       DO h6b = 1,noab
       DO p5b = noab+1,noab+nvab
       IF (next.eq.count) THEN
@@ -234,12 +234,12 @@ C     i1 ( h6 p5 )_c + = 1 * c+ ( h6 p5 )_c
       END IF
       END IF
       END IF
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       END IF
       count = count + 1
       END DO
       END DO
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call GA_SYNC()
       RETURN
       END
@@ -316,7 +316,7 @@ C     i1 ( h6 p5 )_ct + = 1/2 * Sum ( h4 p3 ) * c+ ( h4 h6 p3 p5 )_c * t ( p3 h4
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER nxtask
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -348,10 +348,10 @@ C     i1 ( h6 p5 )_ct + = 1/2 * Sum ( h4 p3 ) * c+ ( h4 h6 p3 p5 )_c * t ( p3 h4
       INTEGER k_b
       INTEGER l_c
       INTEGER k_c
-      EXTERNAL nxtask
+      EXTERNAL TPINXT
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       DO h6b = 1,noab
       DO p5b = noab+1,noab+nvab
       IF (next.eq.count) THEN
@@ -451,12 +451,12 @@ C     i1 ( h6 p5 )_ct + = 1/2 * Sum ( h4 p3 ) * c+ ( h4 h6 p3 p5 )_c * t ( p3 h4
       END IF
       END IF
       END IF
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       END IF
       count = count + 1
       END DO
       END DO
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call GA_SYNC()
       RETURN
       END
@@ -478,7 +478,7 @@ C     i0 ( )_tc + = 1/4 * Sum ( p3 p4 h1 h2 ) * c+ ( h1 h2 p3 p4 )_c * t ( p3 p4
       INTEGER k_b_offset
       INTEGER d_c
       INTEGER k_c_offset
-      INTEGER nxtask
+      INTEGER TPINXT
       INTEGER next
       INTEGER nprocs
       INTEGER count
@@ -517,11 +517,11 @@ C     i0 ( )_tc + = 1/4 * Sum ( p3 p4 h1 h2 ) * c+ ( h1 h2 p3 p4 )_c * t ( p3 p4
       INTEGER l_c
       INTEGER k_c
       DOUBLE PRECISION FACTORIAL
-      EXTERNAL nxtask
+      EXTERNAL TPINXT
       EXTERNAL FACTORIAL
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       IF (next.eq.count) THEN
       IF (0 .eq. ieor(irrep_t,irrep_c)) THEN
       dimc = 1
@@ -607,10 +607,10 @@ C     i0 ( )_tc + = 1/4 * Sum ( p3 p4 h1 h2 ) * c+ ( h1 h2 p3 p4 )_c * t ( p3 p4
       IF (.not.MA_POP_STACK(l_c_sort)) CALL ERRQUIT('cr_ccsd_t_D_2',11,M
      &A_ERR)
       END IF
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       END IF
       count = count + 1
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call GA_SYNC()
       RETURN
       END

@@ -34,7 +34,7 @@ C
       integer k_left_sorted,l_left_sorted
       integer size,i
       integer g_energy
-      integer nxtask
+      integer TPINXT
       integer next
       integer nprocs
       integer count
@@ -43,7 +43,7 @@ C
       integer k_i1_offset_2,l_i1_offset_2
       double precision energy
       double precision factor
-      external nxtask
+      external TPINXT
 c
 c     Caution! k_right & k_left are not even allocated yet
 c     but they won't be used.
@@ -63,7 +63,7 @@ c
      1  call errquit('ccsd_q: GA problem',0,GA_ERR)
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       energy=0.0d0
       do t_p5b = noab+1,noab+nvab
        do t_p6b = t_p5b,noab+nvab
@@ -214,7 +214,7 @@ c
               endif
               endif
               endif
-              next = nxtask(nprocs,1)
+              next = TPINXT(nprocs,1)
               endif
               count = count + 1
              enddo
@@ -225,7 +225,7 @@ c
         enddo
        enddo
       enddo
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call ccsd2_q_left(dbl_mb(k_left),d_v2,d_y2,k_v2_offset,
      1  k_y2_offset,t_h1b,t_h2b,t_h3b,t_h4b,
      2  t_p5b,t_p6b,t_p7b,t_p8b,3)

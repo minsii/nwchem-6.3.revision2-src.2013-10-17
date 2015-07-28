@@ -25,7 +25,7 @@ C
       integer k_singles,l_singles
       integer k_doubles,l_doubles
       integer size,i
-      integer nxtask
+      integer TPINXT
       integer next
       integer nprocs
       integer count
@@ -42,7 +42,7 @@ c ---------------------------------------
       double precision factor,denom
       double precision denom_p4,denom_p5,denom_p6
       double precision denom_h1,denom_h2,denom_h3
-      external nxtask
+      external TPINXT
 
       call tpi_config_async("ccsd_t")
       call tpi_start(20)
@@ -62,7 +62,7 @@ c -------------------------------
 C
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       energy(1)=0.0d0
       energy(2)=0.0d0
       energy1 = 0.0d0
@@ -181,7 +181,7 @@ c
             if (.not.MA_POP_STACK(l_singles)) 
      1        call errquit('ccsd_t',4,MA_ERR)
 c
-            next = nxtask(nprocs,1)
+            next = TPINXT(nprocs,1)
             endif
             count = count + 1
 c
@@ -196,7 +196,7 @@ c
         enddo
        enddo
       enddo
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       energy(1) = energy1
       energy(2) = energy2
       call ga_dgop(mt_dbl,energy,2,'+')
@@ -251,7 +251,7 @@ C
       integer k_singles,l_singles
       integer k_doubles,l_doubles
       integer size,i
-      integer nxtask
+      integer TPINXT
       integer next
       integer nprocs
       integer count
@@ -268,7 +268,7 @@ c ----------------------------------------
       double precision factor,denom,denom_p,denom_h12,denom_ph12
       double precision denom_p4,denom_p5,denom_p6
       double precision denom_h1,denom_h2,denom_h3
-      external nxtask
+      external TPINXT
 C
 c
 c - T1/X1 LOCALIZATION ----------
@@ -284,7 +284,7 @@ c -------------------------------
 C
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       energy  = 0.0d0
       energy1 = 0.0d0
       energy2 = 0.0d0
@@ -446,7 +446,7 @@ ccx            enddo
             endif
             endif
             endif
-            next = nxtask(nprocs,1)
+            next = TPINXT(nprocs,1)
             endif
             count = count + 1
            enddo
@@ -456,7 +456,7 @@ ccx            enddo
        enddo
       enddo
       energy = energy + energy1 + energy2 + energy3 + energy4
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call ga_dgop(mt_dbl,energy,1,'+')
 c - T1/X1 LOCALIZATION ------
          if(.not.MA_POP_STACK(l_t1_local))
@@ -499,7 +499,7 @@ C
       integer k_singles,l_singles
       integer k_doubles,l_doubles
       integer size,i
-      integer nxtask
+      integer TPINXT
       integer next
       integer nprocs
       integer count
@@ -515,7 +515,7 @@ c ---------------------------------------
       double precision factor,denom,denom_p,denom_h
       double precision denom_p4,denom_p5,denom_p6
       double precision denom_h1,denom_h2,denom_h3
-      external nxtask
+      external TPINXT
 C
 c
 c - T1/X1 LOCALIZATION ----------
@@ -531,7 +531,7 @@ c -------------------------------
 C
       nprocs = GA_NNODES()
       count = 0
-      next = nxtask(nprocs,1)
+      next = TPINXT(nprocs,1)
       energy = 0.0d0
       do t_p4b = noab+1,noab+nvab
        range_p4 = int_mb(k_range+t_p4b-1)
@@ -626,7 +626,7 @@ c
             endif
             endif
             endif
-            next = nxtask(nprocs,1)
+            next = TPINXT(nprocs,1)
             endif
             count = count + 1
            enddo
@@ -635,7 +635,7 @@ c
         enddo
        enddo
       enddo
-      next = nxtask(-nprocs,1)
+      next = TPINXT(-nprocs,1)
       call ga_dgop(mt_dbl,energy,1,'+')
 c - T1/X1 LOCALIZATION ------
          if(.not.MA_POP_STACK(l_t1_local))
