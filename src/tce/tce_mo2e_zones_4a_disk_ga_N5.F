@@ -1093,10 +1093,6 @@ ccx     1  call errquit('tcc_sf_destroy2: sf problem',15,MA_ERR)
       else
        call deletefile(d_4af)
       end if
-
-      call tpi_pop_name_level1("4-index")
-      call tpi_stop()
-      call tpi_config_async_reset()
 c
 c
 c
@@ -1104,6 +1100,10 @@ c
      1  call errquit('tcc_ao2e: MA problem',15,MA_ERR)
 c
       call tpi_ga_sync()
+
+      call tpi_pop_name_level1("4-index")
+      call tpi_stop()
+      call tpi_config_async_reset()
 c *** debug ***
 c 800  format('AGEMM1 MAX',i5,2x,3f15.5)
 c 801  format('AGEMM2 ',i5,2x,3f15.5)
