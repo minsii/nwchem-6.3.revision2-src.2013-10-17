@@ -73,7 +73,7 @@ extern void armci_enable_async();
 extern void armci_disable_async();
 extern void armci_auto_async();
 extern void armci_reset_async();
-
+extern void armci_global_dump_async_config(const char *name);
 void tpi_config_async_(char *name)
 {
     int idx;
@@ -124,7 +124,14 @@ void tpi_config_async_reset_()
 {
     armci_reset_async();
 }
-
+void tpi_config_async_dump_(const char *fname)
+{
+    int rank = -1;
+    MPI_Comm_size(MPI_COMM_WORLD, &rank);
+    if(rank == 0)
+        fprintf(stderr, "dump async config for %s\n", fname);
+    armci_global_dump_async_config(fname);
+}
 #else
 void tpi_config_async_(char *name)
 {
@@ -132,6 +139,10 @@ void tpi_config_async_(char *name)
 }
 
 void tpi_config_async_reset_()
+{
+    /* do nothing */
+}
+void tpi_config_async_dump_(const char *fname)
 {
     /* do nothing */
 }

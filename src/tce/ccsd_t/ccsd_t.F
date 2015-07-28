@@ -209,6 +209,7 @@ c ---------------------------
       call tpi_armci_profile_print_timing("ccsd_t")
       call tpi_pop_name_level1("ccsd_t")
       call tpi_stop()
+      call tpi_config_async_dump("ccsd_t")
       call tpi_config_async_reset()
 
       return

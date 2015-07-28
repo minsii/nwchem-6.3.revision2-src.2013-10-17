@@ -1103,6 +1103,7 @@ c
 
       call tpi_pop_name_level1("4-index")
       call tpi_stop()
+      call tpi_config_async_dump("4-index")
       call tpi_config_async_reset()
 c *** debug ***
 c 800  format('AGEMM1 MAX',i5,2x,3f15.5)

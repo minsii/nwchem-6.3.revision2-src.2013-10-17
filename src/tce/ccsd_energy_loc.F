@@ -176,6 +176,7 @@ c          write(LuOut,9101) cpusecs(37),cpusecs(38)
         call tpi_pop_name_level1("ccsd-iteration")
         call tpi_pop_name_level3("ccsd-iteration")
         call tpi_stop()
+        call tpi_config_async_dump("ccsd")
         call tpi_config_async_reset()
         return
         endif
@@ -208,6 +209,7 @@ c          write(LuOut,9101) cpusecs(37),cpusecs(38)
       enddo
 
           call tpi_stop()
+          call tpi_config_async_dump("ccsd")
           call tpi_config_async_reset()
 c
           call util_file_name('t1amp',.false.,.false.,filename)
