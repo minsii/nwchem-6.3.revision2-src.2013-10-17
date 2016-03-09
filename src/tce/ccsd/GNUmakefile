@@ -32,6 +32,9 @@ endif
 ifeq (1, $(ENABLE_TPI_DEBUG))
 LIB_DEFINES += -DENABLE_TPI_DEBUG
 endif
+ifeq (1, $(ENABLE_TPI_ARMCI_PROFILE))
+LIB_DEFINES += -DENABLE_ARMCI_PROFILE
+endif
 
 #
 # Possible #defines

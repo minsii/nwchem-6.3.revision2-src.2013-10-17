@@ -447,22 +447,30 @@ void tpi_pop_name_level3_(char *name, int n)
 /* ARMCI profiling */
 void tpi_armci_profile_reset_counter_(void)
 {
+#ifdef ENABLE_ARMCI_PROFILE
     return armci_profile_reset_counter_();
+#endif
 }
 
 void tpi_armci_profile_reset_timing_(void)
 {
+#ifdef ENABLE_ARMCI_PROFILE
     return armci_profile_reset_counter_();
+#endif
 }
 
 void tpi_armci_profile_print_timing_(char *name)
 {
+#ifdef ENABLE_ARMCI_PROFILE
     return armci_profile_print_timing_(name);
+#endif
 }
 
 void tpi_armci_profile_print_counter_(char *name)
 {
+#ifdef ENABLE_ARMCI_PROFILE
     return armci_profile_print_counter_(name);
+#endif
 }
 #else
 void tpi_push_name_level1_(char *name, int n)
