@@ -24,7 +24,7 @@ ifeq ($(XLFMAC),y)
 	$(FC) -c $(FFLAGS)     $<
 endif
 
-NWBINNAME = nwchem
+NWBINNAME ?= nwchem
 
 #
 # This should be the first target so that a simple make builds
@@ -50,6 +50,8 @@ ifdef SUMO
 endif
 	/bin/rm -f nwchem.o stubs.o
 	$(INSTALL)
+	@echo "INSTALLED: $(BINDIR)/$(NWBINNAME)"
+
 #
 # This to link only and avoid tedious subdir makes
 #
