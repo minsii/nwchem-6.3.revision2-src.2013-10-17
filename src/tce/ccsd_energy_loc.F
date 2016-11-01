@@ -34,14 +34,16 @@ c
         return
       endif
 c
+      call tpi_dbg_print_file_init("ccsd")
+
       call tpi_config_async("ccsd")
       call tpi_start(20)
       call tce_diis_init()
       do iter=1,maxiter
         call tpi_push_name_level1("ccsd-iteration")
-        call tpi_push_name_level3("ccsd-iteration")
         call tpi_armci_profile_reset_counter()
         call tpi_armci_profile_reset_timing()
+        call tpi_dbg_print_file("lv1-ccsd-iteration-start")
 
         cpu=-util_cpusec()
         wall=-util_wallsec()
@@ -174,10 +176,11 @@ c          write(LuOut,9101) cpusecs(37),cpusecs(38)
         endif
         call tpi_armci_profile_print_timing("ccsd-iteration")
         call tpi_pop_name_level1("ccsd-iteration")
-        call tpi_pop_name_level3("ccsd-iteration")
         call tpi_stop()
         call tpi_config_async_dump("ccsd")
         call tpi_config_async_reset()
+        call tpi_dbg_print_file("lv1-ccsd-iteration-end")
+        call tpi_dbg_print_file_exit()
         return
         endif
         if (save_t(1).and.(mod(iter,save_interval).eq.0)) then
@@ -206,11 +209,13 @@ c          write(LuOut,9101) cpusecs(37),cpusecs(38)
 
         call tpi_armci_profile_print_timing("ccsd-iteration")
         call tpi_pop_name_level1("ccsd-iteration")
+        call tpi_dbg_print_file("lv1-ccsd-iteration-end")
       enddo
 
           call tpi_stop()
           call tpi_config_async_dump("ccsd")
           call tpi_config_async_reset()
+          call tpi_dbg_print_file_exit()
 c
           call util_file_name('t1amp',.false.,.false.,filename)
           unitn=79

@@ -45,6 +45,7 @@ c ---------------------------------------
       external TPINXT
 
       call tpi_config_async("ccsd_t")
+      call tpi_dbg_print_file_init("ccsd_t")
       call tpi_start(20)
       call tpi_armci_profile_reset_counter()
       call tpi_armci_profile_reset_timing()
@@ -62,6 +63,7 @@ c -------------------------------
 C
       nprocs = GA_NNODES()
       count = 0
+c     ga_sync-1
       next = TPINXT(nprocs,1)
       energy(1)=0.0d0
       energy(2)=0.0d0
@@ -196,9 +198,11 @@ c
         enddo
        enddo
       enddo
+c     ga_sync-2
       next = TPINXT(-nprocs,1)
       energy(1) = energy1
       energy(2) = energy2
+c     allreduce
       call ga_dgop(mt_dbl,energy,2,'+')
       energy1 = energy(1)
       energy2 = energy(2)
@@ -211,6 +215,7 @@ c ---------------------------
       call tpi_stop()
       call tpi_config_async_dump("ccsd_t")
       call tpi_config_async_reset()
+      call tpi_dbg_print_file_exit()
 
       return
       end
