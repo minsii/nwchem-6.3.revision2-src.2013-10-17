@@ -29,7 +29,8 @@ C     read operation, else all of them
 
       logical status
 
-      integer tpinxt
+      integer tpisynxt, tpinxt
+      external tpisynxt
       external tpinxt
 
       parameter (zero=0.0D0)
@@ -121,7 +122,7 @@ C             use three for transpose of sthree
           ic = ic + 1
         enddo   ! nsh
       enddo     ! nt
-      next = tpinxt(-nproc,1)
+      next = tpisynxt(-nproc,1)
 
       return
       end

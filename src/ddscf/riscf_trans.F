@@ -38,8 +38,9 @@ C$Id: riscf_trans.F 19707 2010-10-29 17:59:36Z d3y133 $
 
       logical status, IeqJ
 
-      integer tpinxt
+      integer tpisynxt, tpinxt
       external tpinxt
+      external tpisynxt
 
       nproc = ga_nnodes()
 
@@ -132,7 +133,7 @@ C       finish last write
       endif
 #endif
 
-      next = tpinxt(-nproc, 1)
+      next = tpisynxt(-nproc, 1)
 
       if ( util_print('3c-ints', print_never) ) then
 #ifdef RISCF_USE_DRA

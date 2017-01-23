@@ -71,7 +71,8 @@ c
       logical sym_atom_block_quartet
       external sym_atom_block_quartet
 c     
-      integer tpinxt
+      integer tpisynxt, tpinxt
+      external tpisynxt
       external tpinxt
       external cfock_data ! For T3D linker
 c
@@ -202,7 +203,7 @@ c
       if (util_print('ncomputed',print_debug))
      $   write(6,*) ' ncomputed ', ncomputed
 c     
-      next = tpinxt(-nproc, 1)
+      next = tpisynxt(-nproc, 1)
       call tpi_ga_sync()
 c     
       end

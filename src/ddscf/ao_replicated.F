@@ -298,7 +298,8 @@ c
 c     
       logical int2e_set_bf_range
       external int2e_set_bf_range
-      integer tpinxt
+      integer tpisynxt, tpinxt
+      external tpisynxt
       external tpinxt
 c     
       next = 1          ! take care of compiler warnings
@@ -620,7 +621,7 @@ c
       endif
 c     
       if (oscfps) call pstat_off(ps_fock_2e)
-      next = tpinxt(-nproc,1)
+      next = tpisynxt(-nproc,1)
 c
       if (oprint) then
          call begin_seq_output

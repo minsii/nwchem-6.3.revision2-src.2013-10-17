@@ -29,7 +29,8 @@ c
      $     numint, integ, len_csh, len_cat, ijat, me, nproc
       double precision at_max, sh_max
       logical status, odebug
-      integer tpinxt, next, task_size
+      integer tpisynxt, tpinxt, next, task_size
+      external tpisynxt
       external tpinxt
 #include "itri.fh"
 c
@@ -163,7 +164,7 @@ c
             ijat = ijat + 1
          enddo
       enddo
-      next = tpinxt(-nproc,task_size)
+      next = tpisynxt(-nproc,task_size)
 c     
 c     A global OR is required to piece together the parts made in parallel
 c

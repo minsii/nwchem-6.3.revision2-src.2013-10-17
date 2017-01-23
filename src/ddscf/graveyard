@@ -716,7 +716,7 @@ c
             enddo
          enddo
       enddo
-      next = tpinxt(-ga_nnodes(), task_chunks)
+      next = tpisynxt(-ga_nnodes(), task_chunks)
 c
       PRINT*,'LOOP OK'
       CALL FLUSH_OUTPUT
@@ -1088,7 +1088,7 @@ c
          call upd_atom_block(g_fock, basis, i_prev, k_prev, fik)
       endif
 c     
-      next = tpinxt(-nproc, task_chunks)
+      next = tpisynxt(-nproc, task_chunks)
       call tpi_ga_sync()
 c
       call context_pop

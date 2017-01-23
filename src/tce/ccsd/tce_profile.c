@@ -18,7 +18,7 @@
 #ifdef ENABLE_TPI
 
 #define TPI_MAX_LEVEL 3
-#define TPI_MAX_NTIMER  20
+#define TPI_MAX_NTIMER  22
 #define TPI_MAX_NAMELEN 40
 static double timer_start, timer_stop;
 static double timer_push[TPI_MAX_LEVEL], timer_pop[TPI_MAX_LEVEL];
@@ -50,11 +50,13 @@ static const char *timer_names[TPI_MAX_NTIMER] = {
     "ga_sync" /* 16 */ ,
     "int_2e4c" /* 17 */ ,
     "ipos1" /* 18 */ ,
+    "nxtask_sync" /* 19 */ ,
     NULL
 };
 
 static int env_print_per_rank = -1;
 static int tpi_level = -1;
+static int tpi_enable_sync_nxtask = -1;
 
 static inline void read_tpi_env()
 {
@@ -87,12 +89,25 @@ static inline void read_tpi_env()
     /* only read from environment once */
     if (env_print_per_rank < 0) {
         char *envval = 0;
+        env_print_per_rank = 0;
+
         envval = getenv("TPI_PRINT_PER_RANK");
         if (envval && strlen(envval)) {
-            env_print_per_rank = 1;
+            int intval = atoi(envval);
+            if(intval == 1)
+                env_print_per_rank = 1;
         }
-        else {
-            env_print_per_rank = 0;
+    }
+
+    if (tpi_enable_sync_nxtask < 0 ) {
+        char *envval = 0;
+        tpi_enable_sync_nxtask = 0;
+
+        envval = getenv("TPI_ENABLE_SYNC_NXTASK");
+        if (envval && strlen(envval)) {
+            int intval = atoi(envval);
+            if(intval == 1)
+                tpi_enable_sync_nxtask = 1;
         }
     }
 }
