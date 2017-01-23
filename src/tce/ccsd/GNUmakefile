@@ -9,7 +9,7 @@ OBJ_OPTIMIZE = ccsd_e.o ccsd_t1.o ccsd_t2_driver.o ccsd_t2_terms.o \
                tce_profile_sort.o tce_profile_sortacc.o tce_profile_ga.o \
                tce_config.o tce_dbg.o
 
-LIB_INCLUDES = -I../include
+LIB_INCLUDES = -I../include -I$(MPI_INCLUDE)
 
 LIBRARY = libtce.a
 
