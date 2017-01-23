@@ -71,8 +71,8 @@ c
       logical sym_atom_block_quartet
       external sym_atom_block_quartet
 c     
-      integer nxtask
-      external nxtask
+      integer tpinxt
+      external tpinxt
       external cfock_data ! For T3D linker
 c
 c     Figure out the threshold on which to screen just integrals
@@ -126,7 +126,7 @@ c
       call dfill(blklen, 0.0d0, flk, 1)
 c     
       ijkl = 0
-      next = nxtask(nproc, 1)
+      next = tpinxt(nproc, 1)
 c     
 c     Loop thru blocked atomic quartets
 c
@@ -173,7 +173,7 @@ c
      $                       fij, fik, fli, fjk, flj, flk,
      $                       tmp, tol2e, dentol)
 c
-                        next = nxtask(nproc, 1)
+                        next = tpinxt(nproc, 1)
                      end if
                      if (otest) ijkl = ijkl + 1
                   end do
@@ -202,8 +202,8 @@ c
       if (util_print('ncomputed',print_debug))
      $   write(6,*) ' ncomputed ', ncomputed
 c     
-      next = nxtask(-nproc, 1)
-      call ga_sync()
+      next = tpinxt(-nproc, 1)
+      call tpi_ga_sync()
 c     
       end
       logical function sym_atom_block_quartet(geom, 

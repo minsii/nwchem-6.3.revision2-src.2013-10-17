@@ -66,7 +66,7 @@ c
       logical dobq
       character*255 integ_type1
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       dobq = geom_extbq_on()
       integ_type1 = integ_type
@@ -110,7 +110,7 @@ c
      $        ('int_1e_ga: Douglas-Kroll requires ibas=jbas', ibas,
      &       BASIS_ERR)
          call int_1edk_ga(ibas,g,type,oskel)
-         call ga_sync()            ! So that no nasty races can result
+         call tpi_ga_sync()            ! So that no nasty races can result
          return
       endif
 c
@@ -121,7 +121,7 @@ c
      $        ('int_1e_ga: Douglas-Kroll requires ibas=jbas', ibas,
      &       BASIS_ERR)
          call int_1edk_so_ga(ibas,g,type,oskel)
-         call ga_sync()            ! So that no nasty races can result
+         call tpi_ga_sync()            ! So that no nasty races can result
          return
       endif
 c
@@ -197,7 +197,7 @@ c
          call util_flush(6)
       endif
 c
-      call ga_sync()
+      call tpi_ga_sync()
       if (oscfps) call pstat_on(ps_int_1e)
 c     
       if (oskel) then
@@ -244,7 +244,7 @@ c      ocache = .false.
 *           call ga_summarize(1)
 *           call util_flush(6)
 *         endif
-*         call ga_sync()
+*         call tpi_ga_sync()
          call ga_dadd(1.0d0, g_cache(type), 1.0d0, g, g)
          if (oscfps) call pstat_off(ps_int_1e)
 	 return
@@ -345,22 +345,22 @@ c
                   if (inp_compare(.false., integ_type, 'so')) then
                      do i = 1, 3
                         noffset = (ihi-ilo+1)*(jhi-jlo+1)*(i-1)   
-                        call ga_acc(g(i), ilo, ihi, jlo, jhi, 
+                        call tpi_ga_acc(g(i), ilo, ihi, jlo, jhi, 
      $                    dbl_mb(k_buf+noffset),
      $                    idim, q2)
                      enddo 
                   else  
                      if(odbug) then
-                        write(6,*) 'ga_acc = ...',ga_nodeid()
+                        write(6,*) 'tpi_ga_acc = ...',ga_nodeid()
                         call util_flush(6)
                      endif
-cedo                     call ga_acc(g, ilo, ihi, jlo, jhi, dbl_mb(k_buf),
+cedo                     call tpi_ga_acc(g, ilo, ihi, jlo, jhi, dbl_mb(k_buf),
 cedo     $                    idim, q2) 
                     if(q2.ne.1) then
                       call dscal((ihi-ilo+1)*(jhi-jlo+1),
      ,            q2,dbl_mb(k_buf),1)
                     endif
-                     call ga_put(g_loc, ilo, ihi, jlo, jhi,
+                     call tpi_ga_put(g_loc, ilo, ihi, jlo, jhi,
      ,             dbl_mb(k_buf),  idim) 
                  end if
                end if
@@ -387,7 +387,7 @@ c
          if (.not. ga_destroy(g_loc)) call errquit('i1ega: gad?',0,
      &       GA_ERR)
       endif
-      call ga_sync()            ! So that no nasty races can result
+      call tpi_ga_sync()            ! So that no nasty races can result
 c     
       if (oscfps) call pstat_off(ps_int_1e)
 c     
@@ -559,7 +559,7 @@ c
          call util_flush(6)
       endif
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       if (oscfps) call pstat_on(ps_int_1e)
 c     
@@ -623,10 +623,10 @@ c
       endif
 c
       call ga_dadd(1.0d0, g_loc, 1.0d0, g, g)
-      call ga_sync()            ! So that no nasty races can result
+      call tpi_ga_sync()            ! So that no nasty races can result
       if (.not. ga_destroy(g_loc)) call errquit('i1ega: gad?',0,
      &     GA_ERR)
-      call ga_sync()            ! So that no nasty races can result
+      call tpi_ga_sync()            ! So that no nasty races can result
 c     
       if (oscfps) call pstat_off(ps_int_1e)
 c     

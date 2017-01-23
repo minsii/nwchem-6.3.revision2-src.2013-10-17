@@ -229,7 +229,7 @@ c
       do i=1+ga_nodeid(),nbf,ga_nnodes()
          call dfill(nbf_all, 0.0d0, dbl_mb(k_ran), 1)
          call dfill(nbf    , 0.0d0, dbl_mb(k_vec), 1)
-         call ga_get(g_vecs, 1, nbf, i, i, dbl_mb(k_vec), 1)
+         call tpi_ga_get(g_vecs, 1, nbf, i, i, dbl_mb(k_vec), 1)
          do iat = 1, natoms
             if (.not. bas_ce2bfr(basis, iat, ilo, ihi)) 
      &           call errquit('rohf_scat: bas_ce2bfr basis?', 0,
@@ -243,7 +243,7 @@ c
                enddo
             endif
          enddo
-         call ga_put(g_all, 1, nbf_all, i, i, dbl_mb(k_ran), 1)
+         call tpi_ga_put(g_all, 1, nbf_all, i, i, dbl_mb(k_ran), 1)
       enddo
 c     
 c      call ga_copy_patch('n',g_vecs,1,nbf,1,nbf,g_all,1,nbf,1,nbf)
@@ -256,7 +256,7 @@ c
          do j = 1, nbf_all
             dbl_mb(k_ran+j-1) = (drand(0) - 0.5d0)
          enddo
-         call ga_put(g_all, 1, nbf_all, i, i, dbl_mb(k_ran), 1)
+         call tpi_ga_put(g_all, 1, nbf_all, i, i, dbl_mb(k_ran), 1)
       end do
       if (.not. ma_pop_stack(l_vec)) call errquit
      $     ('rohf_scat: ma pop l_vec?', 0, MA_ERR)
@@ -342,7 +342,7 @@ c
       do i = 1+ga_nodeid(), nscat, ga_nnodes()
          call dfill(nscat, 0.0d0, dbl_mb(k_ran), 1)
          dbl_mb(k_ran+i-1)=1.0
-         call ga_put(g_over, 1, nscat, i, i, dbl_mb(k_ran), 1)
+         call tpi_ga_put(g_over, 1, nscat, i, i, dbl_mb(k_ran), 1)
       end do
       if (.not. ma_pop_stack(l_ran)) call errquit
      $     ('rohf_scat: ma pop?', 0, MA_ERR)
@@ -359,7 +359,7 @@ c     &     g_hcore,'potential', oskel)
       call int_1e_ga(all_bas_han,all_bas_han,
      &     g_hcore,'potential', .false.)
       if (util_print('rohf_scat',print_debug)) call ga_print(g_hcore)
-      call ga_sync()
+      call tpi_ga_sync()
 c
       eone_closed = ga_ddot(g_hcore, g_cdens)
       eone_open = 0.0d0
@@ -532,7 +532,7 @@ c
       nstat = 1
       do istat = 1, nstat
          do ibf = 1, nsc_orb(1)
-            call ga_get(g_bvb,1,nsc_orb(1),ibf,ibf,
+            call tpi_ga_get(g_bvb,1,nsc_orb(1),ibf,ibf,
      &           hbbtrnd(1,ibf,istat),1)
             write(6,100)ibf,(hbbtrnd(i,ibf,istat),i=1,nsc_orb(1))
  100        format(i5,6f12.5/(5x,6f12.5))
@@ -551,7 +551,7 @@ c
 c
       do istat = 1, nstat
          do ibf = 1, nsc_orb(1)
-            call ga_get(g_bvb,1,nsc_orb(1),ibf,ibf,
+            call tpi_ga_get(g_bvb,1,nsc_orb(1),ibf,ibf,
      &           obbtrn(1,ibf,istat),1)
             write(6,100)ibf,(obbtrn(i,ibf,istat),i=1,nsc_orb(1))
          enddo

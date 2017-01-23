@@ -268,7 +268,7 @@ c
          endif
       end do
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c calculate the determinant of the rotation matrix
 c
@@ -321,7 +321,7 @@ c
       if (.not. ma_push_get(mt_dbl, nbf, 'vectors out', l_b, k_b))
      $     call errquit('sym_movecs_apply_rot: ma?',0, 0)
 c
-        call ga_sync()
+        call tpi_ga_sync()
 c
         do iset = 1,nset
 c
@@ -330,9 +330,9 @@ c
            dbl_mb(k_a+i-1)=0.0d0
            dbl_mb(k_b+i-1)=0.0d0
          enddo
-         call ga_get(g_vecs(iset),1,nbf,j,j,dbl_mb(k_a),1)
+         call tpi_ga_get(g_vecs(iset),1,nbf,j,j,dbl_mb(k_a),1)
          call sym_movecs_apply_rot(basis, rot, dbl_mb(k_a), dbl_mb(k_b))
-         call ga_put(g_vecs(iset),1,nbf,j,j,dbl_mb(k_b),1)
+         call tpi_ga_put(g_vecs(iset),1,nbf,j,j,dbl_mb(k_b),1)
 c         write(luout,*)
 c         write(luout,*)'mo# ',j
 c         do i = 1,nbf
@@ -342,7 +342,7 @@ c         enddo
 c
         enddo   !iset
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       if (.not. ma_pop_stack(l_b)) call errquit
      $     ('movecs_rotate: ma pop', 0, MA_ERR)

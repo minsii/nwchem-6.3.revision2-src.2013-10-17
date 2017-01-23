@@ -62,7 +62,7 @@ c
       parameter (one=1.0d0, mone=-1.0d0, zero=0.0d0)
       double precision kmax
 c     
-      call ga_sync()
+      call tpi_ga_sync()
       nnnodes = ga_nnodes()
 c     
 c     Form K-matrix from vector
@@ -79,22 +79,22 @@ c
       if (nvir .gt. 0) then
          do i=ga_nodeid()+1,nclosed+nopen,nnnodes
             iioff = (i-1)*nvir
-            call ga_get(g_kvec,iioff+1,iioff+nvir,1,1,
+            call tpi_ga_get(g_kvec,iioff+1,iioff+nvir,1,1,
      $           dbl_mb(k_tmp),nvir)
-            call ga_put(g_u,ivoff,nmo,i,i,dbl_mb(k_tmp),nvir)
+            call tpi_ga_put(g_u,ivoff,nmo,i,i,dbl_mb(k_tmp),nvir)
             call dscal(nvir,mone,dbl_mb(k_tmp),1)
-            call ga_put(g_u,i,i,ivoff,nmo,dbl_mb(k_tmp),1)
+            call tpi_ga_put(g_u,i,i,ivoff,nmo,dbl_mb(k_tmp),1)
          enddo
       endif
       if (nopen .gt. 0) then
          do i=ga_nodeid()+1,nclosed,nnnodes
             iioff = (nclosed+nopen)*nvir + (i-1)*nopen
-            call ga_get(g_kvec,iioff+1,iioff+nopen,1,1,
+            call tpi_ga_get(g_kvec,iioff+1,iioff+nopen,1,1,
      $           dbl_mb(k_tmp),nopen)
-            call ga_put(g_u,(nclosed+1),(nclosed+nopen),i,i,
+            call tpi_ga_put(g_u,(nclosed+1),(nclosed+nopen),i,i,
      $           dbl_mb(k_tmp),nopen)
             call dscal(nopen,mone,dbl_mb(k_tmp),1)
-            call ga_put(g_u,i,i,(nclosed+1),(nclosed+nopen),
+            call tpi_ga_put(g_u,i,i,(nclosed+1),(nclosed+nopen),
      $           dbl_mb(k_tmp),1)
          enddo
       endif

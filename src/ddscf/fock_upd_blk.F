@@ -30,11 +30,11 @@ c
                      tmp(ji+i) = buf(ii,ji+i)
                   enddo
                enddo
-               call ga_acc( vfock(ii), ilo, ihi, jlo, jhi, tmp,
+               call tpi_ga_acc( vfock(ii), ilo, ihi, jlo, jhi, tmp,
      $              ilen, fac(ii) )
             enddo
          else
-            call ga_acc( vfock(1), ilo, ihi, jlo, jhi, buf,
+            call tpi_ga_acc( vfock(1), ilo, ihi, jlo, jhi, buf,
      $           ilen, fac(1) )
          endif
       endif
@@ -63,7 +63,7 @@ c
       jdim = jhi - jlo + 1
 c     
       if (idim.gt.0 .and. jdim.gt.0) then
-         call ga_acc(g_array, ilo, ihi, jlo, jhi, buf, idim,
+         call tpi_ga_acc(g_array, ilo, ihi, jlo, jhi, buf, idim,
      $        1.0d0)
       endif
 *      write(6,*) ' uab: ', iat, jat

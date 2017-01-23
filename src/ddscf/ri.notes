@@ -55,7 +55,7 @@ do ish = 1,nsh
               int_2e3c
 	       dgemv or loops to contract P[t] with (ij|t) 
            enddo
-	ga_put elements into distributed J[i,j]
+	tpi_ga_put elements into distributed J[i,j]
 	ga_update_shell_block
         endif
   enddo

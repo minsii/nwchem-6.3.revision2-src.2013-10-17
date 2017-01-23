@@ -61,11 +61,11 @@ c
       call ga_copy(g_new, g_tmp)
       call dcopy(nmo, evals, 1, dbl_mb(k_e), 1)
       call dcopy(nmo, occ, 1, dbl_mb(k_o), 1)
-      call ga_sync
+      call tpi_ga_sync
 c
       if(ga_nodeid().eq.0) then
       do j = 1, nmo 
-         call ga_get(g_sno, 1, nmo, j, j, dbl_mb(k_v), 1)
+         call tpi_ga_get(g_sno, 1, nmo, j, j, dbl_mb(k_v), 1)
          i = idamax(nmo, dbl_mb(k_v), 1)
 c
 c     new vector i corresponds to old vector j
@@ -75,15 +75,15 @@ C
 C         invalidate column that you have taken
 C
           call dcopy(nmo, 0.0d0,0, dbl_mb(k_t), 1)
-         call ga_put(g_sno, i, i, 1, nmo, dbl_mb(k_t), 1)
+         call tpi_ga_put(g_sno, i, i, 1, nmo, dbl_mb(k_t), 1)
 
             if (util_print('movecs_lock', print_default)) then
                write(6,*) ' movecs_lock', i, j
                call util_flush(6)
             endif
          endif
-         call ga_get(g_tmp, 1, nbf, i, i, dbl_mb(k_v), 1)
-         call ga_put(g_new, 1, nbf, j, j, dbl_mb(k_v), 1)
+         call tpi_ga_get(g_tmp, 1, nbf, i, i, dbl_mb(k_v), 1)
+         call tpi_ga_put(g_new, 1, nbf, j, j, dbl_mb(k_v), 1)
          evals(j) = dbl_mb(k_e+i-1)
          occ(j)   = dbl_mb(k_o+i-1)
          dbl_mb(k_e+i-1) = 1.0d99 ! Larger than any valid eval
@@ -112,6 +112,6 @@ c
       if (.not. ga_destroy(g_s))   call errquit('movecs_lock: ga?',0,
      &       GA_ERR)
 c
-      call ga_sync
+      call tpi_ga_sync
 c
       end

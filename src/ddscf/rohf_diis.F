@@ -132,7 +132,7 @@ c
       call ga_zero(g_over)
       call int_1e_ga( basis, basis, g_over, 'overlap', .false. )
       call rohf_ao_orthonorm( nbf, g_over, g_xorth )
-      call ga_sync()
+      call tpi_ga_sync()
 c
  1000 continue
 c     
@@ -256,7 +256,7 @@ c
          if(odbug) then
             write(6,*) 'gas_phase done, do sol-phase now ...'
          endif
-         call ga_sync()
+         call tpi_ga_sync()
          go to 1000
       elseif(cosmo_on.and.cosmo_phase.eq.2) then
          esol      =energy
@@ -273,7 +273,7 @@ c
      $          ' (',f8.2,' kcal/mol)'                       )
          endif
       endif
-      call ga_sync()
+      call tpi_ga_sync()
 c     
 c     Free globals
 c     
@@ -291,7 +291,7 @@ c
      $     ('rohf_diis_solve: ga_destroy xorth', 0, GA_ERR)
 c     
       if (ga_nodeid().eq.0) call util_flush(6)
-      call ga_sync()
+      call tpi_ga_sync()
 c     
       rohf_diis_solve = converged
 c     

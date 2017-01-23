@@ -39,7 +39,7 @@ c
       nproc = ga_nnodes()
       if (nproc.eq.1) return
 c
-      call ga_sync()            ! So can use message passing
+      call tpi_ga_sync()            ! So can use message passing
       used = util_wallsec()
       odebug = util_print('balance debug',print_never) 
       oprint = util_print('balance', print_default) .and.  me.eq.0
@@ -199,6 +199,6 @@ c
       if (.not. int2e_file_rewind()) call errquit
      $     ('int2e_file_balance: failed rewind integral file', 0,
      &       INT_ERR)
-      call ga_sync()
+      call tpi_ga_sync()
 c
       end

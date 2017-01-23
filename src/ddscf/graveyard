@@ -133,7 +133,7 @@ c
 #ifdef GA_TRACE
          if (iter .eq. 2) then
             call trace_init(20000)
-            call ga_sync
+            call tpi_ga_sync
             call trace_stime
             call trace_etime
             call trace_genrec(0, 0, 0, 0, 0, 0)
@@ -155,7 +155,7 @@ c
             call ga_print(g_dens)
             call ga_print(g_hcore)
             call ga_print(g_fock)
-            call ga_sync()
+            call tpi_ga_sync()
          endif
 c
          start = tcgtime()
@@ -292,11 +292,11 @@ c
       if (nodeid().eq.0) then
          call dfill(nbf, 0.0d0, a, 1)
          do i = nocc+1, nbf
-            call ga_put(g_a, 1, nbf, i, i, a, 1)
+            call tpi_ga_put(g_a, 1, nbf, i, i, a, 1)
          enddo
       endif
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       end
 
@@ -322,7 +322,7 @@ c
  901     format(5x,'<< Passed:',a,' >>')
          call flush_output()
        endif
-       call ga_sync()
+       call tpi_ga_sync()
        return
        end
 
@@ -509,7 +509,7 @@ c
      $                       dbl_mb(k_ke+integs) + dbl_mb(k_pe+integs)
                      endif
                   enddo
-                  call ga_put(g_fock, jlo, jhi, ilo, ihi,
+                  call tpi_ga_put(g_fock, jlo, jhi, ilo, ihi,
      $                 dbl_mb(k_buf), jdim)
 c
 c     now insert as (i,j)
@@ -522,7 +522,7 @@ c
                         dbl_mb(k_buf + j*idim + i) =
      $                       dbl_mb(k_ke+integs) + dbl_mb(k_pe+integs)
                      enddo
-                     call ga_put(g_fock, ilo, ihi, jlo, jhi, 
+                     call tpi_ga_put(g_fock, ilo, ihi, jlo, jhi, 
      $                    dbl_mb(k_buf), idim)
                   endif
                endif
@@ -541,7 +541,7 @@ c
       status = MA_pop_stack(l_ovl)
       status = MA_pop_stack(l_buf)
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       end
 
@@ -586,7 +586,7 @@ C           open(unit=lmotape,file='modump',status='old',
 C     $          form='unformatted')
 C           read(lmotape) (v(i),i=1,nbf*nbf)
 C           close(lmotape)
-C           call ga_put(g_mocf,1,nbf,1,nbf,v,nbf)
+C           call tpi_ga_put(g_mocf,1,nbf,1,nbf,v,nbf)
 C           write(6,901)
  901       format(//,1x,'Starting MOs read from dump tape')
 C         endif
@@ -692,7 +692,7 @@ c
 c
 
       ijk = 0
-      next = nxtask(ga_nnodes(), task_chunks)
+      next = tpinxt(ga_nnodes(), task_chunks)
       do kat = natoms, 1, -1
          do iat = natoms, kat, -1
             do jat = iat, 1, -1
@@ -709,14 +709,14 @@ c
      $                          tol2e)
                         endif
                      enddo
-                     next = nxtask(ga_nnodes(), task_chunks)
+                     next = tpinxt(ga_nnodes(), task_chunks)
                   endif
                   ijk = ijk + 1
                endif
             enddo
          enddo
       enddo
-      next = nxtask(-ga_nnodes(), task_chunks)
+      next = tpinxt(-ga_nnodes(), task_chunks)
 c
       PRINT*,'LOOP OK'
       CALL FLUSH_OUTPUT
@@ -910,7 +910,7 @@ c
       status = ma_pop_stack(l_dik)
       status = ma_pop_stack(l_dij)
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c     fock_2e_a stuffs contributions into both the lower and upper
 c     triangles ... need to symmetrize and multiply by 2
@@ -957,7 +957,7 @@ c
       
 c*debug
 c$$$      if (iproc .gt. 0) then
-c$$$         call ga_sync()
+c$$$         call tpi_ga_sync()
 c$$$         return
 c$$$      else
 c$$$         nproc = 1
@@ -977,7 +977,7 @@ c
       call dfill(maxd, 0.0d0, fkl, 1)
 c     
       ijk = 0
-      next = nxtask(nproc, task_chunks)
+      next = tpinxt(nproc, task_chunks)
 c
 c     Loop thru atomic triplets (i,j,k) in approximate order 
 c     of decreasing task size
@@ -1071,7 +1071,7 @@ c
                            iscreen(2) = iscreen(2) + 1
                         endif
                      enddo
-                     next = nxtask(nproc, task_chunks)
+                     next = tpinxt(nproc, task_chunks)
                   endif
                   ijk = ijk + 1
                   enddo
@@ -1088,8 +1088,8 @@ c
          call upd_atom_block(g_fock, basis, i_prev, k_prev, fik)
       endif
 c     
-      next = nxtask(-nproc, task_chunks)
-      call ga_sync()
+      next = tpinxt(-nproc, task_chunks)
+      call tpi_ga_sync()
 c
       call context_pop
       end
@@ -1413,17 +1413,17 @@ c
      $        form='unformatted')
          do i=1,nbf
            if (control.eq.1) then
-             call ga_get(g_mocf,1,nbf,i,i,dbl_mb(k_a),nbf)
+             call tpi_ga_get(g_mocf,1,nbf,i,i,dbl_mb(k_a),nbf)
              write(lumo) (dbl_mb(k_a+j-1),j=1,nbf)
            else
              read(lumo) (dbl_mb(k_a+j-1),j=1,nbf)
-             call ga_put(g_mocf,1,nbf,i,i,dbl_mb(k_a),nbf)
+             call tpi_ga_put(g_mocf,1,nbf,i,i,dbl_mb(k_a),nbf)
            endif
          enddo
          close(lumo)
          status = ma_pop_stack(l_a)
        endif
        movecs_io = .true.
-       call ga_sync()
+       call tpi_ga_sync()
        return
        end

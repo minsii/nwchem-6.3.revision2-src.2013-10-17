@@ -50,7 +50,7 @@ c     Initialize the ROHF data structures and allocate memory
 c
       call rohf_init(rtdb)
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       if(odbug) then
          write(luout,*) 'ready to solve ...',ga_nodeid()
@@ -73,7 +73,7 @@ c
          converged = rohf_nr_solve(rtdb, energy,  eone, etwo, enrep)
       endif
 c
-      call ga_sync()
+      call tpi_ga_sync()
       rohf_time = rohf_time + util_cpusec()
 c
 c     Print out results
@@ -96,6 +96,7 @@ c
      $        '        Time for solution =', f9.1,'s'//)
          call util_flush(6)
       endif
+
 c
       call ecce_print1('total energy', mt_dbl, energy, 1)
       call ecce_print1('one-electron energy', mt_dbl, eone, 1)

@@ -198,7 +198,7 @@ c
       status = status .and. ma_pop_stack(l_block)
       if (.not. status) call errquit('fock_2e: ma_pop?', 0, MA_ERR)
 c     
-      call ga_sync()
+      call tpi_ga_sync()
 c     
 c     fock_2e_a stuffs contributions into both the lower and upper
 c     triangles ... need to symmetrize

@@ -300,12 +300,12 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
               npair = npair + int_mb(k_indx+j-1)
             endif
           enddo
-          call ga_put (g_indx, 1, i, i, i, int_mb(k_indx), i)
+          call tpi_ga_put (g_indx, 1, i, i, i, int_mb(k_indx), i)
 C         only one of them is probably necessary
 C         check distribution (ga_create above)
         endif
       enddo
-      call ga_sync()
+      call tpi_ga_sync()
 
 C     sum up
 C     is there a way to do it in parallel?
@@ -313,7 +313,7 @@ C     is there a way to do it in parallel?
       isum = 1
       if (me .eq. 0) then
         do i=1, nsh
-          call ga_get (g_indx, 1, i, i, i, int_mb(k_indx), i)
+          call tpi_ga_get (g_indx, 1, i, i, i, int_mb(k_indx), i)
           do j=0, i-1
             if ( int_mb(k_indx+j) .gt. 0 ) then
               icount = icount+1
@@ -322,9 +322,9 @@ C     is there a way to do it in parallel?
               isum = isum + idum
             endif
           enddo
-          call ga_put (g_indx, 1, i, i, i, int_mb(k_indx), i)
+          call tpi_ga_put (g_indx, 1, i, i, i, int_mb(k_indx), i)
           if ( i .gt. 1 ) then
-            call ga_put (g_indx, i, i, 1, i-1, int_mb(k_indx), 1)
+            call tpi_ga_put (g_indx, i, i, 1, i-1, int_mb(k_indx), 1)
           endif
         enddo
         npair = isum - 1

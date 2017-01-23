@@ -48,7 +48,7 @@ c$$$      call dfill(9, 0.0d0, mp, 1)
 c$$$      call my_xlm_make_ao_poles(basis, center, 2, g_xlm)
 c$$$      do i = 1, 3
 c$$$         do j = 1, 3
-c$$$            call ga_get(g_dens, i, i, j, j, dd, 1)
+c$$$            call tpi_ga_get(g_dens, i, i, j, j, dd, 1)
 c$$$            call my_xlm_get_ij(g_xlm, i, j, 2, q)
 c$$$            do l = 0, 2
 c$$$               do m = -l, l
@@ -76,7 +76,7 @@ c
      $     call errquit('fastj: ds: ma ', nbf*nbf, MA_ERR)
 c
       if (ga_nodeid() .eq. 0)
-     $     call ga_get(g_dens, 1, nbf, 1, nbf, dbl_mb(k_dens), nbf)
+     $     call tpi_ga_get(g_dens, 1, nbf, 1, nbf, dbl_mb(k_dens), nbf)
       call ga_brdcst(11, dbl_mb(k_dens), 8*nbf**2, 0)
 c
       data(1) = l_dens

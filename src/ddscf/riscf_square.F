@@ -29,12 +29,12 @@ C     read operation, else all of them
 
       logical status
 
-      integer nxtask
-      external nxtask
+      integer tpinxt
+      external tpinxt
 
       parameter (zero=0.0D0)
 
-      next = nxtask(nproc,1)
+      next = tpinxt(nproc,1)
       ic = 0
 
       do in = 1, nt
@@ -47,7 +47,7 @@ C       offset in multiple-t array
 
           if ( ic .eq. next ) then
             status = bas_cn2bfr(ao_basis, ish, ifirst, ilast)
-            call ga_get (g_indx, 1, ish, ish, ish, indx, ish)
+            call tpi_ga_get (g_indx, 1, ish, ish, ish, indx, ish)
 
 C           first count the integrals
             nint = 0
@@ -72,9 +72,9 @@ C           first count the integrals
 C           get the integrals
             last = first + nint - 1
             if ( odisk ) then
-              call ga_get (g_three, first, last, in, in, three, nint)
+              call tpi_ga_get (g_three, first, last, in, in, three,nint)
             else
-              call ga_get (g_three, first, last, t, t, three, nint)
+              call tpi_ga_get (g_three, first, last, t, t, three, nint)
             endif
 
 C           place them in sthree
@@ -105,23 +105,23 @@ C           place them in sthree
             endif
 
 C           place patch in global square array
-            call ga_put (g_sthree, ioffs+1, ioffs+ilast, ifirst, ilast, 
+            call tpi_ga_put (g_sthree, ioffs+1,ioffs+ilast,ifirst,ilast,
      $           sthree, nbf)
 C           put the transpose of it in the other triangle
             jlast = ilast - ni
             if ( jlast .gt. 0 ) then
 C             use three for transpose of sthree
               call riscf_transpose (sthree, three, jlast, ni, nbf, ni)
-              call ga_put (g_sthree, ioffs+ifirst, ioffs+ilast, 
+              call tpi_ga_put (g_sthree, ioffs+ifirst, ioffs+ilast, 
      $             1, jlast, three, ni)
             endif 
 
-            next = nxtask(nproc,1)
+            next = tpinxt(nproc,1)
           endif ! next
           ic = ic + 1
         enddo   ! nsh
       enddo     ! nt
-      next = nxtask(-nproc,1)
+      next = tpinxt(-nproc,1)
 
       return
       end

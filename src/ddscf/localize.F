@@ -66,26 +66,26 @@ c
          ef = 0.5d0*(dbl_mb(k_eval+nclosed-1) + dbl_mb(k_eval+nclosed))
          if (.not. ma_push_get(mt_dbl, nbf, 'c', l_c, k_c))
      $        call errquit('ma for c', 0, MA_ERR)
-         call ga_sync
+         call tpi_ga_sync
          if (ga_nodeid() .eq. 0)
      $        write(6,*) ' EF ', ef, ' Y ', y, ' W ', w
          do i = ga_nodeid()+1, nclosed, ga_nnodes()
             scale = (w**0.125d0)*exp((dbl_mb(k_eval-1+i)-ef)*0.5d0*y)
 *     write(6,*) i, dbl_mb(k_eval-1+i),  scale
-            call ga_get(g_movecs,1,nbf,i,i,dbl_mb(k_c), 1)
+            call tpi_ga_get(g_movecs,1,nbf,i,i,dbl_mb(k_c), 1)
             call dscal(nbf,scale,dbl_mb(k_c),1)
-            call ga_put(g_movecs,1,nbf,i,i,dbl_mb(k_c), 1)
+            call tpi_ga_put(g_movecs,1,nbf,i,i,dbl_mb(k_c), 1)
          enddo
          do i = ga_nodeid()+nclosed+1, nmo, ga_nnodes()
             scale = (w**0.125d0)*exp(-(dbl_mb(k_eval-1+i)-ef)*0.5d0*y)
 *     write(6,*) i, dbl_mb(k_eval-1+i),  scale
-            call ga_get(g_movecs,1,nbf,i,i,dbl_mb(k_c), 1)
+            call tpi_ga_get(g_movecs,1,nbf,i,i,dbl_mb(k_c), 1)
             call dscal(nbf,scale,dbl_mb(k_c),1)
-            call ga_put(g_movecs,1,nbf,i,i,dbl_mb(k_c), 1)
+            call tpi_ga_put(g_movecs,1,nbf,i,i,dbl_mb(k_c), 1)
          enddo
          if (.not. ma_pop_stack(l_c)) call errquit('pop',0, MA_ERR)
       endif
-      call ga_sync
+      call tpi_ga_sync
 c
       if (loctype .eq. 'NONE') then
 *         call ga_print(g_movecs)
@@ -221,7 +221,7 @@ c
 c
       end if
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
 *      call moints_screen(basis, ncore+1, nclosed, g_movecs(1), g_mosc)
 *      if (.not. ga_destroy(g_mosc)) call errquit('fred did it!',0)
@@ -276,7 +276,7 @@ c
       dprev = 0.0d0
       gamma_max = 0.0d0
       do iter = 1, 100
-         call ga_sync
+         call tpi_ga_sync
          nrot = 0
 c
 c     Analyze convergence by forming P
@@ -285,8 +285,8 @@ c
          dmax = 0.0d0
          do ss = 1+ga_nodeid(), nloc, ga_nnodes()
             s = iloc(ss)
-            call ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
-            call ga_get(g_sc, 1, nbf, s, s,sc(1,1), 1)
+            call tpi_ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
+            call tpi_ga_get(g_sc, 1, nbf, s, s,sc(1,1), 1)
             qs = 0.0d0
             do a = 1, natoms
                if (.not. bas_ce2bfr(basis, a, bflo, bfhi))
@@ -311,7 +311,7 @@ c
  1          format(10x, i5, 2f15.10, 1p,d12.2,d12.2)
             call util_flush(6)
          end if
-         call ga_sync
+         call tpi_ga_sync
 c
 **         if (abs(d-dprev)/dble(nloc) .lt. tol) goto 1000
 **         dprev = d
@@ -328,10 +328,10 @@ c
                   s = iloc(ss)
                   t = iloc(tt)
 *                  write(6,*) nloc, neven, set, pair, ss, tt, s, t
-                  call ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
-                  call ga_get(g_sc, 1, nbf, s, s,sc(1,1), 1)
-                  call ga_get(g_c,  1, nbf, t, t, c(1,2), 1)
-                  call ga_get(g_sc, 1, nbf, t, t,sc(1,2), 1)
+                  call tpi_ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
+                  call tpi_ga_get(g_sc, 1, nbf, s, s,sc(1,1), 1)
+                  call tpi_ga_get(g_c,  1, nbf, t, t, c(1,2), 1)
+                  call tpi_ga_get(g_sc, 1, nbf, t, t,sc(1,2), 1)
 c     
 c     Form rotation information
 c     
@@ -372,14 +372,14 @@ c     Do the rotation of C and SC
 c     
                      call drot(nbf, c(1,1), 1, c(1,2), 1, cosg, sing)
                      call drot(nbf,sc(1,1), 1,sc(1,2), 1, cosg, sing)
-                     call ga_put(g_c,  1, nbf, s, s, c(1,1), 1)
-                     call ga_put(g_sc, 1, nbf, s, s,sc(1,1), 1)
-                     call ga_put(g_c,  1, nbf, t, t, c(1,2), 1)
-                     call ga_put(g_sc, 1, nbf, t, t,sc(1,2), 1)
+                     call tpi_ga_put(g_c,  1, nbf, s, s, c(1,1), 1)
+                     call tpi_ga_put(g_sc, 1, nbf, s, s,sc(1,1), 1)
+                     call tpi_ga_put(g_c,  1, nbf, t, t, c(1,2), 1)
+                     call tpi_ga_put(g_sc, 1, nbf, t, t,sc(1,2), 1)
                   end if
                end if
             end do
-            call ga_sync
+            call tpi_ga_sync
          end do
       end do
 c
@@ -391,8 +391,8 @@ c
          write(6,*)
          do ss = 1, nloc
             s = iloc(ss)
-            call ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
-            call ga_get(g_sc, 1, nbf, s, s,sc(1,1), 1)
+            call tpi_ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
+            call tpi_ga_get(g_sc, 1, nbf, s, s,sc(1,1), 1)
             nlist = 0
             do a = 1, natoms
                if (.not. bas_ce2bfr(basis, a, bflo, bfhi))
@@ -426,7 +426,7 @@ c
          call util_flush(6)
       end if
 c
-      call ga_sync
+      call tpi_ga_sync
 c
       end
       subroutine localizeFB(basis, c, uc, nloc, iloc, nbf, nmo,
@@ -480,7 +480,7 @@ c
       dprev = 0.0d0
       gamma_max = 0.0d0
       do iter = 1, 100
-         call ga_sync
+         call tpi_ga_sync
          nrot = 0
 c
 c     Analyze convergence by forming functional
@@ -489,9 +489,9 @@ c
          dmax = 0.0d0
          do ss = 1+ga_nodeid(), nloc, ga_nnodes()
             s = iloc(ss)
-            call ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
+            call tpi_ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
             do x = 1, 3
-               call ga_get(g_uc(x), 1, nbf, s, s,uc(1,1,x), 1)
+               call tpi_ga_get(g_uc(x), 1, nbf, s, s,uc(1,1,x), 1)
             end do
             qs = 0.0d0
             do x = 1, 3
@@ -514,7 +514,7 @@ c
  1          format(10x, i5, 2f17.8, 1p,2d12.2)
             call util_flush(6)
          end if
-         call ga_sync
+         call tpi_ga_sync
 c
 *         if (abs(d-dprev)/dble(nloc) .lt. tol
 *     $        .and. iter.gt.1) goto 1000
@@ -532,11 +532,11 @@ c
                   s = iloc(ss)
                   t = iloc(tt)
 *                  write(6,*) nloc, neven, set, pair, ss, tt, s, t
-                  call ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
-                  call ga_get(g_c,  1, nbf, t, t, c(1,2), 1)
+                  call tpi_ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
+                  call tpi_ga_get(g_c,  1, nbf, t, t, c(1,2), 1)
                   do x = 1, 4
-                     call ga_get(g_uc(x), 1, nbf, s, s,uc(1,1,x), 1)
-                     call ga_get(g_uc(x), 1, nbf, t, t,uc(1,2,x), 1)
+                     call tpi_ga_get(g_uc(x), 1, nbf, s, s,uc(1,1,x), 1)
+                     call tpi_ga_get(g_uc(x), 1, nbf, t, t,uc(1,2,x), 1)
                   end do
 c     
 c     Form rotation information
@@ -578,18 +578,18 @@ c
 c     Do the rotation of C and UC
 c     
                      call drot(nbf, c(1,1), 1, c(1,2), 1, cosg, sing)
-                     call ga_put(g_c,  1, nbf, s, s, c(1,1), 1)
-                     call ga_put(g_c,  1, nbf, t, t, c(1,2), 1)
+                     call tpi_ga_put(g_c,  1, nbf, s, s, c(1,1), 1)
+                     call tpi_ga_put(g_c,  1, nbf, t, t, c(1,2), 1)
                      do x = 1, 4
                         call drot(nbf,uc(1,1,x), 1,uc(1,2,x), 1, 
      $                       cosg, sing)
-                        call ga_put(g_uc(x), 1, nbf, s, s,uc(1,1,x), 1)
-                        call ga_put(g_uc(x), 1, nbf, t, t,uc(1,2,x), 1)
+                        call tpi_ga_put(g_uc(x), 1, nbf,s,s,uc(1,1,x),1)
+                        call tpi_ga_put(g_uc(x), 1, nbf,t,t,uc(1,2,x),1)
                      end do
                   end if
                end if
             end do
-            call ga_sync
+            call tpi_ga_sync
          end do
       end do
 c
@@ -601,8 +601,8 @@ c
          write(6,*)
          do ss = 1, nloc
             s = iloc(ss)
-            call ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
-            call ga_get(g_uc(4), 1, nbf, s, s,uc(1,1,1), 1)
+            call tpi_ga_get(g_c,  1, nbf, s, s, c(1,1), 1)
+            call tpi_ga_get(g_uc(4), 1, nbf, s, s,uc(1,1,1), 1)
             nlist = 0
             do a = 1, natoms
                if (.not. bas_ce2bfr(basis, a, bflo, bfhi))
@@ -635,7 +635,7 @@ c
          call util_flush(6)
       end if
 c
-      call ga_sync
+      call tpi_ga_sync
 c
       end
       subroutine localize_pairs(n, set, pair, left, right)

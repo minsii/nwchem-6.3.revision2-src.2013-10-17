@@ -150,7 +150,7 @@ c ============== debug g_ax ==================== START
       endif ! end-if-debug
 c ============== debug g_ax ==================== END
 
-      call ga_sync()
+      call tpi_ga_sync()
 c       next: add (e_a - e_i) times A (also called U) matrix to Ax
         do ipm=1,ncomp
 

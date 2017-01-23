@@ -41,7 +41,7 @@ c
 c
 c     Array not a duplicate ... got to get it
 c
-               call ga_get(varray(iarray), ilo, ihi, jlo, jhi,
+               call tpi_ga_get(varray(iarray), ilo, ihi, jlo, jhi,
      $              tmp, ilen)
                do j=1,jlen
                   ji = (j-1)*ilen
@@ -53,7 +53,7 @@ c
  10            continue
             enddo
          else
-            call ga_get(varray(1), ilo, ihi, jlo, jhi, buf, ilen )
+            call tpi_ga_get(varray(1), ilo, ihi, jlo, jhi, buf, ilen )
          endif
       endif
 c     
@@ -84,7 +84,7 @@ c
       jdim = jhi - jlo + 1
 c
       if (idim.gt.0 .and. jdim.gt.0) then
-         call ga_get(g_array, ilo, ihi, jlo, jhi, buf, idim)
+         call tpi_ga_get(g_array, ilo, ihi, jlo, jhi, buf, idim)
       endif
 *      write(6,*) ' gab: ', iat, jat
 *      call output(buf, 1, idim, 1, jdim, idim, jdim, 1)

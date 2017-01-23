@@ -48,8 +48,10 @@ c
      $                 call errquit('print_aoints: bas_cn2bfr', lsh,
      &       BASIS_ERR)
 c
+                  call tpi_start_timer(17)
                   call int_2e4c(basis, ish, jsh, basis, ksh, lsh,
      $                 mem2, dbl_mb(k_scr), max2e, dbl_mb(k_g))
+                  call tpi_stop_timer(17)
 c
                   call print_ao_buf(ilo, ihi, jlo, jhi, klo, khi, 
      $                 llo, lhi, dbl_mb(k_g))

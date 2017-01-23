@@ -213,7 +213,7 @@ c     &           f15.8,',',f15.8,',',f15.8,')')
      &                       g_ax_im(ipm))  
          enddo ! end-lopp-ipm
         endif                   ! .not.lifetime
-        call ga_sync()
+        call tpi_ga_sync()
         if (debug) write (6,*) 'calling rohf_hessv_1e'
 
 c ============== debug g_ax ==================== START
@@ -979,7 +979,7 @@ c ------ create scratch GA arrays (g_pmats,g_mata,g_h1mat---END
       chunk(1) = dims(1)
       chunk(2) = -1
       chunk(3) = -1   
-      call ga_sync()  
+      call tpi_ga_sync()  
       do ipm = 1,nblock ! =2 or 4
 c ... allocate g_dens=[g_dens_re g_dens_im]
         if (.not. nga_create (MT_DBL,3,dims,'CPKS dens',chunk,

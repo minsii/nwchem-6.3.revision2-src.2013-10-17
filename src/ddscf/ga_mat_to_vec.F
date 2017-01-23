@@ -48,7 +48,7 @@ c
 #else
       call ga_distribution(g_m, ga_nodeid(), iplo, iphi, jplo, jphi)
 c
-      call ga_sync()
+      call tpi_ga_sync()
       if (iplo.gt.0 .and. iplo.le.iphi) then
          numi =  min(ihi,iphi) - max(ilo,iplo) + 1
          numj =  min(jhi,jphi) - max(jlo,jplo) + 1
@@ -58,9 +58,9 @@ c
               k = klo + (j-jlo)*(ihi-ilo+1) + max(ilo,iplo) - ilo
               ioff = k_m + (j-jplo)*ld + max(ilo,iplo) - iplo
               if (op .eq. '=') then
-                call ga_put(g_v, k, k+numi-1, col, col, dbl_mb(ioff), 1)
+                call tpi_ga_put(g_v, k, k+numi-1,col,col,dbl_mb(ioff),1)
               else if (op .eq. '+') then
-                call ga_acc(g_v, k, k+numi-1, col, col, dbl_mb(ioff), 1,
+                call tpi_ga_acc(g_v, k, k+numi-1,col,col,dbl_mb(ioff),1,
      $                      scale)
               else
                 call errquit('ga_mat_to_vec: bad op', 0, GA_ERR)
@@ -70,7 +70,7 @@ c
          endif
       endif
 #endif
-      call ga_sync()
+      call tpi_ga_sync()
 c
       end
       subroutine ga_vec_to_mat(g_m, ilo, ihi, jlo, jhi, g_v, klo, col)
@@ -101,7 +101,7 @@ c
 #else 
       call ga_distribution(g_m, ga_nodeid(), iplo, iphi, jplo, jphi)
 c
-      call ga_sync()
+      call tpi_ga_sync()
       if (iplo.gt.0 .and. iplo.le.iphi) then
          numi =  min(ihi,iphi) - max(ilo,iplo) + 1
          numj =  min(jhi,jphi) - max(jlo,jplo) + 1
@@ -110,12 +110,12 @@ c
            do j = max(jlo,jplo), min(jhi,jphi)
               k = klo + (j-jlo)*(ihi-ilo+1) + max(ilo,iplo) - ilo
               ioff = k_m + (j-jplo)*ld + max(ilo,iplo) - iplo
-              call ga_get(g_v, k, k+numi-1, col, col, dbl_mb(ioff), 1)
+              call tpi_ga_get(g_v, k, k+numi-1, col, col,dbl_mb(ioff),1)
            enddo
            call ga_release(g_m,iplo,iphi,jplo,jphi)
          endif
       endif
 #endif
-      call ga_sync()
+      call tpi_ga_sync()
 c
       end

@@ -103,7 +103,7 @@ c
          if (nvir*nclosed .gt. 0) then
             do i = ga_nodeid()+1, nclosed, ga_nnodes()
                ioff = (i-1)*nvir + 1
-               call ga_get(g_x, ioff, ioff+nvir-1, ivec, ivec,
+               call tpi_ga_get(g_x, ioff, ioff+nvir-1, ivec, ivec,
      $              dbl_mb(k_x),1)
                do j=1,nvir
                   denominator = 4.d0*(fcv(j+vbase) - fcv(i+cbase)) +
@@ -118,7 +118,7 @@ c
                   endif
                   dbl_mb(k_x+j-1) = dbl_mb(k_x+j-1) / denominator
                enddo
-               call ga_put(g_x, ioff, ioff+nvir-1, ivec, ivec,
+               call tpi_ga_put(g_x, ioff, ioff+nvir-1, ivec, ivec,
      $              dbl_mb(k_x),1)
             enddo
          endif
@@ -129,7 +129,7 @@ c     Scale open-virtual piece
 c     
             do i = ga_nodeid()+1, nopen, ga_nnodes()
                ioff = (nclosed+i-1)*nvir + 1
-               call ga_get(g_x, ioff, ioff+nvir-1, ivec, ivec,
+               call tpi_ga_get(g_x, ioff, ioff+nvir-1, ivec, ivec,
      $              dbl_mb(k_x),1)
                do j=1,nvir
                   denominator = 2.d0*(fpv(j+vbase) - fpv(i+obase)) +
@@ -137,7 +137,7 @@ c
                   if (denominator .lt. 0.1d0) denominator = 0.1d0
                   dbl_mb(k_x+j-1) = dbl_mb(k_x+j-1) / denominator
                enddo
-               call ga_put(g_x, ioff, ioff+nvir-1, ivec, ivec,
+               call tpi_ga_put(g_x, ioff, ioff+nvir-1, ivec, ivec,
      $              dbl_mb(k_x),1)
             enddo
          endif
@@ -147,7 +147,7 @@ c
          if (nclosed*nopen .gt. 0) then
             do i = ga_nodeid()+1, nclosed, ga_nnodes()
                ioff = (nclosed+nopen)*nvir + (i-1)*nopen + 1
-               call ga_get(g_x, ioff, ioff+nopen-1, ivec, ivec,
+               call tpi_ga_get(g_x, ioff, ioff+nopen-1, ivec, ivec,
      $              dbl_mb(k_x),1)
                do j=1,nopen
                   denominator = 2.d0*(fcp(j+obase) - fcp(i+cbase)) +
@@ -155,13 +155,13 @@ c
                   if (denominator .lt. 0.1d0) denominator = 0.1d0
                   dbl_mb(k_x+j-1) = dbl_mb(k_x+j-1) / denominator
                enddo
-               call ga_put(g_x, ioff, ioff+nopen-1, ivec, ivec,
+               call tpi_ga_put(g_x, ioff, ioff+nopen-1, ivec, ivec,
      $              dbl_mb(k_x),1)
             enddo
          endif
       enddo
 c
-      call ga_sync
+      call tpi_ga_sync
 c     
       if (nopen .gt. 0) then
          if (.not.ma_pop_stack(l_fpv))
@@ -308,9 +308,9 @@ c
                ioff = (i-1)*nvir + 1
 c
 c              put elements of g_x, g_x_im to local memory:
-               call ga_get(g_x, ioff, ioff+nvir-1, ivec, ivec,
+               call tpi_ga_get(g_x, ioff, ioff+nvir-1, ivec, ivec,
      $              dbl_mb(k_x),1)
-               call ga_get(g_x_im, ioff, ioff+nvir-1, ivec, ivec,
+               call tpi_ga_get(g_x_im, ioff, ioff+nvir-1, ivec, ivec,
      $              dbl_mb(k_x_im),1)
 c
                do j=1,nvir
@@ -346,9 +346,9 @@ c                IMAG PART OF THE FOCK OPERATOR, i.e. tmpim should be zero
      &              tmpim * factor_re +
      &              tmpre * factor_im
                enddo
-               call ga_put(g_x, ioff, ioff+nvir-1, ivec, ivec,
+               call tpi_ga_put(g_x, ioff, ioff+nvir-1, ivec, ivec,
      $              dbl_mb(k_x),1)
-               call ga_put(g_x_im, ioff, ioff+nvir-1, ivec, ivec,
+               call tpi_ga_put(g_x_im, ioff, ioff+nvir-1, ivec, ivec,
      $              dbl_mb(k_x_im),1)
             enddo
          endif
@@ -364,7 +364,7 @@ c     Scale open-virtual piece
 c     
             do i = ga_nodeid()+1, nopen, ga_nnodes()
                ioff = (nclosed+i-1)*nvir + 1
-               call ga_get(g_x, ioff, ioff+nvir-1, ivec, ivec,
+               call tpi_ga_get(g_x, ioff, ioff+nvir-1, ivec, ivec,
      $              dbl_mb(k_x),1)
                do j=1,nvir
                   denominator = 2.d0*(fpv(j+vbase) - fpv(i+obase)) +
@@ -372,7 +372,7 @@ c
                   if (denominator .lt. 0.1d0) denominator = 0.1d0
                   dbl_mb(k_x+j-1) = dbl_mb(k_x+j-1) / denominator
                enddo
-               call ga_put(g_x, ioff, ioff+nvir-1, ivec, ivec,
+               call tpi_ga_put(g_x, ioff, ioff+nvir-1, ivec, ivec,
      $              dbl_mb(k_x),1)
             enddo
          endif
@@ -386,7 +386,7 @@ c          THIS PIECE OF CODE SHOULD NOT BE EXECUTED IN RESPONSE CALC
 C          BECAUSE THIS HAS NOT BEEN ADAPTED TO FREQUENCY AND DAMPING
            do i = ga_nodeid()+1, nclosed, ga_nnodes()
              ioff = (nclosed+nopen)*nvir + (i-1)*nopen + 1
-             call ga_get(g_x, ioff, ioff+nopen-1, ivec, ivec,
+             call tpi_ga_get(g_x, ioff, ioff+nopen-1, ivec, ivec,
      $          dbl_mb(k_x),1)
              do j=1,nopen
                denominator = 2.d0*(fcp(j+obase) - fcp(i+cbase)) +
@@ -394,13 +394,13 @@ C          BECAUSE THIS HAS NOT BEEN ADAPTED TO FREQUENCY AND DAMPING
                if (denominator .lt. 0.1d0) denominator = 0.1d0
                dbl_mb(k_x+j-1) = dbl_mb(k_x+j-1) / denominator
              enddo
-             call ga_put(g_x, ioff, ioff+nopen-1, ivec, ivec,
+             call tpi_ga_put(g_x, ioff, ioff+nopen-1, ivec, ivec,
      $          dbl_mb(k_x),1)
            enddo
          endif
        enddo
 c
-      call ga_sync
+      call tpi_ga_sync
 c     
       if (nopen .gt. 0) then
          if (.not.ma_pop_stack(l_fpv))

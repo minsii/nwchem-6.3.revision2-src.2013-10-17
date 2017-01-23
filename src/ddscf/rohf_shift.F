@@ -24,7 +24,7 @@ c
      $     l_diag, k_diag)) call errquit
      $     ('rohf_make_shift: insufficient memory', nmo, MA_ERR)
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       shift_cv = 0.0d0
       shift_pv = 0.0d0

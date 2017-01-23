@@ -116,11 +116,11 @@ c
        if (n_dep.gt.0 .and. ga_nodeid().eq.0) then
           do i = 1, n_dep
              j = nbf - i + 1
-             call ga_get(g_u, 1, nbf, j, j, dbl_mb(k_ev), 1)
-             call ga_put(g_u, 1, nbf, i, i, dbl_mb(k_ev), 1)
+             call tpi_ga_get(g_u, 1, nbf, j, j, dbl_mb(k_ev), 1)
+             call tpi_ga_put(g_u, 1, nbf, i, i, dbl_mb(k_ev), 1)
           enddo
        endif
-       call ga_sync
+       call tpi_ga_sync
 c
        n_indep = nbf - n_dep
 c

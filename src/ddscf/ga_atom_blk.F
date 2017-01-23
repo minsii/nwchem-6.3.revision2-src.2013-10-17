@@ -47,7 +47,7 @@ c
             write(6,*) ' ga_create_atom_blocked: ', name
             call util_flush(6)
          endif
-         call ga_sync()
+         call tpi_ga_sync()
          call errquit('ga_create_atom_blocked: ga_create_irreg ',nbf,
      $  GA_ERR)
       endif

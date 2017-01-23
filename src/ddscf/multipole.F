@@ -111,7 +111,7 @@ c
 c     Get the density patch, make the integrals and contract
 c     (note sign change when adding in since electrons are negative)
 c     
-               call ga_get(g_dens, jlo, jhi, ilo, ihi,
+               call tpi_ga_get(g_dens, jlo, jhi, ilo, ihi,
      $              dbl_mb(k_dens), jdim)
 c     
                call int_mpole(basis, ishell, basis, jshell,
@@ -142,7 +142,7 @@ c
 c     
 c     Global sum of locate array and then add into result
 c     
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_dgop(331, dbl_mb(k_m), noperators, '+')
       do i = 1, noperators
          moments(i) = moments(i) + dbl_mb(k_m+i-1)

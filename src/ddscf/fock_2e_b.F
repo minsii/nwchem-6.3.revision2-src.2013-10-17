@@ -156,8 +156,10 @@ c
 c     
 c     Compute the shell block of integrals with labels
 c     
+                        call tpi_start_timer(17)
                         call int_2e4c(basis, ish, jsh, basis, ksh, lsh,
      $                       mem2, dbl_mb(k_scr), max2e, dbl_mb(k_g))
+                        call tpi_stop_timer(17)
                         if (oerilabel) then
 c
 c     New code with labels

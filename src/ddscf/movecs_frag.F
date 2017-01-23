@@ -40,7 +40,7 @@ c
       logical movecs_read_header, movecs_read
       external  movecs_read_header, movecs_read
 c
-      call ga_sync()
+      call tpi_ga_sync()
       oprint = util_print('mo guess', print_default) 
      $     .and. (ga_nodeid().eq.0)
       if (oprint) then
@@ -212,7 +212,7 @@ c
 c      if (virt_off .ne. nmo+1) call errquit
 c     $     ('movecs_fragment: bad # virtuals', virt_off-open_off)
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       end
 

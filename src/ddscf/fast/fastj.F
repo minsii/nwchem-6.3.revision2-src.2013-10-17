@@ -611,7 +611,7 @@ c
                   numi_cart = (itype+1)*(itype+2)/2
                   numj_cart = (jtype+1)*(jtype+2)/2
                   if (iosph) then
-                     call ga_get(g_dens,ibflo,ibfhi,jbflo,jbfhi,
+                     call tpi_ga_get(g_dens,ibflo,ibfhi,jbflo,jbfhi,
      $                    ndens,numi)
                      call dens_sph_to_cart(itype, jtype, 
      $                    ndens, numi, dens, work, numi_cart, numj_cart)
@@ -620,7 +620,7 @@ c
                         dmax = max(dmax,abs(dens(i)))
                      end do
                   else
-                     call ga_get(g_dens,ibflo,ibfhi,jbflo,jbfhi,
+                     call tpi_ga_get(g_dens,ibflo,ibfhi,jbflo,jbfhi,
      $                    dens,numi)
                      dmax = 0.0d0
                      do i = 1, numi*numj
@@ -1449,7 +1449,7 @@ c     EVALUATE HERE using ishprev and jshprev
 *                              write(6,*) '   Evaluating1 ',
 *     $                             ishprev,jshprev, nprimi, nprimj
 
-                              call ga_get(g_dens, 
+                              call tpi_ga_get(g_dens, 
      $                             sh_bfr(1,ishprev), sh_bfr(2,ishprev),
      $                             sh_bfr(1,jshprev), sh_bfr(2,jshprev),
      $                             dens, numi)
@@ -1484,7 +1484,7 @@ c
 c     EVALUATE HERE using ishprev and jshprev
 *                        write(6,*) '   Evaluating2 ',
 *     $                       ishprev,jshprev, nprimi, nprimj
-                        call ga_get(g_dens, 
+                        call tpi_ga_get(g_dens, 
      $                       sh_bfr(1,ishprev), sh_bfr(2,ishprev),
      $                       sh_bfr(1,jshprev), sh_bfr(2,jshprev),
      $                       dens, numi)

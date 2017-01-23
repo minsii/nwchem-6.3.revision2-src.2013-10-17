@@ -181,7 +181,7 @@ c         take care of damping here: Re and Im are coupled by gamwidth
             call ga_dadd( wls, g_x(2), wlsim, g_x_im(2), g_ax_im(2) )
           endif                 ! ncomp.gt.1
         endif                   ! .not.lifetime
-        call ga_sync()
+        call tpi_ga_sync()
         if (debug) write (6,*) 'calling rohf_hessv_1e'
 c 
 c       next: add (e_a - e_i) times A (also called U) matrix to Ax
@@ -588,7 +588,7 @@ c       a call to one of the aoresponse subroutines:
           call ga_vec_to_mat(g_h1mat(ipm), 1, nvir, 1, nclosed,
      $       g_x(ipm), 1, ivec) ! g_h1mat now holds A-matrix for
         end do                  ! ipm = 1,2
-        call ga_sync()
+        call tpi_ga_sync()
         if (debug) write (6,*) 'calling CalcPerturbedTDPmat1'
 c       note: the last argument tells it not to use an occ-occ
 c             block to build the density marix.
@@ -618,7 +618,7 @@ c       it should work for this problem here, too
 
 c       note: here is one of those ominous scalings by 1/4
 c       needed to get the correct final results
-        call ga_sync()
+        call tpi_ga_sync()
         call ga_scale(g_pmats(1),0.25d0)
         call ga_scale(g_pmats(2),0.25d0)
 c       
@@ -656,7 +656,7 @@ c
      &     g_dens(2), alo, ahi)
 c
       endif                     ! limag
-      call ga_sync()
+      call tpi_ga_sync()
 
 c       
         if (debug) then 
@@ -772,7 +772,7 @@ c
 c       it might be necessary to use 0.5 here instead of 1.0
 c       (note: that turned out NOT to be the case after some testing)
         pre_factor = 1.0d0
-        call ga_sync()
+        call tpi_ga_sync()
         if (.not.limag) then
 c         real perturbation: 
           call nga_add_patch (pre_factor, g_pmats(1), blo, bhi,
@@ -823,7 +823,7 @@ c
 c     
 c     start loop over components of perturbing field
 c     
-      call ga_sync()
+      call tpi_ga_sync()
       do ivec = 1, nvec
         ifock = ifock + 1       ! History ... copy into tmp arrays
         alo(1) = ivec
@@ -887,9 +887,9 @@ c
           if (debug) write (6,*) 'g_tmp1,g_dcv',g_tmp1,g_dcv
           call ga_copy(g_tmp1, g_dcv)
           if (debug) write (6,*) 'rohf_h2e3 step 16 ivec,ipm',ivec, ipm
-          call ga_sync()
+          call tpi_ga_sync()
           call ga_dscal(g_dcv, two)
-          call ga_sync()
+          call tpi_ga_sync()
           if (nopen .gt. 0) then
             call ga_dadd(one,  g_dcv,  one, g_tmp2, g_dcv)
             call ga_dadd(half, g_dcv, half, g_tmp3, g_dpv)
@@ -903,12 +903,12 @@ c
      $       g_dcv, 1, nbf, 1, nbf, ! Fock matrix
      $       g_movec, 1, nbf, 1, nclosed, ! MO coefficients
      $       g_tmp1, 1, nbf, 1, nclosed )    
-          call ga_sync()
+          call tpi_ga_sync()
           call ga_matmul_patch('t','n',one,zero,
      $       g_movec, voff, nmo, 1, nbf, ! MO coefficients
      $       g_tmp1, 1, nbf, 1, nclosed, ! result from step 1 
      $       g_tmp2, 1, nvir, 1, nclosed ) ! vir-occ Fock matrix
-          call ga_sync()
+          call tpi_ga_sync()
           xoff = 1
           xend = nvir*nclosed
 c         

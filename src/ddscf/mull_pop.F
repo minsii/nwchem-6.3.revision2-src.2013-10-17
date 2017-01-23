@@ -59,7 +59,7 @@ c
       call mull_calc(basis,natoms, nshells,max_at_bf2,iga_PS,
      &     dbl_mb(iqatom),dbl_mb(iqshell),dbl_mb(iPSmat), string)
       
-      call ga_sync
+      call tpi_ga_sync
 
       if(.not.MA_Pop_Stack(lqshell))
      &     call errquit(' exiting in mull_pop',33, MA_ERR)
@@ -142,14 +142,14 @@ c
         write(6,*)'  ---------------------------------'
       endif
 
-      call ga_sync()
+      call tpi_ga_sync()
 
       do iat=me+1,natoms,nproc
         if (.not.bas_ce2cnr(basis,iat,ish1,ish2))
      &       call errquit(' exiting in mull_pop',4, BASIS_ERR)
         call get_atom_block(iga_PS, basis,
      $       iat, iat, PSmat, nbf_at, nbf_at)
-        call ga_put(g_nbf,iat,iat,1,1,nbf_at,1)
+        call tpi_ga_put(g_nbf,iat,iat,1,1,nbf_at,1)
 
         mu=0
         do ish=ish1,ish2
@@ -159,7 +159,7 @@ c
             mu=mu+1
             psmu=PSmat((mu-1)*nbf_at+mu)
             
-            call ga_put(g_pop,mu,mu,iat,iat,psmu,1)
+            call tpi_ga_put(g_pop,mu,mu,iat,iat,psmu,1)
  
             qshell(ish)=qshell(ish)+psmu
           enddo
@@ -167,14 +167,14 @@ c
         enddo
       enddo
 
-      call ga_sync()
+      call tpi_ga_sync()
      
       if (me.eq.0 .and. oprint) then
       offset = 0
       do iat = 1,natoms
-        call ga_get (g_nbf,iat,iat,1,1,nbf_at,1)
+        call tpi_ga_get (g_nbf,iat,iat,1,1,nbf_at,1)
         do i = 1,nbf_at
-          call ga_get(g_pop,i,i,iat,iat,pop,1)
+          call tpi_ga_get(g_pop,i,i,iat,iat,pop,1)
           write(6,3) i+offset,pop,
      &     (byte_mb(k_tags+(i-1+offset)*16+m),m=0,15)
         enddo
@@ -236,7 +236,7 @@ c
      $     ' mulliken shell charges'
       lbuf = inp_strlen(buf)
       call ecce_print1(buf(1:lbuf), mt_dbl, qshell,nshells)
-      call ga_sync
+      call tpi_ga_sync
 
       return
       end

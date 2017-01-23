@@ -153,7 +153,7 @@ c
 c     
       if (.not.ma_chop_stack(lbuf)) then
          if(ga_nodeid().eq.0) call ma_summarize_allocated_blocks()
-         call ga_sync
+         call tpi_ga_sync
          call errquit('ga_get2eri: cannot chop stack',0, MA_ERR)
       endif
       call ga_release_update(g_2, i0, i1, j0, j1)

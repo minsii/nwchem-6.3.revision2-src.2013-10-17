@@ -121,7 +121,7 @@ c
          call util_flush(6)
       endif
 c
-      call ga_sync()
+      call tpi_ga_sync()
       if (oscfps) call pstat_on(ps_int_1e)
 c     
       if (oskel) then
@@ -169,7 +169,7 @@ c*         if (ga_nodeid().eq.0) then
 c*           call ga_summarize(1)
 c*           call util_flush(6)
 c*         endif
-c*         call ga_sync()
+c*         call tpi_ga_sync()
 c         call ga_dadd(1.0d0, g_cache(type), 1.0d0, g, g)
 c         if (oscfps) call pstat_off(ps_int_1e)
 c	 return
@@ -382,7 +382,7 @@ c         if (.not. ga_destroy(g_loc)) call errquit('i1ega: gad?',0,
 c     &       GA_ERR)
 c      endif
 cccccccccccccccc
-      call ga_sync()            ! So that no nasty races can result
+      call tpi_ga_sync()            ! So that no nasty races can result
 c     
       if (oscfps) call pstat_off(ps_int_1e)
 c     

@@ -48,6 +48,7 @@ c
 c
 c     load geometry and symmetry info
 c
+      call tpi_dbg_print("scf_init start")
       if (.not. geom_create(geom, 'geometry'))
      $     call errquit('scf_init: geom_create?', 0, GEOM_ERR)
       if (.not. geom_rtdb_load(rtdb, geom, 'geometry'))
@@ -209,7 +210,7 @@ c
       if (.not.rtdb_get(rtdb, 'scf:diis',MT_LOG, 1, odiis))
      $   odiis = .false.
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c     For now set NMO = NBF, however this may change later when the 
 c     linear dependency analysis is done just before the starting guess

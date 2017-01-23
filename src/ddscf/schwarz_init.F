@@ -29,8 +29,8 @@ c
      $     numint, integ, len_csh, len_cat, ijat, me, nproc
       double precision at_max, sh_max
       logical status, odebug
-      integer nxtask, next, task_size
-      external nxtask
+      integer tpinxt, next, task_size
+      external tpinxt
 #include "itri.fh"
 c
       odebug = .false.
@@ -85,7 +85,7 @@ c
       ijat  = 0
       nproc = ga_nnodes()
       me    = ga_nodeid()
-      next  = nxtask(nproc,task_size)
+      next  = tpinxt(nproc,task_size)
 c
       do iat = 1, natoms
          if (.not. bas_ce2cnr(basis, iat, ishlo, ishhi))
@@ -110,8 +110,11 @@ c
      &       BASIS_ERR)
                      jdim = jsh_bfhi - jsh_bflo + 1
 c
+                     call tpi_start_timer(17)
                      call int_2e4c(basis, ish, jsh, basis, ish, jsh,
      $                    mem2, dbl_mb(k_scr), max2e, dbl_mb(k_g))
+                     call tpi_stop_timer(17)
+
                      sh_max = 0.0d0
                      numint = idim*jdim*idim*jdim
 * this for old max method which is not rotationally invariant
@@ -155,12 +158,12 @@ c
      $                 schwarz_atom(iat,jat)/at_max
                   call util_flush(6)
                endif
-               next = nxtask(nproc,task_size)
+               next = tpinxt(nproc,task_size)
             endif
             ijat = ijat + 1
          enddo
       enddo
-      next = nxtask(-nproc,task_size)
+      next = tpinxt(-nproc,task_size)
 c     
 c     A global OR is required to piece together the parts made in parallel
 c

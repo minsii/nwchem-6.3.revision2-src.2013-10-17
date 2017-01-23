@@ -199,15 +199,15 @@ c
      $           n, 0, g_v)) call errquit
      $           ('rohf_canon: ga failed for v', 0, GA_ERR)
 c
-            call ga_sync
+            call tpi_ga_sync
             do i = 1+ga_nodeid(),n,ga_nnodes()
-               call ga_get(g_fock,ilo,ihi,map(i),map(i),work(ilo),1)
+               call tpi_ga_get(g_fock,ilo,ihi,map(i),map(i),work(ilo),1)
                do j = 1, n
                   tmp(j) = work(map(j))
                enddo
-               call ga_put(g_tmp,1, n, i, i, tmp, 1)
+               call tpi_ga_put(g_tmp,1, n, i, i, tmp, 1)
             enddo
-            call ga_sync
+            call tpi_ga_sync
 c
 #if defined(PARALLEL_DIAG)
 #ifdef SCALAPACK
@@ -218,19 +218,19 @@ c
 #else 
       call ga_diag_std_seq(g_tmp, g_v, tmp)
 #endif
-            call ga_sync
+            call tpi_ga_sync
             do i = 1, n
                evals(map(i)-ilo+1) = tmp(i)
             enddo
             do i = 1+ga_nodeid(),n,ga_nnodes()
-               call ga_get(g_v,1, n, i, i, tmp, 1)
+               call tpi_ga_get(g_v,1, n, i, i, tmp, 1)
                call dfill((ihi-ilo+1), 0.0d0, work(ilo), 1)
                do j = 1, n
                   work(map(j)) = tmp(j)
                enddo
-               call ga_acc(g_u,ilo,ihi,map(i),map(i),work(ilo),1,1.0d0)
+            call tpi_ga_acc(g_u,ilo,ihi,map(i),map(i),work(ilo),1,1.0d0)
             enddo
-            call ga_sync
+            call tpi_ga_sync
             if (.not. (ga_destroy(g_tmp) .and. ga_destroy(g_v)))
      $           call errquit('rohf_canon: ga_destroy ?', 0, GA_ERR)
          endif
@@ -266,13 +266,13 @@ c
      $        n, 0, g_tmp)) call errquit
      $        ('rohf_canon: ga failed for tmp', 0, GA_ERR)
       do i = ilo+ga_nodeid(),ihi,ga_nnodes()
-         call ga_get(g_u,ilo,ihi, map(i), map(i), tmp(ilo), 1)
-         call ga_put(g_tmp,1,n,i-ilo+1,i-ilo+1,tmp(ilo),1)
+         call tpi_ga_get(g_u,ilo,ihi, map(i), map(i), tmp(ilo), 1)
+         call tpi_ga_put(g_tmp,1,n,i-ilo+1,i-ilo+1,tmp(ilo),1)
       enddo
-      call ga_sync
+      call tpi_ga_sync
       do i = ilo+ga_nodeid(),ihi,ga_nnodes()
-         call ga_get(g_tmp,1,n,i-ilo+1,i-ilo+1,work(ilo),1)
-         call ga_put(g_u,ilo,ihi, i, i, work(ilo), 1)
+         call tpi_ga_get(g_tmp,1,n,i-ilo+1,i-ilo+1,work(ilo),1)
+         call tpi_ga_put(g_u,ilo,ihi, i, i, work(ilo), 1)
       enddo
 *      write(6,*) ' input '
 *      call output(evals,ilo,ihi,1,1,ihi,1,1)

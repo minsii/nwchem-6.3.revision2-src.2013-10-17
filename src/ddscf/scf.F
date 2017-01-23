@@ -44,6 +44,9 @@ c
 c     Make sure database is parallel, 
 c     and initialize performance statistics
 c
+      call tpi_start(20)
+      call tpi_push_name_level1("scf")
+
       status = rtdb_parallel(.true.)
       call util_print_push
       call util_print_rtdb_load(rtdb, 'scf')
@@ -268,6 +271,7 @@ c
       else
          converged = rohf(rtdb, energy)
       endif
+
 c
 c     reconverge with exact energy/gradient if requested
 c
@@ -284,6 +288,9 @@ c
           converged = rohf(rtdb, energy)
         endif
       endif
+
+      call tpi_pop_name_level1("scf")
+      call tpi_stop()
 c
 c     Store energy and convergence status ... not sure if better to
 c     do this here or have each wavefunction type do it

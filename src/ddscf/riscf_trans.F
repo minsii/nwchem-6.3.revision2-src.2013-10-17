@@ -38,8 +38,8 @@ C$Id: riscf_trans.F 19707 2010-10-29 17:59:36Z d3y133 $
 
       logical status, IeqJ
 
-      integer nxtask
-      external nxtask
+      integer tpinxt
+      external tpinxt
 
       nproc = ga_nnodes()
 
@@ -55,10 +55,10 @@ C       first collect them in a temporary global array
       icount = -1
       mycount = 0
       ndone = 0
-      next = nxtask(nproc, 1)
+      next = tpinxt(nproc, 1)
       do i=1, nsh
         do j=1, i
-          call ga_get (g_indx, i, i, j, j, indx, 1)
+          call tpi_ga_get (g_indx, i, i, j, j, indx, 1)
           if ( indx .ne. 0) then
             icount = icount + 1
             if ( next .eq. icount ) then
@@ -90,7 +90,7 @@ C             transform three center integrals
               ic = 0
               do s=1, nsh_F
                 status = bas_cn2bfr(ri_basis, s, sfirst, slast)
-                call ga_get (g_Vsqrt, 1, Nff, sfirst, slast, V_row, Nff)
+                call tpi_ga_get (g_Vsqrt, 1, Nff,sfirst,slast,V_row,Nff)
                 nfs = slast - sfirst + 1
                 do is=1, nfs
                   do ij = 1, nij
@@ -109,10 +109,10 @@ C                 first finish previous write
      $               npair, ndone, g_tmp, req )
 #endif
               else
-                call ga_put (g_three, indx, indx+nij-1,  1, Nff, scr, 
+                call tpi_ga_put (g_three, indx, indx+nij-1, 1,Nff, scr,
      $               nij)
               endif
-              next = nxtask(nproc, 1)
+              next = tpinxt(nproc, 1)
             endif ! next
           endif ! sparsity
         enddo   ! j
@@ -132,7 +132,7 @@ C       finish last write
       endif
 #endif
 
-      next = nxtask(-nproc, 1)
+      next = tpinxt(-nproc, 1)
 
       if ( util_print('3c-ints', print_never) ) then
 #ifdef RISCF_USE_DRA

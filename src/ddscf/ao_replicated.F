@@ -110,18 +110,18 @@ c
 c     Load the densities into the space for the Fock matrix and then
 c     reorder from (nbf,nbf,nfock) into (nfock,nbf,nbf)
 c     
-      call ga_sync()
+      call tpi_ga_sync()
       if (ga_nodeid() .eq. 0) then
          do i = 1, nfock
-            call ga_get(vg_dens(i), 1, nbf, 1, nbf, 
+            call tpi_ga_get(vg_dens(i), 1, nbf, 1, nbf, 
      $           dbl_mb(k_fock+(i-1)*nbf*nbf), nbf)
          end do
          call scf_dens_reorder(nfock, nbf,
      $        dbl_mb(k_fock), dbl_mb(k_dens))
       end if
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_brdcst(373, dbl_mb(k_dens), mdtob(nbf*nbf*nfock), 0)
-      call ga_sync()
+      call tpi_ga_sync()
       call dfill(nbf*nbf*nfock, 0.0d0, dbl_mb(k_fock), 1)
 c     
       if (util_print('semi_direct',print_debug) .and.
@@ -175,9 +175,9 @@ c
 c     
       end if
 c     
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_dgop(374, dbl_mb(k_fock), nbf*nbf*nfock, '+')
-      call ga_sync()
+      call tpi_ga_sync()
 c     
 c     Process 0 PUTs stuff into the global fock matrix
 c
@@ -187,7 +187,7 @@ c
          call scf_fock_reorder(nfock, nbf,
      $        dbl_mb(k_fock), dbl_mb(k_dens))
          do i = 1, nfock
-            call ga_put(vg_fock(i), 1, nbf, 1, nbf, 
+            call tpi_ga_put(vg_fock(i), 1, nbf, 1, nbf, 
      $           dbl_mb(k_dens+(i-1)*nbf*nbf), nbf)
          end do
       end if
@@ -201,7 +201,7 @@ c
       status = ma_pop_stack(l_dens)  .and. status
       if (.not. status) call errquit('fock_2e: ma_pop?', 0, MA_ERR)
 c     
-      call ga_sync()
+      call tpi_ga_sync()
 c     
       do i=1,nfock
          call ga_dscal(vg_fock(i), 4.0d0) ! Undo scaling
@@ -298,8 +298,8 @@ c
 c     
       logical int2e_set_bf_range
       external int2e_set_bf_range
-      integer nxtask
-      external nxtask
+      integer tpinxt
+      external tpinxt
 c     
       next = 1          ! take care of compiler warnings
       incomplete_top = 0
@@ -482,7 +482,7 @@ c     must do tasks in the range incomplete...incomplete_top
 c
          incomplete_top = (incomplete/chunk + 1)*chunk - 1
       else
-         next = nxtask(nproc, chunk)
+         next = tpinxt(nproc, chunk)
       endif
       current = 0
       nq = 0
@@ -592,11 +592,11 @@ c
                      if (incmin.eq.-1) then
                         goto 12321 ! Did my only task
                      endif
-                     next = nxtask(nproc,chunk)+incmax+1
+                     next = tpinxt(nproc,chunk)+incmax+1
                      ntreq = ntreq + 1
                   endif
                else
-                  next = nxtask(nproc,chunk)
+                  next = tpinxt(nproc,chunk)
                   ntreq = ntreq + 1
                endif
             end if
@@ -607,7 +607,7 @@ c
 12321 owritefile = osavewritefile
       if (owritefile) then
          if (incomplete.eq.-1) then
-            call ga_sync        ! Since did not in fock_rep_txs
+            call tpi_ga_sync        ! Since did not in fock_rep_txs
             incmax = -1
             incmin = -1
          else
@@ -620,7 +620,7 @@ c
       endif
 c     
       if (oscfps) call pstat_off(ps_fock_2e)
-      next = nxtask(-nproc,1)
+      next = tpinxt(-nproc,1)
 c
       if (oprint) then
          call begin_seq_output
@@ -794,7 +794,7 @@ c
                call int2e_file_reposition_truncate()
                owritefile = .false.
                incomplete = current
-               call ga_sync()
+               call tpi_ga_sync()
             else
                neri_cached = neri_done
             endif

@@ -80,19 +80,19 @@ c
 c     
 c     (Ortho)normalize the eigenvectors of S while we still have S
 c     
-      call ga_sync()
+      call tpi_ga_sync()
       if (ga_nodeid() .eq. 0 .and. oprint) then
           write(luout,*) "before ga_orthog in rhf_dens_to_mo"
       endif
-      call ga_sync()
+      call tpi_ga_sync()
 
       call ga_orthog(g_mocf, g_over, .true.)
 
-      call ga_sync()
+      call tpi_ga_sync()
       if (ga_nodeid() .eq. 0 .and. oprint) then
           write(luout,*) "after ga_orthog in rhf_dens_to_mo"
       endif
-      call ga_sync()
+      call tpi_ga_sync()
 c     
 c     Build the fock_matrix
 c     
@@ -150,7 +150,7 @@ c
       call ga_diag_std_seq(g_mofock, g_u, evals )
 #endif
       if (oscfps) call pstat_off(ps_diag)
-      call ga_sync()
+      call tpi_ga_sync()
 c     
       call ga_dgemm('n', 'n', nbf, nmo, nmo, 1.0d0, g_tmp, g_u,
      $     0.0d0, g_mocf)

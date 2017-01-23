@@ -155,7 +155,7 @@ c
      $                     itype_wfn,g_vecs,nclosed,nopen,nbf,nmo)
         call int_1e_ga(basis,basis,g_hcore,'cos_chg_pot',.false.)
       endif
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c     add in frozen embedding
       if (frozemb) then

@@ -190,7 +190,7 @@ c      if (.not. ga_create(mt_dbl, nbf, old_nbf, 'Temp',
 *     $         nbf, old_nbf, g_over, g_old_vecs, g_mix
 *         call util_flush(6)
 *      endif
-*      call ga_sync
+*      call tpi_ga_sync
 *
 
 c      call ga_dgemm('n','n',nbf,old_nbf,old_nbf,one,g_over,
@@ -224,7 +224,7 @@ c      call ga_dgemm('n','n',nbf,old_nbf,old_nbf,one,g_over,
 *     $         nbf, old_nbf, g_over, g_mix, g_vecs(iset)
 *         call util_flush(6)
 *      endif
-*      call ga_sync
+*      call tpi_ga_sync
 *
       if (old_nmo(1).gt.nmo) old_nmo(1) = nmo
       call ga_dgemm('n','n',nbf,old_nmo(1),nbf,one,g_over,g_mix,
@@ -248,7 +248,7 @@ cbert      do i = old_nbf+1+ga_nodeid(), nmo, ga_nnodes()
          do j = 1, nbf
             dbl_mb(k_ran+j-1) = (util_random(0) - 0.5d0)
          end do
-         call ga_put(g_vecs(iset), 1, nbf, i, i, dbl_mb(k_ran), 1)
+         call tpi_ga_put(g_vecs(iset), 1, nbf, i, i, dbl_mb(k_ran), 1)
       end do
       if (.not. ma_pop_stack(l_ran)) call errquit
      $     ('movecs_project: ma pop?', 0, MA_ERR)

@@ -22,7 +22,7 @@ c
 c
       call dfill(3, 0.0d0, center, 1)
 c
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_zero(g_x)
       call ga_zero(g_y)
       call ga_zero(g_z)
@@ -82,7 +82,7 @@ c
       if(.not.MA_pop_stack(l_buf)) 
      $   call errquit('int_dip_ga:pop failed',0, MA_ERR)
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c      call ga_print(g_x)
 c      call ga_print(g_y)
@@ -104,9 +104,9 @@ c
 c
       do i = ilo,ihi
          do j = jlo, jhi
-            call ga_put(g_x,i,i,j,j,buf(j,1,i),1)
-            call ga_put(g_y,i,i,j,j,buf(j,2,i),1)
-            call ga_put(g_z,i,i,j,j,buf(j,3,i),1)
+            call tpi_ga_put(g_x,i,i,j,j,buf(j,1,i),1)
+            call tpi_ga_put(g_y,i,i,j,j,buf(j,2,i),1)
+            call tpi_ga_put(g_z,i,i,j,j,buf(j,3,i),1)
          end do
       end do
 c
@@ -144,7 +144,7 @@ c
 c
       call dfill(3, 0.0d0, center, 1)
 c
-      call ga_sync()
+      call tpi_ga_sync()
 
       call ga_zero(g_xx)
       call ga_zero(g_xy)
@@ -210,7 +210,7 @@ c
       if(.not.MA_pop_stack(l_buf)) 
      $   call errquit('int_qdr_ga:pop failed',0, MA_ERR)
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c      call ga_print(g_x)
 c      call ga_print(g_y)
@@ -234,12 +234,12 @@ c
 c
       do i = ilo,ihi
          do j = jlo, jhi
-            call ga_put(g_xx,i,i,j,j,buf(j,4,i),1)
-            call ga_put(g_xy,i,i,j,j,buf(j,5,i),1)
-            call ga_put(g_xz,i,i,j,j,buf(j,6,i),1)
-            call ga_put(g_yy,i,i,j,j,buf(j,7,i),1)
-            call ga_put(g_yz,i,i,j,j,buf(j,8,i),1)
-            call ga_put(g_zz,i,i,j,j,buf(j,9,i),1)
+            call tpi_ga_put(g_xx,i,i,j,j,buf(j,4,i),1)
+            call tpi_ga_put(g_xy,i,i,j,j,buf(j,5,i),1)
+            call tpi_ga_put(g_xz,i,i,j,j,buf(j,6,i),1)
+            call tpi_ga_put(g_yy,i,i,j,j,buf(j,7,i),1)
+            call tpi_ga_put(g_yz,i,i,j,j,buf(j,8,i),1)
+            call tpi_ga_put(g_zz,i,i,j,j,buf(j,9,i),1)
          end do
       end do
 c

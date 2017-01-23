@@ -30,14 +30,14 @@ c
      $     call errquit('scf_sym_screen: ma?',nclosed+nopen+nvir,
      &       MA_ERR)
 c
-      call ga_sync
+      call tpi_ga_sync
 c
       maxelt = 0.0d0
       nmixed = 0
       do i = 1+ga_nodeid(),nclosed+nopen,ga_nnodes()
         if ((nclosed+nopen)*nvir .gt. 0) then
           ioff = 1+(i-1)*nvir + ivoff
-          call ga_get(g_v, ioff, ioff+nvir-1, 1, 1, dbl_mb(k_buf), 1)
+          call tpi_ga_get(g_v, ioff, ioff+nvir-1, 1,1,dbl_mb(k_buf),1)
           do a=1,nvir
             if (irs(i).ne.irs(a+nclosed+nopen)) then
                test = abs(dbl_mb(k_buf-1+a))
@@ -46,12 +46,12 @@ c
                if (test.gt.1d-6) nmixed = nmixed + 1
             endif
           enddo
-          call ga_put(g_v, ioff, ioff+nvir-1, 1, 1, dbl_mb(k_buf), 1)
+          call tpi_ga_put(g_v, ioff, ioff+nvir-1, 1,1,dbl_mb(k_buf),1)
         endif
 c
         if (i.le.nclosed .and. nopen*nclosed.gt.0) then
           ioff = 1+(nclosed+nopen)*nvir+(i-1)*nopen + ivoff
-          call ga_get(g_v, ioff, ioff+nopen-1, 1, 1, dbl_mb(k_buf), 1)
+          call tpi_ga_get(g_v, ioff, ioff+nopen-1, 1,1,dbl_mb(k_buf),1)
           do a=1,nopen
             if (irs(i).ne.irs(a+nclosed)) then
                test = abs(dbl_mb(k_buf-1+a))
@@ -60,13 +60,13 @@ c
                if (test.gt.1d-2) nmixed = nmixed + 1
             endif
           enddo
-          call ga_put(g_v, ioff, ioff+nopen-1, 1, 1, dbl_mb(k_buf), 1)
+          call tpi_ga_put(g_v, ioff, ioff+nopen-1, 1,1,dbl_mb(k_buf),1)
         endif
       enddo
 c
       if (.not. ma_pop_stack(l_buf))
      $     call errquit('scf_sym_screen: ma?',-1, MA_ERR)
-      call ga_sync
+      call tpi_ga_sync
 c
       tmp(1) = nmixed
       tmp(2) = maxelt
@@ -96,17 +96,17 @@ c
       integer i, j
       integer ilo, ihi, jlo, jhi
 c
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_distribution(g_m, ga_nodeid(), ilo, ihi, jlo, jhi)
       if (ilo.gt.0 .and. ilo.le.ihi) then
          do i = ilo, ihi
             do j = jlo, jhi
                if (irs(i).ne.irs(j)) 
-     $              call ga_put(g_m, i, i, j, j, 0.0d0, 1)
+     $              call tpi_ga_put(g_m, i, i, j, j, 0.0d0, 1)
             enddo
          enddo
       endif
-      call ga_sync()
+      call tpi_ga_sync()
 c
       end
 

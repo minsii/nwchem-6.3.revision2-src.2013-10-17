@@ -48,7 +48,7 @@ c
       or2 = .true.
       if (.not. bas_cando_mpoles(basis)) or2 = .false.
 c     
-      call ga_sync
+      call tpi_ga_sync
       if (oscfps) call pstat_on(ps_moanal)
       call ga_inquire(g_vecs, type, nbf, nmo)
       if (or2) then
@@ -95,7 +95,7 @@ c
  110     continue
          do i = ilo, ihi
 c
-            call ga_get(g_vecs, 1, nbf, i, i, dbl_mb(k_vecs), 1)
+            call tpi_ga_get(g_vecs, 1, nbf, i, i, dbl_mb(k_vecs), 1)
 c
 c     Identify significant coefficients and sort by size
 c
@@ -216,7 +216,7 @@ c
       endif
 c
       if (oscfps) call pstat_off(ps_moanal)
-      call ga_sync()
+      call tpi_ga_sync()
 c
       end
       subroutine mo_r_and_r2(basis, g_movecs, r_and_r2)
@@ -262,7 +262,7 @@ c
       call dfill(nmo*7, 0.0d0, r_and_r2, 1)
       if (ga_nodeid() .eq. 0) then
          do i = 1, nmo
-            call ga_get(g_xlm,(i-1)*6+1,(i-1)*6+6,i,i,
+            call tpi_ga_get(g_xlm,(i-1)*6+1,(i-1)*6+6,i,i,
      $           r_and_r2(1,i), 1)
          enddo
 c
@@ -418,14 +418,14 @@ c                              write(LuOut,*)' ioff-k_xlm ', ioff-k_xlm
                   end do
                end do
 c
-               call ga_put(g_xlm,1+(jlo-1)*6,jhi*6,ilo,ihi,
+               call tpi_ga_put(g_xlm,1+(jlo-1)*6,jhi*6,ilo,ihi,
      $              dbl_mb(k_xlm), 6*jdim)
 c
             end if
          end do
       end do
 c
-      call ga_sync
+      call tpi_ga_sync
 c
 c      write(LuOut,*) ' THE AO MPOLES '
 c      call ga_print(g_xlm)
@@ -473,24 +473,24 @@ c     might as well do both at the same time since this will
 c     use less memory.
 c
       do lm = 1, 6
-         call ga_sync()
+         call tpi_ga_sync()
          do i = 1+ga_nodeid(), nbf, ga_nnodes()
-            call ga_get(g_xlm,lm+(i-1)*6,lm+(i-1)*6,1,nbf,
+            call tpi_ga_get(g_xlm,lm+(i-1)*6,lm+(i-1)*6,1,nbf,
      $           dbl_mb(k_tmp), 1)
-            call ga_put(g_tmp1, i, i, 1, nbf, dbl_mb(k_tmp), 1)
+            call tpi_ga_put(g_tmp1, i, i, 1, nbf, dbl_mb(k_tmp), 1)
          end do
-         call ga_sync()
+         call tpi_ga_sync()
          call ga_dgemm('n','n',nbf,nmo,nbf,1.0d0,g_tmp1,g_vecs,
      $        0.0d0,g_tmp2)
          call ga_dgemm('t','n',nmo,nmo,nbf,1.0d0,g_vecs,g_tmp2,
      $        0.0d0,g_tmp1)
-         call ga_sync()
+         call tpi_ga_sync()
          do i = 1+ga_nodeid(), nmo, ga_nnodes()
-            call ga_get(g_tmp1, i, i, 1, nmo, dbl_mb(k_tmp), 1)
-            call ga_put(g_xlm,lm+(i-1)*6,lm+(i-1)*6,1,nmo,
+            call tpi_ga_get(g_tmp1, i, i, 1, nmo, dbl_mb(k_tmp), 1)
+            call tpi_ga_put(g_xlm,lm+(i-1)*6,lm+(i-1)*6,1,nmo,
      $           dbl_mb(k_tmp), 1)
          end do
-         call ga_sync()
+         call tpi_ga_sync()
       end do
 c
 c      write(LuOut,*) ' THE MO MPOLES'

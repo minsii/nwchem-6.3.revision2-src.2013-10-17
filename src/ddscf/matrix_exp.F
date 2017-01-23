@@ -77,7 +77,7 @@ c
       call ga_copy(g_k, g_tmp1)
       call ga_dscal(g_tmp1, third)
       do i = ilo, ihi
-         call ga_acc(g_tmp1, i, i, i, i, 1.0d0, 1, 1.0d0)
+         call tpi_ga_acc(g_tmp1, i, i, i, i, 1.0d0, 1, 1.0d0)
       enddo
 c     
 c     1 + K/2 * g_tmp1 -> g_tmp2
@@ -85,7 +85,7 @@ c
       call ga_dgemm('n', 'n', nbf, nbf, nbf, half, g_k, g_tmp1,
      $     zero, g_tmp2)
       do i = ilo, ihi
-         call ga_acc(g_tmp2, i, i, i, i, 1.0d0, 1, 1.0d0)
+         call tpi_ga_acc(g_tmp2, i, i, i, i, 1.0d0, 1, 1.0d0)
       enddo
 c     
 c     1 + K*g_tmp2 -> g_k
@@ -93,7 +93,7 @@ c
       call ga_dgemm('n', 'n', nbf, nbf, nbf, one, g_k, g_tmp2,
      $     zero, g_tmp1)
       do i = ilo, ihi
-         call ga_acc(g_tmp1, i, i, i, i, 1.0d0, 1, 1.0d0)
+         call tpi_ga_acc(g_tmp1, i, i, i, i, 1.0d0, 1, 1.0d0)
       enddo
       if (.not. ga_destroy(g_tmp2))
      $     call errquit('mat_exp: ga_destroy failed', 0, GA_ERR)
@@ -132,7 +132,7 @@ c$$$      call ga_distribution(g_tmp1, ga_nodeid(), ilo, ihi, jlo, jhi)
 c$$$      obad = .false.
 c$$$      do i = ilo, ihi
 c$$$         do j = jlo, jhi
-c$$$            call ga_get(g_tmp1, i, i, j, j, xx, 1)
+c$$$            call tpi_ga_get(g_tmp1, i, i, j, j, xx, 1)
 c$$$            if (i .eq. j) xx = xx - one
 c$$$            if (abs(xx).gt.1d-12) then 
 c$$$               write(6,*) i, j, xx
@@ -141,7 +141,7 @@ c$$$               obad = .true.
 c$$$            endif
 c$$$         enddo
 c$$$      enddo
-c$$$      call ga_sync()
+c$$$      call tpi_ga_sync()
 c$$$      if (obad) call errquit('matexp: bad', 0)
 c     
       if (.not. ga_destroy(g_tmp1))

@@ -54,7 +54,7 @@ c
      $           mem1, dbl_mb(k_scr), max1e, dbl_mb(k_buf))
 *            call int_1eov (basis, jshell, basis, ishell, 
 *     $           mem1, dbl_mb(k_scr), max1e, dbl_mb(k_buf))
-            call ga_get(g_dens,ilo,ihi,jlo,jhi,dbl_mb(k_scr),idim)
+            call tpi_ga_get(g_dens,ilo,ihi,jlo,jhi,dbl_mb(k_scr),idim)
 c
             pot = pot + 
      $           ddot(idim*jdim,dbl_mb(k_scr),1,dbl_mb(k_buf),1)
@@ -127,7 +127,7 @@ c
      &       BASIS_ERR)
             idim = ihi - ilo + 1
 c
-            call ga_get(g_dens,ilo,ihi,jlo,jhi,dbl_mb(k_scr),idim)
+            call tpi_ga_get(g_dens,ilo,ihi,jlo,jhi,dbl_mb(k_scr),idim)
 c
             fact = 1.0d0
             if (ishell .ne. jshell) fact = 2.0d0

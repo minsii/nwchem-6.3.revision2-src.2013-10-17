@@ -21,7 +21,7 @@
         last = first + nij - 1
         gfirst = indx - ndone
         glast = gfirst + nij - 1
-        call ga_put (g_three, gfirst, glast, 1, Nff, scr, nij)
+        call tpi_ga_put (g_three, gfirst, glast, 1, Nff, scr, nij)
       else
         first = 1000000
         last = 0
