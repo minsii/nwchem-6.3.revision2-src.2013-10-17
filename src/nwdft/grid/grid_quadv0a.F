@@ -171,6 +171,6 @@ c
      &     call errquit('grid_quadv0a: pop stack failed.',1, MA_ERR)
  100  continue
 c
-      call ga_sync
+      call tpi_ga_sync
       return
       end

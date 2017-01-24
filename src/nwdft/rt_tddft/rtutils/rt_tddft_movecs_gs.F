@@ -89,7 +89,7 @@ c$$$     $     call errquit (pname//"Q is not unitary",0,0)
 C     (diagonal mat of eigenvalues)
 c$$$      call ga_zero (g_tmp2)
 c$$$      do i = 1, params%ns_mo
-c$$$         call ga_put (g_tmp2, i, i, i, i, -1d0*dbl_mb(ievals+i-1), 1)
+c$$$         call tpi_ga_put (g_tmp2, i, i, i, i, -1d0*dbl_mb(ievals+i-1), 1)
 c$$$      enddo
 c$$$
 c$$$      call ga_zero (g_fockre_mo) !recycle !XXX DELETE

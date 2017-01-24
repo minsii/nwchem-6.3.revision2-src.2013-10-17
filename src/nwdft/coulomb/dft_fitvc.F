@@ -51,12 +51,12 @@ c
       double precision offset
       double precision length, q1
       integer ishc_be, ishd_be, nlast
-      integer nxtask
+      integer tpinxt,tpisynxt
       logical dowork
       logical oprint_ioinfo
       integer ndone,ipoint,ipoint2
       integer ilo, ihi, jlo, jhi, adrc, ldc,nnii,iptr,j
-      external nxtask
+      external tpinxt,tpisynxt
 c
 c !!! BGJ test !!!
 c      write(*,*)'*** dft_fitvc: dermat nmat =',dermat,nmat
@@ -313,7 +313,7 @@ c
         ishd_be = 1
       endif
 c
-      n1 = nxtask(nproc,icount)
+      n1 = tpinxt(nproc,icount)
       n2 = 0
 c
       do 240 ishc = ishc_be, nshells_ao
@@ -419,7 +419,7 @@ c
 c            
 c            call util_flush(LuOut)
 c
-            n1 = nxtask(nproc,icount)
+            n1 = tpinxt(nproc,icount)
 c
           endif
 c          
@@ -443,7 +443,7 @@ c
      &  call errquit('dft_fitvc: cannot pop stack',0,0)
 c
 c
-      n1 = nxtask(-nproc,icount)
+      n1 = tpisynxt(-nproc,icount)
 c      
       if(.not.ma_pop_stack(lcd_shell))
      &  call errquit('dft_fitvc: cannot pop stack',0,0)
@@ -466,7 +466,7 @@ c     !!! Should modify this so that nothing is done if nmat > 1
 c     !!! Looks like g_2ceri not needed in that case
 c
       Ecoul2=0.D0
-      call ga_sync()
+      call tpi_ga_sync()
       call  ga_distribution(g_2ceri,me,ilo,ihi,jlo,jhi)
       if (ilo.gt.0) then
       call ga_access(g_2ceri, ilo, ihi, jlo, jhi, adrc, ldc)
@@ -483,7 +483,7 @@ c
       Ecoul2=Ecoul2*0.5D0
 c
 c         write(*,*)'*** After destroy g_2ceri'
-      call ga_sync
+      call tpi_ga_sync
       call ga_dgop(Msg_Ecoul2,Ecoul2,1,'+')
       if (IOLGC)then
          if (.not. ga_destroy(g_2ceri)) call errquit

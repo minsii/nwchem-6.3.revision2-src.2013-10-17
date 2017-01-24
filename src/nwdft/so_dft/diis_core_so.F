@@ -80,7 +80,7 @@ c
       endif 
       ii=mxhist + irow(icall)
       istep=(ii-1)*nbf
-      call ga_sync
+      call tpi_ga_sync
 c     
 C     Store new errvec
 c     
@@ -119,7 +119,7 @@ c
 c     
          ii=mxhist+irow(icall-jj+1)
          istep=(ii-1)*nbf
-         call ga_sync
+         call tpi_ga_sync
          ijlast = ijcanon(nhist+1,nhist+2-jj)
          pulay(ijlast)=
      &        ga_ddot_patch(g_diis(1),'N',1,nbf,istep+1,istep+nbf,

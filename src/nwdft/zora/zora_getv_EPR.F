@@ -272,22 +272,22 @@ c
 c     == pack into a ga all EPR AOs ==
       do i=1,3 
        call ga_zero(g_epr1(i)) 
-       call ga_put(g_epr1(i),
+       call tpi_ga_put(g_epr1(i),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(iepr1(i)),nbf_ao)
        call ga_antisymmetrize(g_epr1(i)) 
        call ga_zero(g_epr3(i)) 
-       call ga_put(g_epr3(i),
+       call tpi_ga_put(g_epr3(i),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(iepr3(i)),nbf_ao)
         do j=1,3 
          call ga_zero(g_epr2(i,j)) 
-         call ga_put(g_epr2(i,j),
+         call tpi_ga_put(g_epr2(i,j),
      &               1,nbf_ao,1,nbf_ao,dbl_mb(iepr2(i,j)),nbf_ao)
          call ga_antisymmetrize(g_epr2(i,j)) 
          call ga_zero(g_epr4(i,j)) 
-         call ga_put(g_epr4(i,j),
+         call tpi_ga_put(g_epr4(i,j),
      &               1,nbf_ao,1,nbf_ao,dbl_mb(iepr4(i,j)),nbf_ao)
         enddo ! end-loop-j
       enddo ! end-loop-i
-      call ga_sync()
+      call tpi_ga_sync()
       return
       end

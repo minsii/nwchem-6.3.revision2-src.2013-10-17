@@ -132,7 +132,7 @@ c       dbl_mb() ---> g_chi_cntr()
          hi1(1)=nbf
          lo1(2)=i
          hi1(3)=i
-         call nga_put(g_chi_cntr(i),
+         call tpi_nga_put(g_chi_cntr(i),
      &                lo1,hi1,dbl_mb(k_buf+(i-1)*nbf),ld)
         enddo ! end-loop-i
 c ----- store in g_chi_cntr() --- END
@@ -248,7 +248,7 @@ c Author : Fredy W. Aquino, Northwestern University (Oct 2012)
       l_h01  = -1   ! An invalid MA handle
       l_Fji  = -1   ! An invalid MA handle
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c     Read routines should be consistent with this
 c     Write out the atomic zora corrections
@@ -285,7 +285,7 @@ c ---> ma_free_heap: to release allocated memory
      &               nFji, MA_ERR)
 c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       if (type_nmrdata.eq.1 .or. type_nmrdata.eq.2) then
-       call ga_get(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
+       call tpi_ga_get(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
        call swrite(unitno,dbl_mb(k_AtNr),nlist)
       endif
       alo(1)=1
@@ -296,7 +296,7 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       ahi(3)=nlist
       ld(1)=3
       ld(2)=3
-      call nga_get(g_dia,alo,ahi,dbl_mb(k_tens),ld)
+      call tpi_nga_get(g_dia,alo,ahi,dbl_mb(k_tens),ld)
       call swrite(unitno,dbl_mb(k_tens),n9)
       if (type_nmrdata .ne. 1 .and. type_nmrdata .ne. 2 .and.
      &    type_nmrdata .ne. 3) then
@@ -305,7 +305,7 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
      &            'It should be equal 1 or 2 or 3'
       endif
       if (type_nmrdata.eq.1 .or. type_nmrdata.eq.3) then
-       call nga_get(g_para1,alo,ahi,dbl_mb(k_tens),ld)
+       call tpi_nga_get(g_para1,alo,ahi,dbl_mb(k_tens),ld)
        call swrite(unitno,dbl_mb(k_tens),n9)
       endif
       alo(1)=1
@@ -316,7 +316,7 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       ahi(3)=nxyz*nlist
       ld(1)=nbf
       ld(2)=nbf
-      call nga_get(g_h01,alo,ahi,dbl_mb(k_h01),ld)
+      call tpi_nga_get(g_h01,alo,ahi,dbl_mb(k_h01),ld)
       call swrite(unitno,dbl_mb(k_h01),nh01)
       alo(1)=1
       ahi(1)=nbf
@@ -326,7 +326,7 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       ahi(3)=nxyz
       ld(1)=nbf
       ld(2)=nbf
-      call nga_get(g_Fji,alo,ahi,dbl_mb(k_Fji),ld)
+      call tpi_nga_get(g_Fji,alo,ahi,dbl_mb(k_Fji),ld)
       call swrite(unitno,dbl_mb(k_Fji),nFji)
 c
 c     Deallocate the temporary buffer
@@ -350,7 +350,7 @@ c     Close the file
       end if
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraNMR_write = (ok .eq. 1)
       if (ga_nodeid() .eq. 0) then
          write(6,22) filename(1:inp_strlen(filename))
@@ -432,7 +432,7 @@ c     Initialise to invalid MA handle
       l_h01  = -1   ! An invalid MA handle
       l_Fji  = -1   ! An invalid MA handle
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c---- Create GA arrays: g_AtNr1,g_dia,g_para1,g_h01,g_Fji --- START
       if (type_nmrdata.eq.1 .or. type_nmrdata.eq.2) then
@@ -521,7 +521,7 @@ c ---> ma_free_heap: to release allocated memory
 c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       if (type_nmrdata.eq.1 .or. type_nmrdata.eq.2) then
        call sread(unitno,dbl_mb(k_AtNr),nlist)
-       call ga_put(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
+       call tpi_ga_put(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
       endif
       alo(1)=1
       ahi(1)=3
@@ -532,10 +532,10 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       ld(1)=3
       ld(2)=3
       call sread(unitno,dbl_mb(k_tens),n9)
-      call nga_put(g_dia,alo,ahi,dbl_mb(k_tens),ld)
+      call tpi_nga_put(g_dia,alo,ahi,dbl_mb(k_tens),ld)
       if (type_nmrdata .eq. 1 .or. type_nmrdata .eq. 3) then
        call sread(unitno,dbl_mb(k_tens),n9)
-       call nga_put(g_para1,alo,ahi,dbl_mb(k_tens),ld)
+       call tpi_nga_put(g_para1,alo,ahi,dbl_mb(k_tens),ld)
       endif
       alo(1)=1
       ahi(1)=nbf
@@ -546,7 +546,7 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       ld(1)=nbf
       ld(2)=nbf
       call sread(unitno,dbl_mb(k_h01),nh01)
-      call nga_put(g_h01,alo,ahi,dbl_mb(k_h01),ld)
+      call tpi_nga_put(g_h01,alo,ahi,dbl_mb(k_h01),ld)
       alo(1)=1
       ahi(1)=nbf
       alo(2)=1
@@ -556,7 +556,7 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       ld(1)=nbf
       ld(2)=nbf
       call sread(unitno,dbl_mb(k_Fji),nFji)
-      call nga_put(g_Fji,alo,ahi,dbl_mb(k_Fji),ld)
+      call tpi_nga_put(g_Fji,alo,ahi,dbl_mb(k_Fji),ld)
 c
 c     Deallocate the temporary buffer
 c ----- Using ma_free_heap ------------ START
@@ -580,7 +580,7 @@ c      Close the file
 c
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraNMR_read = ok .eq. 1
       return
  1000 write(6,*) 'dft_zoraNMR_read: failed to open',
@@ -646,7 +646,7 @@ c Author : Fredy W. Aquino, Northwestern University (Oct 2012)
       nxyz=3 ! =x,y,z
       l_tens = -1   ! An invalid MA handle
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c     Read routines should be consistent with this
 c     Write out the atomic zora corrections
@@ -673,7 +673,7 @@ c ---> ma_free_heap: to release allocated memory
      &               n9, MA_ERR)
 c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       if (type_nmrdata.eq.1 .or. type_nmrdata.eq.2) then
-       call ga_get(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
+       call tpi_ga_get(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
        call swrite(unitno,dbl_mb(k_AtNr),nlist)
       endif
       alo(1)=1
@@ -684,7 +684,7 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       ahi(3)=2*nlist
       ld(1)=3
       ld(2)=3
-      call nga_get(g_dia,alo,ahi,dbl_mb(k_tens),ld)
+      call tpi_nga_get(g_dia,alo,ahi,dbl_mb(k_tens),ld)
       call swrite(unitno,dbl_mb(k_tens),n9)
       if (type_nmrdata .ne. 1 .and. type_nmrdata .ne. 2 .and.
      &    type_nmrdata .ne. 3) then
@@ -693,7 +693,7 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
      &            'It should be equal 1 or 2 or 3'
       endif
       if (type_nmrdata.eq.1 .or. type_nmrdata.eq.3) then
-       call nga_get(g_para1,alo,ahi,dbl_mb(k_tens),ld)
+       call tpi_nga_get(g_para1,alo,ahi,dbl_mb(k_tens),ld)
        call swrite(unitno,dbl_mb(k_tens),n9)
       endif
 c
@@ -712,7 +712,7 @@ c     Close the file
       end if
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraNMR_write_AB = (ok .eq. 1)
       if (ga_nodeid() .eq. 0) then
          write(6,22) filename(1:inp_strlen(filename))
@@ -786,7 +786,7 @@ c Author : Fredy W. Aquino, Northwestern University (Oct 2012)
 c     Initialise to invalid MA handle
       l_tens = -1   ! An invalid MA handle
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c---- Create GA arrays: g_AtNr1,g_dia,g_para1,g_h01,g_Fji --- START
       if (type_nmrdata.eq.1 .or. type_nmrdata.eq.2) then
@@ -844,7 +844,7 @@ c ---> ma_free_heap: to release allocated memory
 c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       if (type_nmrdata.eq.1 .or. type_nmrdata.eq.2) then
        call sread(unitno,dbl_mb(k_AtNr),nlist)
-       call ga_put(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
+       call tpi_ga_put(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
       endif
       alo(1)=1
       ahi(1)=3
@@ -855,10 +855,10 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
       ld(1)=3
       ld(2)=3
       call sread(unitno,dbl_mb(k_tens),n9)
-      call nga_put(g_dia,alo,ahi,dbl_mb(k_tens),ld)
+      call tpi_nga_put(g_dia,alo,ahi,dbl_mb(k_tens),ld)
       if (type_nmrdata .eq. 1 .or. type_nmrdata .eq. 3) then
        call sread(unitno,dbl_mb(k_tens),n9)
-       call nga_put(g_para1,alo,ahi,dbl_mb(k_tens),ld)
+       call tpi_nga_put(g_para1,alo,ahi,dbl_mb(k_tens),ld)
       endif
 c
 c     Deallocate the temporary buffer
@@ -877,7 +877,7 @@ c      Close the file
 c
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraNMR_read_AB = ok .eq. 1
       return
  1000 write(6,*) 'dft_zoraNMR_read: failed to open',
@@ -948,7 +948,7 @@ c Author : Fredy W. Aquino, Northwestern University (Oct 2012)
 
       nxyz=3 ! =x,y,z
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c     Read routines should be consistent with this
 c     Write out the atomic zora corrections
@@ -979,7 +979,7 @@ c ----- Add MOs in file ----- START
         do i=1,npol
          do j=1,nbf
          call dcopy(nbf,0.0d0,0,dbl_mb(k_mo),1) ! reset
-         call ga_get(vectors(i),1,nbf,j,j,dbl_mb(k_mo),1)
+         call tpi_ga_get(vectors(i),1,nbf,j,j,dbl_mb(k_mo),1)
          call swrite(unitno,dbl_mb(k_mo),nbf)         
          enddo ! end-loop-j
         enddo ! end-loop-i
@@ -996,7 +996,7 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
      &               ntot, MA_ERR)
        do i=1,nxyz
         call dcopy(ntot,0.0d0,0,dbl_mb(k_rhs0),1)
-        call ga_get(g_rhs0,1,ntot,i,i,dbl_mb(k_rhs0),1)
+        call tpi_ga_get(g_rhs0,1,ntot,i,i,dbl_mb(k_rhs0),1)
         call swrite(unitno,dbl_mb(k_rhs0),ntot)
        enddo
        ntot=0
@@ -1010,7 +1010,7 @@ c ++++++++ using ma_alloc_get +++++++++++++++++++ END
      &               ntot, MA_ERR)
        do i=1,nxyz
         call dcopy(ntot,0.0d0,0,dbl_mb(k_rhs),1)
-        call ga_get(g_rhs,1,ntot,i,i,dbl_mb(k_rhs),1)
+        call tpi_ga_get(g_rhs,1,ntot,i,i,dbl_mb(k_rhs),1)
         call swrite(unitno,dbl_mb(k_rhs),ntot)
        enddo
 c
@@ -1032,7 +1032,7 @@ c     Close the file
       end if
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraCPHF_write = (ok .eq. 1)
       if (ga_nodeid() .eq. 0) then
          write(6,22) filename(1:inp_strlen(filename))
@@ -1102,7 +1102,7 @@ c Author : Fredy W. Aquino, Northwestern University (Oct 2012)
       nxyz=3 ! =x,y,z   
 c     Initialise to invalid MA handle
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
       if (ga_nodeid() .eq. 0) then
 c      Print a message indicating the file being read
@@ -1136,7 +1136,7 @@ c ----- Read MOs ----- START
          do j=1,nbf
           call dcopy(nbf,0.0d0,0,dbl_mb(k_mo),1) ! reset
           call sread(unitno,dbl_mb(k_mo),nbf)   
-          call ga_put(vectors(i),1,nbf,j,j,dbl_mb(k_mo),1)
+          call tpi_ga_put(vectors(i),1,nbf,j,j,dbl_mb(k_mo),1)
          enddo ! end-loop-j
         enddo ! end-loop-i
 c ----- Read MOs ----- END
@@ -1152,7 +1152,7 @@ c ----- Read MOs ----- END
        do i=1,nxyz
         call dcopy(ntot,0.0d0,0,dbl_mb(k_rhs0),1)
         call sread(unitno,dbl_mb(k_rhs0),ntot)
-        call ga_put(g_rhs0,1,ntot,i,i,dbl_mb(k_rhs0),1)
+        call tpi_ga_put(g_rhs0,1,ntot,i,i,dbl_mb(k_rhs0),1)
        enddo
        ntot=0
        do ispin=1,npol
@@ -1166,7 +1166,7 @@ c ----- Read MOs ----- END
        do i=1,nxyz
         call dcopy(ntot,0.0d0,0,dbl_mb(k_rhs),1)
         call sread(unitno,dbl_mb(k_rhs),ntot)
-        call ga_put(g_rhs,1,ntot,i,i,dbl_mb(k_rhs),1)
+        call tpi_ga_put(g_rhs,1,ntot,i,i,dbl_mb(k_rhs),1)
        enddo
 c
 c     Deallocate the temporary buffer
@@ -1188,7 +1188,7 @@ c      Close the file
 c
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraCPHF_read = ok .eq. 1
       return
  1000 write(6,*) 'dft_zoraCPHF_read: failed to open',
@@ -1262,7 +1262,7 @@ c Note.- nmo ne nbf if linear dependencies appear.
 
       nxyz=3 ! =x,y,z
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c     Read routines should be consistent with this
 c     Write out the atomic zora corrections
@@ -1292,13 +1292,13 @@ c     Allocate the temporary buffer
        do ipm=1,ncomp
         do i=1,2*nxyz  ! write (g_b,g_rhs_sol)
          call dcopy(ntot,0.0d0,0,dbl_mb(k_rhs),1)
-         call ga_get(g_rhs_re(ipm),1,ntot,i,i,dbl_mb(k_rhs),1)
+         call tpi_ga_get(g_rhs_re(ipm),1,ntot,i,i,dbl_mb(k_rhs),1)
          call swrite(unitno,dbl_mb(k_rhs),ntot)
         enddo ! end-loop-i
         if (lifetime) then
         do i=1,2*nxyz ! write (g_b,g_rhs_sol)
          call dcopy(ntot,0.0d0,0,dbl_mb(k_rhs),1)
-         call ga_get(g_rhs_im(ipm),1,ntot,i,i,dbl_mb(k_rhs),1)
+         call tpi_ga_get(g_rhs_im(ipm),1,ntot,i,i,dbl_mb(k_rhs),1)
          call swrite(unitno,dbl_mb(k_rhs),ntot)
         enddo ! end-loop-i
         endif ! end-if-lifetime
@@ -1316,7 +1316,7 @@ c     Close the file
       end if
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_CPHF1_write = (ok .eq. 1)
       if (ga_nodeid() .eq. 0) then
          write(6,22) filename(1:inp_strlen(filename))
@@ -1384,7 +1384,7 @@ c Author : Fredy W. Aquino, Northwestern University (Oct 2012)
       nxyz=3 ! =x,y,z   
 c     Initialise to invalid MA handle
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
       if (ga_nodeid() .eq. 0) then
 c      Print a message indicating the file being read
@@ -1424,7 +1424,7 @@ c      Error checks
         do i=nxyz+1,2*nxyz ! read 2nd subspace and copy to g_rhs_re
          call dcopy(ntot,0.0d0,0,dbl_mb(k_rhs),1)
          call sread(unitno,dbl_mb(k_rhs),ntot)
-         call ga_put(g_rhs_re(ipm),1,ntot,i,i,dbl_mb(k_rhs),1)
+         call tpi_ga_put(g_rhs_re(ipm),1,ntot,i,i,dbl_mb(k_rhs),1)
         enddo ! end-loop-i
         if (lifetime) then
         do i=1,nxyz ! skip 1st subspace
@@ -1434,7 +1434,7 @@ c      Error checks
         do i=nxyz+1,2*nxyz ! read 2nd subspace and copy to g_rhs_im
          call dcopy(ntot,0.0d0,0,dbl_mb(k_rhs),1)
          call sread(unitno,dbl_mb(k_rhs),ntot)
-         call ga_put(g_rhs_im(ipm),1,ntot,i,i,dbl_mb(k_rhs),1)
+         call tpi_ga_put(g_rhs_im(ipm),1,ntot,i,i,dbl_mb(k_rhs),1)
         enddo ! end-loop-i
         endif ! end-if-lifetime
        enddo ! end-loop-ipm
@@ -1452,7 +1452,7 @@ c      Close the file
 c
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_CPHF1_read = ok .eq. 1
       return
  1000 write(6,*) 'dft_CPHF_read: failed to open',
@@ -1524,7 +1524,7 @@ c -->It will write only subscape nsub for (z1,Az1)
       external conv2reim_z1 ! defined in ga_lkain_2cpl3.F
 
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c     Read routines should be consistent with this
 c     Write out the atomic zora corrections
@@ -1563,7 +1563,7 @@ c     Allocate the temporary buffer
 c ------- write g_z1 ---------------------- START
         do i=1,nvec 
          m1=(nblock-1)*nvec+i
-         call ga_get(g_z1,1,n1,m1,m1,dcpl_mb(k_z),1)
+         call tpi_ga_get(g_z1,1,n1,m1,m1,dcpl_mb(k_z),1)
          do idat=1,n1
           val_re=dreal(dcpl_mb(k_z+idat-1))
           dbl_mb(k_dat+idat-1)=val_re
@@ -1579,7 +1579,7 @@ c ------- write g_z1 ---------------------- END
 c ------- write g_Az1 ---------------------- START
         do i=1,nvec 
          m1=(nblock-1)*nvec+i
-         call ga_get(g_Az1,1,n1,m1,m1,dcpl_mb(k_z),1)
+         call tpi_ga_get(g_Az1,1,n1,m1,m1,dcpl_mb(k_z),1)
          do idat=1,n1
           val_re=dreal(dcpl_mb(k_z+idat-1))
           dbl_mb(k_dat+idat-1)=val_re
@@ -1607,7 +1607,7 @@ c     Close the file
       end if
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_CPHF2_write = (ok .eq. 1)
       if (ga_nodeid() .eq. 0) then
         iter=nsub/3+1 ! estimate iter from nsub
@@ -1682,7 +1682,7 @@ c Author : Fredy W. Aquino, Northwestern University (Oct 2012)
       external conv2reim_z1 ! defined in ga_lkain_2cpl3.F
 
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
       imin=0
       imax=0
@@ -1768,7 +1768,7 @@ c 4      format('(m1,m2,nvec)=(',i4,',',i4,',',i4,')')
           do idat=1,n1
            val_cmplx=dcmplx(dbl_mb(k_zre+idat-1),
      &                      dbl_mb(k_zim+idat-1))
-           call ga_put(g_z1,idat,idat,ivec,ivec,val_cmplx,1)
+           call tpi_ga_put(g_z1,idat,idat,ivec,ivec,val_cmplx,1)
           enddo ! end-loop-idat
          enddo ! end-loop-ivec
 c ------- read g_z1 ---------------------- END
@@ -1781,7 +1781,7 @@ c ------- read g_Az1 ---------------------- START
           do idat=1,n1
            val_cmplx=dcmplx(dbl_mb(k_zre+idat-1),
      &                      dbl_mb(k_zim+idat-1))
-           call ga_put(g_Az1,idat,idat,ivec,ivec,val_cmplx,1)
+           call tpi_ga_put(g_Az1,idat,idat,ivec,ivec,val_cmplx,1)
           enddo ! end-loop-idat
          enddo ! end-loop-i
 c ------- read g_Az1 ---------------------- END
@@ -1806,7 +1806,7 @@ c      Close the file
       end if ! ----- if-ga_nodeid-eq-0 ----- END
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_CPHF2_read = ok .eq. 1
       return
  1000 write(6,*) 'dft_CPHF2_read: failed to open',
@@ -1886,7 +1886,7 @@ c 00000000000000000000000000
       ntotblock_true=75 ! FePc
 c 00000000000000000000000000
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
       if (ga_nodeid() .eq. 0) then
       write(filename_1,31) trim(filename),'_1'
@@ -2007,7 +2007,7 @@ c      Close the file
 c
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_CPHF2_read2fix = ok .eq. 1
       return
  1000 write(6,*) 'dft_CPHF2_read: failed to open',

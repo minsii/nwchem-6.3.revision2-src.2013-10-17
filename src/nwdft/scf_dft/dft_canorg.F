@@ -40,7 +40,7 @@ c
             if (.not. MA_Push_Get(MT_Dbl, numi*numj, 'tmpm', 
      T           ltmpm, itmpm)) call errquit(
      T           'dftcano: failed to alloc tmpm',0, MA_ERR)
-            call ga_get(g_svecs,ilo,ihi,jlo,jhi,
+            call tpi_ga_get(g_svecs,ilo,ihi,jlo,jhi,
      .           dbl_mb(itmpm),numi)
             icount=itmpm
             jfirst=99999
@@ -58,7 +58,7 @@ c
                icount=icount+numi
             enddo
             if(jlast.ne.-1)
-     C           call ga_put(g_xij,ilo,ihi,jfirst,jlast,
+     C           call tpi_ga_put(g_xij,ilo,ihi,jfirst,jlast,
      .           dbl_mb(ptrfirst),numi)
             if(.not.MA_Pop_Stack(ltmpm)) call errquit(
      .           'failed popstack in dftcanorg ',0, 0)
@@ -446,7 +446,7 @@ c
             if (.not. MA_Push_Get(MT_Dbl, numi*numj, 'tmpm', 
      T           ltmpm, itmpm)) call errquit(
      T           'dftcano: failed to alloc tmpm',0, MA_ERR)
-            call ga_get(g_vecs,ilo,ihi,jlo,jhi,
+            call tpi_ga_get(g_vecs,ilo,ihi,jlo,jhi,
      .           dbl_mb(itmpm),numi)
             icount=itmpm
             do i=jlo,jhi

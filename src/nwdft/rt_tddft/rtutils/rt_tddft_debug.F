@@ -34,7 +34,7 @@ C     == Variables ==
          call util_flush (luout)
       endif
 
-      call ga_sync ()
+      call tpi_ga_sync ()
       call errquit ("(halted)", 0, 0)
       end subroutine
 
@@ -160,7 +160,7 @@ C
          call util_flush (luout)
       endif
 
-      call ga_sync ()
+      call tpi_ga_sync ()
       call errquit ("(halted)", 0, 0)
 #endif      
       

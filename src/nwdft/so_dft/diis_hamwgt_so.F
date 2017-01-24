@@ -35,7 +35,7 @@ c
       irow(j) = mod(j-1,mxhist)+1
       ii=irow(icall)
       istep=(ii-1)*nbf
-      call ga_sync
+      call tpi_ga_sync
 c
       call ga_copy_patch('N',
      *     g_fock(1),1,nbf,1,nbf, 

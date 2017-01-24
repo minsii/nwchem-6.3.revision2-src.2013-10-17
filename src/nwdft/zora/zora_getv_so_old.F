@@ -310,14 +310,14 @@ c
 c     == scalar contribution ==
       call ga_zero(g_zora_sf(1))
       if (ipol.gt.1) call ga_zero(g_zora_sf(2))
-      call ga_put(g_zora_sf(1),1,nbf_ao,1,nbf_ao,dbl_mb(izora0),nbf_ao)
+      call tpi_ga_put(g_zora_sf(1),1,nbf_ao,1,nbf_ao,dbl_mb(izora0),nbf_ao)
       if (ipol.gt.1) call ga_copy(g_zora_sf(1),g_zora_sf(2))
       call ga_symmetrize(g_zora_sf(1))
       if(ipol.gt.1) call ga_symmetrize(g_zora_sf(2))
 c
       call ga_zero(g_zora_scale_sf(1))
       if (ipol.gt.1) call ga_zero(g_zora_scale_sf(2))
-      call ga_put(g_zora_scale_sf(1),1,nbf_ao,1,nbf_ao,dbl_mb(iscal0)
+      call tpi_ga_put(g_zora_scale_sf(1),1,nbf_ao,1,nbf_ao,dbl_mb(iscal0)
      &             ,nbf_ao)
       if (ipol.gt.1) call ga_copy(g_zora_scale_sf(1),g_zora_scale_sf(2))
       call ga_symmetrize(g_zora_scale_sf(1))
@@ -325,29 +325,29 @@ c
 c
 c     == spin-orbit contributions ==
       call ga_zero(g_zora_so(3)) ! x
-      call ga_put(g_zora_so(3),1,nbf_ao,1,nbf_ao,dbl_mb(izorax),nbf_ao)
+      call tpi_ga_put(g_zora_so(3),1,nbf_ao,1,nbf_ao,dbl_mb(izorax),nbf_ao)
 c      call ga_antisymmetrize(g_zora_so(3))
 c
       call ga_zero(g_zora_scale_so(3)) ! x
-      call ga_put(g_zora_scale_so(3),1,nbf_ao,1,nbf_ao,dbl_mb(iscalx),
+      call tpi_ga_put(g_zora_scale_so(3),1,nbf_ao,1,nbf_ao,dbl_mb(iscalx),
      &            nbf_ao)
 c      call ga_antisymmetrize(g_zora_scale_so(3))
 c
       call ga_zero(g_zora_so(2)) ! y
-      call ga_put(g_zora_so(2),1,nbf_ao,1,nbf_ao,dbl_mb(izoray),nbf_ao)
+      call tpi_ga_put(g_zora_so(2),1,nbf_ao,1,nbf_ao,dbl_mb(izoray),nbf_ao)
 c      call ga_antisymmetrize(g_zora_so(2))
 c
       call ga_zero(g_zora_scale_so(2)) ! y
-      call ga_put(g_zora_scale_so(2),1,nbf_ao,1,nbf_ao,dbl_mb(iscaly),
+      call tpi_ga_put(g_zora_scale_so(2),1,nbf_ao,1,nbf_ao,dbl_mb(iscaly),
      &            nbf_ao)
 c      call ga_antisymmetrize(g_zora_scale_so(2))
 c
       call ga_zero(g_zora_so(1)) ! z
-      call ga_put(g_zora_so(1),1,nbf_ao,1,nbf_ao,dbl_mb(izoraz),nbf_ao)
+      call tpi_ga_put(g_zora_so(1),1,nbf_ao,1,nbf_ao,dbl_mb(izoraz),nbf_ao)
 c      call ga_antisymmetrize(g_zora_so(1))
 c
       call ga_zero(g_zora_scale_so(1)) ! z
-      call ga_put(g_zora_scale_so(1),1,nbf_ao,1,nbf_ao,dbl_mb(iscalz),
+      call tpi_ga_put(g_zora_scale_so(1),1,nbf_ao,1,nbf_ao,dbl_mb(iscalz),
      &            nbf_ao)
 c      call ga_antisymmetrize(g_zora_scale_so(1))
 c
@@ -356,7 +356,7 @@ c      if (ga_nodeid().eq.0) write(luout,*) "Kinetic_Energy1:",Eke
 c      Eke = ga_ddot(g_dens(1), g_zora_scale_sf(1))
 c      if (ga_nodeid().eq.0) write(luout,*) "Kinetic_Energy2:",Eke
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c     == clean memory ==
       if(.not.MA_chop_stack(lovlp))

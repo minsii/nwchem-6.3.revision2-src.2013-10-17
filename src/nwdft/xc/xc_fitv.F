@@ -61,8 +61,8 @@ c           nTcols = ipol + nExc
 c
 c
 c Qin
-      integer  nxtask
-      external nxtask
+      integer  tpinxt,tpisynxt
+      external tpinxt,tpisynxt
       integer me, nproc, MXnshbf_ao, MXnshbf_XC
       integer ndbl
       integer lxc_coef, ixc_coef, lscr, iscr, lmiss
@@ -115,15 +115,15 @@ c
       if(me.eq.0.and.IOLGC) then
         call dft_invio('XC',g_xcinv,nbf_xc,'READ',lmiss)
       endif
-      call ga_sync
+      call tpi_ga_sync
 c
-      next=nxtask(nproc, 1)+1
+      next=tpinxt(nproc, 1)+1
 c
 c
       do k=1,nbf_xc
          if (k.eq.next) then
-            next=nxtask(nproc, 1)+1
-c            call ga_get(g_xcinv, 1, nbf_xc, k, k, Dbl_MB(iscr), 1)
+            next=tpinxt(nproc, 1)+1
+c            call tpi_ga_get(g_xcinv, 1, nbf_xc, k, k, Dbl_MB(iscr), 1)
             call get_col(g_xcinv,nbf_xc,k,Dbl_MB(iscr))
             istart=ixc_coef
             do j = 1, nTcols
@@ -137,7 +137,7 @@ c
       if (.not.ma_pop_stack(lscr))
      &   call errquit('xc_fitv: cannot pop stack',0, MA_ERR)
 c
-      next=nxtask(-nproc, 1)
+      next=tpisynxt(-nproc, 1)
 c
       call ga_dgop(Msg_XC_Coef, DBL_MB(ixc_coef), ndbl, '+')
 c
@@ -170,9 +170,9 @@ c
 c
 c     Compute 3-ctr OIs between a given pair of AO shells and a set of XC shells.
 c     
-      call ga_sync
+      call tpi_ga_sync
 c
-      n1 = nxtask(nproc, 1)
+      n1 = tpinxt(nproc, 1)
       n2 = 0
 c
       do 240 ishb = 1, nshells_ao
@@ -261,7 +261,7 @@ c
      &                 dbl_mb(ivec2),'acc')
   220          continue
 c              
-               n1 = nxtask(nproc, 1)
+               n1 = tpinxt(nproc, 1)
 c              
             endif
 c            
@@ -269,7 +269,7 @@ c
 c            
   230    continue
   240 continue
-      call ga_sync
+      call tpi_ga_sync
 c
       if(.not.ma_pop_stack(lscr2))
      &  call errquit('xc_fitv: cannot pop stack',0, MA_ERR)
@@ -286,7 +286,7 @@ c
       if(.not.ma_pop_stack(lxc_coef))
      &  call errquit('xc_fitv: cannot pop stack',0, MA_ERR)
 c
-      n1 = nxtask(-nproc, 1)
+      n1 = tpisynxt(-nproc, 1)
 c
       return
       end

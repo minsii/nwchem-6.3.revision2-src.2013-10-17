@@ -41,7 +41,7 @@ c     2) fitting the charge density via Dunlap method and, then, evaluating
 c     the set of 3-ctr ERIs formed from the AO and CD basis sets,
 c     3) solving Poisson's equation via (Delley,Becke,Feibelman,?)'s method. 
 c     
-      call ga_sync
+      call tpi_ga_sync
 c
       if( iVcoul_opt.eq.0 )then
          call ga_zero(g_vc)
@@ -55,7 +55,7 @@ c       Compute the Coulomb potential via a LSQ fitting procedure.
      &                 iwhat_max, n_semi_bufs, fd, IOLGC,
      &                 derfit, nmat,
      &                 .true.)
-        call ga_sync
+        call tpi_ga_sync
 c
 c       Compute the Coulomb energy.
 c

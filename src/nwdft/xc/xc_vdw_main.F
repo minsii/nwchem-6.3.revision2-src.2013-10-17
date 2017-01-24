@@ -242,7 +242,7 @@ c
       integer i,j
       double precision fdmp, fdmp3, cni, cnj,c6d3
       double precision c6ij_sk,rij,c6cn,crd_nr,e6,e8
-      external c6ij_sk,c6cn,nxtask,crd_nr,fdmp3
+      external c6ij_sk,c6cn,tpinxt,crd_nr,fdmp3
 c
       xc_vdw_e=0d0
       e6=0.0d0
@@ -620,7 +620,7 @@ c
 
       endif
 c
-      call ga_sync
+      call tpi_ga_sync
 c
       return
 99900 continue

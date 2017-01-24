@@ -205,7 +205,7 @@ c
      $     ('dft_uks_nr_solve: ga_destroy work', 0, GA_ERR)
 c     
       if (ga_nodeid().eq.0) call util_flush(6)
-      call ga_sync()
+      call tpi_ga_sync()
 c     
       dft_uks_nr_solve = converged
 c     

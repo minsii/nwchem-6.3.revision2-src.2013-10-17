@@ -470,8 +470,8 @@ c ---------- For g-shift-NLMO analysis --------- END
        ahi(3)=t
        ld(1)=nbf
        ld(2)=nbf
-       call ga_get(g_epr1(t),1,nbf,1,nbf,dbl_mb(k_buf2),nbf)
-       call nga_put(g_h01_epr,alo,ahi,dbl_mb(k_buf2),ld) ! store g_h01_epr
+       call tpi_ga_get(g_epr1(t),1,nbf,1,nbf,dbl_mb(k_buf2),nbf)
+       call tpi_nga_put(g_h01_epr,alo,ahi,dbl_mb(k_buf2),ld) ! store g_h01_epr
 c ------------ NLMO analysis para term (PSOSO) ------------- START
         gshiftfile=0 ! not doing NLMO analysis by default
         status=rtdb_get(rtdb,'prop:gshiftfile',mt_int,1,gshiftfile) ! for NLMO analysis
@@ -737,9 +737,9 @@ c ++++get g_M_epr(k,t)++++++++++++++++++++++++END
       ahi(3)=1
       ld(1)=3
       ld(2)=3
-      call nga_put(g_dia1_epr,alo,ahi,dbl_mb(k_buf3),ld)
-      call nga_put(g_dia2_epr,alo,ahi,dbl_mb(k_buf) ,ld)
-      call nga_put(g_par1_epr,alo,ahi,dbl_mb(k_buf1),ld)
+      call tpi_nga_put(g_dia1_epr,alo,ahi,dbl_mb(k_buf3),ld)
+      call tpi_nga_put(g_dia2_epr,alo,ahi,dbl_mb(k_buf) ,ld)
+      call tpi_nga_put(g_par1_epr,alo,ahi,dbl_mb(k_buf1),ld)
       call ga_add(1.0d0,g_dia1_epr,1.0d0,g_dia2_epr,g_dia_epr)
 c ---- store par,dia AB ---------- START
       alo(1)=1
@@ -750,8 +750,8 @@ c ---- store par,dia AB ---------- START
       ahi(3)=2
       ld(1)=3
       ld(2)=3
-      call nga_put(g_par1_epr_AB,alo,ahi,dbl_mb(k_buf4),ld)
-      call nga_put(g_dia_epr_AB,alo,ahi,dbl_mb(k_buf5),ld)
+      call tpi_nga_put(g_par1_epr_AB,alo,ahi,dbl_mb(k_buf4),ld)
+      call tpi_nga_put(g_dia_epr_AB,alo,ahi,dbl_mb(k_buf5),ld)
 c ---- store par,dia AB ---------- END
       goto 10
       if (ga_nodeid().eq.0) then
@@ -881,7 +881,7 @@ c -------------- for g-shift NLMO analysis ------------- START
       integer inntsize
 
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c     Read routines should be consistent with this
 c     Write out the atomic zora corrections
@@ -917,16 +917,16 @@ c     Write out the number of sets and basis functions
         write(unitno, err=1001) nlst
         write(unitno, err=1001) ndir
         write(unitno, err=1001) ndir1
-        call ga_get(g_munuEPRdia,1,1,1,nmat,
+        call tpi_ga_get(g_munuEPRdia,1,1,1,nmat,
      &              dbl_mb(k_mat),1)
         call swrite(unitno,dbl_mb(k_mat),nmat)
-        call ga_get(g_munuEPRpar1,1,1,1,nmat,
+        call tpi_ga_get(g_munuEPRpar1,1,1,1,nmat,
      &              dbl_mb(k_mat),1)
         call swrite(unitno,dbl_mb(k_mat),nmat)
-        call ga_get(g_munuEPRHpar,1,1,1,nmat2,
+        call tpi_ga_get(g_munuEPRHpar,1,1,1,nmat2,
      &              dbl_mb(k_mat2),1)
         call swrite(unitno,dbl_mb(k_mat2),nmat2)
-        call ga_get(g_sdens,1,nbf,1,nbf,
+        call tpi_ga_get(g_sdens,1,nbf,1,nbf,
      &              dbl_mb(k_mat1),nbf)
         call swrite(unitno,dbl_mb(k_mat1),nmat1)
 c     Deallocate the temporary buffer
@@ -967,7 +967,7 @@ c ----- Add MOs in file ----- START
         do i=1,npol
          do j=1,nbf
          call dcopy(nbf,0.0d0,0,dbl_mb(k_mo),1) ! reset
-         call ga_get(vectors(i),1,nbf,j,j,dbl_mb(k_mo),1)
+         call tpi_ga_get(vectors(i),1,nbf,j,j,dbl_mb(k_mo),1)
          call swrite(unitno,dbl_mb(k_mo),nbf)         
          enddo ! end-loop-j
         enddo ! end-loop-i
@@ -980,7 +980,7 @@ c ----- Add MOs in file ----- END
         ahi(3)=3
         ld(1)=nbf
         ld(2)=ntot
-        call nga_get(g_c1,alo,ahi,dbl_mb(k_c1),ld)
+        call tpi_nga_get(g_c1,alo,ahi,dbl_mb(k_c1),ld)
         call swrite(unitno,dbl_mb(k_c1),nmat)
         if (.not. ma_free_heap(l_mo))
      $   call errquit('dft_zoraNLMO_writehyp: ma free_heap failed', 
@@ -995,7 +995,7 @@ c     Close the file
       end if
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraGshift_NLMOAnalysis_write = (ok .eq. 1)
       if (ga_nodeid() .eq. 0) then
          write(6,22) filename(1:inp_strlen(filename))
@@ -1071,7 +1071,7 @@ c     Broadcast status to other nodes
 c     Initialise to invalid MA handle
       nlst=nbf*(nbf+1)/2
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
       nmat=nlst*ndir
        if (.not. ga_create(mt_dbl,1,nmat,
@@ -1147,13 +1147,13 @@ c ---> ma_free_heap: to release allocated memory
      $  call errquit('dft_zoraNLMO_read: ma failed', 
      &               nmat1, MA_ERR)
        call sread(unitno,dbl_mb(k_mat),nmat)
-       call ga_put(g_munuEPRdia,1,1,1,nmat,dbl_mb(k_mat),1)
+       call tpi_ga_put(g_munuEPRdia,1,1,1,nmat,dbl_mb(k_mat),1)
        call sread(unitno,dbl_mb(k_mat),nmat)
-       call ga_put(g_munuEPRpar1,1,1,1,nmat,dbl_mb(k_mat),1)
+       call tpi_ga_put(g_munuEPRpar1,1,1,1,nmat,dbl_mb(k_mat),1)
        call sread(unitno,dbl_mb(k_mat2),nmat2)
-       call ga_put(g_munuEPRHpar,1,1,1,nmat2,dbl_mb(k_mat2),1)
+       call tpi_ga_put(g_munuEPRHpar,1,1,1,nmat2,dbl_mb(k_mat2),1)
        call sread(unitno,dbl_mb(k_mat1),nmat1)
-       call ga_put(g_sdens,1,nbf,1,nbf,dbl_mb(k_mat1),nbf)
+       call tpi_ga_put(g_sdens,1,nbf,1,nbf,dbl_mb(k_mat1),nbf)
       if (.not. ma_free_heap(l_mat))       ! deallocate memory
      $  call errquit('dft_zoraNLMO_read: ma free_heap failed', 
      &               911, MA_ERR)
@@ -1187,7 +1187,7 @@ c ----- Read MOs ----- START
          do j=1,nbf
           call dcopy(nbf,0.0d0,0,dbl_mb(k_mo),1) ! reset
           call sread(unitno,dbl_mb(k_mo),nbf)   
-          call ga_put(vectors(i),1,nbf,j,j,dbl_mb(k_mo),1)
+          call tpi_ga_put(vectors(i),1,nbf,j,j,dbl_mb(k_mo),1)
          enddo ! end-loop-j
         enddo ! end-loop-i
 c ----- Read MOs ----- END
@@ -1205,7 +1205,7 @@ c ----- Read MOs ----- END
         ld(1) =nbf
         ld(2) =ntot
         call sread(unitno,dbl_mb(k_c1),n_c1)
-        call nga_put(g_c1,alo,ahi,dbl_mb(k_c1),ld)
+        call tpi_nga_put(g_c1,alo,ahi,dbl_mb(k_c1),ld)
       if (.not. ma_free_heap(l_mo))       ! deallocate memory
      $  call errquit('dft_zoraNLMO_read: ma free_heap failed', 
      &               911, MA_ERR)
@@ -1220,7 +1220,7 @@ c      Close the file
 c
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraGshift_NLMOAnalysis_read = ok .eq. 1
       return
  1000 write(6,*) 'dft_zoraNLMO_read: failed to open',

@@ -95,8 +95,8 @@ c      integer iproc,iat3,iat1,iat2,iat4,ihi4,ijatom,next,
 c
       logical do_force, do_cpks_r, do_hess
       integer l_dfij, k_dfij, l_dfkl, k_dfkl
-      integer nxtask
-      external nxtask
+      integer tpinxt,tpisynxt
+      external tpinxt,tpisynxt
 c
       do_force = calc_type .eq. 1
       do_hess = calc_type .eq. 2
@@ -122,7 +122,7 @@ c
 c
 c      ijatom = -1
       ijklshell = -1
-      next = nxtask(nproc, 1)
+      next = tpinxt(nproc, 1)
 c
       do 95 iat3 = nat, 1, -1
          do iat4 = 1, iat3
@@ -334,7 +334,7 @@ c
 c
       endif
 c
-      next = nxtask(nproc, 1)
+      next = tpinxt(nproc, 1)
 c
       endif     ! next
 c
@@ -348,7 +348,7 @@ c
    70                      continue            ! ish2
    75                   continue               ! ish1
 c
-c                        next = nxtask(nproc, 1)
+c                        next = tpinxt(nproc, 1)
 c
 c                     endif                     ! next
 c
@@ -359,7 +359,7 @@ c
    85       continue                           ! iat2
    90    continue                              ! iat1
    95 continue                                 ! iat3
-      next = nxtask(-nproc, 1)
+      next = tpisynxt(-nproc, 1)
 c
       if (do_cpks_r) then
          if (.not.MA_pop_stack(l_dfkl))

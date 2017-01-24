@@ -64,7 +64,7 @@ c
       endif
 c
       n = dimA1
-      call ga_sync()
+      call tpi_ga_sync()
       proc = min(n/15, ga_nnodes())
       oactive = myproc .lt. proc
       if (oactive) then
@@ -141,7 +141,7 @@ c
          do k = 1, n
             if( int_mb(-1+adrma+k) .eq. myproc) then
                myelem = n-k+1
-               call ga_get(g_a,k,n,k,k,dbl_mb(adrs+istart),1)
+               call tpi_ga_get(g_a,k,n,k,k,dbl_mb(adrs+istart),1)
                istart = istart + myelem
             endif
          enddo
@@ -158,7 +158,7 @@ c
       endif
 c
 c
-      call ga_sync()            ! To reduce message buffering problems
+      call tpi_ga_sync()            ! To reduce message buffering problems
 c
 c***  calling PEIGS parallel inverse
 c
@@ -171,7 +171,7 @@ c
      $        call ga_error('ga_inverse: info non-zero ', info)
       endif
 c     
-      call ga_sync()            ! To reduce message buffering problems      
+      call tpi_ga_sync()            ! To reduce message buffering problems      
 c
 c***  store the Inverse matrix in global array g_s
 c
@@ -181,8 +181,8 @@ c
          do k = 1, n
             if( int_mb(-1+adrma+k) .eq. myproc) then
               myelem = n-k+1
-               call ga_put(g_s,k,n,k,k,dbl_mb(adrs+istart),1)
-c              call ga_put(g_s,k,k,k,n,dbl_mb(adrs+istart),1)
+               call tpi_ga_put(g_s,k,n,k,k,dbl_mb(adrs+istart),1)
+c              call tpi_ga_put(g_s,k,k,k,n,dbl_mb(adrs+istart),1)
                istart = istart + myelem
             endif
          enddo
@@ -202,7 +202,7 @@ c
      &     call errquit('ga_inverse: cannot pop stack',0, MA_ERR)
       endif
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       end
 

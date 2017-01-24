@@ -40,7 +40,7 @@ c
       grid_file_balance=.true.
       if (nproc.eq.1) return
 c
-      call ga_sync()            ! So can use message passing
+      call tpi_ga_sync()            ! So can use message passing
       used = util_wallsec()
       odebug = util_print('balance debug',print_never) 
       oprint = util_print('balance', print_default) .and.  me.eq.0
@@ -204,7 +204,7 @@ c
      &       DISK_ERR)
       if (odebug) 
      $     write(LuOut,*) me, ' final n_re_in_file ', n_rec_in_file
-      call ga_sync()
+      call tpi_ga_sync()
 c
 cedo#endif
       end

@@ -86,7 +86,7 @@ c
          call dft_get2eri(CD_bas_han, g_2ceri,oskel)
          if (oskel)call 
      .        sym_symmetrize(geom,cd_bas_han,.false.,g_2ceri)
-         call ga_sync()
+         call tpi_ga_sync()
          if (.not. ga_duplicate(g_2ceri, g_cdinv, 'CD 2cERInv'))
      &    call errquit(pname//'Error creating g_cdinv',0, GA_ERR)
          call ga_zero(g_cdinv)
@@ -97,7 +97,7 @@ c         if (lmiss.eq.1) then
 #if defined(PARALLEL_DIAG)
 #ifdef SCALAPACK
             call ga_copy(g_2ceri, g_cdinv)
-            call ga_sync()
+            call tpi_ga_sync()
             info= ga_cholesky('U',g_cdinv)
 #else
             call ga_chol(g_2ceri, g_cdinv, info)
@@ -123,7 +123,7 @@ c         if (lmiss.eq.1) then
                   write(LuOut,*)' Problem in performing a Invers. '
                   write(LuOut,*)' of the 2-ctr ERI '
                endif
-               call ga_sync
+               call tpi_ga_sync
                call errquit(pname//'Inverse failed ',0,0)
             endif
                

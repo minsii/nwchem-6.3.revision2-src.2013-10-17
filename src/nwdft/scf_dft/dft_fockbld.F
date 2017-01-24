@@ -161,7 +161,7 @@ c
          call int_1e_ga(ao_bas_han,ao_bas_han,g_fock,
      &                  'cos_chg_pot',.false.)
       endif
-      call ga_sync()
+      call tpi_ga_sync()
 c
       Ecore = ga_ddot(g_dens(1), g_fock)
 c

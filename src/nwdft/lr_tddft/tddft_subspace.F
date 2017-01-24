@@ -95,15 +95,15 @@ c
             if (.not.tda) amb(m,n)=0.0d0
           enddo
         enddo
-        call ga_sync()
+        call tpi_ga_sync()
         do i=1,ipol
           call ga_distribution(g_trials(i),iproc,ilo,ihi,jlo,jhi)
           if ((jlo.gt.1).or.(jhi.lt.ntrials))
      1      call errquit('tddft_subspace: an internal error detected',0,
      &       GA_ERR)
-          call ga_get(g_trials(i),ilo,ihi,1,ntrials,
+          call tpi_ga_get(g_trials(i),ilo,ihi,1,ntrials,
      1      dbl_mb(k_trial),maxnov)
-          call ga_get(g_prod_p(i),ilo,ihi,1,ntrials,
+          call tpi_ga_get(g_prod_p(i),ilo,ihi,1,ntrials,
      1      dbl_mb(k_prod),maxnov)
           do m=1,ntrials
             do n=1,ntrials
@@ -115,7 +115,7 @@ c
             enddo
           enddo
           if (.not.tda) then
-            call ga_get(g_prod_m(i),ilo,ihi,1,ntrials,
+            call tpi_ga_get(g_prod_m(i),ilo,ihi,1,ntrials,
      1        dbl_mb(k_prod),maxnov)
             do m=1,ntrials
               do n=1,ntrials
@@ -128,7 +128,7 @@ c
             enddo
           endif
         enddo
-cold        call ga_sync()
+cold        call tpi_ga_sync()
 c
 c -----------------------------------------------------------------
 c Now we accumulate the local contributions to form the full matrix

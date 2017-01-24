@@ -139,12 +139,12 @@ c     scratch array
       ener_scal = 0.d0
       ener_tot  = 0.d0
       do iorb = 1, nbf_mo
-       call ga_get(g_moso(1),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsre),1)
+       call tpi_ga_get(g_moso(1),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsre),1)
        call ga_zero(g_orb(1))
-       call  ga_put(g_orb(1),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsre),1)
-       call ga_get(g_moso(2),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsim),1)
+       call  tpi_ga_put(g_orb(1),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsre),1)
+       call tpi_ga_get(g_moso(2),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsim),1)
        call ga_zero(g_orb(2))
-       call  ga_put(g_orb(2),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsim),1)
+       call  tpi_ga_put(g_orb(2),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsim),1)
        call dft_densm_so(g_dens_so, g_orb, nbf_ao, noc)
        call ga_zero(g_scr(1))
        call ga_zero(g_scr(2))
@@ -242,13 +242,13 @@ c
       character*(*) filename
       logical found
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c     Inquire if file is present
       inquire(file=filename,exist=found)
       dft_zora_inquire_file_so = found
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       return
       end
@@ -300,7 +300,7 @@ c
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
       ddblsize=MA_sizeof(MT_DBL,1,MT_BYTE)
 c
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
       if (ga_nodeid() .eq. 0) then
 c
@@ -331,7 +331,7 @@ c     Read in g_zora_sf
       do iset = 1,2  ! 2 components
        do i = 1,nbf
         call sread(unitno, dbl_mb(k_zora), nbf)
-        call ga_put(g_zora_sf(iset), 1, nbf, i, i, dbl_mb(k_zora), 1)
+        call tpi_ga_put(g_zora_sf(iset), 1, nbf, i, i, dbl_mb(k_zora),1)
        end do
       end do
 c
@@ -339,7 +339,7 @@ c     Read in g_zora_scale_sf
       do iset = 1,2  ! 2 components
        do i = 1,nbf
         call sread(unitno, dbl_mb(k_zora), nbf)
-        call ga_put(g_zora_scale_sf(iset), 1, nbf, i, i, 
+        call tpi_ga_put(g_zora_scale_sf(iset), 1, nbf, i, i, 
      &   dbl_mb(k_zora), 1)
        end do
       end do
@@ -348,7 +348,7 @@ c     Read in g_zora_so
       do iset = 1,3  ! 3 components: x,y,z
        do i = 1,nbf
         call sread(unitno, dbl_mb(k_zora), nbf)
-        call ga_put(g_zora_so(iset), 1, nbf, i, i, dbl_mb(k_zora), 1)
+        call tpi_ga_put(g_zora_so(iset), 1, nbf, i, i, dbl_mb(k_zora),1)
        end do
       end do
 c
@@ -356,7 +356,7 @@ c     Read in g_zora_scale_so
       do iset = 1,3  ! 3 components: x,y,z
        do i = 1,nbf
         call sread(unitno, dbl_mb(k_zora), nbf)
-        call ga_put(g_zora_scale_so(iset), 1, nbf, i, i, 
+        call tpi_ga_put(g_zora_scale_so(iset), 1, nbf, i, i, 
      &   dbl_mb(k_zora), 1)
        end do
       end do
@@ -373,7 +373,7 @@ c
 c
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
 c
       dft_zora_read_so = ok .eq. 1
       return
@@ -462,7 +462,7 @@ c
       l_zora = -1               ! An invalid MA handle
 c
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
 c
       ok = 0
 c
@@ -489,7 +489,7 @@ c
 c     Write out g_zora_sf
       do iset = 1,2  ! 2 components
        do i = 1, nbf
-        call ga_get(g_zora_sf(iset), 1, nbf, i, i, dbl_mb(k_zora),1)
+        call tpi_ga_get(g_zora_sf(iset), 1, nbf, i, i, dbl_mb(k_zora),1)
         call swrite(unitno, dbl_mb(k_zora), nbf)
        end do
       end do
@@ -497,7 +497,7 @@ c
 c     Write out g_zora_scale_sf
       do iset = 1,2  ! 2 components
        do i = 1, nbf
-        call ga_get(g_zora_scale_sf(iset), 1, nbf, i, i, 
+        call tpi_ga_get(g_zora_scale_sf(iset), 1, nbf, i, i, 
      &              dbl_mb(k_zora),1)
         call swrite(unitno, dbl_mb(k_zora), nbf)
        end do
@@ -506,7 +506,7 @@ c
 c     Write out g_zora_so
       do iset = 1,3  ! 3 components: x,y,z
        do i = 1, nbf
-        call ga_get(g_zora_so(iset), 1, nbf, i, i, dbl_mb(k_zora),1)
+        call tpi_ga_get(g_zora_so(iset), 1, nbf, i, i, dbl_mb(k_zora),1)
         call swrite(unitno, dbl_mb(k_zora), nbf)
        end do
       end do
@@ -514,7 +514,7 @@ c
 c     Write out g_zora_scale_so
       do iset = 1,3  ! 3 components: x,y,z
        do i = 1, nbf
-        call ga_get(g_zora_scale_so(iset), 1, nbf, i, i, 
+        call tpi_ga_get(g_zora_scale_so(iset), 1, nbf, i, i, 
      &              dbl_mb(k_zora),1)
         call swrite(unitno, dbl_mb(k_zora), nbf)
        end do
@@ -532,7 +532,7 @@ c
 c
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
 c
       dft_zora_write_so = (ok .eq. 1)
       if (ga_nodeid() .eq. 0) then

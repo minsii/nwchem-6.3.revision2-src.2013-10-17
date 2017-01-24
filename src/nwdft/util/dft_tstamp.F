@@ -38,7 +38,7 @@ c$$$#endif
         write (LuOut,100) name,isdate,istime
         call util_flush(LuOut)
       endif
-      call ga_sync
+      call tpi_ga_sync
   100 format (/,/,1x,'    <<<<<<   ',a25,'   >>>>>>',/,
      &            5x,'<<<<<< date: ',a8,' time: ',a8,' >>>>>>',/)
       return

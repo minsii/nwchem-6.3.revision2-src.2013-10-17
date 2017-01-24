@@ -228,7 +228,7 @@ c
 c     if (.not.rtdb_get(rtdb, 'scf:diis',MT_LOG, 1, odiis))
 c    $   odiis = .false.
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c     For now set NMO = NBF, however this may change later when the 
 c     linear dependency analysis is done just before the starting guess

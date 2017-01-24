@@ -255,7 +255,7 @@ c
      $                     itype_wfn,g_vecs,nclosed,nopen,nbf,nmo)
         call int_1e_ga(basis,basis,g_hcore,'cos_chg_pot',.false.)
       endif
-      call ga_sync()
+      call tpi_ga_sync()
 c
       eone_closed = ga_ddot(g_hcore, g_cdens)
       eone_open = 0.0d0

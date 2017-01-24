@@ -112,7 +112,7 @@ C     == Variables ==
             
          call util_flush (luout)
       endif
-      call ga_sync ()
+      call tpi_ga_sync ()
 
       end subroutine
 
@@ -171,7 +171,7 @@ C
          write (luout, *) ""
          call util_flush (luout)
       endif
-      call ga_sync ()
+      call tpi_ga_sync ()
 
       end subroutine
 
@@ -382,7 +382,7 @@ C
      $        iorb, iorb, occ)
       enddo
 
-      call ga_sync () !XXX needed?
+      call tpi_ga_sync () !XXX needed?
 
       call ga_elem_multiply (g_tmp, g_movecs_pad, g_tmp) ! g_tmp now holds masked movecs
       call ga_zero (g_densre_ao)

@@ -104,7 +104,7 @@ C     == Variables ==
       integer lpivot, ipivot
 
       
-      call ga_sync ()
+      call tpi_ga_sync ()
       
 C     
 C     Do all work on all processors (wasteful but works).
@@ -326,22 +326,22 @@ C
       call ga_zero (g_zmat)
 
       val = dcmplx (1d0, 0d0)
-      call ga_put (g_zmat, 1, 1, 1, 1, val, 1)
+      call tpi_ga_put (g_zmat, 1, 1, 1, 1, val, 1)
 
       val = dcmplx (2d0, 0d0)
-      call ga_put (g_zmat, 1, 1, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 1, 1, 2, 2, val, 1)
 
       val = dcmplx (3d0, 0d0)
-      call ga_put (g_zmat, 2, 2, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 2, 2, 2, 2, val, 1)
 
       val = dcmplx (2d0, 0d0)
-      call ga_put (g_zmat, 3, 3, 1, 1, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 1, 1, val, 1)
 
       val = dcmplx (-4d0, 0d0)
-      call ga_put (g_zmat, 3, 3, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 2, 2, val, 1)
 
       val = dcmplx (2d0, 0d0)
-      call ga_put (g_zmat, 3, 3, 3, 3, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 3, 3, val, 1)
 
 
 C
@@ -381,31 +381,31 @@ C
       call ga_zero (g_zmat)
 
       val = dcmplx (1.2d0, 1d0)
-      call ga_put (g_zmat, 1, 1, 1, 1, val, 1)
+      call tpi_ga_put (g_zmat, 1, 1, 1, 1, val, 1)
 
       val = dcmplx (1.0d0, 0d0)
-      call ga_put (g_zmat, 1, 1, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 1, 1, 2, 2, val, 1)
 
       val = dcmplx (0d0, 1d0)
-      call ga_put (g_zmat, 1, 1, 3, 3, val, 1)
+      call tpi_ga_put (g_zmat, 1, 1, 3, 3, val, 1)
 
       val = dcmplx (0d0, 0d0)
-      call ga_put (g_zmat, 2, 2, 1, 1, val, 1)
+      call tpi_ga_put (g_zmat, 2, 2, 1, 1, val, 1)
 
       val = dcmplx (3d0, 0d0)
-      call ga_put (g_zmat, 2, 2, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 2, 2, 2, 2, val, 1)
 
       val = dcmplx (0d0, -0.98d0)
-      call ga_put (g_zmat, 2, 2, 3, 3, val, 1)
+      call tpi_ga_put (g_zmat, 2, 2, 3, 3, val, 1)
 
       val = dcmplx (2d0, 3.2d0)
-      call ga_put (g_zmat, 3, 3, 1, 1, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 1, 1, val, 1)
 
       val = dcmplx (-4d0, 0d0)
-      call ga_put (g_zmat, 3, 3, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 2, 2, val, 1)
 
       val = dcmplx (2.5d0, 8d0)
-      call ga_put (g_zmat, 3, 3, 3, 3, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 3, 3, val, 1)
 
 
 C

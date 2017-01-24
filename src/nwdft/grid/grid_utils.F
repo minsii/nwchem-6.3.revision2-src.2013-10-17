@@ -160,8 +160,8 @@ c
       integer m, me,nproc
       integer avail
       double precision x, y, z, r2
-      integer nxtask,nt1,nt2
-      external nxtask
+      integer tpinxt,tpisynxt,nt1,nt2
+      external tpinxt,tpisynxt
 c
 c     determine node id
 c
@@ -177,7 +177,7 @@ c
       max_pr_nq = 0
       max_pr_mbfnq = 0
       nt1 = 0
-      nt2 = nxtask(nproc,1)
+      nt2 = tpinxt(nproc,1)
       do 70 iqsh = 1, nqshells
         if(nt1.eq.nt2) then
 c
@@ -302,14 +302,14 @@ c
 
 c
             nt1 = nt1 + 1
-            nt2 = nxtask(nproc,1)
+            nt2 = tpinxt(nproc,1)
          else
             nt1 = nt1 + 1
          endif
 c
 c
    70 continue
-      nt2 = nxtask(-nproc,1)
+      nt2 = tpisynxt(-nproc,1)
       call ga_igop(dft_mxmbfnq, max_pr_mbfnq, 1, 'max')
       call ga_igop(dft_mxmbf, max_mbf, 1, 'max')
 c
@@ -322,7 +322,7 @@ c     in roughly 1/3 - 8Mb by chunking up nq.
 c
 c     find - (minimum)amount local available memory on all nodes
 c     
-      call ga_sync
+      call tpi_ga_sync
       avail = MA_inquire_avail(mt_dbl)
       call ga_igop(msg_min_stack_avail, avail, 1, 'min')
 

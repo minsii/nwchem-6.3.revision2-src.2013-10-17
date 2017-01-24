@@ -175,7 +175,7 @@ c
 c
 c     Compute dipole integrals in the AO basis
 c
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_zero(g_dpx_ao)
       call ga_zero(g_dpy_ao)
       call ga_zero(g_dpz_ao)
@@ -244,11 +244,11 @@ c
         do j=owstart(i),owend(i)
 c         account for openshell with no alpha excitations
           if (j.gt.0) then
-            call ga_get(g_dpx_mo(i),j,j,nocc(i)+1,nmo(i),
+            call tpi_ga_get(g_dpx_mo(i),j,j,nocc(i)+1,nmo(i),
      &        dbl_mb(k_dpx+nindex),1)
-            call ga_get(g_dpy_mo(i),j,j,nocc(i)+1,nmo(i),
+            call tpi_ga_get(g_dpy_mo(i),j,j,nocc(i)+1,nmo(i),
      &        dbl_mb(k_dpy+nindex),1)
-            call ga_get(g_dpz_mo(i),j,j,nocc(i)+1,nmo(i),
+            call tpi_ga_get(g_dpz_mo(i),j,j,nocc(i)+1,nmo(i),
      &        dbl_mb(k_dpz+nindex),1)
             nindex=nindex+nvirt(i)
           endif
@@ -330,7 +330,7 @@ c     Broadcast status to other nodes
 c
       ok = 1
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
 c
  1000 format('== Scalar DFT Virtual Spectrum ==')
 c

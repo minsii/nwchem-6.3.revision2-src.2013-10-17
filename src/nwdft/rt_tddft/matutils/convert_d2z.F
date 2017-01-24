@@ -168,11 +168,11 @@ C     == Variables ==
                call ga_get (g_b, i, i, j, j, val_b, 1)
                
                val_z = dcmplx (val_a, val_b)
-               call ga_put (g_z, i, i, j, j, val_z, 1)
+               call tpi_ga_put (g_z, i, i, j, j, val_z, 1)
             enddo
          enddo
       endif
-      call ga_sync ()
+      call tpi_ga_sync ()
       
       end subroutine
 
@@ -219,7 +219,7 @@ C     == Variables ==
 
  
 C     not needed I think
-C      call ga_sync ()
+C      call tpi_ga_sync ()
 
       call calc_array_partitioning (n, m, istart, iend, bfr_size)
       
@@ -239,13 +239,13 @@ C      call ga_sync ()
             dcpl_mb(iz + j - 1) = dcmplx (aval, bval)
          enddo
          
-         call ga_put (g_z, 1, n, istart, iend, dcpl_mb(iz), n)
+         call tpi_ga_put (g_z, 1, n, istart, iend, dcpl_mb(iz), n)
 
          if (.not. ma_chop_stack (la))
      $        call errquit (pname//"failed to chop stack", 0, MA_ERR)
       endif
 
 C     not needed I think
-C      call ga_sync ()
+C      call tpi_ga_sync ()
 
       end subroutine

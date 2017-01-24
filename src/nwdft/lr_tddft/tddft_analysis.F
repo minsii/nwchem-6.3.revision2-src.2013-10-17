@@ -470,7 +470,7 @@ c
      1    ('tddft_analysis: failed to destroy g_ovlp',0, GA_ERR)
         if (util_print('excited state',print_debug))
      1    call ga_print(g_corr)
-        call ga_get(g_corr,1,nmo(1),1,nmo(2),dbl_mb(k_corr),nmo(1))
+        call tpi_ga_get(g_corr,1,nmo(1),1,nmo(2),dbl_mb(k_corr),nmo(1))
       endif
 c
 c ------------
@@ -641,9 +641,9 @@ c outer loop over roots
       do n=1,nroots
 c
         do i=1,ipol
-          call ga_get(g_x(i),1,nov(i),n,n,dbl_mb(k_x(i)),1)
+          call tpi_ga_get(g_x(i),1,nov(i),n,n,dbl_mb(k_x(i)),1)
           if (.not.tda)
-     1    call ga_get(g_y(i),1,nov(i),n,n,dbl_mb(k_y(i)),1)
+     1    call tpi_ga_get(g_y(i),1,nov(i),n,n,dbl_mb(k_y(i)),1)
 c
           call ga_zero(g_td(i))  ! zero out transition density matrices
           call ga_zero(g_tdtot(i)) ! zero out total transition density matrices
@@ -1684,7 +1684,7 @@ c
            write(69,*)s2_save(n) ! <S2> value of the root
            do i=1,ipol
              do m=1,nov(i)
-               call ga_get(g_x(i),m,m,n,n,r,1)
+               call tpi_ga_get(g_x(i),m,m,n,n,r,1)
                write(69,*) r
              enddo ! nov
            enddo ! ipol
@@ -1712,14 +1712,14 @@ c
              write(69,*)s2_save(n) ! <S2> value of the root
              do i=1,ipol
                do m=1,nov(i)
-                 call ga_get(g_x(i),m,m,n,n,r,1) ! X vectors
+                 call tpi_ga_get(g_x(i),m,m,n,n,r,1) ! X vectors
                  write(69,*) r
                enddo ! nov
              enddo ! ipol
 c
              do i=1,ipol
                do m=1,nov(i)
-                 call ga_get(g_y(i),m,m,n,n,r,1) ! Y vectors
+                 call tpi_ga_get(g_y(i),m,m,n,n,r,1) ! Y vectors
                  write(69,*) r
                enddo ! nov
              enddo ! ipol

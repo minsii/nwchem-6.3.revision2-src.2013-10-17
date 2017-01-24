@@ -97,9 +97,9 @@ c
 C        do ik = noc(isp), (noc(isp)+1)
          do ik = noc_aux_1, noc_aux_2
             call ga_zero(g_orb)
-            call ga_get(g_movecs(isp), 1, nbf_ao, ik, ik,
+            call tpi_ga_get(g_movecs(isp), 1, nbf_ao, ik, ik,
      &                  Dbl_MB(i_temp_vec), nbf_ao)
-            call ga_put(g_orb, 1, nbf_ao, ik, ik, 
+            call tpi_ga_put(g_orb, 1, nbf_ao, ik, ik, 
      &                  Dbl_MB(i_temp_vec), nbf_ao)
             if (ik.eq.noc(isp)) then
                eig_homo(isp) = dbl_mb(k_eval(isp) + 
@@ -587,7 +587,7 @@ c
       call mull_calc_fuk(basis,natoms, nshells,max_at_bf2,iga_PS,
      &     dbl_mb(iqatom),dbl_mb(iqshell),dbl_mb(iPSmat))
       
-      call ga_sync
+      call tpi_ga_sync
 
       if(.not.MA_Pop_Stack(lqshell))
      &     call errquit(' exiting in mull_pop',33, MA_ERR)
@@ -656,7 +656,7 @@ c
           qatom(iat)=qatom(iat)+qshell(ish)
         enddo
       enddo
-      call ga_sync
+      call tpi_ga_sync
       call ga_dgop(Msg_Mull1,qatom,natoms,'+')
       call ga_dgop(Msg_Mull2,qshell,nshells,'+')
       if(me.eq.0) then
@@ -681,7 +681,7 @@ c
         enddo
       endif
 c
-      call ga_sync
+      call tpi_ga_sync
 
       return
       end
@@ -779,7 +779,7 @@ c
 c        Compute the exact exchange potential (as in Hartree-Fock calculations).
 c       
          tol2e=10.d0**(-itol2e)
-         call ga_sync
+         call tpi_ga_sync
          if (oprint_time)call dft_tstamp(' Before call to fock_2e. ')
          if (ipol.eq.1) then
             kfac(1) = -0.5d0*xfac(1)
@@ -857,7 +857,7 @@ c
             endif
          endif
          if (oprint_time)call dft_tstamp('  After call to fock_2e. ')
-         call ga_sync
+         call tpi_ga_sync
 c
 c        Symmetrize Vxc?
 c

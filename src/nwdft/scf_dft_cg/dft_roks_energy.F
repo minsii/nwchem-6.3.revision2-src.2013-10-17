@@ -110,6 +110,6 @@ c
          endif
       endif
       if(ga_nodeid().eq.0) call util_flush(6)
-      call ga_sync()
+      call tpi_ga_sync()
 c
       end

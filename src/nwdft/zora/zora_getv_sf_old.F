@@ -261,11 +261,11 @@ c         end if
 c
 c     == pack into a ga ==
       call ga_zero(g_zora_sf(1))
-      call ga_put(g_zora_sf(1),1,nbf_ao,1,nbf_ao,dbl_mb(izora0),nbf_ao)
+      call tpi_ga_put(g_zora_sf(1),1,nbf_ao,1,nbf_ao,dbl_mb(izora0),nbf_ao)
       if (ipol.gt.1) call ga_copy(g_zora_sf(1),g_zora_sf(2))
 
       call ga_zero(g_zora_scale_sf(1))
-      call ga_put(g_zora_scale_sf(1),1,nbf_ao,1,nbf_ao,
+      call tpi_ga_put(g_zora_scale_sf(1),1,nbf_ao,1,nbf_ao,
      &     dbl_mb(izora0scal),nbf_ao)
       if (ipol.gt.1) call ga_copy(g_zora_scale_sf(1),g_zora_scale_sf(2))
 
@@ -289,7 +289,7 @@ c      if (ga_nodeid().eq.0) write(luout,*) "Kinetic_Energy1:",Eke
 c      Eke = ga_ddot(g_dens(1), g_zora_scale_sf(1))
 c      if (ga_nodeid().eq.0) write(luout,*) "Kinetic_Energy2:",Eke
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c     == clean memory ==
       if(.not.MA_chop_stack(lovlp))

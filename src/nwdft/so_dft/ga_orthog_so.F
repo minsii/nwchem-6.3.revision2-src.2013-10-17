@@ -33,7 +33,7 @@ c
       end if
 *      write(6,*) ' node ulo uhi ', ga_nodeid(), ulo, uhi
 *      call util_flush(6)
-*      call ga_sync
+*      call tpi_ga_sync
 *      call ga_print(g_vecs(1))
 *      call ga_print(g_vecs(2))
 *      if (ometric) call ga_print(g_over)
@@ -55,33 +55,33 @@ c
      $     l_w, k_w)) call errquit('ga_orthog: ma get failed', nu,
      &       MA_ERR)
 c
-      call ga_sync()
+      call tpi_ga_sync()
       if (uhi .ge. ulo) then
-         call ga_get(g_vecs(1), ulo, uhi, 1, ni, 
+         call tpi_ga_get(g_vecs(1), ulo, uhi, 1, ni, 
      &        dbl_mb(k_tmp), ld)
-         call ga_get(g_vecs(2), ulo, uhi, 1, ni, 
+         call tpi_ga_get(g_vecs(2), ulo, uhi, 1, ni, 
      &        dbl_mb(k_tmp+ld*ni), ld)
          if (ometric) 
-     $        call ga_get(g_over, 1, nu, ulo, uhi, dbl_mb(k_over), nu)
+     $        call tpi_ga_get(g_over, 1, nu, ulo, uhi,dbl_mb(k_over),nu)
       end if
 c
 c     Do the deed
 c
 #ifdef SP1
-      call ga_sync()
+      call tpi_ga_sync()
 #endif
       call ga_orthog_vecs_so(dbl_mb(k_tmp), ld, ni, ulo, uhi, 
      $     dbl_mb(k_s), dbl_mb(k_over), nu, dbl_mb(k_w), ometric)
 #ifdef SP1
-      call ga_sync()
+      call tpi_ga_sync()
 #endif
 c
 c     Put results back
 c
       if (uhi .ge. ulo)then 
-         call ga_put(g_vecs(1), ulo, uhi, 1, ni, 
+         call tpi_ga_put(g_vecs(1), ulo, uhi, 1, ni, 
      $        dbl_mb(k_tmp), ld)
-         call ga_put(g_vecs(2), ulo, uhi, 1, ni, 
+         call tpi_ga_put(g_vecs(2), ulo, uhi, 1, ni, 
      $        dbl_mb(k_tmp+ld*ni), ld)
       endif
 c
@@ -98,7 +98,7 @@ c
       if (.not. ma_pop_stack(l_tmp)) call errquit
      $     ('ga_orthog: ma error popping tmp', 0, MA_ERR)
 c     
-      call ga_sync
+      call tpi_ga_sync
 c     
       end
       subroutine ga_orthog_vecs_so(vecs, ld, ni, ulo, uhi, s, o, 

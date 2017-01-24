@@ -50,7 +50,7 @@ c
       enddo
 c
 c     synchronization
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c     read in the embedding potential defined on a grid
       call util_file_name_noprefix('EMBPOT',.false.,.false., filevemb)
@@ -162,8 +162,8 @@ c         calculate fock and overlap
      &         nbf_ao, nqpts, dbl_mb(ivemb), dbl_mb(ifock_froz), ovlp)
 c
 c         pack into a ga and return
-          call ga_put(g_frozemb,1,nbf_ao,1,nbf_ao,dbl_mb(ifock_froz),
-     &             nbf_ao)
+          call tpi_ga_put(g_frozemb,1,nbf_ao,1,nbf_ao,
+     &             dbl_mb(ifock_froz),nbf_ao)
 c
 c     clear memory
       if(.not.MA_chop_stack(lqxyz))
@@ -173,7 +173,7 @@ c
 c
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
 c
       return
       end

@@ -817,7 +817,7 @@ c
         if (residual_1(n).gt.thresh) then
           if (nnewtrials.gt.maxvecs) call errquit
      1      ('tddft_residual: out of memory',nnewtrials, MEM_ERR)
-          call ga_sync()
+          call tpi_ga_sync()
           do i=1,ipol
             call ga_distribution
      1        (g_residuals_1(i),iproc,ilo,ihi,jlo,jhi)
@@ -826,7 +826,7 @@ c
             do l=ilo,ihi
               k=mod(l-1,nmo(i)-nfv(i)-nocc(i))+nocc(i)+1
               j=(l-k+nocc(i))/(nmo(i)-nfv(i)-nocc(i))+nfc(i)+1
-              call ga_get(g_residuals_1(i),l,l,n,n,r,1)
+              call tpi_ga_get(g_residuals_1(i),l,l,n,n,r,1)
               evl_diff = evl(nmo(i),i)-evl(1,i) ! span the eigenvalues
               if (lecut) then
                 if (evl(j,i).le.ecut) then
@@ -844,10 +844,10 @@ c
                 evl_diff = evl(k,i)-evl(j,i)
               endif
               r=r/(evl_diff-apbval(n))
-              call ga_put(g_residuals_1(i),l,l,n,n,r,1)
+              call tpi_ga_put(g_residuals_1(i),l,l,n,n,r,1)
             enddo
           enddo
-          call ga_sync()
+          call tpi_ga_sync()
 c
 c Schmidt orthogonalize against other trial vectors
 c
@@ -914,7 +914,7 @@ c
 c
 c Scale by 1/{w(epsilon_a-epsilon_i)^(1/2)}
 c
-            call ga_sync()
+            call tpi_ga_sync()
             do i=1,ipol
               call ga_distribution
      1          (g_residuals_2(i),iproc,ilo,ihi,jlo,jhi)
@@ -923,7 +923,7 @@ c
               do l=ilo,ihi
                 k=mod(l-1,nmo(i)-nfv(i)-nocc(i))+nocc(i)+1
                 j=(l-k+nocc(i))/(nmo(i)-nfv(i)-nocc(i))+nfc(i)+1
-                call ga_get(g_residuals_2(i),l,l,n,n,r,1)
+                call tpi_ga_get(g_residuals_2(i),l,l,n,n,r,1)
                 evl_diff = evl(nmo(i),i)-evl(1,i) ! span the eigenvalues
                 if (lecut) then
                   if (evl(j,i).le.ecut) then
@@ -941,10 +941,10 @@ c
                   evl_diff = evl(k,i)-evl(j,i)
                 endif
                 r=r/(evl(k,i)-evl(j,i)-apbval(n))
-                call ga_put(g_residuals_2(i),l,l,n,n,r,1)
+                call tpi_ga_put(g_residuals_2(i),l,l,n,n,r,1)
               enddo
             enddo
-            call ga_sync()
+            call tpi_ga_sync()
 c
 c Schmidt orthogonalize against other trial vectors
 c

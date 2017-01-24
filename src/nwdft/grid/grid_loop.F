@@ -67,8 +67,8 @@ CA
 c
       integer k_symops(2),l_symops(2),
      k     k_gridscr,l_gridscr,k_iscr,l_iscr
-      integer nxtask,n1,n2,icount
-      external nxtask
+      integer tpinxt,tpisynxt,n1,n2,icount
+      external tpinxt,tpisynxt
       integer me,nproc
       integer i_a,iang_done,nwrbuf
       double precision symfact
@@ -93,7 +93,7 @@ c     parallel loop init
 c
       icount = 1
       n1 = 0
-      n2 = nxtask(nproc,icount)
+      n2 = tpinxt(nproc,icount)
 c
       k_gridscr = 0
       k_iscr = 0
@@ -228,13 +228,13 @@ c
                   ncubenz=ncubenz+1
                endif
                n1 = n1 + 1
-               n2 = nxtask(nproc,icount)
+               n2 = tpinxt(nproc,icount)
             else
                n1 = n1 + 1
             endif
          enddo                  ! end loop over cubes
  111  continue                  ! end loop over atoms
-      n1 = nxtask(-nproc,icount)
+      n1 = tpisynxt(-nproc,icount)
 c
       if(oprint.and.ncubenz.ne.0) write(LuOut,16) ' me ',me,
      ,     ' NQTOTC NQ/cube',nqtotc,nqtotc/ncubenz

@@ -62,6 +62,6 @@ c     Memory management (as before)
 c
       call grid_memory(rtdb)
       if(ogrdebug) write(LuOut,*) ' me ',ga_nodeid(),' done mem'
-      call ga_sync()
+      call tpi_ga_sync()
       return
       end

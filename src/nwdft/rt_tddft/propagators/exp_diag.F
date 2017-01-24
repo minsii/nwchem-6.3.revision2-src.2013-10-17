@@ -100,10 +100,10 @@ C
       do j = 1, n1
          zval = dcpl_mb(ievals + j - 1)
          exp_eval = exp (zval)
-         call ga_put (g_evalmat, j,j,j,j, exp_eval, 1)
+         call tpi_ga_put (g_evalmat, j,j,j,j, exp_eval, 1)
       enddo
 
-      call ga_sync ()           !XXX needed?
+      call tpi_ga_sync ()           !XXX needed?
 
 
 C

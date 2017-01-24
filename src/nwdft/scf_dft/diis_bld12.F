@@ -35,7 +35,7 @@ c
 c
       me = ga_nodeid()
       nproc = ga_nnodes()
-      call ga_sync
+      call tpi_ga_sync
 c
 c
 c     
@@ -50,7 +50,7 @@ c
          if (.not. MA_Push_Get(MT_Dbl, numi*numj, 'matS', l_s, k_s))
      &        call errquit('diis_bld12: failed to alloc tmpm',0,0)
          if (numi.gt.0 .and. numj.gt.0) then
-            call ga_get(iga_stmp,ilo,ihi,jlo,jhi,
+            call tpi_ga_get(iga_stmp,ilo,ihi,jlo,jhi,
      .           dbl_mb(k_s),numi)
             icount=k_s
             do i=jlo,jhi
@@ -67,7 +67,7 @@ c
                endif
                icount=icount+numi
             enddo
-            call ga_put(iga_stmp,ilo,ihi,jlo,jhi,
+            call tpi_ga_put(iga_stmp,ilo,ihi,jlo,jhi,
      .           dbl_mb(k_s),numi)
          endif
          if(.not.MA_Pop_Stack(l_s)) call 

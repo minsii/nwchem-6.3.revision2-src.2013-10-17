@@ -95,12 +95,12 @@ c
          enddo
       enddo
       do i = 1, nbf_mo
-         call ga_get(g_fockso(1), 1,i, i,i, dbl_mb(ibuff),1)
+         call tpi_ga_get(g_fockso(1), 1,i, i,i, dbl_mb(ibuff),1)
          do j=1,i
             DCpl_mb(ia+(nbf_mo)*(i-1)+(j-1))=
      =           dcmplx(dbl_mb(ibuff+j-1),0d0)
          enddo
-         call ga_get(g_fockso(2), 1,i, i,i, dbl_mb(ibuff),1)
+         call tpi_ga_get(g_fockso(2), 1,i, i,i, dbl_mb(ibuff),1)
          do j=1,i
             DCpl_mb(ia+(nbf_mo)*(i-1)+(j-1))=
      $               DCpl_mb(ia+(nbf_mo)*(i-1)+(j-1))
@@ -121,7 +121,7 @@ c
             dbl_mb(ibuff+j-1)=dble(DCpl_mb(ia+nbf_mo*(i-1)+(j-1)))
          enddo
          i1=i
-         call ga_put(g_moso(1),1,nbf_mo,i1,i1,dbl_mb(ibuff),1)
+         call tpi_ga_put(g_moso(1),1,nbf_mo,i1,i1,dbl_mb(ibuff),1)
          trace = ddot(nbf_mo,dbl_mb(ibuff),1,dbl_mb(ibuff),1)
          do j = 1, nbf_mo
             dbl_mb(ibuff+j-1)=0.0d0
@@ -129,7 +129,7 @@ c
      $             dimag(dcmplx(DCpl_mb(ia+nbf_mo*(i-1)+(j-1))))
          enddo
          i1=i
-         call ga_put(g_moso(2),1,nbf_mo,i1,i1,dbl_mb(ibuff),1)
+         call tpi_ga_put(g_moso(2),1,nbf_mo,i1,i1,dbl_mb(ibuff),1)
          trace = ddot(nbf_mo,dbl_mb(ibuff),1,dbl_mb(ibuff),1)
       enddo
 c
@@ -340,7 +340,7 @@ c
 c        Build diagonal matrix for the shift
          call ga_zero(g_tmp2)
          do j = nTotOcc+1+me, nbf_mo, nproc
-            call ga_put(g_tmp2, j, j, j, j, rlshift, 1)
+            call tpi_ga_put(g_tmp2, j, j, j, j, rlshift, 1)
          enddo
 c     
 c        Transform this into "AO" basis and add to current 

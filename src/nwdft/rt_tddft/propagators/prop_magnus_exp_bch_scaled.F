@@ -185,7 +185,7 @@ C
          if (ik.gt.kmax)
      $        call errquit (pname//"failed to converge", 0, 0)
          
-         call ga_sync ()
+         call tpi_ga_sync ()
       enddo
 
 

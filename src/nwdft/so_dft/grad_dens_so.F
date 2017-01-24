@@ -48,7 +48,7 @@ C     get MO vectors from file (taken from Roberts scf_movecs_read)
             write(6,*) ' grad_dens_so: ', 'Movecs Re'
             call util_flush(6)
          endif
-         call ga_sync()
+         call tpi_ga_sync()
          call errquit('grad_dens_so: ga_create ', 0, GA_ERR)
       endif
 
@@ -59,7 +59,7 @@ C     get MO vectors from file (taken from Roberts scf_movecs_read)
             write(6,*) ' grad_dens_so: ', 'Movecs Im'
             call util_flush(6)
          endif
-         call ga_sync()
+         call tpi_ga_sync()
          call errquit('grad_dens_so: ga_create ', 0, GA_ERR)
       endif
 
@@ -97,7 +97,7 @@ cso   nocc = nclosed + nopen ! == nalpha
                write(6,*) ' grad_dens_so: ', 'DenMx Re'
                call util_flush(6)
             endif
-            call ga_sync()
+            call tpi_ga_sync()
             call errquit('grad_dens_so: ga_create ', 0, GA_ERR)
          endif
          
@@ -109,7 +109,7 @@ cso   nocc = nclosed + nopen ! == nalpha
                write(6,*) ' grad_dens_so: ', 'DenMx Im'
                call util_flush(6)
             endif
-            call ga_sync()
+            call tpi_ga_sync()
             call errquit('grad_dens_so: ga_create ', 0, GA_ERR)
          endif
          
@@ -135,7 +135,7 @@ C     D+ and D- (Formalism from Dupuis & King, JCP 68(9), p4000
          call ga_symmetrize(g_dens(2))
 
 c
-         call ga_sync()
+         call tpi_ga_sync()
 c
          call ga_symmetrize(g_wdens)
          call ga_symmetrize(g_dens(1))

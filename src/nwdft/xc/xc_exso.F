@@ -75,7 +75,7 @@ c
 c     Compute the exact exchange potential (as in Hartree-Fock calculations).
 c     
          tol2e=10.d0**(-itol2e)
-         call ga_sync
+         call tpi_ga_sync
          if (oprint_time)call dft_tstamp(' Before call to fock_2e. ')
 c
 c     ???????? what to do with charge density fit? 
@@ -267,7 +267,7 @@ c
 c         call ga_print(g_fockso(1))
 c         call ga_print(g_fockso(2))
       endif
-      call ga_sync
+      call tpi_ga_sync
 c     
 c     Unset attenuation before exiting
       if (cam_exch) call case_setflags(.false.)

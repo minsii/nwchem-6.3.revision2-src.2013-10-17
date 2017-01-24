@@ -64,9 +64,9 @@ c
       integer ndone, ipoint
       character*(nw_max_path_len) cdfit_filename
       double precision dabsmax
-      integer nxtask
+      integer tpinxt,tpisynxt
       integer          itype,nprimo,isphere
-      external dabsmax,nxtask
+      external dabsmax,tpinxt,tpisynxt
       logical spherical
       integer LU,ierr,ilo,ihi,jlo,jhi,nnii
       integer adrc,ldc,iptr
@@ -111,7 +111,7 @@ c
 c     Parallelize the loop over the products of AO shells.
 c      
       ischw1 = 0
-cedo      call ga_sync
+cedo      call tpi_ga_sync
 cedo      icount = (nshells_ao + mod(nshells_ao,2))/(2*nproc)
       icount = 1
       icount = max(1,icount)
@@ -187,7 +187,7 @@ c
 c           Gather the needed density matrix elements.
 c
             do ifit = 1, nfit
-               call ga_get(g_dens(ifit), ifirstd, ilastd, ifirstc,
+               call tpi_ga_get(g_dens(ifit), ifirstd, ilastd, ifirstc,
      &                     ilastc, dbl_mb(igvec+(ifit-1)*Nao2), nshbfd)
             enddo
 c            
@@ -284,18 +284,18 @@ c
         ishd_be = 1
       endif
 c
-c      call ga_sync
+c      call tpi_ga_sync
 c      do n1 = 0, nproc
-c        call ga_sync
+c        call tpi_ga_sync
 c        if(me.eq.n1)then
 c          write(LuOut,*)' me, ishc_be, ishd_be ', me, ishc_be, ishd_be
 c          call util_flush(LuOut)
 c        endif
-c        call ga_sync
+c        call tpi_ga_sync
 c      enddo
-c      call ga_sync
+c      call tpi_ga_sync
 c
-      n1 = nxtask(nproc,icount)
+      n1 = tpinxt(nproc,icount)
       n2 = 0
 c
       do 240 ishc = ishc_be, nshells_ao
@@ -318,7 +318,7 @@ c
 c           Gather the needed density matrix elements.
 c
             do ifit = 1, nfit
-               call ga_get(g_dens(ifit), ifirstd, ilastd, ifirstc,
+               call tpi_ga_get(g_dens(ifit), ifirstd, ilastd, ifirstc,
      &              ilastc, dbl_mb(igvec+(ifit-1)*Nao2), nshbfd)
             enddo
 c            
@@ -384,7 +384,7 @@ c            write(LuOut,*)' Done with: ishc,ishd; n1,n2 ',
 c     &                                 ishc,ishd, n1,n2
 c            call util_flush(LuOut)
 c
-            n1 = nxtask(nproc,icount)
+            n1 = tpinxt(nproc,icount)
 c
           end if
 c          
@@ -398,7 +398,7 @@ c
   240 continue
   241 continue
 c
-      n1 = nxtask(-nproc,icount)
+      n1 = tpisynxt(-nproc,icount)
 c
       if(.not.ma_pop_stack(lscr))
      &  call errquit('dft_fitcd: cannot pop stack',0, MA_ERR)
@@ -446,7 +446,7 @@ c
 c      
 c     Integrate CD fitting functions in each shell
 c
-      call ga_sync
+      call tpi_ga_sync
       do ish = 1,nshells_cd
         if (.not. bas_cn2bfr( CD_bas_han,ish,
      &                       ifirst,ilast))
@@ -486,7 +486,7 @@ c     &       nbf_cd,nbf_cd,'CD 2cERInv',g_cdinv,'row')
         call ga_brdcst(2000, lmiss,mitob(1),0)
         if(lmiss.ne.0)call errquit
      &       (' dft_fitcd; dft_invio - abnormal read of CDI ',0, GA_ERR)
-cedo        call ga_sync
+cedo        call tpi_ga_sync
         if(oprint_ioinfo)then
           call ga_print(g_cdinv)
         endif
@@ -497,20 +497,20 @@ c     Compute the Lagrange Multiplier, alpha.
 c     
       F(1) = 0.D0
       F(2) = 0.D0
-      next = nxtask(nproc, 1)+1
+      next = tpinxt(nproc, 1)+1
       do j = 1,nbf_cd
         if (j.eq.next) then
-          next = nxtask(nproc, 1)+1
+          next = tpinxt(nproc, 1)+1
           call get_col(g_cdinv,nbf_cd,j,Dbl_MB(iscr))
           AZ = ddot(nbf_cd,DBL_mb(iscr),1,DBL_MB(icgtf),1)
           F(1) = F(1)+AZ*DBL_MB(iTvec+j-1)
           F(2) = F(2)+AZ*DBL_MB(icgtf+j-1)
         endif
       enddo
-      next = nxtask(-nproc, 1)
-cedo      call ga_sync
+      next = tpisynxt(-nproc, 1)
+cedo      call tpi_ga_sync
       call ga_dgop(Msg_Lagrange,F,2,'+')
-cedo      call ga_sync
+cedo      call tpi_ga_sync
       alpha = (Q - F(1))/F(2)
 c
 c     Qfrac = (Q - F(1))/Q
@@ -521,18 +521,18 @@ c     Initialize the CD_coef vector.
       
       call dfill(nbf_cd,0.D0,CD_coef,1)
 c
-      next = nxtask(nproc, 1)+1
+      next = tpinxt(nproc, 1)+1
       do j = 1,nbf_cd
         if (j.eq.next) then
-          next = nxtask(nproc, 1) + 1
+          next = tpinxt(nproc, 1) + 1
           AZ = DBL_MB(iTvec+j-1) + alpha*DBL_MB(icgtf+j-1)
           call get_col(g_cdinv,nbf_cd,j,Dbl_MB(iscr))
           call daxpy(nbf_cd,AZ,DBL_MB(iscr),1,CD_Coef,1)
         endif
       enddo
-      next = nxtask(-nproc, 1)
+      next = tpisynxt(-nproc, 1)
       call ga_dgop(Msg_CD_coef,CD_coef,nbf_cd,'+')
-cedo      call ga_sync
+cedo      call tpi_ga_sync
 #else
 c
 c     Multiply T and cgtf by S**(-1) and store
@@ -549,10 +549,10 @@ c
 #if 0
       call dfill(nbf_cd,0.D0,dbl_mb(iTcgtf),1)
 c
-      next = nxtask(nproc, 1)+1
+      next = tpinxt(nproc, 1)+1
       do j = 1,nbf_cd
         if (j.eq.next) then
-          next = nxtask(nproc, 1)+1
+          next = tpinxt(nproc, 1)+1
           call get_col(g_cdinv,nbf_cd,j,Dbl_MB(iscr))
           AZ = ddot(nbf_cd,DBL_mb(iscr),1,DBL_MB(icgtf),1)
           dbl_mb(iTcgtf+j-1) = dbl_mb(iTcgtf+j-1) + AZ
@@ -563,11 +563,11 @@ c
           enddo
         endif
       enddo
-      next = nxtask(-nproc, 1)
+      next = tpisynxt(-nproc, 1)
 #else
        call dcopy(nbf_cd,0.D0,0,dbl_mb(iTcgtf),1)
 c
-      call ga_sync()
+      call tpi_ga_sync()
       call  ga_distribution(g_cdinv,me,ilo,ihi,jlo,jhi)
       if (ilo.gt.0) then
       call ga_access(g_cdinv, ilo, ihi, jlo, jhi, adrc, ldc)
@@ -585,11 +585,11 @@ c
       call ga_release(g_cdinv, ilo, ihi, jlo, jhi)
       endif
 #endif
-      call ga_sync
+      call tpi_ga_sync
       call ga_dgop(Msg_CD_coef,CD_coef,nbf_cd*nfit,'+')
 c!!! What Msg should be here? !!!
       call ga_dgop(Msg_Tcgtf,dbl_mb(iTcgtf),nbf_cd,'+')
-cedo      call ga_sync
+cedo      call tpi_ga_sync
 c
 c     Apply constraint correction to fits
 c
@@ -666,7 +666,7 @@ c     write(*,*)' Dbl_MB(icgtf) = ',(Dbl_MB(icgtf+i),i=0,nbf_cd-1)
 c     write(*,*)' CD_coef = ',(CD_coef(i,ifit),i=1,nbf_cd)
          endif
       enddo
-cedo      call ga_sync
+cedo      call tpi_ga_sync
 c      if (derfit) then
 c         write(*,*)'Fit coefficients:'
 c         call output(cd_coef, 1, nbf_cd, 1, nfit, nbf_cd, nfit, 1)
@@ -803,7 +803,7 @@ c            endif
             qatom(iat) = qatom(iat) + qshell(ish)
          enddo
       enddo
-cedo      call ga_sync
+cedo      call tpi_ga_sync
       if (oprint_mull_fit) then
          call ga_dgop(Msg_Mull1, qatom, natoms,'+')
          call ga_dgop(Msg_Mull2, qshell, nshells,'+')
@@ -835,7 +835,7 @@ cedo      call ga_sync
             enddo
          enddo
       endif
-      call ga_sync
+      call tpi_ga_sync
    10 format(/' Atom   Charge   Shell Charges')
    20 format(15x,10(3x,a1,2x))
    30 format(1x,i4,1x,f8.2,1x,10(f6.2))

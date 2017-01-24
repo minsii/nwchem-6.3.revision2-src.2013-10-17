@@ -111,7 +111,7 @@ c
 c        Compute the exact exchange potential (as in Hartree-Fock calculations).
 c       
          tol2e=10.d0**(-itol2e)
-         call ga_sync
+         call tpi_ga_sync
          if (oprint_time)call dft_tstamp(' Before call to fock_2e. ')
          if (ipol.eq.1) then
             if (.not. CDFIT) then
@@ -317,7 +317,7 @@ c
             endif
          endif
          if (oprint_time)call dft_tstamp('  After call to fock_2e. ')
-         call ga_sync
+         call tpi_ga_sync
       endif
       if(util_print('dft timings', print_high))
      &      time2_2e=util_cpusec()   ! end 2e build time

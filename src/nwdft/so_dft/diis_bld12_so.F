@@ -33,7 +33,7 @@ c
 c
       me = ga_nodeid()
       nproc = ga_nnodes()
-      call ga_sync
+      call tpi_ga_sync
 c
       if (.not. MA_Push_Get(MT_Dbl, nbf, 'tmpm', ltmpm, itmpm))
      &   call errquit('diis_bld12_so: failed to alloc tmpm',0, MA_ERR)
@@ -63,7 +63,7 @@ c
 c
       LResult = MA_Pop_Stack(ltmpm)
 c
-      call ga_sync
+      call tpi_ga_sync
 c
       call ga_dgemm('N', 'T', nbf, nbf, nbf, 1.d0, 
      &              iga_stmp, iga_svecs, 0.d0, iga_sout)

@@ -17,6 +17,17 @@
       return
       end
 
+      subroutine tpi_nga_get(g_a,lo,hi,buf,ld)
+      implicit none
+      integer g_a,lo,hi
+      integer ld
+      double precision buf(*)
+      call tpi_start_timer(11)
+      call nga_get(g_a,lo,hi,buf,ld)
+      call tpi_stop_timer(11)
+      return
+      end
+
       subroutine tpi_ga_put(g_a,ilo,ihi,jlo,jhi,buf,ld)
       implicit none
       integer g_a, ilo,ihi,jlo,jhi
@@ -24,6 +35,17 @@
       double precision buf(*)
       call tpi_start_timer(12)
       call ga_put(g_a,ilo,ihi,jlo,jhi,buf,ld)
+      call tpi_stop_timer(12)
+      return
+      end
+
+      subroutine tpi_nga_put(g_a,lo,hi,buf,ld)
+      implicit none
+      integer g_a,lo,hi
+      integer ld
+      double precision buf(*)
+      call tpi_start_timer(12)
+      call nga_put(g_a,lo,hi,buf,ld)
       call tpi_stop_timer(12)
       return
       end

@@ -103,8 +103,8 @@ c
       integer lgthpmat
       integer len_Mmat,len_ttau,len_Mmat2
       integer lscr,iscr
-      integer nxtask
-      external nxtask
+      integer tpinxt,tpisynxt
+      external tpinxt,tpisynxt
 c
       do_force = calc_type .eq. 1
       do_hess = calc_type .eq. 2
@@ -515,7 +515,7 @@ c
      &   call errquit('dftg_gridv0: cannot pop stack',0, MA_ERR)
 c
       icount = 1
-      n1 = nxtask(-nproc,icount)
+      n1 = tpisynxt(-nproc,icount)
 c
       call ga_igop(Msg_nqtot,nqtot,1,'+')
       call ga_dgop(Msg_Excrho,rho_int,1,'+')

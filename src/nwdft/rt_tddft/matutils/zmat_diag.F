@@ -128,7 +128,7 @@ C     == Variables ==
       logical lhermitian
 
 
-      call ga_sync ()
+      call tpi_ga_sync ()
 
 
       
@@ -174,11 +174,11 @@ C
 C     Load input matrix GA into local buffer.
          call pack_ga2buffer_dcpl (g_za, dcpl_mb(iza))
 
-         call ga_sync ()
+         call tpi_ga_sync ()
          call zheev ("V", "U", n, dcpl_mb(iza), n,
      $        dbl_mb(ievals_re), dcpl_mb(ilwork), nlwork,
      $        dbl_mb(irwork), info)
-         call ga_sync ()
+         call tpi_ga_sync ()
 
          if (info.lt.0) call errquit (pname//"bad args to zheev",0,0)
          if (info.gt.0) call errquit (pname//"zheev failed",0,0)
@@ -218,11 +218,11 @@ C     Load input matrix GA into local buffer.
 C      
 C     Call lapack generic complex diagonalizer.
 C
-         call ga_sync ()
+         call tpi_ga_sync ()
          call zgeev ("V", "V", n, dcpl_mb(iza), n, zevals,
      $        dcpl_mb(ievecs_left), n, dcpl_mb(ievecs_right), n, 
      $        dcpl_mb(ilwork), nlwork, dbl_mb(irwork), info)
-         call ga_sync ()
+         call tpi_ga_sync ()
 c         
          if (info.lt.0) call errquit (pname//"bad args to zgeev",0,0)
          if (info.gt.0) call errquit (pname//"zgeev failed",0,0)
@@ -332,11 +332,11 @@ C
                   zevals(i)   = v2
                   zevals(i+1) = v1
 
-                  call ga_get(g_zevecs, 1,n, i,   i  , dcpl_mb(ivec1),n)
-                  call ga_get(g_zevecs, 1,n, i+1, i+1, dcpl_mb(ivec2),n)
+                  call tpi_ga_get(g_zevecs,1,n, i,  i,dcpl_mb(ivec1),n)
+                  call tpi_ga_get(g_zevecs,1,n,i+1,i+1,dcpl_mb(ivec2),n)
                   
-                  call ga_put(g_zevecs, 1,n, i,   i  , dcpl_mb(ivec2),n)
-                  call ga_put(g_zevecs, 1,n, i+1, i+1, dcpl_mb(ivec1),n)
+                  call tpi_ga_put(g_zevecs,1,n,i,i,dcpl_mb(ivec2),n)
+                  call tpi_ga_put(g_zevecs,1,n,i+1,i+1,dcpl_mb(ivec1),n)
 
                   swapped = .true.
                endif
@@ -345,7 +345,7 @@ C
             if (.not. swapped) exit
          enddo
       endif
-      call ga_sync ()
+      call tpi_ga_sync ()
 
 
 C
@@ -507,7 +507,7 @@ C         diff = mat_norm (g_zvec)
          if (diff.gt.tol)
      $        call errquit (pname//"diag check failed", 0, 0)
          
-         call ga_sync ()
+         call tpi_ga_sync ()
       enddo                     !end loop over eigenvectors
 
       
@@ -821,22 +821,22 @@ C
       call ga_zero (g_zmat)
 
       val = dcmplx (1d0, 0d0)
-      call ga_put (g_zmat, 1, 1, 1, 1, val, 1)
+      call tpi_ga_put (g_zmat, 1, 1, 1, 1, val, 1)
 
       val = dcmplx (2d0, 0d0)
-      call ga_put (g_zmat, 1, 1, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 1, 1, 2, 2, val, 1)
 
       val = dcmplx (3d0, 0d0)
-      call ga_put (g_zmat, 2, 2, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 2, 2, 2, 2, val, 1)
 
       val = dcmplx (2d0, 0d0)
-      call ga_put (g_zmat, 3, 3, 1, 1, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 1, 1, val, 1)
 
       val = dcmplx (-4d0, 0d0)
-      call ga_put (g_zmat, 3, 3, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 2, 2, val, 1)
 
       val = dcmplx (2d0, 0d0)
-      call ga_put (g_zmat, 3, 3, 3, 3, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 3, 3, val, 1)
 
 
       
@@ -885,31 +885,31 @@ C
       call ga_zero (g_zmat)
 
       val = dcmplx (1.2d0, 1d0)
-      call ga_put (g_zmat, 1, 1, 1, 1, val, 1)
+      call tpi_ga_put (g_zmat, 1, 1, 1, 1, val, 1)
 
       val = dcmplx (1.0d0, 0d0)
-      call ga_put (g_zmat, 1, 1, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 1, 1, 2, 2, val, 1)
 
       val = dcmplx (0d0, 1d0)
-      call ga_put (g_zmat, 1, 1, 3, 3, val, 1)
+      call tpi_ga_put (g_zmat, 1, 1, 3, 3, val, 1)
 
       val = dcmplx (0d0, 0d0)
-      call ga_put (g_zmat, 2, 2, 1, 1, val, 1)
+      call tpi_ga_put (g_zmat, 2, 2, 1, 1, val, 1)
 
       val = dcmplx (3d0, 0d0)
-      call ga_put (g_zmat, 2, 2, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 2, 2, 2, 2, val, 1)
 
       val = dcmplx (0d0, -0.98d0)
-      call ga_put (g_zmat, 2, 2, 3, 3, val, 1)
+      call tpi_ga_put (g_zmat, 2, 2, 3, 3, val, 1)
 
       val = dcmplx (2d0, 3.2d0)
-      call ga_put (g_zmat, 3, 3, 1, 1, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 1, 1, val, 1)
 
       val = dcmplx (-4d0, 0d0)
-      call ga_put (g_zmat, 3, 3, 2, 2, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 2, 2, val, 1)
 
       val = dcmplx (2.5d0, 8d0)
-      call ga_put (g_zmat, 3, 3, 3, 3, val, 1)
+      call tpi_ga_put (g_zmat, 3, 3, 3, 3, val, 1)
 
 
 C

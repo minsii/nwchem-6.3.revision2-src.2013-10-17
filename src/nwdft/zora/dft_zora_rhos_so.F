@@ -102,7 +102,7 @@ c  Allocate memory for l_AtNr,k_AtNr
       if (.not.ma_alloc_get(mt_dbl,nat,'AtNr',
      &    l_AtNr,k_AtNr))
      &    call errquit('get_rhoS: ma failed',0,MA_ERR)
-      call ga_get(g_AtNr,1,1,1,nat,dbl_mb(k_AtNr),1)
+      call tpi_ga_get(g_AtNr,1,1,1,nat,dbl_mb(k_AtNr),1)
 c ++++++++++++++++++++++++++++++++++
 c--- About content of g_rhoS:
 c--- 1st set of nat*6 elements corresponds to ZORA4-EFG
@@ -187,7 +187,7 @@ c------Generate munu A^{pq}_r ----- END
         enddo
       end do ! zora_calc_type loop
 c ----- Store efgz4 data in a file ------- START
-        call ga_sync()
+        call tpi_ga_sync()
 c       Note.- lbl_efgz4 defined in zora.fh
         call util_file_name(lbl_efgz4,.false.,.false.,zorafilename)
         if (.not.dft_zoraEFGZ4_write(
@@ -304,7 +304,7 @@ c
      &          l_Ci, k_Ci))
      & call errquit('get_densZ4_so: ma failed',0,MA_ERR)
       
-      call ga_get(g_Ci,1,2,1,noc1,dbl_mb(k_Ci),2)
+      call tpi_ga_get(g_Ci,1,2,1,noc1,dbl_mb(k_Ci),2)
     
       ac=1
       do i=1,2
@@ -336,12 +336,12 @@ c     scratch array                i=1(real),2(imaginary)
       do ispin=1,2
        iorb=ispin
        do count=1,nocc(ispin) 
-        call ga_get(g_moso(1),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsre),1)
+        call tpi_ga_get(g_moso(1),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsre),1)
         call ga_zero(g_orb(1))
-        call ga_put(g_orb(1),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsre),1)
-        call ga_get(g_moso(2),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsim),1) 
+        call tpi_ga_put(g_orb(1),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsre),1)
+        call tpi_ga_get(g_moso(2),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsim),1) 
         call ga_zero(g_orb(2))
-        call ga_put(g_orb(2),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsim),1)
+        call tpi_ga_put(g_orb(2),1,nbf_mo,iorb,iorb,dbl_mb(k_vecsim),1)
         call dft_densm_so(g_dens_so,g_orb,nbf_ao,noc)
         call ga_zero(g_scr(1))
         call ga_zero(g_scr(2))
@@ -525,7 +525,7 @@ c  Allocate memory for l_rhoS,k_rhoS
        if (.not.ma_alloc_get(
      &       mt_dbl,nat_slc*6*2,'rhoS',l_rhoS,k_rhoS))
      &    call errquit('hnd_efgmap_Z4_so: ma failed',0,MA_ERR)
-      call ga_get(g_rhoS,1,1,1,nat_slc*6*2,dbl_mb(k_rhoS),1)
+      call tpi_ga_get(g_rhoS,1,1,1,nat_slc*6*2,dbl_mb(k_rhoS),1)
 
 c      count_efgtyp=1
       count_efgtyp=0 ! NUM-EFG, Z4-EFG
@@ -860,7 +860,7 @@ c
         call util_flush(luout)
 
 c     ----- release memory block -----
-  300 call ga_sync()
+  300 call tpi_ga_sync()
       status = rtdb_parallel(.true.)   ! FA-04-23-10
 c
 c     ------- Deallocate MA memory ------

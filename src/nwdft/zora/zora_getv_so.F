@@ -231,11 +231,11 @@ c     == pack into a ga ==
 c     == scalar contribution ==
       do i=1,ipol
        call ga_zero(g_zora_sf(i))
-       call ga_put(g_zora_sf(i),1,nbf_ao,1,nbf_ao,
+       call tpi_ga_put(g_zora_sf(i),1,nbf_ao,1,nbf_ao,
      &             dbl_mb(izora(1)),nbf_ao)
        call ga_symmetrize(g_zora_sf(i))
        call ga_zero(g_zora_scale_sf(i))
-       call ga_put(g_zora_scale_sf(i),1,nbf_ao,1,nbf_ao,
+       call tpi_ga_put(g_zora_scale_sf(i),1,nbf_ao,1,nbf_ao,
      &             dbl_mb(iscal(1)),nbf_ao)
        call ga_symmetrize(g_zora_scale_sf(i))
       enddo
@@ -243,16 +243,16 @@ c     == spin-orbit contributions ==
       ind=4 ! = 4,3,2 = z,y,x in g_zora_so(i)
       do i=1,3 ! = z,y,x
        call ga_zero(g_zora_so(i)) 
-       call ga_put(g_zora_so(i),1,nbf_ao,1,nbf_ao,
+       call tpi_ga_put(g_zora_so(i),1,nbf_ao,1,nbf_ao,
      &             dbl_mb(izora(ind)),nbf_ao)
        call ga_antisymmetrize(g_zora_so(i))
        call ga_zero(g_zora_scale_so(i)) 
-       call ga_put(g_zora_scale_so(i),1,nbf_ao,1,nbf_ao,
+       call tpi_ga_put(g_zora_scale_so(i),1,nbf_ao,1,nbf_ao,
      &             dbl_mb(iscal(ind)),nbf_ao)
        call ga_antisymmetrize(g_zora_scale_so(i))
        ind=ind-1
       enddo
-      call ga_sync()
+      call tpi_ga_sync()
 c
       if(.not.MA_chop_stack(lscal))
      &     call errquit("zora_getv_so: pop lscal", 100, MA_ERR)

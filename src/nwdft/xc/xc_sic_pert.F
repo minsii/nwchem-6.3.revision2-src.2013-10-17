@@ -101,9 +101,9 @@ ccccc   Start loop of total states by spin
               call ga_zero(g_vxc_orb(1))
               call ga_zero(g_vxc_orb(2))
               call ga_zero(g_coul_orb)
-              call ga_get(g_movecs(isp), 1, nbf_ao, ik, ik,
+              call tpi_ga_get(g_movecs(isp), 1, nbf_ao, ik, ik,
      &                    DBl_MB(i_temp_vec), nbf_ao)
-              call ga_put(g_orb, 1, nbf_ao, ik, ik, 
+              call tpi_ga_put(g_orb, 1, nbf_ao, ik, ik, 
      &                    DBl_MB(i_temp_vec), nbf_ao)
               call ga_dgemm('n', 't', nbf_ao, nbf_ao, nbf_ao, 1.0d00,
      &                      g_orb, g_orb, 0.d00, g_dens_orb(1))

@@ -51,7 +51,7 @@ c
      &     call errquit('dft_mxspin_ovlp: cannot allocate int_tmp1',0,
      &       MA_ERR)
 c
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_zero(g_s)
       call int_1e_ga(basis,basis,g_s,'overlap',.false.)
 c
@@ -71,7 +71,7 @@ c        call ga_print(g_s)
 c
 c         get row of g_s 
 c
-          call ga_get(g_s,i,i,1,nmo,DBL_MB(k_tmpr1),1)
+          call tpi_ga_get(g_s,i,i,1,nmo,DBL_MB(k_tmpr1),1)
           prodbig=0.0d0
           do j = 1, nmo
             prodtmp = abs(dbl_mb(k_tmpr1+j-1))
@@ -121,7 +121,7 @@ c
       do j = 1,noc(2)
         ovlmax = 0.0d0
       do i = 1,noc(1)
-        call ga_get(g_s,i,i,j,j,ovl,1)
+        call tpi_ga_get(g_s,i,i,j,j,ovl,1)
         absovl = dabs(ovl)
         if (absovl.gt.ovlmax) then
           ovlmax = absovl
@@ -135,7 +135,7 @@ c
       write(luout,*)'ALPHA/BETA PARTNERS'
       endif
 c
-      call ga_sync()
+      call tpi_ga_sync()
       if(me.eq.0) then
         ichunks = noc(2)/10
         if(ichunks*10.lt.noc(2))ichunks = ichunks +1
@@ -151,7 +151,7 @@ c
 c
 c determine which alpha orbitals are left over:
 c
-      call ga_sync()
+      call tpi_ga_sync()
       if(.not.MA_Push_Get(MT_int,noc(1),'non',l_non, k_non))
      &    call errquit('dft_mxspin_ovlp: cannot allocate values',0,
      &       MA_ERR)
@@ -181,7 +181,7 @@ c print the un-partnered alpha orbitals
 c
       if (nct.GE.1) then  !only do the rest if there are un-partnered orbitals
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       call movecs_print_anal(basis,int_mb(k_non),int_mb(k_non)
      & ,0.15d0,g_alpha,'Alpha Orbitals without Beta Partners',
@@ -211,7 +211,7 @@ c don't bother calculating them.
 c
 c calculate Sab*SabT
 c 
-      call ga_sync()
+      call tpi_ga_sync()
       if(.not.ga_create(mt_dbl,noc(1),noc(1),'SS',0,0,g_ss))
      $        call errquit('ga_create failed', g_ss, GA_ERR)
 c
@@ -229,7 +229,7 @@ c
       if(.not.MA_Push_Get(MT_dbl,noc(1),'values',l_vals, k_vals))
      &     call errquit('dft_mxspin_ovlp: cannot allocate values',0,
      &       MA_ERR)
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c perform SVD on Sab*SabT to determine unpaired alpha MO's
 c
@@ -243,10 +243,10 @@ c
       if (.not. ga_destroy(g_ss)) call errquit
      &   ('dft_mxspin_ovlp: could not destroy g_ss', 0, GA_ERR)
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c      write(luout,*)'SVD eigenvalues'
 c      write(luout,*) (dbl_mb(k_vals+i),i=0,noc(1)-1)
-c      call ga_sync()
+c      call tpi_ga_sync()
 c
 c calculate transformed alpha vectors, alphaT
 c
@@ -255,11 +255,11 @@ c
 c
       call ga_zero(g_t)
 c
-      call ga_sync()
+      call tpi_ga_sync()
       do i = 1,noc(1)
-       call ga_put(g_t,i,i,i,i,dbl_mb(k_vals+i-1),k_vals)
+       call tpi_ga_put(g_t,i,i,i,i,dbl_mb(k_vals+i-1),k_vals)
       enddo
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c      call ga_print(g_t)
 c
@@ -281,7 +281,7 @@ c
 c     create array containing only alpha MO's which don't
 c     have beta partners
 c
-      call ga_sync()
+      call tpi_ga_sync()
       nalp = 0
       alp_thresh = 1.0d-10
 c
@@ -303,7 +303,7 @@ c
 c      write(luout,*) 'paired/unpaired alpha orbitals'
 c      write(luout,*) (int_mb(k_unp+i-1),i=1,noc(1))
 c
-      call ga_sync()
+      call tpi_ga_sync()
       if(.not.ga_create(mt_dbl,nao,max(nalp,1),'unp alphaT',
      $                  0,0,g_ualpha))
      $        call errquit('ga_create failed', g_ualpha, GA_ERR)
@@ -316,7 +316,7 @@ c
      &         ,g_ualpha,1,nao,nalp,nalp)
         endif
       enddo
-      call ga_sync()
+      call tpi_ga_sync()
 
 c      call ga_print(g_ualpha)                 
 c
@@ -356,7 +356,7 @@ c
 c
 c print the SVD eigenvalues
 c 
-      call ga_sync()
+      call tpi_ga_sync()
       if(me.eq.0) then
       write(LuOut,9994)
         ichunks = noc(1)/10

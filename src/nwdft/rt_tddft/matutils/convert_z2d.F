@@ -129,13 +129,13 @@ C     == Variables ==
                
                val_a = dble (val_z)
                val_b = aimag (val_z)
-               call ga_put (g_a, i, i, j, j, val_a, 1)
-               call ga_put (g_b, i, i, j, j, val_b, 1)
+               call tpi_ga_put (g_a, i, i, j, j, val_a, 1)
+               call tpi_ga_put (g_b, i, i, j, j, val_b, 1)
 
             enddo
          enddo
       endif
-      call ga_sync ()
+      call tpi_ga_sync ()
 
       
       end subroutine
@@ -180,7 +180,7 @@ C     == Variables ==
 
       
 C     not needed I think
-C      call ga_sync ()
+C      call tpi_ga_sync ()
 
       call calc_array_partitioning (n, m, istart, iend, bfr_size)
 
@@ -199,15 +199,15 @@ C      call ga_sync ()
             dbl_mb(ib + j - 1) = aimag (zval)
          enddo
          
-         call ga_put (g_a, 1, n, istart, iend, dbl_mb(ia), n)
-         call ga_put (g_b, 1, n, istart, iend, dbl_mb(ib), n)
+         call tpi_ga_put (g_a, 1, n, istart, iend, dbl_mb(ia), n)
+         call tpi_ga_put (g_b, 1, n, istart, iend, dbl_mb(ib), n)
          
          if (.not. ma_chop_stack (la))
      $        call errquit (pname//"failed to chop stack", 0, MA_ERR)
       endif
 
 C     not needed I think
-C      call ga_sync ()
+C      call tpi_ga_sync ()
       
       end subroutine
 
@@ -254,7 +254,7 @@ C     == Variables ==
       integer jslice, j
       logical ok
       
-      call ga_sync ()
+      call tpi_ga_sync ()
 
       me = ga_nodeid ()
       np = ga_nnodes ()
@@ -320,12 +320,12 @@ C
          do j = 1, n
             dbl_mb(ia+j-1) = dble (dcpl_mb(iz+j-1))
          enddo
-         call ga_put (g_a, 1, n, jslice, jslice, dbl_mb(ia), 1)
+         call tpi_ga_put (g_a, 1, n, jslice, jslice, dbl_mb(ia), 1)
 
          do j = 1, n
             dbl_mb(ib+j-1) = aimag (dcpl_mb(iz+j-1))
          enddo
-         call ga_put (g_b, 1, n, jslice, jslice, dbl_mb(ib), 1)
+         call tpi_ga_put (g_b, 1, n, jslice, jslice, dbl_mb(ib), 1)
       enddo
 
       
@@ -335,7 +335,7 @@ C
       if (.not. ma_chop_stack (la))
      $     call errquit (pname//"failed to chop stack", 0, MA_ERR)
 
-      call ga_sync ()
+      call tpi_ga_sync ()
       
       end subroutine
 #endif

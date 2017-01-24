@@ -310,7 +310,7 @@ c
                call ma_summarize_allocated_blocks()
             endif
             if(truerepxc) then
-               call ga_sync()
+               call tpi_ga_sync()
                if (odftps) call pstat_off(ps_xmrge)
             endif
 c
@@ -347,7 +347,7 @@ c
             enddo
          endif
          
-         if(.not.truerepxc) call ga_sync()
+         if(.not.truerepxc) call tpi_ga_sync()
 c     
 c     avoid getting things out of control
 c     
@@ -405,11 +405,11 @@ c     diag
                      icount=((j-1)*(2*(nbf_ao+1)-j))/2+1
                   endif
                   if(what.eq.'get') then
-                     call ga_get(g_a,istart,
+                     call tpi_ga_get(g_a,istart,
      N                    ihi,j,j, 
      $                    a(icount),1)
                   else
-                     call ga_put(g_a,istart,
+                     call tpi_ga_put(g_a,istart,
      N                    ihi,j,j, 
      $                    a(icount),1)
                   endif

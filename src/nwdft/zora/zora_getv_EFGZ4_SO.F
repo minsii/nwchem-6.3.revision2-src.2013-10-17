@@ -245,7 +245,7 @@ c
 c     == scalar contribution ==
       do i=1,ipol
        call ga_zero(g_efgz4_sf(i))
-       call ga_put(g_efgz4_sf(i),1,nbf_ao,1,nbf_ao,dbl_mb(iscal(1))
+       call tpi_ga_put(g_efgz4_sf(i),1,nbf_ao,1,nbf_ao,dbl_mb(iscal(1))
      &            ,nbf_ao)
        call ga_symmetrize(g_efgz4_sf(i))
       enddo
@@ -253,11 +253,11 @@ c     == spin-orbit contributions ==
       ind=4 ! = 4,3,2 = z,y,x in g_zora_so(i)
       do i=1,3 ! = z,y,x
        call ga_zero(g_efgz4_so(i)) 
-       call ga_put(g_efgz4_so(i),
+       call tpi_ga_put(g_efgz4_so(i),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(iscal(ind)),nbf_ao)
        call ga_antisymmetrize(g_efgz4_so(i))
        ind=ind-1
       enddo
-      call ga_sync()
+      call tpi_ga_sync()
       return
       end

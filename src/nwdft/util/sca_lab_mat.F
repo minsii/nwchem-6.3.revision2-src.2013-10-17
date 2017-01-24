@@ -29,12 +29,12 @@ c******************************************************************************
         call errquit('Exiting in sca_lab_mat',2, BASIS_ERR)
       endif 
       if(what.eq.'acc') then
-         call ga_acc(g_a,
+         call tpi_ga_acc(g_a,
      *        ifirstb,ilastb,
      *        ifirsta,ilasta,
      *     vec,nshbfb,1.d0)
       else
-         call ga_put(g_a,
+         call tpi_ga_put(g_a,
      *        ifirstb,ilastb,
      *        ifirsta,ilasta,
      *        vec,nshbfb)
@@ -46,12 +46,12 @@ c******************************************************************************
             enddo
          enddo
          if(what.eq.'acc') then
-            call ga_acc(g_a,
+            call tpi_ga_acc(g_a,
      *           ifirsta,ilasta,
      *           ifirstb,ilastb,
      *           vec2,nshbfa,1.d0)
          else
-         call ga_put(g_a,
+         call tpi_ga_put(g_a,
      *        ifirsta,ilasta,
      *        ifirstb,ilastb,
      *        vec2,nshbfa)
@@ -96,7 +96,7 @@ c
       if(what.eq.'acc') then
          call errquit(' acc not coded ',0, UNKNOWN_ERR)
       else
-         call nga_put(g_a,
+         call tpi_nga_put(g_a,
      *        lo,hi,
      *        vec,ld)
       endif
@@ -112,7 +112,7 @@ c
             call errquit(' acc not coded ',0, UNKNOWN_ERR)
          else
             ld(2)=ilasta-ifirsta+1
-            call nga_put(g_a,
+            call tpi_nga_put(g_a,
      *           lo,hi,vec2,ld)
          endif
       endif

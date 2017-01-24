@@ -62,7 +62,7 @@ c
       endif
 c
       n = dimA1
-      call ga_sync()
+      call tpi_ga_sync()
       proc = min(n/15, ga_nnodes())
 c
       oactive = myproc .lt. proc
@@ -144,7 +144,7 @@ c
          do k = 1, n
             if (int_mb(-1+adrma+k) .eq. myproc) then
                myelem = n-k+1
-               call ga_get(g_a,k,n,k,k,dbl_mb(adrs+istart),1)
+               call tpi_ga_get(g_a,k,n,k,k,dbl_mb(adrs+istart),1)
                istart = istart + myelem
             endif
          enddo
@@ -159,7 +159,7 @@ c
      &      call errquit('ga_chol: cannot allocate work',0, MA_ERR)
       endif
 c
-      call ga_sync()            ! To reduce message buffering problems
+      call tpi_ga_sync()            ! To reduce message buffering problems
 c
 c     write local arrays.
 c
@@ -168,7 +168,7 @@ c 1111 format(' myproc, dbl_mb(adrs): ',i2,/,(5(F12.7,2x),/))
 c
 c     calling PEIGS parallel choleski
 c
-      call ga_sync()
+      call tpi_ga_sync()
       if (.not.ma_verify_allocator_stuff()) stop ' ma ck 2b'
       info = 0
       if (oactive) then
@@ -179,7 +179,7 @@ c
      &                                         myproc, elems, info
       endif
 c     
-      call ga_sync()            ! To reduce message buffering problems      
+      call tpi_ga_sync()            ! To reduce message buffering problems      
       if (.not.ma_verify_allocator_stuff()) stop ' ma ck 2c'
 c
 c     store the Choleski factor matrix in global array g_s
@@ -190,7 +190,7 @@ c
          do k = 1, n
             if( int_mb(-1+adrma+k) .eq. myproc) then
               myelem = n-k+1
-               call ga_put(g_s,k,n,k,k,dbl_mb(adrs+istart),1)
+               call tpi_ga_put(g_s,k,n,k,k,dbl_mb(adrs+istart),1)
                istart = istart + myelem
             endif
          enddo
@@ -216,7 +216,7 @@ c     Make sure that even processes that did not participate in the
 c     process get info
 c
       call ga_brdcst(Msg_ga_chol, info, mitob(1), 0)
-      call ga_sync()
+      call tpi_ga_sync()
       if (.not.ma_verify_allocator_stuff()) stop ' ma ck 2e'
 c
       end

@@ -102,7 +102,8 @@ c
       integer nshells_ao,nshells_cd,ishp,ishq
       integer ifirstq, ilastq, ifirstp, ilastp,nshbfq,nshbfp,Nao2
       integer mu,nu,Nintegrals,ishd,ifirstd,ilastd,nshbfd
-      integer iat,icount2,ifp,next,nxtask,icart,ist,l_dfkl,k_dfkl
+      integer iat,icount2,ifp,next,tpinxt,icart,ist,l_dfkl,k_dfkl
+      integer tpisynxt
       integer iatom,ishatf,ishatl
       double precision PPP_max,dE,fac,schwarz_shell,q1
       logical do_force, do_cpks_r, do_hess
@@ -112,7 +113,7 @@ c
       character*(nw_max_path_len) cdfit
 c
       double precision dabsmax
-      external nxtask,schwarz_shell,dabsmax
+      external tpinxt,tpisynxt,schwarz_shell,dabsmax
       nproc  = ga_nnodes()
       me = ga_nodeid()
 c
@@ -194,12 +195,12 @@ c
       igran = (nshells_ao + mod(nshells_ao,2))/(4*nproc)
       igran = max(1,igran)
 c
-      next = nxtask(nproc,igran) + 1
+      next = tpinxt(nproc,igran) + 1
 c
       do 205 ishp = 1, nshells_ao
          if (ishp.eq.next)then
 c
-            next = nxtask(nproc,igran) + 1
+            next = tpinxt(nproc,igran) + 1
 c
             if (.not. bas_cn2bfr(AO_bas_han,ishp,ifirstp,ilastp))
      &         call errquit('Exiting in dftg_cdfit_gen.',6, BASIS_ERR)
@@ -330,7 +331,7 @@ c
          endif
   205 continue
 c
-      next = nxtask(-nproc,igran)
+      next = tpisynxt(-nproc,igran)
 c
       if (do_cpks_r) then
          if (.not.MA_pop_stack(l_dfkl))
@@ -347,7 +348,7 @@ c
       igran = (nshells_ao + mod(nshells_ao,2))/(4*nproc)
       igran = max(1,igran)
 c
-      next = nxtask(nproc,igran) + 1
+      next = tpinxt(nproc,igran) + 1
 c
 c     Since 2e2c integral derivatives are zero unless the centers
 c     involved are different, the loops are set up to run only over
@@ -362,7 +363,7 @@ c!!!      do 305 ishp = 1, nshells_cd
 c
          if (ishp.eq.next)then
 c
-            next = nxtask(nproc,igran) + 1
+            next = tpinxt(nproc,igran) + 1
 c
             if (.not. bas_cn2bfr(CD_bas_han,ishp,ifirstp,ilastp))
      &         call errquit('Exiting in dftg_cdfit_gen.',9, BASIS_ERR)
@@ -440,7 +441,7 @@ c
  305  continue
  304  continue
 c
-      next=nxtask(-nproc,igran)
+      next=tpisynxt(-nproc,igran)
 c
       if (do_cpks_r) then
          write(*,*)'*** Do global sum of db'

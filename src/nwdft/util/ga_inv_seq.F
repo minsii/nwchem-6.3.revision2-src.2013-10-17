@@ -56,7 +56,7 @@ c
 c
       n = dimA1
 
-      call ga_sync()
+      call tpi_ga_sync()
       proc=ga_nnodes()
 
       oactive = myproc .eq. 0
@@ -70,7 +70,7 @@ c****
 c****
 c****   collect matrix from global array
 c****
-        call ga_get(g_a, 1, n, 1, n, Dbl_MB(i_a_in), n )
+        call tpi_ga_get(g_a, 1, n, 1, n, Dbl_MB(i_a_in), n )
 c****
 c****   construct inverse of original matrix from its lower 
 c****   Cholesky decomposition L
@@ -88,9 +88,9 @@ c****
          istart = 0
          do k = 1, n
            istart = (n+1)*(k-1)
-           call ga_put(g_s,k,n,k,k,dbl_mb(i_a_in+istart),1)
+           call tpi_ga_put(g_s,k,n,k,k,dbl_mb(i_a_in+istart),1)
            if(k.lt.n)
-     &          call ga_put(g_s,k,k,k+1,n,dbl_mb(i_a_in+istart+1),1)
+     &          call tpi_ga_put(g_s,k,k,k+1,n,dbl_mb(i_a_in+istart+1),1)
          enddo
 c****
 c****   deallocate local storage
@@ -98,7 +98,7 @@ c****
         if(.not.ma_pop_stack(l_a_in))
      &    call errquit('ga_inv_seq: cannot pop stack',0, MA_ERR)
       endif 
-      call ga_sync()
+      call tpi_ga_sync()
       return 
 c
       end

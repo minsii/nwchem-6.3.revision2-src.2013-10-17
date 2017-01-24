@@ -844,7 +844,7 @@ c     This switch controls whether the grid is
 c     rotationally invariant. For now, it is hard-wired to 
 c     1 (rotationally invariant).
 c     
-      call ga_sync()
+      call tpi_ga_sync()
       if (.not. rtdb_get(rtdb, 'dft:iqrot', mt_int, 1, iqrot))
      &   then
         iqrot = 1
@@ -1010,7 +1010,7 @@ c
       if (.not. MA_Pop_Stack(lcoord))
      &   call errquit('dft_rdinput: pop stack failed.',0, MA_ERR)
 c
-      call ga_sync
+      call tpi_ga_sync
 c
       return
       end

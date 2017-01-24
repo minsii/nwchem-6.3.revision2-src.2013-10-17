@@ -135,7 +135,7 @@ c
          call util_flush(LuOut)
       endif
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c     ----- -nr- options ... -----
 c
@@ -356,7 +356,7 @@ c
          if(odbug) then
             write(LuOut,*) 'gas_phase done, do sol-phase now ...'
          endif
-         call ga_sync()
+         call tpi_ga_sync()
          go to 9
       elseif(cosmo_on.and.cosmo_phase.eq.2) then
          esol      =energy
@@ -376,7 +376,7 @@ c
          endif
       endif
       if (ga_nodeid().eq.0) call util_flush(6)
-      call ga_sync()
+      call tpi_ga_sync()
 c     
 c     *ALWAYS* return canonical MOs ... don't do aufbau
 c     
@@ -399,7 +399,7 @@ c
      $     ('dft_roks_nr_solve: ga_destroy work', 0, GA_ERR)
 c     
       if (ga_nodeid().eq.0) call util_flush(LuOut)
-      call ga_sync()
+      call tpi_ga_sync()
 c     
       dft_roks_nr_solve = converged
 c     

@@ -37,7 +37,7 @@ C     == Variables ==
          call errquit (pname//"failed to find value",0,0)
       endif
 
-      call ga_sync ()
+      call tpi_ga_sync ()
 
       if (itreference < 1)
      $     call errquit (pname//"bad itreference",0,0)

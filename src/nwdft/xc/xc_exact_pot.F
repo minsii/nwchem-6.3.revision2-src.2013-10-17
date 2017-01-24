@@ -92,7 +92,7 @@ c
       g_rho_diff(1) = ga_create_atom_blocked(geom,ao_bas_han,
      &                                      'g_rho_diff_1')
       tol2e=10.d0**(-itol2e)
-      call ga_sync
+      call tpi_ga_sync
       kfac(1) = 0.0d00
       jfac(1) = 0.0d0
       jfac(2) = 1.0d0

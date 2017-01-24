@@ -9,8 +9,8 @@ C$Id: dft_genspm.F 19696 2010-10-29 16:53:42Z d3y133 $
 #include "global.fh"
 #include "bas.fh"
 #include "stdio.fh"
-      integer int_nint,nxtask
-      external int_nint,nxtask
+      integer int_nint,tpinxt,tpisynxt
+      external int_nint,tpinxt,tpisynxt
       double precision ddot
       external ddot
 
@@ -70,7 +70,7 @@ C$Id: dft_genspm.F 19696 2010-10-29 16:53:42Z d3y133 $
       endif
 
       icount=1
-      n1 = nxtask(nproc,icount)
+      n1 = tpinxt(nproc,icount)
       n2 = 0
 
       do iat=1,natoms
@@ -140,7 +140,7 @@ c
             Pmat_point0=Pmat_point0+nbf_i
 
           enddo
-          n1 = nxtask(nproc,icount)
+          n1 = tpinxt(nproc,icount)
           end if
           
           n2 = n2 + 1
@@ -148,7 +148,7 @@ c
         enddo
       enddo
 
-      n1 = nxtask(-nproc,icount)
+      n1 = tpisynxt(-nproc,icount)
 
       if(.not.ma_pop_stack(lscr))
      &  call errquit('dft_genspm: cannot pop stack',0, MA_ERR)

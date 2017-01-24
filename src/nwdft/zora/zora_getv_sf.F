@@ -237,15 +237,15 @@ c
 c     == pack into a ga ==
       do i=1,ipol
        call ga_zero(g_zora_sf(i))
-       call ga_put(g_zora_sf(i),1,nbf_ao,1,nbf_ao,
+       call tpi_ga_put(g_zora_sf(i),1,nbf_ao,1,nbf_ao,
      &             dbl_mb(izora0),nbf_ao)
        call ga_symmetrize(g_zora_sf(i))
        call ga_zero(g_zora_scale_sf(i))
-       call ga_put(g_zora_scale_sf(i),1,nbf_ao,1,nbf_ao,
+       call tpi_ga_put(g_zora_scale_sf(i),1,nbf_ao,1,nbf_ao,
      &             dbl_mb(izora0scal),nbf_ao)
        call ga_symmetrize(g_zora_scale_sf(i))
       enddo
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c     == clean memory ==
       return

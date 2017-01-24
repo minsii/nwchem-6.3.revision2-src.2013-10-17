@@ -77,7 +77,7 @@ C
       converged = .false.
       
       do while (.not. converged)
-         call ga_sync ()
+         call tpi_ga_sync ()
 
          ik = ik + 1
          zinvk = z1 / dcmplx (ik)

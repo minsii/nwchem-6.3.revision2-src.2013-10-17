@@ -223,7 +223,7 @@ c
       if (.not.ma_pop_stack(lrowim))
      &   call errquit('diis_driver: cannot pop stack',0, MA_ERR)
 c
-      call ga_sync
+      call tpi_ga_sync
 c
 c
 c     Compute Pulays B matrix.

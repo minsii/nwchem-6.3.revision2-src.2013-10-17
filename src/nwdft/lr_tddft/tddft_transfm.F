@@ -89,12 +89,12 @@ c
           do j=nfc(i)+1,nocc(i)
             do k=nocc(i)+1,nmo(i)-nfv(i)
               l=l+1
-              call ga_get(g_vector(i),l,l,ivector,ivector,
+              call tpi_ga_get(g_vector(i),l,l,ivector,ivector,
      1          dbl_mb(k_w1+(j-1)*nbf_ao+k-1),1)
             enddo
           enddo
           call dfill(nbf_ao**2,0.0d0,dbl_mb(k_w3),1)
-          call ga_get(g_movecs(i),1,nbf_ao,1,nmo(i),dbl_mb(k_w3),
+          call tpi_ga_get(g_movecs(i),1,nbf_ao,1,nmo(i),dbl_mb(k_w3),
      1      nbf_ao)
           if (nodezero.and.util_print('transform',print_debug))
      1      call ma_print(dbl_mb(k_w3),nbf_ao,nbf_ao,'MO vectors')
@@ -113,7 +113,7 @@ c
           call dgemm('N','T',nbf_ao,nbf_ao,nbf_ao,
      1      1.0d0,dbl_mb(k_w2),nbf_ao,dbl_mb(k_w3),nbf_ao,
      2      0.0d0,dbl_mb(k_w1),nbf_ao)
-          call ga_put(g_density(i),1,nbf_ao,1,nbf_ao,
+          call tpi_ga_put(g_density(i),1,nbf_ao,1,nbf_ao,
      1      dbl_mb(k_w1),nbf_ao)
 #else
           if(.not.ga_duplicate(g_density(i), g_dd,' tddft '))
@@ -129,7 +129,7 @@ c
           ilo=1
           ihi=ilo+l1l0
           l1l0=l1l0+1
-          call ga_sync()
+          call tpi_ga_sync()
           do j=nfc(i)+1,nocc(i)
              call ga_mask_sync(.false.,.false.)
              call ga_copy_patch('N', g_vector(i), 
@@ -139,7 +139,7 @@ c
              ilo=ilo+l1l0
              ihi=ihi+l1l0
           enddo
-          call ga_sync()
+          call tpi_ga_sync()
 C     MO*V
           call ga_dgemm('N','N',nbf_ao,nocc(i),l1,1d0,
      G         g_movecs(i),g_vpatch,
@@ -172,9 +172,9 @@ c
           if (nodezero.and.util_print('transform',print_debug)) 
      1      write(LuOut,9000) ivector,i
           call dfill(nbf_ao**2,0.0d0,dbl_mb(k_w3),1)
-          call ga_get(g_movecs(i),1,nbf_ao,1,nmo(i),
+          call tpi_ga_get(g_movecs(i),1,nbf_ao,1,nmo(i),
      1      dbl_mb(k_w3),nbf_ao)
-          call ga_get(g_density(i),1,nbf_ao,1,nbf_ao,
+          call tpi_ga_get(g_density(i),1,nbf_ao,1,nbf_ao,
      1      dbl_mb(k_w1),nbf_ao)
           if (nodezero.and.util_print('transform',print_debug))
      1      call ma_print(dbl_mb(k_w3),nbf_ao,nbf_ao,'MO vectors')
@@ -201,7 +201,7 @@ c
           do j=nfc(i)+1,nocc(i)
             do k=nocc(i)+1,nmo(i)-nfv(i)
               l=l+1
-              call ga_put(g_vector(i),l,l,ivector,ivector,
+              call tpi_ga_put(g_vector(i),l,l,ivector,ivector,
      1          dbl_mb(k_w1+(j-1)*nbf_ao+k-1),1)
             enddo
           enddo
@@ -228,7 +228,7 @@ C     (MO(transp)*DM)*MO
           ilo=1
           ihi=ilo+l1l0
           l1l0=l1l0+1
-          call ga_sync()
+          call tpi_ga_sync()
           do j=nfc(i)+1,nocc(i)
              call ga_mask_sync(.false.,.false.)
              call ga_copy_patch('N', 
@@ -237,7 +237,7 @@ C     (MO(transp)*DM)*MO
              ilo=ilo+l1l0
              ihi=ihi+l1l0
           enddo
-          call ga_sync()
+          call tpi_ga_sync()
           if(.not.ga_destroy(g_vpatch))
      A         call errquit('tddfttransfm: gadestr failed ',0,0)
 #endif

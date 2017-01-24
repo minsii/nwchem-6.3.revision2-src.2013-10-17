@@ -153,7 +153,7 @@ c$$$
 c$$$C     (diag matrix of occupations)
 c$$$      call ga_zero (g_ztmp2)
 c$$$      do i = 1, params%ns_ao
-c$$$         if (i .le. 1) call ga_put (g_ztmp2, i, i, i, i, z2, 1)
+c$$$         if (i .le. 1) call tpi_ga_put (g_ztmp2, i, i, i, i, z2, 1)
 c$$$      enddo
 c$$$
 c$$$C     D C^+

@@ -63,7 +63,7 @@ c
 C
 C         get row of g_s 
 C
-          call ga_get(g_s,i,i,1,nbf,DBL_MB(k_tmp),1)
+          call tpi_ga_get(g_s,i,i,1,nbf,DBL_MB(k_tmp),1)
           do j=1,nbf
             if(abs(dbl_mb(k_tmp+j-1)).gt.prodmax) then
               prodmax=abs(dbl_mb(k_tmp+j-1))

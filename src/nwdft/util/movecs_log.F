@@ -56,8 +56,8 @@ c**** number of occupied orbitals
      &     call errquit(
      &     'movecs_to_logfile: rtdb_get of noc failed', 0, RTDB_ERR)
 
-c**** vectors.F has a ga_sync at this point...
-      call ga_sync()
+c**** vectors.F has a tpi_ga_sync at this point...
+      call tpi_ga_sync()
 
       if (ga_nodeid() .eq. 0) then
         if (nsets .gt. 2) then
@@ -102,7 +102,7 @@ c****     output HOMOs
      &           'Occupation_Number=', occ_number ! label
             write (LuOut,'(a,e14.7)')
      &           'Orbital_energy=', evals(iorb,iset)
-            call ga_get(g_vecs(iset), 1, nbf, iorb, iorb,
+            call tpi_ga_get(g_vecs(iset), 1, nbf, iorb, iorb,
      &           dbl_mb(k_vecs),1)
             write(LuOut,'(4(e18.7))') (dbl_mb(k_vecs+j), j=0,nbf-1)
           enddo
@@ -118,7 +118,7 @@ c****     output LUMOs
      &           'Occupation_number=', occ_number ! label
             write (LuOut,'(a,e14.7)')
      &           'Orbital_energy=', evals(iorb,iset)
-            call ga_get(g_vecs(iset), 1, nbf, iorb, iorb,
+            call tpi_ga_get(g_vecs(iset), 1, nbf, iorb, iorb,
      &           dbl_mb(k_vecs),1)
             write(LuOut,'(4(e18.7))') (dbl_mb(k_vecs+j), j=0,nbf-1)
           enddo

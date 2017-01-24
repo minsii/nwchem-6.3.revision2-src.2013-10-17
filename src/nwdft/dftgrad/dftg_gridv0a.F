@@ -84,8 +84,8 @@ c
 c     external
 c
       double precision ddot
-      integer nxtask
-      External ddot, nxtask
+      integer tpinxt
+      External ddot, tpinxt
       double precision eps
       parameter(eps=1.d-8)
 c

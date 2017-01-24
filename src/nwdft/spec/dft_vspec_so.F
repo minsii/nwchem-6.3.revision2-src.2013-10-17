@@ -125,7 +125,7 @@ c
 c
 c     Compute dipole integrals in the AO basis
 c
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_zero(g_dpx_ao)
       call ga_zero(g_dpy_ao)
       call ga_zero(g_dpz_ao)
@@ -341,12 +341,12 @@ c
         do j=nelec+1,nbf_mo
           ea = dbl_mb(k_eval(1)+j-1) ! orbital energy of the final state
           exen = (ea-ei)*au2ev
-          call ga_get(g_dpx_mo(1),i,i,j,j,tmpx1,1)
-          call ga_get(g_dpx_mo(2),i,i,j,j,tmpx2,1)
-          call ga_get(g_dpy_mo(1),i,i,j,j,tmpy1,1)
-          call ga_get(g_dpy_mo(2),i,i,j,j,tmpy2,1)
-          call ga_get(g_dpz_mo(1),i,i,j,j,tmpz1,1)
-          call ga_get(g_dpz_mo(2),i,i,j,j,tmpz2,1)
+          call tpi_ga_get(g_dpx_mo(1),i,i,j,j,tmpx1,1)
+          call tpi_ga_get(g_dpx_mo(2),i,i,j,j,tmpx2,1)
+          call tpi_ga_get(g_dpy_mo(1),i,i,j,j,tmpy1,1)
+          call tpi_ga_get(g_dpy_mo(2),i,i,j,j,tmpy2,1)
+          call tpi_ga_get(g_dpz_mo(1),i,i,j,j,tmpz1,1)
+          call tpi_ga_get(g_dpz_mo(2),i,i,j,j,tmpz2,1)
 c         tmpx1 = (tmpx1*tmpx1+tmpx2*tmpx2)*scal
 c         tmpy1 = (tmpy1*tmpy1+tmpy2*tmpy2)*scal
 c         tmpz1 = (tmpz1*tmpz1+tmpz2*tmpz2)*scal
@@ -371,7 +371,7 @@ c     Broadcast status to other nodes
 c
       ok = 1
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
 c
  1000 format('== Spin-Orbit DFT Virtual Spectrum ==')
 c

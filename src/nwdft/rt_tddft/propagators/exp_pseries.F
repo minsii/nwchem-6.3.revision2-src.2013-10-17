@@ -142,7 +142,7 @@ C
       num_zeroterms = 0
       
       do while (.not. converged)
-         call ga_sync ()
+         call tpi_ga_sync ()
 
          ik = ik + 1
          zinvk = z1 / dcmplx (ik)
@@ -190,7 +190,7 @@ C     Square output matrix m times to recover unscaled result.  Use
 C     g_prev_term as scratch space.
 C
       do im = 1, mscale
-         call ga_sync ()
+         call tpi_ga_sync ()
          call ga_zero (g_prev_term)
          call ga_zgemm ("N", "N", n1, n1, n1,
      $        z1, g_zexpa, g_zexpa, z0, g_prev_term)

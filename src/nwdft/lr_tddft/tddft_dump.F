@@ -72,11 +72,11 @@ c
               do j=nfc(i)+1,nocc(i)
                 do k=nocc(i)+1,nmo(i)-nfv(i)
                   l=l+1
-                  call ga_get(g_trials(i),l,l,ivector,ivector,t,1)
+                  call tpi_ga_get(g_trials(i),l,l,ivector,ivector,t,1)
                   if (ivector.le.nproducts) then
-                    call ga_get(g_prod_p(i),l,l,ivector,ivector,p,1)
+                    call tpi_ga_get(g_prod_p(i),l,l,ivector,ivector,p,1)
                     if (.not.tda) then
-                      call ga_get(g_prod_m(i),l,l,ivector,ivector,q,1)
+                    call tpi_ga_get(g_prod_m(i),l,l,ivector,ivector,q,1)
                       write(LuOut,9040) i,j,k,t,p,q
                     else
                       write(LuOut,9040) i,j,k,t,p
@@ -102,7 +102,7 @@ c
               do j=nfc(i)+1,nocc(i)
                 do k=nocc(i)+1,nmo(i)-nfv(i)
                   l=l+1
-                  call ga_get(g_buffer1(i),l,l,1,1,t,1)
+                  call tpi_ga_get(g_buffer1(i),l,l,1,1,t,1)
                   write(LuOut,9040) i,j,k,t
                 enddo
               enddo
@@ -119,7 +119,7 @@ c
                 do j=nfc(i)+1,nocc(i)
                   do k=nocc(i)+1,nmo(i)-nfv(i)
                     l=l+1
-                    call ga_get(g_buffer1(i),l,l,1,1,p,1)
+                    call tpi_ga_get(g_buffer1(i),l,l,1,1,p,1)
                     write(LuOut,9040) i,j,k,p
                   enddo
                 enddo
@@ -137,7 +137,7 @@ c
                   do j=nfc(i)+1,nocc(i)
                     do k=nocc(i)+1,nmo(i)-nfv(i)
                       l=l+1
-                      call ga_get(g_buffer1(i),l,l,1,1,q,1)
+                      call tpi_ga_get(g_buffer1(i),l,l,1,1,q,1)
                       write(LuOut,9040) i,j,k,q
                     enddo
                   enddo

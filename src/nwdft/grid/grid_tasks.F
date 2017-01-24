@@ -35,8 +35,8 @@ c
       external grid_file_open
       logical grid_test_mem
       external grid_test_mem
-      integer nxtask,n1,n2,icount
-      external nxtask
+      integer tpinxt,n1,n2,icount
+      external tpinxt
       integer iang_done
       integer nops ! [out]
       integer k_symops(2),l_symops(2) ! [out]  symops handles
@@ -120,7 +120,7 @@ c     parallel loop init
 c
       icount = 1
       n1 = 0
-      n2 = nxtask(nproc,icount)
+      n2 = tpinxt(nproc,icount)
       call grid_sympts0(geom,nops,k_symops,l_symops,
      ,     k_gridscr,l_gridscr,k_iscr,l_iscr,nqmax)
       do 111 i_a =1,ncenters
@@ -211,14 +211,14 @@ c
  100           continue ! end loop over angular shells
                if(nq_cube.ne.0) ncubenz=ncubenz+1
                n1 = n1 + 1
-               n2 = nxtask(nproc,icount)
+               n2 = tpinxt(nproc,icount)
             else
                n1 = n1 + 1
             endif
          enddo                  ! end loop over cubes
  111  continue ! endd loop over atoms
       call grid_sympts2(l_symops,l_gridscr)
-      n1 = nxtask(-nproc,icount)
+      n1 = tpinxt(-nproc,icount)
       call dft_tstamp(' done atom loop')
 
       write(LuOut,*) ' me ',me,

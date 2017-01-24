@@ -161,9 +161,9 @@ cc
               call ga_zero(g_vxc_orb(1))
               call ga_zero(g_vxc_orb(2))
               call ga_zero(g_coul_orb)
-              call ga_get(g_movecs(isp), 1, nbf_ao, ik, ik,
+              call tpi_ga_get(g_movecs(isp), 1, nbf_ao, ik, ik,
      &                      Dbl_MB(i_vec_aux), nbf_ao)
-              call ga_put(g_orb, 1, nbf_ao, ik, ik, 
+              call tpi_ga_put(g_orb, 1, nbf_ao, ik, ik, 
      &                    Dbl_MB(i_vec_aux), nbf_ao)
               call ga_dgemm('n', 't', nbf_ao, nbf_ao, nbf_ao, 1.0d00,
      &                      g_orb, g_orb, 0.d00, g_sic_dens(1))
@@ -244,9 +244,9 @@ c
                     elem_j = elem_j - 1
                     call ga_zero(g_orb)
                     call ga_zero(g_sic_dens(2))
-                    call ga_get(g_movecs(isp), 1, nbf_ao, ij, ij, 
+                    call tpi_ga_get(g_movecs(isp), 1, nbf_ao, ij, ij, 
      &                          Dbl_MB(i_vec_aux) ,nbf_ao)
-                    call ga_put(g_orb, 1, nbf_ao, ij, ij, 
+                    call tpi_ga_put(g_orb, 1, nbf_ao, ij, ij, 
      &                          Dbl_MB(i_vec_aux) ,nbf_ao)
                     call ga_dgemm('n', 't', nbf_ao, nbf_ao, nbf_ao,
      &                            1.0d00, g_orb, g_orb, 0.d00, 
@@ -288,9 +288,9 @@ c
               elem_i = elem_i - 1
               call ga_zero(g_orb)
               call ga_zero(g_sic_dens(2))
-              call ga_get(g_movecs(isp), 1, nbf_ao, ik, ik, 
+              call tpi_ga_get(g_movecs(isp), 1, nbf_ao, ik, ik, 
      &                    Dbl_MB(i_vec_aux) ,nbf_ao)
-              call ga_put(g_orb, 1, nbf_ao, ik, ik, 
+              call tpi_ga_put(g_orb, 1, nbf_ao, ik, ik, 
      &                    Dbl_MB(i_vec_aux), nbf_ao)
               call ga_dgemm('n', 't', nbf_ao, nbf_ao, nbf_ao, 
      &                      1.0d00, g_orb, g_orb, 0.d00,
@@ -303,10 +303,10 @@ c
 c
           if (size_mat.gt.0) then
             call ga_zero(g_vectu)
-            call ga_put(g_vectu, 1, size_mat, 1, 1, Dbl_MB(i_consti),
+            call tpi_ga_put(g_vectu, 1, size_mat, 1, 1,Dbl_MB(i_consti),
      &                  size_mat)
             call ga_lu_solve_seq('n', g_matm, g_vectu)
-            call ga_get(g_vectu, 1, size_mat, 1, 1, Dbl_MB(i_consti),
+            call tpi_ga_get(g_vectu, 1, size_mat, 1, 1,Dbl_MB(i_consti),
      &                  size_mat)
             call ga_zero(g_orb)
             elem_i = size_mat + 1

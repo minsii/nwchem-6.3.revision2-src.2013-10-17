@@ -470,10 +470,10 @@ CXXX  [KAL]: diagonal GA routines scramble???
          call ga_zero (g_a)
          if (me.eq.0) then
             do i = 1, n1
-               call ga_put (g_a, i,i,i,i, one, 1)
+               call tpi_ga_put (g_a, i,i,i,i, one, 1)
             enddo
          endif
-         call ga_sync ()
+         call tpi_ga_sync ()
 #else
          call ga_zero (g_a)
          call ga_shift_diagonal (g_a, 1d0)
@@ -486,10 +486,10 @@ CXXX  [KAL]: diagonal GA routines scramble???
          call ga_zero (g_a)
          if (me.eq.0) then
             do i = 1, n1
-               call ga_put (g_a, i,i,i,i, zone, 1)
+               call tpi_ga_put (g_a, i,i,i,i, zone, 1)
             enddo
          endif
-         call ga_sync ()
+         call tpi_ga_sync ()
 #else
          call ga_zero (g_a)
          call ga_shift_diagonal (g_a, z1)
@@ -1041,7 +1041,7 @@ c$$$      endif
          enddo
       endif
       
-      call ga_sync ()
+      call tpi_ga_sync ()
       call ga_brdcst (mt_log, stat, 1, 0)
       
       mat_is_posneg = stat

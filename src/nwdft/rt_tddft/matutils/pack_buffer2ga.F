@@ -57,7 +57,7 @@ C
          do j = 1, n
             dbl_mb(itmp + j - 1) = buff(n*(i-1) + j)
          enddo
-         call ga_put (g_a, 1, n, i, i, dbl_mb(itmp), n)
+         call tpi_ga_put (g_a, 1, n, i, i, dbl_mb(itmp), n)
       enddo
 
 
@@ -135,7 +135,7 @@ C
          do j = 1, n
             dcpl_mb(itmp + j - 1) = buff(n*(i-1) + j)
          enddo
-         call ga_put (g_a, 1, n, i, i, dcpl_mb(itmp), n)
+         call tpi_ga_put (g_a, 1, n, i, i, dcpl_mb(itmp), n)
       enddo
 
 

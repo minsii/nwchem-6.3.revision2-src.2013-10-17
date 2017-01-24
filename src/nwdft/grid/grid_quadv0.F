@@ -371,7 +371,7 @@ c
 c
       Ex=0d0
       Ec=0d0
-      call ga_sync()
+      call tpi_ga_sync()
       if(.not.do_cpks_l)
      *  call xc_rep_init(rtdb, geom, ao_bas_han,g_dens,g_vxc,
      &     nbf_ao,ipol,do_scf.and.(.not.l3d),.false.)
@@ -465,7 +465,7 @@ c
       
       if (.not.ma_chop_stack(lqxyz))
      &   call errquit('grid_den: cannot pop stack',0, MA_ERR)
-      call ga_sync()
+      call tpi_ga_sync()
       if(do_scf.and.(.not.l3d)) then
 c
 c         write(0,*) ' symmetr scf l r',do_scf,do_cpks_l,do_cpks_r,

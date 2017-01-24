@@ -127,7 +127,7 @@ c
                write(6,*) ' dft_gradients_so: ', 'Movecs Re'
                call util_flush(6)
             endif
-            call ga_sync()
+            call tpi_ga_sync()
             call errquit('dft_gradients_so: ga_create ', 0, GA_ERR)
          endif
          
@@ -138,14 +138,14 @@ c
                write(6,*) ' dft_gradients_so: ', 'Movecs Im'
                call util_flush(6)
             endif
-            call ga_sync()
+            call tpi_ga_sync()
             call errquit('dft_gradients_so: ga_create ', 0, GA_ERR)
          endif
          
          call ga_zero(g_vecs(1))
          call ga_zero(g_vecs(2))
       endif 
-      call ga_sync() 
+      call tpi_ga_sync() 
 c     
 c     global density
 c     
@@ -167,7 +167,7 @@ c
      $              'alpha density matrix'
                call util_flush(6)
             endif
-            call ga_sync()
+            call tpi_ga_sync()
             call errquit('dft_gradients_so: ga_create ', 0, GA_ERR)
          endif
          
@@ -181,7 +181,7 @@ c
      $              'beta density matrix'
                call util_flush(6)
             endif
-            call ga_sync()
+            call tpi_ga_sync()
             call errquit('dft_gradients_so: ga_create ', 0, GA_ERR)
          endif
       endif 
@@ -193,7 +193,7 @@ c
             write(6,*) ' dft_gradients_so: ', 'DenMx Re'
             call util_flush(6)
          endif
-         call ga_sync()
+         call tpi_ga_sync()
          call errquit('dft_gradients_so: ga_create ', 0, GA_ERR)
       endif
 
@@ -205,7 +205,7 @@ c
             write(6,*) ' dft_gradients_so: ', 'DenMx Im'
             call util_flush(6)
          endif
-         call ga_sync()
+         call tpi_ga_sync()
          call errquit('dft_gradients_so: ga_create ', 0, GA_ERR)
       endif
 
@@ -289,12 +289,12 @@ cso   Form Re and Im of density matrix
 cso
       nTotEl = noc(1)+noc(2) 
       call dft_densm_so(g_densso, g_vecs, nbf_ao, nTotEl)
-      call ga_sync()
+      call tpi_ga_sync()
 
       call ga_zero(iga_dens(1))
       call ga_zero(iga_dens(2))
       call ga_dens_sf(iga_dens, g_densso, nbf_ao)
-      call ga_sync
+      call tpi_ga_sync
 
       call ga_symmetrize(iga_dens(1))
       call ga_symmetrize(iga_dens(2))
@@ -454,7 +454,7 @@ c
          status = rtdb_parallel (.true.)
       endif
 c     
-      call ga_sync()
+      call tpi_ga_sync()
 c     
       if (.not.ma_pop_stack(lrdens_atom))
      $     call errquit('dft_gradient: cannot pop stack',0, MA_ERR)

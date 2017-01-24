@@ -49,8 +49,9 @@ c
 c
       double precision THRESHOLD, ERI_est, ratio
       double precision q1
-      external nxtask
-      integer nxtask
+      external tpinxt
+      external tpisynxt
+      integer tpinxt, tpisynxt
 c
       THRESHOLD=10.d0**(-itol2e)
       oprint_semi_file = util_print('semi-direct info', print_high)
@@ -133,11 +134,11 @@ c
       nxtbuf = batch_max
       nbufs = icount
 #ifdef NXTLEFT
-      call ga_sync
+      call tpi_ga_sync
       call nxtask_nleft (nproc, icount, n1, nbufs)
 cedo      write(0,*) ' using nleft'
 #else
-      n1 = nxtask(nproc,icount)
+      n1 = tpinxt(nproc,icount)
 #endif
       n2 = 0
 c      
@@ -232,7 +233,7 @@ c
 #ifdef NXTLEFT
                 call nxtask_nleft (nproc, icount, n1, nbufs)
 #else
-                n1 = nxtask(nproc,icount)
+                n1 = tpinxt(nproc,icount)
 #endif
               else
 c
@@ -266,7 +267,7 @@ c
                 ndone = 1
                 n_batch_buf = 0
 c                write(LuOut,*)' resetting nxtbuf & ndone: ',nxtbuf,ndone
-                call ga_sync
+                call tpi_ga_sync
 c
 c               check to see if there is still more disk space available:
 c
@@ -298,7 +299,7 @@ c
 #ifdef NXTLEFT
                      call nxtask_nleft (nproc, icount, n1, nbufs)
 #else                   
-                     n1 = nxtask(nproc,icount)
+                     n1 = tpinxt(nproc,icount)
 #endif
                    else
 c
@@ -330,7 +331,7 @@ c
 c     Either all integrals have been computed and are incore or all
 c     local buffers are full. 
 c
-cedo      call ga_sync
+cedo      call tpi_ga_sync
       if (n_semi_bufs.gt.0)then
 c
 c        dump last buffer     
@@ -407,7 +408,7 @@ c
 #ifdef NXTLEFT
       call nxtask_nleft (-nproc, icount, n1, nbufs)
 #else
-      n1 = nxtask(-nproc,icount)
+      n1 = tpisynxt(-nproc,icount)
 #endif
  3241 format(10x,'The percent of 3c 2e- integrals held in-core is: ',
      &       f6.2,/)
@@ -422,17 +423,17 @@ c
 c
       integer nproc, ichunk     ! [input]
 c
-      integer icount, nleft, nxtask, junk, nxtask_n, nstill
-      external nxtask
+      integer icount, nleft, tpinxt, junk, nxtask_n, nstill
+      external tpinxt
       save icount, nleft
       data nleft, icount /0, 0/
 c     
-c     This is a copy of nxtask (from ddscf) but returning
+c     This is a copy of tpinxt (from ddscf) but returning
 c     copy of nleft as argument.
 c     
       if(nproc.gt.0) then
          if(nleft.eq.0) then
-            icount = nxtask(nproc, 1) * ichunk
+            icount = tpinxt(nproc, 1) * ichunk
             nleft = ichunk
          endif
          nxtask_n = icount
@@ -441,7 +442,7 @@ c
       else
          nleft = 0
          nxtask_n = -1
-         junk = nxtask(nproc, 1)
+         junk = tpinxt(nproc, 1)
       endif
       nstill = nleft
       return

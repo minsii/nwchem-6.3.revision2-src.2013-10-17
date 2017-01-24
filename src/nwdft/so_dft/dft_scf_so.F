@@ -493,7 +493,7 @@ c
       call ga_zero(g_moso(1))
       call ga_zero(g_moso(2))
 c
-      call ga_sync() 
+      call tpi_ga_sync() 
 c
 c     real part of the fock matrix
       if(.not.ga_create(mt_dbl,nbf_mo,nbf_mo,'Fock Re',0,0, 
@@ -748,7 +748,7 @@ c       spects for alpha and beta separately
         debug_fon = .false.
       end if ! fon
 c
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_zero(g_densso(1))
       call ga_zero(g_densso(2))
       spinor = .false. 
@@ -1125,7 +1125,7 @@ c     Top of infinite SCF iteration loop
 c
 c     Write prep time required
 c
-      call ga_sync()
+      call tpi_ga_sync()
       if (me.eq.0.and.oprint)then
          current_cpu = util_cpusec()
          write(LuOut,20)current_cpu
@@ -1341,7 +1341,7 @@ c        == add spin-orbit zora to fock matrix ==
       end if  ! do_zora
 c
 c     == add in the exchange-correlation to the fock matrix ==
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_dadd_patch( 1.d0, g_fockso(1), 1, nbf_ao, 
      &     1, nbf_ao, 
      &     1.0d0, g_vxc(1),  1, nbf_ao, 
@@ -1392,7 +1392,7 @@ c
 c     
       delta = abs(etold-etnew)
 c     
-      call ga_sync
+      call tpi_ga_sync
       rms(1) = 0.d0
       rms(2) = 0.d0
       homo_lumo_gap = 200.0d0
@@ -1483,7 +1483,7 @@ c        Build diagonal matrix.
 c     
          call ga_zero(g_tmp_ri)
          do j = nTotOcc+1+me, nbf_mo, nproc
-            call ga_put(g_tmp_ri, j, j, j, j, rlshift, 1)
+            call tpi_ga_put(g_tmp_ri, j, j, j, j, rlshift, 1)
          enddo
 c     
 c        Transform this into "AO" basis and add to current 
@@ -1536,14 +1536,14 @@ c      write(*,*)"compare"
          enddo
       enddo
       do i = 1, nbf_mo 
-         call ga_get(g_fockso(1), 1,i, i,i, dbl_mb(ibuff),1)
+         call tpi_ga_get(g_fockso(1), 1,i, i,i, dbl_mb(ibuff),1)
 c         write(*,*)"i=", i 
 c         write(*,*)(dbl_mb(ibuff+ijk), ijk=0,nbf_mo-1)
          do j=1,i 
             DCpl_mb(ia+(nbf_mo)*(i-1)+(j-1))=
      =           dcmplx(dbl_mb(ibuff+j-1),0d0)
          enddo 
-         call ga_get(g_fockso(2), 1,i, i,i, dbl_mb(ibuff),1)
+         call tpi_ga_get(g_fockso(2), 1,i, i,i, dbl_mb(ibuff),1)
          do j=1,i 
             DCpl_mb(ia+(nbf_mo)*(i-1)+(j-1))=
      $               DCpl_mb(ia+(nbf_mo)*(i-1)+(j-1))
@@ -1560,17 +1560,17 @@ c         write(*,*)(dbl_mb(ibuff+ijk), ijk=0,nbf_mo-1)
             dbl_mb(ibuff+j-1)=dble(DCpl_mb(ia+nbf_mo*(i-1)+(j-1)))
          enddo 
          i1=i
-         call ga_put(g_moso(1),1,nbf_mo,i1,i1,dbl_mb(ibuff),1)
+         call tpi_ga_put(g_moso(1),1,nbf_mo,i1,i1,dbl_mb(ibuff),1)
          do j = 1, nbf_mo 
             dbl_mb(ibuff+j-1)=0.0d0
             dbl_mb(ibuff+j-1)=
      $             dimag(dcmplx(DCpl_mb(ia+nbf_mo*(i-1)+(j-1))))
          enddo
          i1=i 
-         call ga_put(g_moso(2),1,nbf_mo,i1,i1,dbl_mb(ibuff),1)
+         call tpi_ga_put(g_moso(2),1,nbf_mo,i1,i1,dbl_mb(ibuff),1)
       enddo
       endif
-      call ga_sync()
+      call tpi_ga_sync()
 #endif
 c      write(*,'("before transform")')
 c      write(*,*)(Dbl_mb(k_eval(1)+i),i=0,nbf_mo-1)
@@ -1627,7 +1627,7 @@ c
  4224 format(10x,' HOMO = ',f6.2,' LUMO = ',f6.2,
      &           ' RLSHIFT = ',f6.2,' HL_GAP = ',f6.2)
 c     
-      call ga_sync
+      call tpi_ga_sync
 c     
 c     Save previous density for convergence check.
 c     
@@ -1650,7 +1650,7 @@ c
 c     
 c     Form a new density matrix.
 c     
-      call ga_sync 
+      call tpi_ga_sync 
       call ga_zero(g_densso(1))
       call ga_zero(g_densso(2)) 
 c
@@ -1727,13 +1727,13 @@ c     if (debug_fon) call dft_pstrace(g_dens,ao_bas_han,nbf_ao,oskel)
      &     call errquit('dft_scf: rtdb_put pstrace failed', 1, RTDB_ERR)
       end if
 c
-      call ga_sync
+      call tpi_ga_sync
 c     
 c     Check convergence on Density.
 c     
       rms(1) = dft_dencvg(g_dens(1), g_movecs(1), nbf_ao)
       rms(2) = dft_dencvg(g_dens(2), g_movecs(2), nbf_ao)
-      call ga_sync
+      call tpi_ga_sync
 c     
       if (oprint_conv.and.iter.eq.1.and.me.eq.0)then
          nheap = MA_Inquire_Heap(MT_Dbl)
@@ -1782,7 +1782,7 @@ c
       call ecce_print1 ('iterative total density difference', 
      &                  mt_dbl, sqrt(rms(1)), 1)
 c
-      call ga_sync
+      call tpi_ga_sync
 c     
 c     save eigenvectors to movecs file
 c     
@@ -1791,7 +1791,7 @@ c
      &     nbf_mo, dbl_mb(k_occ), dbl_mb(k_eval(1)), g_moso))
      &     call errquit('dft_scf_so: movec_write failed', 0, DISK_ERR)
 c     
-      call ga_sync
+      call tpi_ga_sync
 c     
       if (me .eq. 0.and.oprint_eval)then
          if (util_print('intermediate evals', print_default))then
@@ -1831,11 +1831,11 @@ c
 c     Form the total density matrix.
 c     
       call ga_dadd(one, g_dens(1), one, g_dens(2), g_dens(1))
-      call ga_sync
+      call tpi_ga_sync
 c     
 c     Check for SCF convergence.
 c     
-      call ga_sync
+      call tpi_ga_sync
 c
       call dft_scfcvg(rms, derr, Etold, Etnew, 
      &     e_conv, d_conv, g_conv, ipol, 
@@ -1866,11 +1866,11 @@ c
          call ga_zero(g_dens(2))
          call ga_dens_sf(g_dens, g_densso(1), nbf_ao)
          call ga_dadd(one, g_dens(1), one, g_dens(2), g_dens(1))
-         call ga_sync
+         call tpi_ga_sync
       else
          ndamp = 0
       endif
-      call ga_sync
+      call tpi_ga_sync
       iter = iter + 1
 c     
 c     Check convergence parameters.
@@ -2156,7 +2156,7 @@ c
       call ga_zero(g_dens(2))
       call ga_dens_sf(g_dens, g_densso(1), nbf_ao)
       call ga_dadd(one, g_dens(1), one, g_dens(2), g_dens(1))
-      call ga_sync
+      call tpi_ga_sync
       det_eng = .true. 
 c     
 c     Restore the mo order so that we have a fixed reference
@@ -2273,7 +2273,7 @@ c
      $     (rtdb, ao_bas_han, movecs_out, 'sodft', title,
      &     nbf_mo, dbl_mb(k_occ), dbl_mb(k_eval(1)), g_moso))
      &     call errquit('dft_scf_so: movec_write failed', 0, DISK_ERR)
-      call ga_sync()
+      call tpi_ga_sync()
 c     
 c     Shut down DIIS.
 c     

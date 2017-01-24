@@ -56,7 +56,7 @@ c
 c     Exact exchange is now computed by grad_force
 c
 
-      call ga_sync
+      call tpi_ga_sync
 c
       if (xc_gotxc())then
 c     

@@ -254,15 +254,15 @@ c
 c     == pack into a ga all HFine AOs ==
       do i=1,3 
        call ga_zero(g_zpso(i)) 
-       call ga_put(g_zpso(i),
+       call tpi_ga_put(g_zpso(i),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(izpso(i)),nbf_ao)
        do j=1,3
         call ga_zero(g_fcsd(i,j)) 
-        call ga_put(g_fcsd(i,j),
+        call tpi_ga_put(g_fcsd(i,j),
      &              1,nbf_ao,1,nbf_ao,dbl_mb(ifcsd(i,j)),nbf_ao)
        enddo ! end-loop-j
       enddo ! end-loop-i
-      call ga_sync()
+      call tpi_ga_sync()
 c ---- Free memory
       do i=1,3
         if (.not.ma_free_heap(lzpso(i))) call errquit
@@ -561,7 +561,7 @@ c     == pack into a ga all HFine AOs ==
        m=ind_tmn(1,t)
        n=ind_tmn(2,t) 
        call ga_zero(g_zpso(ac)) 
-       call ga_put(g_zpso(ac),
+       call tpi_ga_put(g_zpso(ac),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(izpso(m,n)),nbf_ao)
        ac=ac+1
       enddo ! end-loop-t
@@ -569,19 +569,19 @@ c     == pack into a ga all HFine AOs ==
        m=ind_tmn(2,t)
        n=ind_tmn(1,t) 
        call ga_zero(g_zpso(ac)) 
-       call ga_put(g_zpso(ac),
+       call tpi_ga_put(g_zpso(ac),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(izpso(m,n)),nbf_ao)
        ac=ac+1
       enddo ! end-loop-t
-      call ga_sync()
+      call tpi_ga_sync()
       do i=1,3 
        do j=1,3
         call ga_zero(g_fcsd(i,j)) 
-        call ga_put(g_fcsd(i,j),
+        call tpi_ga_put(g_fcsd(i,j),
      &              1,nbf_ao,1,nbf_ao,dbl_mb(ifcsd(i,j)),nbf_ao)
        enddo ! end-loop-j
       enddo ! end-loop-i
-      call ga_sync()
+      call tpi_ga_sync()
 c ----- free memory ----------- START
       do i=1,3
        do j=1,3
@@ -822,11 +822,11 @@ c
 c     == pack into a ga all NMR AOs ==
       do i=1,3 
        call ga_zero(g_hfine(i)) 
-       call ga_put(g_hfine(i),
+       call tpi_ga_put(g_hfine(i),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(ihfine(i)),nbf_ao)
        call ga_antisymmetrize(g_hfine(i)) 
       enddo ! end-loop-i
-      call ga_sync()
+      call tpi_ga_sync()
 c ----- free memory ----------- START
       do i=1,3
       if (.not.ma_free_heap(lhfine(i))) call errquit

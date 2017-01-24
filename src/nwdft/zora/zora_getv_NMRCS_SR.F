@@ -323,17 +323,17 @@ c     == tally up over all the nodes ==
 c
 c     == pack into a ga all NMR AOs ==
        call ga_zero(g_dia1) 
-       call ga_put(g_dia1,
+       call tpi_ga_put(g_dia1,
      &             1,nbf_ao,1,nbf_ao,dbl_mb(idia1),nbf_ao)
        call ga_symmetrize(g_dia1) 
       do i=1,3 
        call ga_zero(g_dia2(i)) 
-       call ga_put(g_dia2(i),
+       call tpi_ga_put(g_dia2(i),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(idia2(i)),nbf_ao)
        call ga_symmetrize(g_dia2(i)) 
        do j=1,3
        call ga_zero(g_dia3(i,j)) 
-       call ga_put(g_dia3(i,j),
+       call tpi_ga_put(g_dia3(i,j),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(idia3(i,j)),nbf_ao)
        call ga_symmetrize(g_dia3(i,j)) 
        enddo ! end-loop-j
@@ -343,7 +343,7 @@ c     == pack into a ga all NMR AOs ==
        m=ind_tmn(1,t)
        n=ind_tmn(2,t) 
        call ga_zero(g_nmr1(ac)) 
-       call ga_put(g_nmr1(ac),
+       call tpi_ga_put(g_nmr1(ac),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(inmr1(m,n)),nbf_ao)
        ac=ac+1
       enddo ! end-loop-t
@@ -351,7 +351,7 @@ c     == pack into a ga all NMR AOs ==
        m=ind_tmn(2,t)
        n=ind_tmn(1,t) 
        call ga_zero(g_nmr1(ac)) 
-       call ga_put(g_nmr1(ac),
+       call tpi_ga_put(g_nmr1(ac),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(inmr1(m,n)),nbf_ao)
        ac=ac+1
       enddo ! end-loop-t
@@ -361,7 +361,7 @@ c     == pack into a ga all NMR AOs ==
        m=ind_tmn(1,t)
        n=ind_tmn(2,t) 
        call ga_zero(g_nmr2(ac)) 
-       call ga_put(g_nmr2(ac),
+       call tpi_ga_put(g_nmr2(ac),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(inmr2(a,m,n)),nbf_ao)
        ac=ac+1
        enddo ! end-loop-t
@@ -369,12 +369,12 @@ c     == pack into a ga all NMR AOs ==
        m=ind_tmn(2,t)
        n=ind_tmn(1,t) 
        call ga_zero(g_nmr2(ac)) 
-       call ga_put(g_nmr2(ac),
+       call tpi_ga_put(g_nmr2(ac),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(inmr2(a,m,n)),nbf_ao)
        ac=ac+1
        enddo ! end-loop-t
       enddo ! end-loop-a
-      call ga_sync()
+      call tpi_ga_sync()
 c ----- free memory ----------- START
       if (.not.ma_free_heap(ldia1)) call errquit
      &   ('zora_getv_NMR: ma_free_heap of ldia1 failed',911,MA_ERR)
@@ -658,11 +658,11 @@ c
 c     == pack into a ga all NMR AOs ==
       do i=1,3 
        call ga_zero(g_nmr(i)) 
-       call ga_put(g_nmr(i),
+       call tpi_ga_put(g_nmr(i),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(inmr(i)),nbf_ao)
        call ga_symmetrize(g_nmr(i)) 
        call ga_zero(g_nmr3(i)) 
-       call ga_put(g_nmr3(i),
+       call tpi_ga_put(g_nmr3(i),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(inmr3(i)),nbf_ao)
       enddo ! end-loop-i
       ac=1
@@ -670,7 +670,7 @@ c     == pack into a ga all NMR AOs ==
        m=ind_tmn(1,t)
        n=ind_tmn(2,t) 
        call ga_zero(g_nmr4(ac)) 
-       call ga_put(g_nmr4(ac),
+       call tpi_ga_put(g_nmr4(ac),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(inmr4(m,n)),nbf_ao)
        ac=ac+1
       enddo ! end-loop-t
@@ -678,11 +678,11 @@ c     == pack into a ga all NMR AOs ==
        m=ind_tmn(2,t)
        n=ind_tmn(1,t) 
        call ga_zero(g_nmr4(ac)) 
-       call ga_put(g_nmr4(ac),
+       call tpi_ga_put(g_nmr4(ac),
      &             1,nbf_ao,1,nbf_ao,dbl_mb(inmr4(m,n)),nbf_ao)
        ac=ac+1
       enddo ! end-loop-t
-      call ga_sync()
+      call tpi_ga_sync()
 
 c ----- free memory ----------- START
       do i=1,3

@@ -55,7 +55,7 @@ c
 c     
       n = dimA1
 
-      call ga_sync()
+      call tpi_ga_sync()
       proc=ga_nnodes()
 
       oactive = myproc .eq. 0
@@ -69,7 +69,7 @@ c****
 c****
 c****   collect matrix from global array
 c****
-        call ga_get(g_a, 1, n, 1, n, Dbl_MB(i_a_in), n )
+        call tpi_ga_get(g_a, 1, n, 1, n, Dbl_MB(i_a_in), n )
 c****
 c****   cholesky factorize
 c****
@@ -82,7 +82,7 @@ c****
 c****
 c****   store back to global array
 c****
-        call ga_put(g_s, 1, n, 1, n, Dbl_MB(i_a_in), n )
+        call tpi_ga_put(g_s, 1, n, 1, n, Dbl_MB(i_a_in), n )
 c****
 c****   deallocate local storage
 c****
@@ -90,7 +90,7 @@ c****
      &    call errquit('ga_chol_seq: cannot pop stack',0, MA_ERR)
       endif 
       call ga_brdcst(Msg_ga_chol, info, mitob(1), 0)
-      call ga_sync()
+      call tpi_ga_sync()
       return 
 c     
       end

@@ -99,7 +99,7 @@ c
      $              (geom, .true., .true., .true., .true., .true.)
                call util_flush(6)
             endif
-            call ga_sync()
+            call tpi_ga_sync()
          enddo
       endif
 c     
@@ -167,15 +167,15 @@ c      call ga_print(g_vecs(2))
             call ga_scale(g_t(1), -1.0d0)
             call ga_scale(g_t(2), -1.0d0)
          else
-            call ga_sync()
+            call tpi_ga_sync()
             do i = me+1, nvec, nproc 
                if(class.eq.3.and.i.eq.1)then
 c                  write(*,*)"test, g_vecs"
 c                  call ga_print(g_vecs(1))
 c                  call ga_print(g_vecs(2))
                endif
-               call ga_get(g_vecs(1),1,nbf,i,i,dbl_mb(k_v),1)
-               call ga_get(g_vecs(2),1,nbf,i,i,dbl_mb(k_v+nbf),1)
+               call tpi_ga_get(g_vecs(1),1,nbf,i,i,dbl_mb(k_v),1)
+               call tpi_ga_get(g_vecs(2),1,nbf,i,i,dbl_mb(k_v+nbf),1)
                call dfill(2*nbf, 0.0d0, dbl_mb(k_t), 1)  
                do op = 1, 2*nop-2 
                   if (class .eq. op_class_index(op))then
@@ -193,8 +193,8 @@ c                        enddo
                      endif
                   endif
                enddo
-               call ga_put(g_t(1),1,nbf,i,i,dbl_mb(k_t),1)
-               call ga_put(g_t(2),1,nbf,i,i,dbl_mb(k_t+nbf),1)
+               call tpi_ga_put(g_t(1),1,nbf,i,i,dbl_mb(k_t),1)
+               call tpi_ga_put(g_t(2),1,nbf,i,i,dbl_mb(k_t+nbf),1)
             enddo
          endif
 c         call ga_print(g_t(1))
@@ -213,10 +213,10 @@ c     Add into character for given mo and class
 c     
          do i = me+1, nvec, nproc
             ii = (i-1)/nproc
-            call ga_get(g_vecs(1), 1, nbf, i, i, dbl_mb(k_v), 1)
-            call ga_get(g_vecs(2), 1, nbf, i, i, dbl_mb(k_v+nbf), 1)
-            call ga_get(g_q(1),    1, nbf, i, i, dbl_mb(k_q), 1)
-            call ga_get(g_q(2),    1, nbf, i, i, dbl_mb(k_q+nbf), 1)
+            call tpi_ga_get(g_vecs(1), 1, nbf, i, i, dbl_mb(k_v), 1)
+            call tpi_ga_get(g_vecs(2), 1, nbf, i, i, dbl_mb(k_v+nbf), 1)
+            call tpi_ga_get(g_q(1),    1, nbf, i, i, dbl_mb(k_q), 1)
+            call tpi_ga_get(g_q(2),    1, nbf, i, i, dbl_mb(k_q+nbf), 1)
             ioff = k_c + ii*nir + class - 1
             trace = ddot(nbf, dbl_mb(k_v), 1, dbl_mb(k_q), 1)
 c            if(class .eq. 3 .and. i .eq. 1)
@@ -249,7 +249,7 @@ c     This leads to the second having a zero character for the
 c     identify.  We fudge our way out of this by projecting
 c     with twice the real component.
 c     
-      call ga_sync()
+      call tpi_ga_sync()
       do i = me+1, nvec, nproc
          ii = (i-1)/nproc
          ioff = k_c + ii*nir
@@ -352,8 +352,8 @@ c     in the case of complex conjugate representations we
 c     need a factor of two snuck in.
 c     
  210        continue 
-            call ga_get(g_vecs(1), 1, nbf, i, i, dbl_mb(k_v), 1)
-            call ga_get(g_vecs(2), 1, nbf, i, i, dbl_mb(k_v+nbf), 1)
+            call tpi_ga_get(g_vecs(1), 1, nbf, i, i, dbl_mb(k_v), 1)
+            call tpi_ga_get(g_vecs(2), 1, nbf, i, i, dbl_mb(k_v+nbf), 1)
 c     
 c     Identity
 c     
@@ -375,8 +375,8 @@ c
 c     
             do op = 1, 2*nop-2
                class = op_class_index(op)
-               call ga_get(g_vecs(1), 1, nbf, i, i, dbl_mb(k_v), 1)
-               call ga_get(g_vecs(2), 1, nbf, i, i, dbl_mb(k_v+nbf), 1)
+               call tpi_ga_get(g_vecs(1), 1, nbf, i, i, dbl_mb(k_v), 1)
+               call tpi_ga_get(g_vecs(2), 1, nbf,i,i,dbl_mb(k_v+nbf),1)
                call dfill(2*nbf, 0.0d0, dbl_mb(k_t), 1)
                call sym_movecs_apply_op_so(basis, op, nop, nbf,   
      &              dbl_mb(k_v), dbl_mb(k_t), dcpl_mb(k_u))
@@ -418,16 +418,16 @@ c            scale=sign(scale,trace)
 c            call dscal(nbf, scale, dbl_mb(k_q), 1)
 c            call dscal(nbf, scale, dbl_mb(k_q+nbf), 1) 
 c     
-            call ga_put(g_vecs(1), 1, nbf, i, i, dbl_mb(k_q), 1)
-            call ga_put(g_vecs(2), 1, nbf, i, i, dbl_mb(k_q+nbf), 1)
+            call tpi_ga_put(g_vecs(1), 1, nbf, i, i, dbl_mb(k_q), 1)
+            call tpi_ga_put(g_vecs(2), 1, nbf, i, i, dbl_mb(k_q+nbf), 1)
          endif
 c     
       enddo
 c     
-      call ga_sync
+      call tpi_ga_sync
       call ga_igop(msg_sym_1, nmixed, 1, '+')
       call ga_igop(msg_sym_2, irs, nvec, '+')
-      call ga_sync
+      call tpi_ga_sync
 c     
       if (.not. ga_destroy(g_s)) call errquit('sym_mos_ad: ga?',0,
      &       GA_ERR)

@@ -50,7 +50,7 @@ C     get MO vectors from file (taken from Roberts scf_movecs_read)
             write(6,*) ' grad_dens_so: ', 'Movecs Re'
             call util_flush(6)
          endif
-         call ga_sync()
+         call tpi_ga_sync()
          call errquit('grad_dens_so: ga_create ', 0, GA_ERR)
       endif
 
@@ -61,7 +61,7 @@ C     get MO vectors from file (taken from Roberts scf_movecs_read)
             write(6,*) ' grad_dens_so: ', 'Movecs Im'
             call util_flush(6)
          endif
-         call ga_sync()
+         call tpi_ga_sync()
          call errquit('grad_dens_so: ga_create ', 0, GA_ERR)
       endif
 
@@ -77,7 +77,7 @@ c
             write(6,*) ' grad_dens_so: ', 'DenMx Re'
             call util_flush(6)
          endif
-         call ga_sync()
+         call tpi_ga_sync()
          call errquit('grad_dens_so: ga_create ', 0, GA_ERR)
       endif
       status = ga_create(mt_dbl,nbf2,nbf2,'density matrix', 0, 0, 
@@ -87,7 +87,7 @@ c
             write(6,*) ' grad_dens_so: ', 'DenMx Im'
             call util_flush(6)
          endif
-         call ga_sync()
+         call tpi_ga_sync()
          call errquit('grad_dens_so: ga_create ', 0, GA_ERR)
       endif
 C     density matrix
@@ -109,7 +109,7 @@ c
       call ga_add(one, g_dens(7), one, g_dens(8), g_dens(7))
       call ga_scale(g_dens(8), 2.0d0)
       call ga_add(one, g_dens(7), mone, g_dens(8), g_dens(8))
-      call ga_sync()
+      call tpi_ga_sync()
 c     
       status = ga_destroy ( g_vecs(1) )
       status = ga_destroy ( g_vecs(2) )

@@ -20,7 +20,7 @@ c
 c
       me=ga_nodeid()
       nproc=ga_nnodes()
-      call ga_sync
+      call tpi_ga_sync
 *ga:1:0
       if (.not. ga_create(mt_dbl, n, n, 'ga_temp2', n, 0, g_tmp2)) 
      &   call errquit('dft_main0d: error creating g_xcinv',0, GA_ERR)
@@ -31,7 +31,7 @@ c
      &  call errquit('dft_invdiag: cannot allocate itmp',0, MA_ERR)
       
 C     diag
-      call ga_sync
+      call tpi_ga_sync
 #if defined(PARALLEL_DIAG)         
 #ifdef SCALAPACK
       call dft_scaleig(g_a, g_tmp2, DBl_MB(iev),
@@ -58,14 +58,14 @@ C     check on eigenvalues
 C     (U * sigma^-1)
 
       do i=me+1,n,nproc
-        call ga_get(g_tmp2,1,n,i,i,DBL_MB(itmp),1)
+        call tpi_ga_get(g_tmp2,1,n,i,i,DBL_MB(itmp),1)
         do j=0,n-1
           DBL_MB(itmp+j)=DBL_MB(itmp+j)*DBl_MB(iev+i-1)
         enddo
-        call ga_put(g_A,1,n,i,i,DBL_MB(itmp),1)
+        call tpi_ga_put(g_A,1,n,i,i,DBL_MB(itmp),1)
       enddo
 
-      call ga_sync
+      call tpi_ga_sync
 
 C     (U * sigma^-1) * U(transp) 
       
@@ -75,7 +75,7 @@ C     (U * sigma^-1) * U(transp)
      &  call errquit('dft_invdiag: cannot pop stack',0, MA_ERR)
       if(.not.ma_pop_stack(lev))
      &  call errquit('dft_invdiag: cannot pop stack',0, MA_ERR)
-      call ga_SYNC
+      call tpi_ga_sync
 c      call gadest(g_tmp2)
       if (.not. ga_destroy(g_tmp2)) call errquit
      &   ('dft_invdiag: could not destroy g_tmp2', 0, GA_ERR)

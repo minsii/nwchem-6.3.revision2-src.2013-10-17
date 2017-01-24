@@ -101,11 +101,11 @@ cedo            do ir = 1, nr
                         hi(3)=map(2,jr)
                         ld(1)=offs
                         ld(2)=mxmap
-                        call nga_get(g_a, lo,hi,
+                        call tpi_nga_get(g_a, lo,hi,
      .                       scr, ld)
                         ld12=ld(1)*ld(2)
                      else
-                        call ga_get(g_a(k), map(1,ir), map(2,ir), 
+                        call tpi_ga_get(g_a(k), map(1,ir), map(2,ir), 
      .                       map(1,jr), map(2,jr), scr, mxmap)
                         ld12=mxmap
                      endif

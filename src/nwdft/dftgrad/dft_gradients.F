@@ -540,7 +540,7 @@ c
    31    continue
       endif
 c     
-      call ga_sync()
+      call tpi_ga_sync()
 c     
       if (.not.ma_pop_stack(lrdens_atom))
      $     call errquit('dft_gradient: cannot pop stack',0, MA_ERR)

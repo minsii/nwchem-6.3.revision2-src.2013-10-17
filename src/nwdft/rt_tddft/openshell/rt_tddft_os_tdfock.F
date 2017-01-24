@@ -60,7 +60,7 @@ C     calculates energies.  Note, the input g_zdens_ao is in AO basis,
 C     and the output g_zfock_ao is also in AO basis.
 C     
       call zfock_os_build (params, g_zdens_ao, energies, g_zfock_ao)
-      call ga_sync ()           !XXX needed?
+      call tpi_ga_sync ()           !XXX needed?
 
 C
 C     Compute dipole interaction (updates field values inside), and add

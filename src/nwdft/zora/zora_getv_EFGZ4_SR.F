@@ -229,9 +229,10 @@ c     == tally up over all the nodes ==
 c     == pack into a ga ==
       do i=1,ipol
        call ga_zero(g_efgz4(i))
-       call ga_put(g_efgz4(i),1,nbf_ao,1,nbf_ao,dbl_mb(izora0),nbf_ao)
+       call tpi_ga_put(g_efgz4(i),1,nbf_ao,1,nbf_ao,dbl_mb(izora0),
+     &          nbf_ao)
        call ga_symmetrize(g_efgz4(i))
       enddo
-      call ga_sync()
+      call tpi_ga_sync()
       return
       end

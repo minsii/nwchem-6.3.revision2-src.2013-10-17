@@ -87,7 +87,7 @@ c
 c
       endif  ! ga_nodeid()
 c
-      call ga_sync ()
+      call tpi_ga_sync ()
 c
       end function
 c
@@ -158,7 +158,7 @@ C     Loop over slices of mat and store in GA.
 C         
       do i = 1, n1
             call sread (unitno, dbl_mb(k_matsl), n1)
-            call ga_put (g_a, 1, n1, i, i, dbl_mb(k_matsl), n1)
+            call tpi_ga_put (g_a, 1, n1, i, i, dbl_mb(k_matsl), n1)
       enddo
 C
 C     Close output file and deallocate.
@@ -176,7 +176,7 @@ C
 c
       endif ! ga_nodeid()
 c
-      call ga_sync ()
+      call tpi_ga_sync ()
 C
       end function
 C

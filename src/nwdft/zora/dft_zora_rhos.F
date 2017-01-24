@@ -93,7 +93,7 @@ c +++++ Read Atom Nr for EFG calc ++
 c  Allocate memory for l_AtNr,k_AtNr 
       if (.not.ma_alloc_get(mt_dbl,nat,'AtNr',l_AtNr,k_AtNr))
      &    call errquit('get_rhoS: ma failed',0,MA_ERR)
-      call ga_get(g_AtNr,1,1,1,nat,dbl_mb(k_AtNr),1)
+      call tpi_ga_get(g_AtNr,1,1,1,nat,dbl_mb(k_AtNr),1)
 c ------------ for NLMO analysis --------- START
       efgfile=0 ! not doing NLMO analysis by default
       status=rtdb_get(rtdb,'prop:efgfile',mt_int,1,efgfile) ! for NLMO analysis
@@ -307,10 +307,10 @@ c --- Cmunu --> g_dens_sf
      &   call errquit('get_gdensZ4_ith:ma_push_get l_prpocc',
      &                0,MA_ERR)
       g_orb = ga_create_atom_blocked(geom,basis,'orbs')      
-      call ga_get(prpvectors(ispin),1,nbf,iorb,iorb,
+      call tpi_ga_get(prpvectors(ispin),1,nbf,iorb,iorb,
      &            dbl_mb(k_prpocc),1)
       call ga_zero(g_orb)
-      call ga_put(g_orb,1,nbf,iorb,iorb,
+      call tpi_ga_put(g_orb,1,nbf,iorb,iorb,
      &            dbl_mb(k_prpocc),1)
       call ga_zero(g_dens_sf)
       call ga_dgemm('n','t',nbf,nbf,nocc,scftyp_dbl,
@@ -357,16 +357,16 @@ c --- Cmunu --> g_dens_sf
       g_orbj = ga_create_atom_blocked(geom,basis,'orbs')   
       g_orbi = ga_create_atom_blocked(geom,basis,'orbs')         
 c ---- Getting Cj (g_orbj) MO coeffs
-      call ga_get(prpvectors(ispin),1,nbf,jorb,jorb,
+      call tpi_ga_get(prpvectors(ispin),1,nbf,jorb,jorb,
      &            dbl_mb(k_prpocc),1)
       call ga_zero(g_orbj)
-      call ga_put(g_orbj,1,nbf,jorb,jorb,
+      call tpi_ga_put(g_orbj,1,nbf,jorb,jorb,
      &            dbl_mb(k_prpocc),1)
 c ---- Getting Ci (g_orbi) MO coeffs
-      call ga_get(prpvectors(ispin),1,nbf,iorb,iorb,
+      call tpi_ga_get(prpvectors(ispin),1,nbf,iorb,iorb,
      &            dbl_mb(k_prpocc),1)
       call ga_zero(g_orbi)
-      call ga_put(g_orbi,1,nbf,iorb,iorb,
+      call tpi_ga_put(g_orbi,1,nbf,iorb,iorb,
      &            dbl_mb(k_prpocc),1)
       call ga_zero(g_dens_sf)
       call ga_dgemm('n','t',nbf,nbf,nocc,scftyp_dbl,
@@ -486,7 +486,7 @@ c     Author : Fredy Aquino
       endif
       if (.not.ma_alloc_get(mt_dbl,ipol*noc1,'Ci',l_Ci,k_Ci)) 
      &    call errquit('hnd_efgmap_Z4: ma failed',0,MA_ERR)
-      call ga_get(g_Ci,1,ipol,1,noc1,dbl_mb(k_Ci),ipol)
+      call tpi_ga_get(g_Ci,1,ipol,1,noc1,dbl_mb(k_Ci),ipol)
       do ispin=1,ipol
       porb=ispin
        call ga_zero(g_densZ4(ispin))
@@ -557,7 +557,7 @@ c---- GA output: g_AtNr
            nlist=efgz4atoms
            do ii=1,efgz4atoms
             AtNr_dbl=ii
-            call ga_put(g_AtNr,1,1,ii,ii,AtNr_dbl,1)
+            call tpi_ga_put(g_AtNr,1,1,ii,ii,AtNr_dbl,1)
            enddo     
          else
           if (.not. rtdb_get(rtdb, 'efgz4:atom list',mt_int,
@@ -567,7 +567,7 @@ c---- GA output: g_AtNr
            nlist=efgz4atoms
            do ii=1,efgz4atoms
             AtNr_dbl=atomnr(ii)
-            call ga_put(g_AtNr,1,1,ii,ii,AtNr_dbl,1)
+            call tpi_ga_put(g_AtNr,1,1,ii,ii,AtNr_dbl,1)
            enddo
          endif
        read_SLCTD_EFG_Atoms = 1
@@ -615,7 +615,7 @@ c           --> the size of one chunk is nlst
 c      Now accumulates ith-chunk on g_munu_rhoS
        jlo=pos*nlst+1
        jhi=pos*nlst+nlst
-       call ga_put(g_munu_rhoS,1,1,jlo,jhi,v,1) ! v --> g_munu_rhoS
+       call tpi_ga_put(g_munu_rhoS,1,1,jlo,jhi,v,1) ! v --> g_munu_rhoS
        return
        end
 c ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -656,7 +656,7 @@ czora...Write out the zora NMR shieldings to disk
       integer inntsize
       integer alo(3),ahi(3),ld(2)
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c     Read routines should be consistent with this
 c     Write out the atomic zora corrections
@@ -682,9 +682,9 @@ c ---> ma_free_heap: to release allocated memory
      $  call errquit('dft_zoraEFGZ4_write: ma failed', 
      &               ntot_efg, MA_ERR)
 c ++++++++ using ma_alloc_get +++++++++++++++++++ END
-       call ga_get(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
+       call tpi_ga_get(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
        call swrite(unitno,dbl_mb(k_AtNr),nlist)
-       call ga_get(g_rhoS,1,1,1,ntot_efg,dbl_mb(k_rhoS),1)
+       call tpi_ga_get(g_rhoS,1,1,1,ntot_efg,dbl_mb(k_rhoS),1)
        call swrite(unitno,dbl_mb(k_rhoS),ntot_efg)
 c
 c     Deallocate the temporary buffer
@@ -702,7 +702,7 @@ c     Close the file
       end if
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraEFGZ4_write = (ok .eq. 1)
       if (ga_nodeid() .eq. 0) then
          write(6,22) filename(1:inp_strlen(filename))
@@ -759,7 +759,7 @@ c     Broadcast status to other nodes
       integer nat_read,nlist_read
 c     Initialise to invalid MA handle
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c---- Create GA arrays: g_AtNr1,g_rhoS --- START
          if (.not. ga_create(mt_dbl,1,nlist,
@@ -799,9 +799,9 @@ c ---> ma_free_heap: to release allocated memory
      &               ntot_efg, MA_ERR)
 c ++++++++ using ma_alloc_get +++++++++++++++++++ END
        call sread(unitno,dbl_mb(k_AtNr),nlist)
-       call ga_put(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
+       call tpi_ga_put(g_AtNr1,1,1,1,nlist,dbl_mb(k_AtNr),1)
        call sread(unitno,dbl_mb(k_rhoS),ntot_efg)
-       call ga_put(g_rhoS,1,1,1,ntot_efg,dbl_mb(k_rhoS),1)
+       call tpi_ga_put(g_rhoS,1,1,1,ntot_efg,dbl_mb(k_rhoS),1)
 c
 c     Deallocate the temporary buffer
 c ----- Using ma_free_heap ------------ START
@@ -819,7 +819,7 @@ c      Close the file
 c
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraEFGZ4_read = ok .eq. 1
       return
  1000 write(6,*) 'dft_zoraEFGZ4_read: failed to open',
@@ -910,7 +910,7 @@ c ---- check ndata=1,2,3 ----- START
 c ---- check ndata=1,2,3 ----- END
       nlst=nbf*(nbf+1)/2
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c     Read routines should be consistent with this
 c     Write out the atomic zora corrections
@@ -960,7 +960,7 @@ c     Write out the number of sets and basis functions
 c     Write out g_zora_scale_sf
         do iset = 1, ipolmunu
          do i = 1, nbf
-          call ga_get(g_zora_scale_munu(iset), 1, nbf, i, i, 
+          call tpi_ga_get(g_zora_scale_munu(iset), 1, nbf, i, i, 
      &               dbl_mb(k_mat),1)
           call swrite(unitno, dbl_mb(k_mat), nbf)
          end do
@@ -970,17 +970,17 @@ c     Open the file - 2nd time
         open(unitno, status='unknown', form='unformatted',
      $      file=filename, err=1000,position='append')
         write(unitno, err=1001) nlist
-        call ga_get(g_munu_rhoS,1,1,1,nmat,
+        call tpi_ga_get(g_munu_rhoS,1,1,1,nmat,
      &              dbl_mb(k_mat),1)
         call swrite(unitno,dbl_mb(k_mat),nmat)
-        call ga_get(g_dens,1,nbf,1,nbf,
+        call tpi_ga_get(g_dens,1,nbf,1,nbf,
      &              dbl_mb(k_mat1),nbf)
         call swrite(unitno,dbl_mb(k_mat1),nmat1)
        else if (ndata.eq.3) then
 c     Open the file - 3rd time
         open(unitno, status='unknown', form='unformatted',
      $      file=filename, err=1000,position='append')
-        call ga_get(g_munuV6,1,1,1,nmat,
+        call tpi_ga_get(g_munuV6,1,1,1,nmat,
      &              dbl_mb(k_mat),1)
         call swrite(unitno,dbl_mb(k_mat),nmat)
        endif
@@ -1010,7 +1010,7 @@ c     Close the file
       end if
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraEFGZ4_NLMOAnalysis_write = (ok .eq. 1)
       if (ga_nodeid() .eq. 0) then
          write(6,22) filename(1:inp_strlen(filename))
@@ -1076,7 +1076,7 @@ c     Broadcast status to other nodes
 c     Initialise to invalid MA handle
       nlst=nbf*(nbf+1)/2
       inntsize=MA_sizeof(MT_INT,1,MT_BYTE)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
 c---- Create GA arrays: g_AtNr1,g_rhoS --- START
          if (.not. ga_create(mt_dbl,nbf,nbf,
@@ -1134,7 +1134,7 @@ c ------- Reading 1st matrix: g_zora_scale_munu ----- START
        do iset = 1, ipolmunu
         do i = 1, nbf
          call sread(unitno, dbl_mb(k_mat), nbf)
-         call ga_put(g_zora_scale_munu(iset), 1, nbf, i, i, 
+         call tpi_ga_put(g_zora_scale_munu(iset), 1, nbf, i, i, 
      &               dbl_mb(k_mat), 1)
         end do
        end do
@@ -1156,9 +1156,9 @@ c ------- Reading 2nd matrix: g_munu_rhoS ----- START
      $  call errquit('dft_zoraNLMO_read: ma failed', 
      &               nmat1, MA_ERR)
        call sread(unitno,dbl_mb(k_mat),nmat)
-       call ga_put(g_munu_rhoS,1,1,1,nmat,dbl_mb(k_mat),1)
+       call tpi_ga_put(g_munu_rhoS,1,1,1,nmat,dbl_mb(k_mat),1)
        call sread(unitno,dbl_mb(k_mat1),nmat1)
-       call ga_put(g_dens,1,nbf,1,nbf,dbl_mb(k_mat1),nbf)
+       call tpi_ga_put(g_dens,1,nbf,1,nbf,dbl_mb(k_mat1),nbf)
       if (.not. ma_free_heap(l_mat))       ! deallocate memory
      $  call errquit('dft_zoraNLMO_read: ma free_heap failed', 
      &               911, MA_ERR)
@@ -1173,7 +1173,7 @@ c ------- Reading 3rd matrix: g_munuV6 ----- START
      $  call errquit('dft_zoraNLMO_read: ma failed', 
      &               nmat, MA_ERR)
        call sread(unitno,dbl_mb(k_mat),nmat)
-       call ga_put(g_munuV6,1,1,1,nmat,dbl_mb(k_mat),1)
+       call tpi_ga_put(g_munuV6,1,1,1,nmat,dbl_mb(k_mat),1)
       if (.not. ma_free_heap(l_mat))       ! deallocate memory
      $  call errquit('dft_zoraNLMO_read: ma free_heap failed', 
      &               911, MA_ERR)
@@ -1185,7 +1185,7 @@ c      Close the file
 c
 c     Broadcast status to other nodes
  10   call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, inntsize, 0) ! Propagate status
-      call ga_sync()
+      call tpi_ga_sync()
       dft_zoraEFGZ4_NLMOAnalysis_read = ok .eq. 1
       return
  1000 write(6,*) 'dft_zoraNLMO_read: failed to open',

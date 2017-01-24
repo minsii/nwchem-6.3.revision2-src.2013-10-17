@@ -148,7 +148,7 @@ c
       status = bas_ce2bfr(bas_han, iatom, ifirst, i)
       status = bas_ce2bfr(bas_han, fatom, i, ilast)
 
-      call ga_get(g_s,1,nbf,1,nbf,stmp,nbf)
+      call tpi_ga_get(g_s,1,nbf,1,nbf,stmp,nbf)
 
       do i = 1, nbf
          if(i.le.ilast .and. i.ge.ifirst) then
@@ -168,7 +168,7 @@ c
          endif
       enddo
 
-      call ga_put(g_sa,1,nbf,1,nbf,stmp,nbf)
+      call tpi_ga_put(g_sa,1,nbf,1,nbf,stmp,nbf)
 
       return
       end
@@ -260,7 +260,7 @@ c
       call mull_calc(basis,natoms, nshells,max_at_bf2,iga_PS,
      &     dbl_mb(iqatom),dbl_mb(iqshell),dbl_mb(iPSmat), 'total')
       
-      call ga_sync
+      call tpi_ga_sync
 
       if(.not.MA_Pop_Stack(lqshell))
      &     call errquit(' exiting in mull_pop',33, MA_ERR)
@@ -336,7 +336,7 @@ c
      &     call errquit(' get_blocked_s: insuff stack',21, MA_ERR)
 
       call ga_print(g_s)
-      call ga_get(g_s,1,nbf,1,nbf,dbl_mb(i_s),nbf)
+      call tpi_ga_get(g_s,1,nbf,1,nbf,dbl_mb(i_s),nbf)
 
       do iatom = 1, natoms
          status = bas_ce2bfr(bas_han, iatom, ifirst, ilast)
@@ -350,7 +350,7 @@ c
          enddo
       enddo
 
-      call ga_put(g_sblock,1,nbf,1,nbf,dbl_mb(i_s),nbf)
+      call tpi_ga_put(g_sblock,1,nbf,1,nbf,dbl_mb(i_s),nbf)
       call ga_print(g_sblock)
 
       if(.not.ma_pop_stack(l_s))
@@ -453,7 +453,7 @@ c g_sx = g_s * g_sblock12m * g_r12m
          if(.not.MA_pop_stack(lsa2))
      &      call errquit("grid_make_sa: pop sa2", 100, MA_ERR)
        endif
-       call ga_put(g_constr(i),1,nbf_ao,1,nbf_ao,dbl_mb(isa),nbf_ao)
+       call tpi_ga_put(g_constr(i),1,nbf_ao,1,nbf_ao,dbl_mb(isa),nbf_ao)
       enddo
       if(.not.MA_pop_stack(lsa))
      &     call errquit("grid_make_sa: pop sa", 100, MA_ERR)
@@ -682,7 +682,7 @@ c
      $      nmo, one, g_tmp, g_movecs, zero, g_t)
 c     
         if(ga_nodeid().eq.0)
-     D       call ga_get(g_t,1,noc,noc+1,nmo,
+     D       call tpi_ga_get(g_t,1,noc,noc+1,nmo,
      D       dbl_mb(igtia+(i-1)*noc*nuoc),noc)
       enddo
       call ga_brdcst(65537, dbl_mb(igtia), 
@@ -984,10 +984,10 @@ c build  t3_ij (x_ij) = \sum_l s_lj * t1_li
 c build f_ij*x_ij
       do i = 1, nbf_ao
         do j = 1, nbf_ao
-          call ga_get(g_t3,i,i,j,j,fij,1)
+          call tpi_ga_get(g_t3,i,i,j,j,fij,1)
           fij = fij
      $          /(sqrt(dbl_mb(isvals+i-1))+sqrt(dbl_mb(isvals+j-1)))
-          call ga_put(g_s,i,i,j,j,fij,1)
+          call tpi_ga_put(g_s,i,i,j,j,fij,1)
         enddo
       enddo
       call ga_dadd(multipliers(ic), g_s, 0.d0, g_t3, g_t3)

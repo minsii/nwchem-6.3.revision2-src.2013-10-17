@@ -187,7 +187,7 @@ cold            call dft_zero(ipol,nbf,nmo,ntotel,efermi(1),evals,ssmear,
               if (.not. MA_Push_Get(MT_Dbl, numi*numj, 'matS',
      T           ltmpm, itmpm)) call errquit(
      T           'dftdensm: failed to alloc tmpm',0,0)
-              call ga_get(g_vecs(isp),ilo,ihi,jlo,jhi,
+              call tpi_ga_get(g_vecs(isp),ilo,ihi,jlo,jhi,
      .           dbl_mb(itmpm),numi)
               icount=itmpm
               do i=jlo,jhi
@@ -199,7 +199,7 @@ cold            call dft_zero(ipol,nbf,nmo,ntotel,efermi(1),evals,ssmear,
                 endif
                 icount=icount+numi
               enddo
-              call ga_put(g_tmp,ilo,ihi,jlo,jhi,
+              call tpi_ga_put(g_tmp,ilo,ihi,jlo,jhi,
      .           dbl_mb(itmpm),numi)
               if (.not.ma_pop_stack(ltmpm)) call errquit
      T           ('dft_densm: cannot pop stack',0, MA_ERR)
@@ -208,7 +208,7 @@ cold            call dft_zero(ipol,nbf,nmo,ntotel,efermi(1),evals,ssmear,
           do i=1,nmo(isp)
             ntot(isp)=ntot(isp)+focc(i+ipoint)
           enddo
-          call ga_sync()
+          call tpi_ga_sync()
           call ga_dgemm('N', 'T', nbf, nbf, noc(isp),1.d0,g_tmp,
      $       g_vecs(isp), zero, g_dens(isp))
         enddo                   ! end of loop over spins
@@ -456,7 +456,7 @@ c
           endif
         endif
       enddo
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_dgemm('N', 'T', nbf, nbf, noc,1.d0,g_tmp,
      $   g_vecs, zero, g_dens)
       if (.not.ma_pop_stack(ltmpm))

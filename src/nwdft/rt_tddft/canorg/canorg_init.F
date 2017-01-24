@@ -186,11 +186,11 @@ c$$$      call halt ()
             
             zval = dcmplx (svals(i), 0d0)
 C            write (luout, *) svals(i), 1d0/svals(i) !XXX TMP
-            call ga_put (g_zs, j, j, j, j, zval, 1)
+            call tpi_ga_put (g_zs, j, j, j, j, zval, 1)
             
          enddo
       endif
-      call ga_sync ()
+      call tpi_ga_sync ()
 
       call ga_zgemm ("N", "N", params%nbf_ao, nbf_mo, nbf_mo,
      $     z1, g_zX, g_zs, z0, g_zY)  !Y transform matrix

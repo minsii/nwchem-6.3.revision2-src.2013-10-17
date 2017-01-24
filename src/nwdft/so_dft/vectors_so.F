@@ -117,7 +117,7 @@ c
       l_vecs = -1               ! An invalid MA handle
 c
       if (oscfps) call pstat_on(ps_vecio)
-      call ga_sync()
+      call tpi_ga_sync()
       ok = 0
       if (ga_nodeid() .eq. 0) then
          open(unitno, status='old', form='unformatted', file=filename,
@@ -143,11 +143,11 @@ c
          read(unitno, err=1001, end=1001) (evals(j),j=1,nbf)
          do i = 1, nbf
             call sread(unitno, dbl_mb(k_vecs), nbf)
-            call ga_put(g_vecs(1), 1, nbf, i, i, dbl_mb(k_vecs), 1)
+            call tpi_ga_put(g_vecs(1), 1, nbf, i, i, dbl_mb(k_vecs), 1)
          enddo
          do i = 1, nbf
             call sread(unitno, dbl_mb(k_vecs), nbf)
-            call ga_put(g_vecs(2), 1, nbf, i, i, dbl_mb(k_vecs), 1)
+            call tpi_ga_put(g_vecs(2), 1, nbf, i, i, dbl_mb(k_vecs), 1)
          enddo
  9       close(unitno,err=1002)
          ok = 1
@@ -158,7 +158,7 @@ c
 	 if (.not. ma_pop_stack(l_vecs)) call errquit
      $      ('movecs_read_so: pop failed', l_vecs, MA_ERR)
       endif
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, mitob(1), 0) ! Propagate status
       if (ok .eq. 1) then
 	 call ga_brdcst(Msg_Vec_NBF+MSGINT, nbf, mitob(1), 0)
@@ -314,7 +314,7 @@ c
       character*128 basis_name, trans_name
 c
       if (oscfps) call pstat_on(ps_vecio)
-      call ga_sync()
+      call tpi_ga_sync()
 c
 c     Generate info to go into convergence and restart line
 c
@@ -376,7 +376,7 @@ c
          write(unitno, err=1001) (evals(j),j=1,nbf)
          do iset = 1, 2
             do i = 1, nbf
-               call ga_get(g_vecs(iset), 1, 
+               call tpi_ga_get(g_vecs(iset), 1, 
      $              nbf, i, i, dbl_mb(k_vecs),1)
                call swrite(unitno, dbl_mb(k_vecs), nbf)
             enddo
@@ -397,7 +397,7 @@ c
  22      format(/' Wrote molecular orbitals to ',a/)
          call util_flush(6)
       endif
-      call ga_sync()
+      call tpi_ga_sync()
       if (oscfps) call pstat_off(ps_vecio)
       return
 c
@@ -464,7 +464,7 @@ c
       if (mod(nelem,2).ne.0 .or. type.ne.mt_int) call errquit
      $     ('movecs_swap_so: invalid list of pairs',nelem, INPUT_ERR)
 c
-      call ga_sync()
+      call tpi_ga_sync()
       call ga_inquire(g_vecs(1), type, dim1, dim2)
       if (ga_nodeid() .eq. 0) then
          if (oprint) write(6,*)
@@ -484,15 +484,15 @@ c
             if (j.lt.0 .or. j.gt.dim2) call errquit
      $           ('movecs_swap_so: invalid vector ', j, INPUT_ERR)
 c     
-            call ga_get(g_vecs(1), 1, dim1, i, i, dbl_mb(k_veci),1)
-            call ga_get(g_vecs(1), 1, dim1, j, j, dbl_mb(k_vecj),1)
-            call ga_put(g_vecs(1), 1, dim1, i, i, dbl_mb(k_vecj),1)
-            call ga_put(g_vecs(1), 1, dim1, j, j, dbl_mb(k_veci),1)
+            call tpi_ga_get(g_vecs(1), 1, dim1, i, i, dbl_mb(k_veci),1)
+            call tpi_ga_get(g_vecs(1), 1, dim1, j, j, dbl_mb(k_vecj),1)
+            call tpi_ga_put(g_vecs(1), 1, dim1, i, i, dbl_mb(k_vecj),1)
+            call tpi_ga_put(g_vecs(1), 1, dim1, j, j, dbl_mb(k_veci),1)
 c     
-            call ga_get(g_vecs(2), 1, dim1, i, i, dbl_mb(k_veci),1)
-            call ga_get(g_vecs(2), 1, dim1, j, j, dbl_mb(k_vecj),1)
-            call ga_put(g_vecs(2), 1, dim1, i, i, dbl_mb(k_vecj),1)
-            call ga_put(g_vecs(2), 1, dim1, j, j, dbl_mb(k_veci),1)
+            call tpi_ga_get(g_vecs(2), 1, dim1, i, i, dbl_mb(k_veci),1)
+            call tpi_ga_get(g_vecs(2), 1, dim1, j, j, dbl_mb(k_vecj),1)
+            call tpi_ga_put(g_vecs(2), 1, dim1, i, i, dbl_mb(k_vecj),1)
+            call tpi_ga_put(g_vecs(2), 1, dim1, j, j, dbl_mb(k_veci),1)
 c     
          enddo  ! pair
 c
@@ -516,7 +516,7 @@ c
          eval(joff) = tmp
       enddo
 c     
-      call ga_sync
+      call tpi_ga_sync
 c     
       if (.not. rtdb_delete(rtdb, name)) call errquit
      $     ('movecs_swap_so: delete of swap entry failed', 0, RTDB_ERR)
@@ -690,7 +690,7 @@ c
       integer len1, nrow, ncol
       integer ok, j
 c
-      call ga_sync
+      call tpi_ga_sync
 c
       ok = 0
       nrow = ihi-ilo+1
@@ -708,7 +708,7 @@ c
      $    call errquit('matrix_fwrite: ma failed', nrow,
      &       MA_ERR)
         do j=jlo,jhi
-          call ga_get(g_a, ilo, ihi, j, j, dbl_mb(k_tmp), 1)
+          call tpi_ga_get(g_a, ilo, ihi, j, j, dbl_mb(k_tmp), 1)
           call swrite(unitno, dbl_mb(k_tmp), nrow)
 ****          write(unitno, err=1001) (dbl_mb(k_tmp+i), i=0,nrow-1)
         enddo
@@ -719,7 +719,7 @@ c
         ok = 1
       endif
 c
- 10   call ga_sync
+ 10   call tpi_ga_sync
       call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, mitob(1), 0)        ! Propagate status
 c
       file_write_ga_patch_so = ok .eq. 1
@@ -778,7 +778,7 @@ c
       integer grow, gcol
       integer ok, j
 c
-      call ga_sync()
+      call tpi_ga_sync()
 c
       ok = 0
       grow = ihi-ilo+1
@@ -798,7 +798,7 @@ c
         do j=jlo,jhi
           call sread(unitno, dbl_mb(k_tmp), nrow)
 ***          read(unitno, err=1001) (dbl_mb(k_tmp+i), i=0,nrow-1)
-          call ga_put(g_a, ilo, ihi, j, j, dbl_mb(k_tmp), 1)
+          call tpi_ga_put(g_a, ilo, ihi, j, j, dbl_mb(k_tmp), 1)
         enddo
         if (.not. ma_pop_stack(l_tmp))
      $    call errquit('file_read_ga_so: ma pop failed', l_tmp, MA_ERR)
@@ -806,7 +806,7 @@ c
         ok = 1
       endif
 c
- 10   call ga_sync()
+ 10   call tpi_ga_sync()
       call ga_brdcst(Msg_Vec_Stat+MSGINT, ok, mitob(1), 0)        ! Propagate status
 c
       file_read_ga_patch_so = ok .eq. 1

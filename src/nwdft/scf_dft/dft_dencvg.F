@@ -17,7 +17,7 @@ c
       integer ilo,jlo,ihi,jhi,numi,numj
       double precision rms
 c
-      call ga_sync
+      call tpi_ga_sync
       me=ga_nodeid()
       nproc=ga_nnodes()
 c     
@@ -38,9 +38,9 @@ c
      &           call errquit('dft_dencvg: failed to alloc tmpm',0,0)
             if (.not. MA_Push_Get(MT_Dbl, numi*numj,'dmato',ldmo,idmo))
      &           call errquit('dft_dencvg: failed to alloc tmpm',0,0)
-            call ga_get(g_dens,ilo,ihi,jlo,jhi,
+            call tpi_ga_get(g_dens,ilo,ihi,jlo,jhi,
      .           dbl_mb(idm),numi)
-            call ga_get(g_denso,ilo,ihi,jlo,jhi,
+            call tpi_ga_get(g_denso,ilo,ihi,jlo,jhi,
      .           dbl_mb(idmo),numi)
             do j=0,numi*numj-1
                rms=rms+(DBL_MB(idm+j)-DBL_MB(idmo+j))**2

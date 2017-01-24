@@ -56,8 +56,8 @@ C-------------------------local variables--------------------------
       logical status, pointforce
 
       character*16 name
-      integer nxtask, task_size
-      external nxtask
+      integer tpinxt,tpisynxt,task_size
+      external tpinxt,tpisynxt
 
       task_size = 1
       status = rtdb_parallel(.true.) ! Broadcast reads to all processes
@@ -67,7 +67,7 @@ C-------------------------local variables--------------------------
       call hf_print_set(1)
 
       ijatom = -1
-      next = nxtask(nproc,task_size)
+      next = tpinxt(nproc,task_size)
       do 90, iat1 = 1, nat
         do 80, iat2 = 1, iat1
 
@@ -96,7 +96,7 @@ c
 
             call ga_get (g_dens(1), 
      &           iab1f,iab1l,iab2f,iab2l,dens,max_at_bf)
-            call ga_get(g_wdens,
+            call tpi_ga_get(g_wdens,
      &           iab1f,iab1l,iab2f,iab2l,wdens,max_at_bf)
             call ga_get (g_dens(3), 
      &           iab1f,iab1l,iab2f,iab2l,densz,max_at_bf) 
@@ -237,12 +237,12 @@ C               no forces between point charges (for John Nicholas)
               endif
             endif
 
-            next = nxtask(nproc,task_size)
+            next = tpinxt(nproc,task_size)
           endif
 
  80     continue
  90   continue
-      next = nxtask(-nproc,task_size)
+      next = tpisynxt(-nproc,task_size)
 c      write(*,'("forces",9f10.5)')((frc_nuc(i,j),i=1,3),j=1,nat)
 c      write(*,'("forces",9f10.5)')((frc_kin(i,j),i=1,3),j=1,nat)
 c      write(*,'("forces",9f10.5)')((frc_wgh(i,j),i=1,3),j=1,nat)

@@ -90,7 +90,7 @@ c
                   call dftg_dmget(dbl_mb(k_repdm(ispin)),nbf_ld,
      %                 ifirst, ilast, PPP,nbfia)
                else
-                  call ga_get(g_dens(ispin), 
+                  call tpi_ga_get(g_dens(ispin), 
      %                 ifirst, ilast, 1, nbf_ao, PPP,nbfia)
                endif
             endif
