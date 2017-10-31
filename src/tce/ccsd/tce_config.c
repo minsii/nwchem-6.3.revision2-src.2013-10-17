@@ -17,6 +17,7 @@ typedef struct {
 TPI_config tpi_async_config_map[TPI_CONFIG_MAP_SIZE];
 int tpi_async_config_map_size = 0;
 static int read_env = 0;
+static int env_async_dump_print = 0;
 
 static inline void read_tpi_env()
 {
@@ -28,6 +29,11 @@ static inline void read_tpi_env()
         envval = getenv("TPI_DBG_GA_PRINT");
         if (envval && strlen(envval)) {
             env_dbg_ga_print = 1;
+        }
+
+        envval = getenv("TPI_ASYNC_DUMP_PRINT");
+        if (envval && strlen(envval)) {
+            env_async_dump_print = 1;
         }
 
         envval = getenv("TPI_ASYNC_CONFIG");
@@ -127,6 +133,10 @@ void tpi_config_async_reset_()
 void tpi_config_async_dump_(const char *fname)
 {
     int rank = -1;
+    read_tpi_env();
+
+    if (env_async_dump_print == 0)
+        return;
     MPI_Comm_size(MPI_COMM_WORLD, &rank);
     if(rank == 0)
         fprintf(stderr, "dump async config for %s\n", fname);
